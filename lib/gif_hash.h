@@ -21,6 +21,9 @@
 #ifdef HAVE_STDINT_H
 #include <stdint.h>
 #endif
+#ifdef HAVE_BASETSD_H
+#include <basetsd.h>
+#endif
 
 #define HT_SIZE			8192	   /* 12bits = 4096 or twice as big! */
 #define HT_KEY_MASK		0x1FFF			      /* 13bits keys */
