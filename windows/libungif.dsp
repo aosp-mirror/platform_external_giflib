@@ -23,7 +23,7 @@ CFG=libungif - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""$/giflib-4.1.0/Lib", THCAAAAA"
+# PROP Scc_ProjName ""
 # PROP Scc_LocalPath "."
 CPP=cl.exe
 RSC=rc.exe
@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /Zp4 /MT /W4 /GX /O2 /I "..\lib" /D "NDEBUG" /D "WIN32" /D "_LIB" /D "_OPEN_BINARY" /D "HAVE_IO_H" /D "HAVE_FCNTL_H" /D "HAVE_STDARG_H" /FD /c
+# ADD CPP /nologo /Zp4 /MT /W4 /GX /O2 /I "..\lib" /D "NDEBUG" /D "WIN32" /D "_LIB" /D "_OPEN_BINARY" /D "HAVE_IO_H" /D "HAVE_FCNTL_H" /D "HAVE_STDARG_H" /D "HAVE_BASETSD_H" /FD /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
@@ -65,7 +65,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /Zp4 /MTd /W4 /Gm /GX /ZI /Od /I "..\lib" /D "_DEBUG" /D "WIN32" /D "_LIB" /D "_OPEN_BINARY" /D "HAVE_IO_H" /D "HAVE_FCNTL_H" /D "HAVE_STDARG_H" /FD /GZ /c
+# ADD CPP /nologo /Zp4 /MTd /W4 /Gm /GX /ZI /Od /I "..\lib" /D "_DEBUG" /D "WIN32" /D "_LIB" /D "_OPEN_BINARY" /D "HAVE_IO_H" /D "HAVE_FCNTL_H" /D "HAVE_STDARG_H" /D "HAVE_BASETSD_H" /FD /GZ /c
 # SUBTRACT CPP /YX
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
@@ -128,6 +128,10 @@ SOURCE=..\lib\quantize.c
 # Begin Source File
 
 SOURCE=..\lib\getarg.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\gif_hash.h
 # End Source File
 # Begin Source File
 
