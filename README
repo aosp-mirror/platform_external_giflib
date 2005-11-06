@@ -1,13 +1,5 @@
-This is giflib version 4.1.2, a library for manipulating gif files.  It is based
-on Eric S. Raymond's giflib-3.0 with bugfixes and changes generated for the
-libungif library.
-
-PLEASE BE AWARE OF POSSIBLE LEGAL PROBLEMS WITH USING THIS LIBRARY: READ
-THE PATENT_PROBLEMS FILE NOW!
-
-=======
-Latest versions of giflib, as well as a library which does not have the
-mentioned patent problems (libungif), are available from:
+This is giflib version 4.1.2, a library for manipulating gif files.
+Latest versions of giflib are currently hosted at:
     http://sourceforge.net/projects/libungif
 
 ====
@@ -53,17 +45,3 @@ using these tools.
 
 Good luck!
 -Toshio Kuratomi <toshio@tiki-lounge.com>
-
-==== READ.ME file for giflib version 3.0:
-
-			READ ME for GIFLIB
-
-For complete documentation on the package, point a web browser at
-doc/index.html.  See the file INSTALL for instructions on how to
-install and test the package.
-
-GIFLIB has a home page at http://www.ccil.org/~esr/giflib.
-
-					Eric S. Raymond
-					esr@snark.thyrsus.com.
-					(http://www.ccil.org/~esr)

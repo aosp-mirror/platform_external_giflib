@@ -30,7 +30,10 @@ Dick Porter <dick[AT]cymru.net>
         int/pointer fixes for Alpha
 
 Eric Raymond <esr[AT]snark.thyrsus.com>
-        long time maintainer of giflib code
+        long time former maintainer of giflib code
 
+Petter Reinholdtsen <pere[AT]hungry.com>
+	Tru64 build fixs
+	
 Georg Schwarz <geos[AT]epost.de>
 	IRIX fixes
