@@ -58,21 +58,35 @@ dnl Can we survive without these?
 AC_CHECK_HEADERS(unistd.h)
 
 dnl Find a way to define a 32 bit integer
+dnl First try ISO/ANSI locations as some locations have sys/types.h but don't
+dnl define the POSIX types.
 foundint=no
-AC_CHECK_HEADERS([sys/types.h], [
-	AC_DEFINE([UINT32], u_int32_t,
-		  [Set to an unsigned 32 bit integer available on this system])
-	foundint=yes]
-)
-
-if test x$foundint != x'yes'; then
 AC_CHECK_HEADERS([stdint.h], [
 	 AC_DEFINE([UINT32], uint32_t,
 		  [Set to an unsigned 32 bit integer available on this system])
 	 foundint=yes]
 )
+
+dnl ISO/ANSI specifies stdint.h as the proper header to define uint32_t but
+dnl some systems use inttypes.h instead.
+if test x$foundint != x'yes'; then
+AC_CHECK_HEADERS([inttypes.h], [
+	AC_DEFINE([UINT32], uint32_t,
+		  [Set to an unsigned 32 bit integer available on this system])
+	foundint=yes]
+)
 fi
 
+dnl Try the POSIX definition in sys/types.h 
+if test x$foundint != x'yes'; then
+AC_CHECK_HEADERS([sys/types.h], [
+	AC_DEFINE([UINT32], u_int32_t,
+		  [Set to an unsigned 32 bit integer available on this system])
+	foundint=yes]
+)
+fi
+
+dnl Fall back on trying to find one ourselves by compiling and checking sizes.
 if test x$foundint != x'yes'; then
 	AC_CHECK_SIZEOF(unsigned int)
 	if test $ac_cv_sizeof_unsigned_int -eq 4; then
