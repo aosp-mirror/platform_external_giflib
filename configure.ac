@@ -12,6 +12,12 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 
+dnl Define warnings if we're compiling with gcc.
+dnl Set it in CFLAGS so the end-user can disable it if they wish.
+if test "$GCC" = "yes"; then
+  CFLAGS="$CFLAGS -Wall"
+fi
+
 AC_PATH_XTRA
 
 dnl Checks for libraries.

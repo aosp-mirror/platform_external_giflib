@@ -9,7 +9,6 @@ EXTRA_PROGRAMS = gif2rle rle2gif gif2iris gif2x11 gifclrmp gifrotat
 EXTRA_DIST=Makefile.unx $(bin_SCRIPTS)
 
 LDADD = ../lib/libgif.la ../lib/libgetarg.a
-AM_CFLAGS = @CFLAGS@ $(X_CFLAGS) -Wall
 
 AM_CPPFLAGS = -I. -I.. -I$(top_srcdir)/lib
 
@@ -24,6 +23,7 @@ gif2iris_LDADD = $(LDADD) @GL_S_LIB@
 
 gif2x11_SOURCES = gif2x11.c
 gif2x11_LDADD = $(LDADD) @X11_LIB@
+gif2x11_CFLAGS = @X_CFLAGS@ $(AM_CFLAGS)
 
 gifclrmp_SOURCES = gifclrmp.c
 gifclrmp_LDADD = $(LDADD) @MATH_LIB@
