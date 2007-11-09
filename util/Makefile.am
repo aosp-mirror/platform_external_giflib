@@ -10,7 +10,7 @@ EXTRA_DIST=Makefile.unx $(bin_SCRIPTS)
 
 LDADD = ../lib/libgif.la ../lib/libgetarg.a
 
-AM_CPPFLAGS = -I. -I.. -I$(top_srcdir)/lib
+AM_CPPFLAGS = -I$(srcdir) -I$(top_srcdir)/lib
 
 gif2rle_SOURCES = gif2rle.c
 gif2rle_LDADD = $(LDADD) @RLE_LIB@

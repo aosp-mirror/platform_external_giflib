@@ -24,11 +24,11 @@ AC_PATH_XTRA
 dnl Checks for libraries.
 
     AC_CHECK_LIB(m, pow, [MATH_LIB="${MATH_LIB} -lm"
-                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gifclrmp gifrotat"] )
+                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gifclrmp${EXEEXT} gifrotat${EXEEXT}"] )
 
 if test ${MATH_LIB}; then
     AC_CHECK_LIB(rle, rle_hdr_init, [RLE_LIB="${RLE_LIBS} -lrle -lm"
-                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2rle rle2gif"],
+                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2rle${EXEEXT} rle2gif${EXEEXT}"],
                  ,"-lm" )
 fi
 
@@ -36,11 +36,11 @@ dnl I don't have this on my system.  Could someone else configure it and
 dnl check that it works?
     AC_CHECK_LIB(gl_s, main, [GL_S_LIB="${GL_S_LIB} -lgl_s $X_LIBS"
                              AC_DEFINE(HAVE_LIBGL_S, [1], [Define if the gl_s library is installed (SGI GL library)])
-                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2iris"],, $X_LIBS)
+                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2iris${EXEEXT}"],, $X_LIBS)
 
     AC_CHECK_LIB(X11, main, [X11_LIB="${X11_LIB} ${X_PRE_LIBS} $X_LIBS ${X_EXTRA_LIBS} -lX11"
                              AC_DEFINE(HAVE_LIBX11, [1], [Define if the X11 library is installed])
-                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2x11"],, $X_LIBS)
+                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2x11${EXEEXT}"],, $X_LIBS)
     DEVS="${GL_S_LIB} ${X11_LIB}" 
     AC_SUBST(DEVS)
     AC_SUBST(COMPILABLE_EXTRAS)
