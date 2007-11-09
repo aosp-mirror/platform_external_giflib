@@ -19,28 +19,43 @@ if test "x$GCC" = "xyes" ; then
   CFLAGS="$CFLAGS -Wall"
 fi
 
-AC_PATH_XTRA
-
 dnl Checks for libraries.
 
-    AC_CHECK_LIB(m, pow, [MATH_LIB="${MATH_LIB} -lm"
-                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gifclrmp${EXEEXT} gifrotat${EXEEXT}"] )
+AC_CHECK_LIB(m, pow, [MATH_LIB="${MATH_LIB} -lm"
+		      COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gifclrmp${EXEEXT} gifrotat${EXEEXT}"] )
 
-if test ${MATH_LIB}; then
+AC_ARG_ENABLE(rle, AC_HELP_STRING([rle],[detect whether we can support conversion to/from rle]),
+    enable_rle=$enableval, enable_rle=auto)
+
+AC_ARG_ENABLE(x11, AC_HELP_STRING([x11],[detect whether we can support conversion directly to X11 Windows]),
+    enable_x11=$enableval, enable_x11=auto)
+
+AC_ARG_ENABLE(gl, AC_HELP_STRING([gl],[detect whether we can support conversion to/from gl]),
+    enable_gl=$enableval, enable_gl=auto)
+
+if test "x$enable_rle" != "xno" ; then
+  if test ${MATH_LIB}; then
     AC_CHECK_LIB(rle, rle_hdr_init, [RLE_LIB="${RLE_LIBS} -lrle -lm"
                  COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2rle${EXEEXT} rle2gif${EXEEXT}"],
                  ,"-lm" )
+  fi
 fi
 
 dnl I don't have this on my system.  Could someone else configure it and
 dnl check that it works?
-    AC_CHECK_LIB(gl_s, main, [GL_S_LIB="${GL_S_LIB} -lgl_s $X_LIBS"
-                             AC_DEFINE(HAVE_LIBGL_S, [1], [Define if the gl_s library is installed (SGI GL library)])
-                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2iris${EXEEXT}"],, $X_LIBS)
+if test "x$enable_gl" != "xno" ; then
+  AC_CHECK_LIB(gl_s, main, [GL_S_LIB="${GL_S_LIB} -lgl_s $X_LIBS"
+			    AC_DEFINE(HAVE_LIBGL_S, [1], [Define if the gl_s library is installed (SGI GL library)])
+			    COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2iris${EXEEXT}"],, $X_LIBS)
+fi
 
-    AC_CHECK_LIB(X11, main, [X11_LIB="${X11_LIB} ${X_PRE_LIBS} $X_LIBS ${X_EXTRA_LIBS} -lX11"
-                             AC_DEFINE(HAVE_LIBX11, [1], [Define if the X11 library is installed])
-                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2x11${EXEEXT}"],, $X_LIBS)
+if test "x$enable_x11" != "xno" ; then
+  AC_PATH_XTRA
+  AC_CHECK_LIB(X11, main, [X11_LIB="${X11_LIB} ${X_PRE_LIBS} $X_LIBS ${X_EXTRA_LIBS} -lX11"
+			   AC_DEFINE(HAVE_LIBX11, [1], [Define if the X11 library is installed])
+			   COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2x11${EXEEXT}"],, $X_LIBS)
+fi
+
     DEVS="${GL_S_LIB} ${X11_LIB}" 
     AC_SUBST(DEVS)
     AC_SUBST(COMPILABLE_EXTRAS)
