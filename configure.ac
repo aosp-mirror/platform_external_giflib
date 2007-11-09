@@ -11,10 +11,11 @@ AC_PROG_CPP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
+AM_PROG_CC_C_O
 
 dnl Define warnings if we're compiling with gcc.
 dnl Set it in CFLAGS so the end-user can disable it if they wish.
-if test "$GCC" = "yes"; then
+if test "x$GCC" = "xyes" ; then
   CFLAGS="$CFLAGS -Wall"
 fi
 
