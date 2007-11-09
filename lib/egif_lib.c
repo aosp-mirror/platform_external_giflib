@@ -92,13 +92,13 @@ EGifOpenFileName(const char *FileName,
 
     if (TestExistance)
         FileHandle = open(FileName, O_WRONLY | O_CREAT | O_EXCL
-#ifdef __MSDOS__
+#if defined(__MSDOS__) || defined(WINDOWS32)
                           | O_BINARY
 #endif /* __MSDOS__ */
                           , S_IREAD | S_IWRITE);
     else
         FileHandle = open(FileName, O_WRONLY | O_CREAT | O_TRUNC
-#ifdef __MSDOS__
+#if defined(__MSDOS__) || defined(WINDOWS32)
                           | O_BINARY
 #endif /* __MSDOS__ */
                           , S_IREAD | S_IWRITE);
@@ -147,13 +147,13 @@ EGifOpenFileHandle(int FileHandle) {
         return NULL;
     }
 
-#ifdef __MSDOS__
+#if defined(__MSDOS__) || defined(WINDOWS32)
     setmode(FileHandle, O_BINARY);    /* Make sure it is in binary mode. */
 #endif /* __MSDOS__ */
 
     f = fdopen(FileHandle, "wb");    /* Make it into a stream: */
 
-#ifdef __MSDOS__
+#if defined (__MSDOS__) || defined(WINDOWS32)
     setvbuf(f, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE);    /* And inc. stream
                                                         * buffer. */
 #endif /* __MSDOS__ */
@@ -339,7 +339,7 @@ EGifPutImageDesc(GifFileType * GifFile,
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
     if (Private->FileState & FILE_STATE_IMAGE &&
-#if defined(__MSDOS__) || defined(__GNUC__)
+#if defined(__MSDOS__) || defined(WINDOWS32) || defined(__GNUC__)
         Private->PixelCount > 0xffff0000UL) {
 #else
         Private->PixelCount > 0xffff0000) {
