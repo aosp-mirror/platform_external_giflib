@@ -78,8 +78,6 @@ DGifOpenFileName(const char *FileName) {
     }
 
     GifFile = DGifOpenFileHandle(FileHandle);
-    if (GifFile == (GifFileType *)NULL)
-        close(FileHandle);
     return GifFile;
 }
 
@@ -99,6 +97,7 @@ DGifOpenFileHandle(int FileHandle) {
     GifFile = (GifFileType *)malloc(sizeof(GifFileType));
     if (GifFile == NULL) {
         _GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
+        close(FileHandle);
         return NULL;
     }
 
@@ -107,6 +106,7 @@ DGifOpenFileHandle(int FileHandle) {
     Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
     if (Private == NULL) {
         _GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
+        close(FileHandle);
         free((char *)GifFile);
         return NULL;
     }
