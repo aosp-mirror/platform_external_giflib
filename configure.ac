@@ -33,37 +33,40 @@ AC_ARG_ENABLE(x11, AC_HELP_STRING([x11],[detect whether we can support conversio
 AC_ARG_ENABLE(gl, AC_HELP_STRING([gl],[detect whether we can support conversion to/from gl]),
     enable_gl=$enableval, enable_gl=auto)
 
+dnl I don't have this on my system.  Could someone else configure it and
+dnl check that it works?
 if test "x$enable_rle" != "xno" ; then
   if test ${MATH_LIB}; then
-    AC_CHECK_LIB(rle, rle_hdr_init, [RLE_LIB="${RLE_LIBS} -lrle -lm"
+    AC_CHECK_HEADERS([rle.h],
+      AC_CHECK_LIB(rle, rle_hdr_init, [RLE_LIB="${RLE_LIBS} -lrle -lm"
                  COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2rle${EXEEXT} rle2gif${EXEEXT}"],
-                 ,"-lm" )
+                 ,"-lm" ))
   fi
 fi
 
-dnl I don't have this on my system.  Could someone else configure it and
-dnl check that it works?
 if test "x$enable_gl" != "xno" ; then
-  AC_CHECK_LIB(gl_s, main, [GL_S_LIB="${GL_S_LIB} -lgl_s $X_LIBS"
-			    AC_DEFINE(HAVE_LIBGL_S, [1], [Define if the gl_s library is installed (SGI GL library)])
-			    COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2iris${EXEEXT}"],, $X_LIBS)
+  AC_CHECK_HEADERS([gl/gl.h],
+    AC_CHECK_LIB(gl_s, main, [GL_S_LIB="${GL_S_LIB} -lgl_s $X_LIBS"
+                 AC_DEFINE(HAVE_LIBGL_S, [1], [Define if the gl_s library is installed (SGI GL library)])
+		 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2iris${EXEEXT}"],, $X_LIBS))
 fi
 
 if test "x$enable_x11" != "xno" ; then
   AC_PATH_XTRA
-  AC_CHECK_LIB(X11, main, [X11_LIB="${X11_LIB} ${X_PRE_LIBS} $X_LIBS ${X_EXTRA_LIBS} -lX11"
-			   AC_DEFINE(HAVE_LIBX11, [1], [Define if the X11 library is installed])
-			   COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2x11${EXEEXT}"],, $X_LIBS)
+  AC_CHECK_HEADERS([X11/Xlib.h X11/Xutil.h],
+    AC_CHECK_LIB(X11, main, [X11_LIB="${X11_LIB} ${X_PRE_LIBS} $X_LIBS ${X_EXTRA_LIBS} -lX11"
+                 AC_DEFINE(HAVE_LIBX11, [1], [Define if the X11 library is installed])
+                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2x11${EXEEXT}"],, $X_LIBS))
 fi
 
-    DEVS="${GL_S_LIB} ${X11_LIB}" 
-    AC_SUBST(DEVS)
-    AC_SUBST(COMPILABLE_EXTRAS)
-    AC_SUBST(GL_S_LIB)
-    AC_SUBST(X11_LIB)
-    AC_SUBST(X_CFLAGS)
-    AC_SUBST(MATH_LIB)
-    AC_SUBST(RLE_LIB)
+DEVS="${GL_S_LIB} ${X11_LIB}" 
+AC_SUBST(DEVS)
+AC_SUBST(COMPILABLE_EXTRAS)
+AC_SUBST(GL_S_LIB)
+AC_SUBST(X11_LIB)
+AC_SUBST(X_CFLAGS)
+AC_SUBST(MATH_LIB)
+AC_SUBST(RLE_LIB)
 
 dnl Checks for header files.
 AC_HEADER_STDC
@@ -75,9 +78,6 @@ AC_CHECK_HEADERS([stdarg.h varargs.h], break,
 
 AC_CHECK_HEADERS(fcntl.h, ,
 		 AC_MSG_ERROR([giflib 4.x must have fcntl.h to compile]))
-
-dnl Check for standard header files
-AC_INCLUDES_DEFAULT
 
 dnl Now look for a 32 bit integer type
 foundint=no
