@@ -109,6 +109,7 @@ static XImage *XImageBuffer;
 static Pixmap XIcon;
 static Cursor XCursor;
 
+#define BYTESPERPIXEL 4
 
 static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
 		     int ScreenWidth, int ScreenHeight);
@@ -404,17 +405,20 @@ static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
     XMapWindow(XDisplay, XImageWndw);
 
     /* Create the image in X format: */
-    if ((XImageData = (char *) malloc(ScreenWidth * ScreenHeight)) == NULL)
+    if ((XImageData = (char *) malloc(ScreenWidth * ScreenHeight * BYTESPERPIXEL)) == NULL)
 	GIF_EXIT("Failed to allocate memory required, aborted.");
 
     for (i = 0; i < ScreenHeight; i++) {
 	y = i * ScreenWidth;
-	for (j = 0; j < ScreenWidth; j++)
-	    XImageData[y + j] = XPixelTable[ScreenBuffer[i][j]];
+	for (j = 0; j < ScreenWidth; j++) {
+	    XImageData[(y + j)*BYTESPERPIXEL] = XColorTable[ScreenBuffer[i][j]].blue;
+	    XImageData[(y + j)*BYTESPERPIXEL+1] = XColorTable[ScreenBuffer[i][j]].green;
+	    XImageData[(y + j)*BYTESPERPIXEL+2] = XColorTable[ScreenBuffer[i][j]].red;
     }
-    XImageBuffer = XCreateImage(XDisplay, XVisual, 8, ZPixmap, 0,
+    }
+    XImageBuffer = XCreateImage(XDisplay, XVisual, DefaultDepth(XDisplay, DefaultScreen(XDisplay)), ZPixmap, 0,
 				XImageData, ScreenWidth, ScreenHeight,
-				8, ScreenWidth);
+                 BitmapPad(XDisplay), ScreenWidth*BYTESPERPIXEL);
 
     while (TRUE) {
 	XNextEvent(XDisplay, &Event);
@@ -454,7 +458,7 @@ static void AllocateColors1(void)
 
     for (Strip = 0, Msk = 0xff; Strip < 8; Strip++, Msk <<= 1) {
 	for (i = 0; i < ColorMapSize; i++) {
-	    /* Prepere color entry in X format. */
+	    /* Prepare color entry in X format. */
 	    XColorTable[i].red = (ColorMap->Colors[i].Red & Msk) << 8;
 	    XColorTable[i].green = (ColorMap->Colors[i].Green & Msk) << 8;
 	    XColorTable[i].blue = (ColorMap->Colors[i].Blue & Msk) << 8;
