@@ -20,7 +20,6 @@ GAMEBOYADVANCE = $(top_srcdir)/gba/giftest.c \
 
 EXTRA_DIST = Makefile.unx \
 	     ONEWS \
-	     PATENT_PROBLEMS \
 	     autogen.sh \
 	     giflib.spec \
 	     test-unx \
