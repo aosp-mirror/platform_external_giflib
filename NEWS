@@ -1,3 +1,8 @@
+Version 4.1.6
+=============
+Brown paper bag release.  Fix a problem with header inclusion that could
+prevent the library from building on some platforms.
+
 Version 4.1.5
 =============
 This version has some important fixes for segfaults when working with corrupt
