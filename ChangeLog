@@ -1,3 +1,101 @@
+2007-11-10 13:09  abadger1999
+
+	* NEWS, PATENT_PROBLEMS, lib/Makefile.am: Remove PATENT_PROBLEMS as
+	  it's no longer covered.  Update NEWS and Makefile.am for the new
+	  release.
+
+2007-11-10 10:46  abadger1999
+
+	* configure.ac, util/gif2epsn.c, util/gif2iris.c, util/gif2ps.c,
+	  util/gif2rgb.c, util/gif2rle.c, util/gif2x11.c: Find and fix
+	  segfaults in the gif2* programs due to referencing the ColorMap
+	  beforefinding out if hte GifFile produced a valid colormap or was
+	  corrupt.
+
+2007-11-10 09:30  abadger1999
+
+	* lib/dgif_lib.c: Add checks to fail gracefully when corrupted
+	  images are submitted that have improper LZ codes.
+
+2007-11-10 09:22  abadger1999
+
+	* lib/: dgif_lib.c, egif_lib.c: Further checks to compile correctly
+	  on WIN32.
+
+2007-11-09 20:28  abadger1999
+
+	* util/giftext.c: Fix a SegFault when a GifFile does not store a
+	  global colormap.
+
+2007-11-09 20:13  abadger1999
+
+	* util/gif2x11.c: Fix gif2x11 to work with modern, 24 bit displays.
+
+2007-11-09 14:18  abadger1999
+
+	* configure.ac: Check for headers as well as the libraries for rle,
+	  X11, and gl_s.
+
+2007-11-09 13:24  abadger1999
+
+	* configure.ac: Merge better fix for finding an unsignd 32 bit
+	  integer type.
+
+2007-11-09 13:01  abadger1999
+
+	* configure.ac: Add configure comman line switches to turn off X11,
+	  rle, and gl support.
+
+2007-11-09 12:36  abadger1999
+
+	* configure.ac, util/Makefile.am: Fixes to build under cygwin.
+
+2007-11-09 11:49  abadger1999
+
+	* configure.ac: Make GCC check more robust.  Add a needed automake
+	  check.
+
+2007-11-09 11:48  abadger1999
+
+	* lib/dgif_lib.c: Fix closing file handles on failure in
+	  DGifOpenFileHandle().
+
+2007-11-09 11:33  abadger1999
+
+	* lib/egif_lib.c: Save files in binary mode for WIN32 as well as
+	  MSDOS.
+
+2007-11-09 11:25  abadger1999
+
+	* lib/Makefile.ms: * Makefile for building under Visual C++ from
+	  Bug #981209.
+
+2005-11-13 20:14  abadger1999
+
+	* configure.ac, lib/Makefile.am, util/Makefile.am: Changes to
+	  conditionalize -Wall upon compiling with gcc.
+
+2005-11-06 08:45  abadger1999
+
+	* lib/: gif_hash.c, gif_hash.h: Add inttypes.h to the headers we
+	  could include to get a 32-it int type.
+
+2005-11-06 08:34  abadger1999
+
+	* configure.ac: Search for ISO/ANSI definitions of uint32_t in
+	  stdint.h _and_ inttypes.h before POSIX u_int32_t in sys/types.h
+	  as some systems have sys/types.h without the definition.
+	  Eventually we need to code a test that the expected UINT32
+	  definition exists in the header we select so order does not
+	  matter.
+
+2005-11-06 08:32  abadger1999
+
+	* AUTHORS, README: Modify so that it no longer appears that esr
+	  still maintains this package.
+
+= giflib-4.1.4 =
+
 2005-10-09 Toshio Kuratomi <toshio@tiki-lounge.com> - r94    
     * Sync with libungif r93.
     * ChangeLog: Update to r92.
