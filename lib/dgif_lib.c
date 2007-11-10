@@ -748,6 +748,10 @@ DGifDecompressLine(GifFileType * GifFile,
     ClearCode = Private->ClearCode;
     LastCode = Private->LastCode;
 
+    if (StackPtr > LZ_MAX_CODE) {
+        return GIF_ERROR;
+    }
+
     if (StackPtr != 0) {
         /* Let pop the stack off before continueing to read the gif file: */
         while (StackPtr != 0 && i < LineLen)
@@ -865,8 +869,12 @@ DGifGetPrefixChar(GifPrefixType *Prefix,
 
     int i = 0;
 
-    while (Code > ClearCode && i++ <= LZ_MAX_CODE)
+    while (Code > ClearCode && i++ <= LZ_MAX_CODE) {
+        if (Code > LZ_MAX_CODE) {
+            return NO_SUCH_CODE;
+        }
         Code = Prefix[Code];
+    }
     return Code;
 }
 
