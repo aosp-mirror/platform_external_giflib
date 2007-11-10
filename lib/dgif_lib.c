@@ -116,7 +116,7 @@ DGifOpenFileHandle(int FileHandle) {
 
     f = fdopen(FileHandle, "rb");    /* Make it into a stream: */
 
-#ifdef __MSDOS__ || defined(WINDOWS32)
+#if defined(__MSDOS__) || defined(WINDOWS32)
     setvbuf(f, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE);    /* And inc. stream
                                                           buffer. */
 #endif /* __MSDOS__ */
