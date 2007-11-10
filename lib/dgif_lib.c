@@ -69,7 +69,7 @@ DGifOpenFileName(const char *FileName) {
     GifFileType *GifFile;
 
     if ((FileHandle = open(FileName, O_RDONLY
-#if defined(__MSDOS__) || defined(_OPEN_BINARY)
+#if defined(__MSDOS__) || defined(WINDOWS32) || defined(_OPEN_BINARY)
                            | O_BINARY
 #endif /* __MSDOS__ || _OPEN_BINARY */
          )) == -1) {
@@ -110,13 +110,13 @@ DGifOpenFileHandle(int FileHandle) {
         free((char *)GifFile);
         return NULL;
     }
-#ifdef __MSDOS__
+#if defined(__MSDOS__) || defined(WINDOWS32) || defined(_OPEN_BINARY)
     setmode(FileHandle, O_BINARY);    /* Make sure it is in binary mode. */
 #endif /* __MSDOS__ */
 
     f = fdopen(FileHandle, "rb");    /* Make it into a stream: */
 
-#ifdef __MSDOS__
+#ifdef __MSDOS__ || defined(WINDOWS32)
     setvbuf(f, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE);    /* And inc. stream
                                                           buffer. */
 #endif /* __MSDOS__ */
@@ -440,7 +440,7 @@ DGifGetLine(GifFileType * GifFile,
     if (!LineLen)
         LineLen = GifFile->Image.Width;
 
-#if defined(__MSDOS__) || defined(__GNUC__)
+#if defined(__MSDOS__) || defined(WINDOWS32) || defined(__GNUC__)
     if ((Private->PixelCount -= LineLen) > 0xffff0000UL) {
 #else
     if ((Private->PixelCount -= LineLen) > 0xffff0000) {
@@ -479,7 +479,7 @@ DGifGetPixel(GifFileType * GifFile,
         _GifError = D_GIF_ERR_NOT_READABLE;
         return GIF_ERROR;
     }
-#if defined(__MSDOS__) || defined(__GNUC__)
+#if defined(__MSDOS__) || defined(WINDOWS32) || defined(__GNUC__)
     if (--Private->PixelCount > 0xffff0000UL)
 #else
     if (--Private->PixelCount > 0xffff0000)

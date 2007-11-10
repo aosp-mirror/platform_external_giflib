@@ -92,13 +92,13 @@ EGifOpenFileName(const char *FileName,
 
     if (TestExistance)
         FileHandle = open(FileName, O_WRONLY | O_CREAT | O_EXCL
-#if defined(__MSDOS__) || defined(WINDOWS32)
+#if defined(__MSDOS__) || defined(WINDOWS32) || defined(_OPEN_BINARY)
                           | O_BINARY
 #endif /* __MSDOS__ */
                           , S_IREAD | S_IWRITE);
     else
         FileHandle = open(FileName, O_WRONLY | O_CREAT | O_TRUNC
-#if defined(__MSDOS__) || defined(WINDOWS32)
+#if defined(__MSDOS__) || defined(WINDOWS32) || defined(_OPEN_BINARY)
                           | O_BINARY
 #endif /* __MSDOS__ */
                           , S_IREAD | S_IWRITE);
@@ -147,7 +147,7 @@ EGifOpenFileHandle(int FileHandle) {
         return NULL;
     }
 
-#if defined(__MSDOS__) || defined(WINDOWS32)
+#if defined(__MSDOS__) || defined(WINDOWS32) || defined(_OPEN_BINARY)
     setmode(FileHandle, O_BINARY);    /* Make sure it is in binary mode. */
 #endif /* __MSDOS__ */
 
