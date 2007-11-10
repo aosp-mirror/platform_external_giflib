@@ -1,3 +1,17 @@
+2007-11-10 14:50  abadger1999
+
+	* NEWS, configure.ac, lib/Makefile.am, lib/egif_lib.c,
+	  lib/gif_hash.c: 4.1.6 update.  Errors in including headers could
+	  lead to build problems on some platforms.
+
+2007-11-10 13:16  abadger1999
+
+	* configure.ac: Bump release version in configure.ac.
+
+2007-11-10 13:15  abadger1999
+
+	* Makefile.am: Remove PATENT_PROBLEMS from build rules as well.
+
 2007-11-10 13:09  abadger1999
 
 	* NEWS, PATENT_PROBLEMS, lib/Makefile.am: Remove PATENT_PROBLEMS as
