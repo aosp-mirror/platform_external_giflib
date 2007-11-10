@@ -135,7 +135,7 @@ int main(int argc, char **argv)
 	       GifFileName, GifFile->SWidth, GifFile->SHeight);
 	printf("\tColorResolution = %d, BitsPerPixel = %d, BackGround = %d.\n",
 	       GifFile->SColorResolution,
-	       GifFile->SColorMap->BitsPerPixel,
+	       GifFile->SColorMap ? GifFile->SColorMap->BitsPerPixel : 0,
 	       GifFile->SBackGroundColor);
 	if (GifFile->SColorMap)
 	    printf("\tHas Global Color Map.\n\n");
