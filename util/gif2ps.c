@@ -254,7 +254,11 @@ int main(int argc, char **argv)
     BackGround = GifFile->SBackGroundColor;
     ColorMap = (GifFile->Image.ColorMap
 		? GifFile->Image.ColorMap->Colors
-		: GifFile->SColorMap->Colors);
+		: (GifFile->SColorMap ? GifFile->SColorMap->Colors : NULL));
+    if (ColorMap == NULL) {
+        fprintf(stderr, "Gif Image does not have a colormap\n");
+        exit(EXIT_FAILURE);
+    }
     DumpScreen2PS(ScreenBuffer, GifFile->SWidth, GifFile->SHeight);
 
     if (DGifCloseFile(GifFile) == GIF_ERROR) {

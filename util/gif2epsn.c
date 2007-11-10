@@ -282,7 +282,12 @@ int main(int argc, char **argv)
     /* Lets display it - set the global variables required and do it: */
     BackGround = GifFile->SBackGroundColor;
     ColorMap = (GifFile->Image.ColorMap ? GifFile->Image.ColorMap->Colors :
-				       GifFile->SColorMap->Colors);
+				       (GifFile->SColorMap ? GifFile->SColorMap->Colors :
+                        NULL));
+    if (ColorMap == NULL) {
+        fprintf(stderr, "Gif Image does not have a colormap\n");
+        exit(EXIT_FAILURE);
+    }
     DumpScreen2Epsn(ScreenBuffer, GifFile->SWidth, GifFile->SHeight);
 
     if (DGifCloseFile(GifFile) == GIF_ERROR) {

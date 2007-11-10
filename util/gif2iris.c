@@ -229,9 +229,11 @@ int main(int argc, char **argv)
     BackGround = GifFile->SBackGroundColor;
     ColorMap = (GifFile->Image.ColorMap ? GifFile->Image.ColorMap :
 				       GifFile->SColorMap);
-    ColorMapSize = 1 << (GifFile->Image.ColorMap ?
-            GifFile->Image.ColorMap->BitsPerPixel :
-	        GifFile->SColorMap->BitsPerPixel);
+    if (ColorMap == NULL) {
+        fprintf(stderr, "Gif Image does not have a colormap\n");
+        exit(EXIT_FAILURE);
+    }
+    ColorMapSize = 1 << ColorMap->BitsPerPixel;
     GifQprintf("\n");
     Screen2Iris(ScreenBuffer, GifFile->SWidth, GifFile->SHeight);
 

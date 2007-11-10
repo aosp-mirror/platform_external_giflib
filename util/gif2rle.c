@@ -222,8 +222,11 @@ int main(int argc, char **argv)
     ColorMap = (GifFile->Image.ColorMap ?
                     GifFile->Image.ColorMap->Colors :
                     GifFile->SColorMap->Colors);
-    ColorMapSize = 1 << (GifFile->Image.ColorMap ? GifFile->Image.ColorMap->BitsPerPixel :
-				                GifFile->SColorMap->BitsPerPixel);
+    if (ColorMap == NULL) {
+        fprintf(stderr, "Gif Image does not have a colormap\n");
+        exit(EXIT_FAILURE);
+    }
+    ColorMapSize = 1 << ColorMap->BitsPerPixel;
     DumpScreen2Rle(ScreenBuffer, GifFile->SWidth, GifFile->SHeight);
 
     if (DGifCloseFile(GifFile) == GIF_ERROR) {

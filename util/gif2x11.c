@@ -273,6 +273,10 @@ int main(int argc, char **argv)
     ColorMap = (GifFile->Image.ColorMap
 		? GifFile->Image.ColorMap
 		: GifFile->SColorMap);
+    if (ColorMap == NULL) {
+        fprintf(stderr, "Gif Image does not have a colormap\n");
+        exit(EXIT_FAILURE);
+    }
     ColorMapSize = ColorMap->ColorCount;
     Screen2X(argc, argv, ScreenBuffer, GifFile->SWidth, GifFile->SHeight);
 

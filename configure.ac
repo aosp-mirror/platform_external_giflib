@@ -81,16 +81,15 @@ AC_CHECK_HEADERS(fcntl.h, ,
 
 dnl Now look for a 32 bit integer type
 foundint=no
-AC_CHECK_TYPES([uint32_t], [AC_DEFINE([UINT32], uint32_t,
+AC_CHECK_TYPES([u_int32_t], [AC_DEFINE([UINT32], u_int32_t,
 		  [Set to an unsigned 32 bit integer available on this system])
                   foundint=yes]
 )
-
 if test x$foundint != x'yes'; then
-  AC_CHECK_TYPES([u_int32_t], [AC_DEFINE([UINT32], u_int32_t,
+  AC_CHECK_TYPES([uint32_t], [AC_DEFINE([UINT32], uint32_t,
 		  [Set to an unsigned 32 bit integer available on this system])
                   foundint=yes]
-)
+  )
 fi
 
 dnl Fall back on trying to find one ourselves by compiling and checking sizes.
