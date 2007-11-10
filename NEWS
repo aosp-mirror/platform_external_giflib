@@ -1,3 +1,25 @@
+Version 4.1.5
+=============
+This version has some important fixes for segfaults when working with corrupt
+files.  All users are strongly encouraged to upgrade.
+
+Code Fixes
+----------
+* Fix segfault in utilities due to referencing ColorMaps in GifFiles that had
+  no ColorMap present.
+* Fix gif2x11 to work on 24 bit displays.
+* Fix for giftext segfault when the GifFile does not store a global colormap.
+* Checks to fail gracefully when an image contains improper LZ codes.
+* Close file handles on failure in DGifOpenFileHandle()
+* Checks to operate on files in binary mode on WIN32 as well as MSDOS.
+
+Building
+--------
+* Add checks to make building on Win32 easier.
+* Allow turning off gl_s, rle, and X11 support from the configure command line.
+* Fix for finding a 32 bit integer type on some platforms.
+* Only enable -Wall if we're using gcc.
+
 Version 4.1.4
 =============
 This version fixes some bugs with deallocating ColorMaps.  Fix building on
