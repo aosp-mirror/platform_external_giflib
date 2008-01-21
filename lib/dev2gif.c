@@ -47,6 +47,36 @@ static long ScreenXMax = 100, ScreenYMax = 100;
 
 #ifdef __MSDOS__
 static unsigned int ScreenBase;
+
+static const GifColorType MonoChromeColorMap[] = {
+    {0, 0, 0},
+    {255, 255, 255}
+};
+/* I have no idea what default EGA64 (4 colors) should be (I guessed...). */
+static const GifColorType EGA64ColorMap[] = {
+    {0, 0, 0},    /* 0. Black */
+    {255, 0, 0},    /* 1. Red */
+    {0, 255, 0},    /* 2. Green */
+    {0, 0, 255},    /* 3. Blue */
+};
+static const GifColorType EGAColorMap[] = {
+    {0, 0, 0},    /* 0. Black */
+    {0, 0, 170},    /* 1. Blue */
+    {0, 170, 0},    /* 2. Green */
+    {0, 170, 170},    /* 3. Cyan */
+    {170, 0, 0},    /* 4. Red */
+    {170, 0, 170},    /* 5. Magenta */
+    {170, 170, 0},    /* 6. Brown */
+    {170, 170, 170},    /* 7. LightGray */
+    {85, 85, 85},    /* 8. DarkGray */
+    {85, 85, 255},    /* 9. LightBlue */
+    {85, 255, 85},    /* 10. LightGreen */
+    {85, 255, 255},    /* 11. LightCyan */
+    {255, 85, 85},    /* 12. LightRed */
+    {255, 85, 255},    /* 13. LightMagenta */
+    {255, 255, 85},    /* 14. Yellow */
+    {255, 255, 255},    /* 15. White */
+};
 #endif /* __MSDOS__ */
 
 #if defined(HAVE_LIBGL_S) || defined(HAVE_LIBX11)
@@ -95,37 +125,6 @@ DumpScreen2Gif(const char *FileName,
     GifPixelType *ScanLine;
     GifFileType *GifFile;
     ColorMapObject *ColorMap = NULL;
-#ifdef __MSDOS__
-    static GifColorType MonoChromeColorMap[] = {
-        {0, 0, 0},
-        {255, 255, 255}
-    };
-    /* I have no idea what default EGA64 (4 colors) should be (I guessed...). */
-    static GifColorType EGA64ColorMap[] = {
-        {0, 0, 0},    /* 0. Black */
-        {255, 0, 0},    /* 1. Red */
-        {0, 255, 0},    /* 2. Green */
-        {0, 0, 255},    /* 3. Blue */
-    };
-    static GifColorType EGAColorMap[] = {
-        {0, 0, 0},    /* 0. Black */
-        {0, 0, 170},    /* 1. Blue */
-        {0, 170, 0},    /* 2. Green */
-        {0, 170, 170},    /* 3. Cyan */
-        {170, 0, 0},    /* 4. Red */
-        {170, 0, 170},    /* 5. Magenta */
-        {170, 170, 0},    /* 6. Brown */
-        {170, 170, 170},    /* 7. LightGray */
-        {85, 85, 85},    /* 8. DarkGray */
-        {85, 85, 255},    /* 9. LightBlue */
-        {85, 255, 85},    /* 10. LightGreen */
-        {85, 255, 255},    /* 11. LightCyan */
-        {255, 85, 85},    /* 12. LightRed */
-        {255, 85, 255},    /* 13. LightMagenta */
-        {255, 255, 85},    /* 14. Yellow */
-        {255, 255, 255},    /* 15. White */
-    };
-#endif /* __MSDOS__ */
 #if defined(HAVE_LIBGL_S)
     long *RGBBuffer;
 #ifndef HAVE_LIBX11

@@ -48,6 +48,13 @@
     ((GifFilePrivateType*)_gif->Private)->Read(_gif,_buf,_len) : \
     fread(_buf,1,_len,((GifFilePrivateType*)_gif->Private)->File))
 
+static const unsigned short CodeMasks[] = {
+    0x0000, 0x0001, 0x0003, 0x0007,
+    0x000f, 0x001f, 0x003f, 0x007f,
+    0x00ff, 0x01ff, 0x03ff, 0x07ff,
+    0x0fff
+};
+
 static int DGifGetWord(GifFileType *GifFile, GifWord *Word);
 static int DGifSetupDecompress(GifFileType *GifFile);
 static int DGifDecompressLine(GifFileType *GifFile, GifPixelType *Line,
@@ -927,12 +934,7 @@ DGifDecompressInput(GifFileType * GifFile,
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
     GifByteType NextByte;
-    static unsigned short CodeMasks[] = {
-        0x0000, 0x0001, 0x0003, 0x0007,
-        0x000f, 0x001f, 0x003f, 0x007f,
-        0x00ff, 0x01ff, 0x03ff, 0x07ff,
-        0x0fff
-    };
+
     /* The image can't contain more than LZ_BITS per code. */
     if (Private->RunningBits > LZ_BITS) {
         _GifError = D_GIF_ERR_IMAGE_DEFECT;
