@@ -64,7 +64,7 @@
 /* #define DEBUG_NO_PREFIX                  Dump only compressed data. */
 
 /* Masks given codes to BitsPerPixel, to make sure all codes are in range: */
-static GifPixelType CodeMask[] = {
+static const GifPixelType CodeMask[] = {
     0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff
 };
 
