@@ -24,14 +24,14 @@ dnl Checks for libraries.
 AC_CHECK_LIB(m, pow, [MATH_LIB="${MATH_LIB} -lm"
 		      COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gifclrmp${EXEEXT} gifrotat${EXEEXT}"] )
 
-AC_ARG_ENABLE(rle, AC_HELP_STRING([rle],[detect whether we can support conversion to/from rle]),
-    enable_rle=$enableval, enable_rle=auto)
+AC_ARG_ENABLE([rle], AC_HELP_STRING([--enable-rle],[support conversion to/from rle[[default=detect]]]),
+    enable_rle=$enableval, enable_rle=detect)
 
-AC_ARG_ENABLE(x11, AC_HELP_STRING([x11],[detect whether we can support conversion directly to X11 Windows]),
-    enable_x11=$enableval, enable_x11=auto)
+AC_ARG_ENABLE([x11], AC_HELP_STRING([--enable-x11],[support conversion directly to X11 windows[[default=detect]]]),
+    enable_x11=$enableval, enable_x11=detect)
 
-AC_ARG_ENABLE(gl, AC_HELP_STRING([gl],[detect whether we can support conversion to/from gl]),
-    enable_gl=$enableval, enable_gl=auto)
+AC_ARG_ENABLE([gl], AC_HELP_STRING([--enable-gl],[support conversion to/from gl[[default=detect]]]),
+    enable_gl=$enableval, enable_gl=detect)
 
 dnl I don't have this on my system.  Could someone else configure it and
 dnl check that it works?
