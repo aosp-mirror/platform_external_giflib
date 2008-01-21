@@ -307,7 +307,7 @@ extern void FreeSavedImages(GifFileType * GifFile);
 
 #define GIF_FONT_WIDTH  8
 #define GIF_FONT_HEIGHT 8
-extern unsigned char AsciiTable[][GIF_FONT_WIDTH];
+extern const unsigned char AsciiTable[][GIF_FONT_WIDTH];
 
 #ifdef _WIN32
     extern void DrawGifText(SavedImage * Image,
