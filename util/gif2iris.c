@@ -78,7 +78,7 @@ static int
     IrisPosY = 0,
     InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
     InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
-static GifColorType
+static ColorMapObject
     *ColorMap;
 
 static void Screen2Iris(GifRowType *ScreenBuffer,
@@ -254,6 +254,7 @@ static void Screen2Iris(GifRowType *ScreenBuffer,
     short Val;
     int i, j;
     unsigned long *IrisScreenBuffer, *PBuffer;
+    GifColorType *ColorMapEntry = ColorMap->Colors;
 
     if (ScreenWidth > XMAXSCREEN + 1 ||
 	ScreenHeight > YMAXSCREEN + 1)
@@ -277,9 +278,9 @@ static void Screen2Iris(GifRowType *ScreenBuffer,
     PBuffer = IrisScreenBuffer;
     for (i = ScreenHeight - 1; i >= 0; i--)
 	for (j = 0; j < ScreenWidth; j++)
-	    *PBuffer++ = ColorMap[ScreenBuffer[i][j]].Red +
-		         (ColorMap[ScreenBuffer[i][j]].Green << 8) +
-		         (ColorMap[ScreenBuffer[i][j]].Blue << 16);
+	    *PBuffer++ = ColorMapEntry[ScreenBuffer[i][j]].Red +
+		         (ColorMapEntry[ScreenBuffer[i][j]].Green << 8) +
+		         (ColorMapEntry[ScreenBuffer[i][j]].Blue << 16);
 
     reshapeviewport();
     lrectwrite(0, 0, ScreenWidth - 1, ScreenHeight - 1, IrisScreenBuffer);

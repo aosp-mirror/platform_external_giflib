@@ -73,7 +73,7 @@ static int
     ColorMapSize = 0,
     InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
     InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
-static GifColorType
+static ColorMapObject
     *ColorMap;
 
 static void DumpScreen2Rle(GifRowType *ScreenBuffer,
@@ -220,8 +220,8 @@ int main(int argc, char **argv)
     /* Lets display it - set the global variables required and do it: */
     BackGround = GifFile->SBackGroundColor;
     ColorMap = (GifFile->Image.ColorMap ?
-                    GifFile->Image.ColorMap->Colors :
-                    GifFile->SColorMap->Colors);
+                    GifFile->Image.ColorMap :
+                    GifFile->SColorMap);
     if (ColorMap == NULL) {
         fprintf(stderr, "Gif Image does not have a colormap\n");
         exit(EXIT_FAILURE);
@@ -247,8 +247,7 @@ static void DumpScreen2Rle(GifRowType *ScreenBuffer,
     char Comment[80];
     rle_pixel *rows[4];
     GifRowType GifRow;
-    static GifColorType
-	*ColorMapEntry;
+    static GifColorType *ColorMapEntry;
 
     if (AlphaFlag) RLE_SET_BIT(rle_dflt_hdr, RLE_ALPHA);
     rle_dflt_hdr.alpha = AlphaFlag != 0;
@@ -276,7 +275,7 @@ static void DumpScreen2Rle(GifRowType *ScreenBuffer,
 	GifRow = ScreenBuffer[ScreenHeight - i - 1];
 	GifQprintf("\b\b\b\b%-4d", ScreenHeight - i);
 	for (j = 0; j < ScreenWidth; j++) {
-	    ColorMapEntry = &ColorMap[GifRow[j]];
+	    ColorMapEntry = &ColorMap->Colors[GifRow[j]];
 	    rows[1][j] = ColorMapEntry->Red;
 	    rows[2][j] = ColorMapEntry->Green;
 	    rows[3][j] = ColorMapEntry->Blue;
