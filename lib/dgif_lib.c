@@ -15,6 +15,13 @@
 #endif
 
 #include <stdlib.h>
+#include <limits.h>
+#ifdef HAVE_INTTYPES_H
+#include <inttypes.h>
+#else
+#include <stdint.h>
+#endif /* HAVE_INTTYPES_H */
+
 #if defined (__MSDOS__) && !defined(__DJGPP__) && !defined(__GNUC__)
 #include <io.h>
 #include <alloc.h>
@@ -1018,7 +1025,7 @@ DGifBufferedInput(GifFileType * GifFile,
 int
 DGifSlurp(GifFileType * GifFile) {
 
-    size_t ImageSize;
+    int ImageSize;
     GifRecordType RecordType;
     SavedImage *sp;
     GifByteType *ExtData;
@@ -1037,17 +1044,23 @@ DGifSlurp(GifFileType * GifFile) {
                   return (GIF_ERROR);
 
               sp = &GifFile->SavedImages[GifFile->ImageCount - 1];
-              if (sp->ImageDesc.Width * sp->ImageDesc.Height <= SIZE_MAX) {
-                  ImageSize = sp->ImageDesc.Width * sp->ImageDesc.Height;
-              } else {
+              /* Allocate memory for the image */
+              if (sp->ImageDesc.Width < 0 && sp->ImageDesc.Height < 0 &&
+                      sp->ImageDesc.Width > INT_MAX / sp->ImageDesc.Height) {
                   return GIF_ERROR;
               }
+              ImageSize = sp->ImageDesc.Width * sp->ImageDesc.Height;
 
+              if (ImageSize > (SIZE_MAX / sizeof(GifPixelType))) {
+                  return GIF_ERROR;
+              }
               sp->RasterBits = (unsigned char *)malloc(ImageSize *
-                                                       sizeof(GifPixelType));
+                      sizeof(GifPixelType));
+
               if (sp->RasterBits == NULL) {
                   return GIF_ERROR;
               }
+
               if (DGifGetLine(GifFile, sp->RasterBits, ImageSize) ==
                   GIF_ERROR)
                   return (GIF_ERROR);

@@ -68,13 +68,23 @@ AC_SUBST(X_CFLAGS)
 AC_SUBST(MATH_LIB)
 AC_SUBST(RLE_LIB)
 
-dnl Checks for header files.
 AC_HEADER_STDC
 dnl * HEADER_STDC checks for stdargs.h so this is a bit redundant.
 dnl * The code will prefer stdargs.h if available.
 dnl   If not available, we will try to fallback to using varargs.h
-AC_CHECK_HEADERS([stdarg.h varargs.h], break,
-		 AC_MSG_ERROR([giflib 4.x must have stdarg.h or varargs.h]))
+AC_CHECK_HEADERS([stdarg.h varargs.h], break, [])
+if test x"$ac_cv_header_stdarg_h" != "xyes" -a x"$ac_cv_header_varargs_h" != "xyes" ; then
+	AC_MSG_ERROR([giflib 4.x must have stdarg.h or varargs.h])
+fi
+
+dnl Check for limits.h so we have a definition of INT_MAX
+AC_CHECK_HEADERS([limits.h], ,AC_MSG_ERROR([giflib requires limits.h to be present in order to compile]))
+
+dnl Check for inttypes.h or stdint.h so we have a definition of SIZE_MAX
+AC_CHECK_HEADERS([inttypes.h stdint.h], , [])
+if test x"$ac_cv_header_inttypes_h" != "xyes" -a x"$ac_cv_header_stdint_h" != "xyes" ; then
+	AC_MSG_ERROR([giflib 4.x requires either inttypes.h or stdint.h])
+fi
 
 AC_CHECK_HEADERS(fcntl.h, ,
 		 AC_MSG_ERROR([giflib 4.x must have fcntl.h to compile]))
