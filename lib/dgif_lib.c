@@ -1046,7 +1046,7 @@ DGifSlurp(GifFileType * GifFile) {
               sp = &GifFile->SavedImages[GifFile->ImageCount - 1];
               /* Allocate memory for the image */
               if (sp->ImageDesc.Width < 0 && sp->ImageDesc.Height < 0 &&
-                      sp->ImageDesc.Width > INT_MAX / sp->ImageDesc.Height) {
+                      sp->ImageDesc.Width > (INT_MAX / sp->ImageDesc.Height)) {
                   return GIF_ERROR;
               }
               ImageSize = sp->ImageDesc.Width * sp->ImageDesc.Height;
@@ -1054,7 +1054,7 @@ DGifSlurp(GifFileType * GifFile) {
               if (ImageSize > (SIZE_MAX / sizeof(GifPixelType))) {
                   return GIF_ERROR;
               }
-              sp->RasterBits = (unsigned char *)malloc(ImageSize *
+              sp->RasterBits = (unsigned char *)malloc((size_t)ImageSize *
                       sizeof(GifPixelType));
 
               if (sp->RasterBits == NULL) {
