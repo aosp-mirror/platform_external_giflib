@@ -312,7 +312,7 @@ extern unsigned char AsciiTable[][GIF_FONT_WIDTH];
 #ifdef _WIN32
     extern void DrawGifText(SavedImage * Image,
 #else
-    extern void DrawText(SavedImage * Image,
+    extern void DrawGifText(SavedImage * Image,
 #endif
                      const int x, const int y,
                      const char *legend, const int color);
