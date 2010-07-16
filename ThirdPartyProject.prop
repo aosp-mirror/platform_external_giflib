@@ -1,0 +1,9 @@
+# Copyright 2010 Google Inc. All Rights Reserved.
+#Fri Jul 16 10:03:09 PDT 2010
+currentVersion=4.1.6
+version=4.1.6
+isNative=true
+name=giflib
+keywords=giflib
+onDevice=true
+homepage=http\://sourceforge.net/projects/giflib/
