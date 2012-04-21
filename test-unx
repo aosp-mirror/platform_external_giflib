@@ -17,7 +17,7 @@
 # Revised by Toshio Kuratomi December 1998.
 PATH=$PATH:./util:${SRCDIR}/util
 GIF_DIR=${SRCDIR}./pic
-GIF_DISPLAY=${1:-"xv -"}
+GIF_DISPLAY=${1:-"display -"}
 GIF_DISPLAY=${GIF_DISPLAY:-"gif2x11"}
 #GIF_DIR=${1:-./pic}
 #GIF_DISPLAY=${2:-gif2x11}
