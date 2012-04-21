@@ -15,14 +15,6 @@ libtool 1.5
 configure, Makefile.in, etc using these tools.)
 
 =======
-cvs:
-I currently do my work in a subversion repository.  Since sourceforge is still
-using cvs and not subversion, there's nothing in the sourceforge tree.
-
-If someone else wants to do development we can definitely talk about the best
-way to share version control access.
-
-=======
 I create the distribution tar ball by using the `make dist` command.... After
 hacking all I want, I check my sources into cvs, checkout a clean tree, run
 ./autogen.sh; make dist and then attempt to compile from the libungif-*.tar.gz
