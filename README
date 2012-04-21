@@ -1,6 +1,6 @@
-This is giflib version 4.1.2, a library for manipulating gif files.
+This is giflib, a library for manipulating gif files.
 Latest versions of giflib are currently hosted at:
-    http://sourceforge.net/projects/libungif
+    http://sourceforge.net/projects/giflib
 
 ====
 Building this package should be as simple as:
