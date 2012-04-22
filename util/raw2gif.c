@@ -137,11 +137,12 @@ int main(int argc, char **argv)
 	for (ColorMapSize = 0;
 	     ColorMapSize < 256 && !feof(InColorMapFile);
 	     ColorMapSize++) {
-	    (void)fscanf(InColorMapFile, "%3d %3d %3d %3d\n",
-			 &Dummy, &Red, &Green, &Blue);
-	    ColorMap->Colors[ColorMapSize].Red = Red;
-	    ColorMap->Colors[ColorMapSize].Green = Green;
-	    ColorMap->Colors[ColorMapSize].Blue = Blue;
+	    if (fscanf(InColorMapFile, "%3d %3d %3d %3d\n",
+		       &Dummy, &Red, &Green, &Blue) == 4) {
+		ColorMap->Colors[ColorMapSize].Red = Red;
+		ColorMap->Colors[ColorMapSize].Green = Green;
+		ColorMap->Colors[ColorMapSize].Blue = Blue;
+	    }
 	}
     }
     else {

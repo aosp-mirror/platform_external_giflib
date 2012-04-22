@@ -297,10 +297,11 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
 	for (i = 0; i < ColorMap->ColorCount; i++) {
 	    if (feof(ColorFile))
 		GIF_EXIT("Color file to load color map from, too small.");
-	    (void)fscanf(ColorFile, "%3d %3d %3d %3d\n", &Dummy, &Red, &Green, &Blue);
-	    ColorMap->Colors[i].Red = Red;
-	    ColorMap->Colors[i].Green = Green;
-	    ColorMap->Colors[i].Blue = Blue;
+	    if (fscanf(ColorFile, "%3d %3d %3d %3d\n", &Dummy, &Red, &Green, &Blue) == 4) {
+		ColorMap->Colors[i].Red = Red;
+		ColorMap->Colors[i].Green = Green;
+		ColorMap->Colors[i].Blue = Blue;
+	    }
 	}
 	return(ColorMap);
     }
@@ -325,10 +326,11 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
 	    int tmp;
 	    if (feof(TranslateFile))
 		GIF_EXIT("Color file to load color map from, too small.");
-	    (void)fscanf(TranslateFile, "%3d %3d\n", &Dummy, &tmp);
-	    Translation[i] = tmp;
-	    if (Translation[i] > Max)
-		Max = Translation[i];
+	    if (fscanf(TranslateFile, "%3d %3d\n", &Dummy, &tmp) == 2) {
+		Translation[i] = tmp;
+		if (Translation[i] > Max)
+		    Max = Translation[i];
+	    }
 	}
 
 	if ((NewMap = MakeMapObject(1 << BitSize(Max+1), NULL)) == NULL)
