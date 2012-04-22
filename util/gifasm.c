@@ -135,6 +135,9 @@ static void DoAssembly(int NumFiles, char **FileNames)
     GifByteType *Line = NULL, *Extension;
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
+    /* should be set by DGifOpenFileName, but suppress a compiler warning */
+    FirstColorMap.ColorCount = 0;
+
     /* Open stdout for the output file: */
     if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
 	QuitGifError(GifFileIn, GifFileOut);
