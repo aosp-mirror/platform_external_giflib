@@ -32,8 +32,6 @@ apt to break later.
 
 Make sure tmpnam is secure in gifinto.c (Use mkstemp if possible..)
 
-Audit for sprintf => snprintf
-
 # Make sure all malloc calls check their return value.
 Still need to check dev2gif.c (Know there's problems there)
 dgif_lib.c

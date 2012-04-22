@@ -256,7 +256,8 @@ static void DumpScreen2Rle(GifRowType *ScreenBuffer,
     rle_dflt_hdr.ymin = 0;
     rle_dflt_hdr.xmax = ScreenWidth - 1;
     rle_dflt_hdr.ymax = ScreenHeight - 1;
-    sprintf(Comment, "origin=GIF format, %d colors.", ColorMapSize);
+    (void)snprintf(Comment, sizeof(Comment),
+		   "origin=GIF format, %d colors.", ColorMapSize);
     rle_putcom(Comment, &rle_dflt_hdr);
     rle_put_setup(&rle_dflt_hdr);
 

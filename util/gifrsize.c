@@ -113,7 +113,7 @@ int main(int argc, char **argv)
     }
 
     if (HelpFlag) {
-	fprintf(stderr, VersionStr);
+	(void)fputs(VersionStr, stderr);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_SUCCESS);
     }
@@ -127,14 +127,16 @@ int main(int argc, char **argv)
     if (!YScaleFlag && ScaleFlag) YScale = Scale;
 
     if (XScale > MAX_SCALE) {
-	sprintf(s, "XScale too big, maximum scale selected instead (%f).",
-								MAX_SCALE);
+	(void)snprintf(s, sizeof(s), 
+		       "XScale too big, maximum scale selected instead (%f).",
+		       MAX_SCALE);
 	GIF_MESSAGE(s);
 	XScale = MAX_SCALE;
     }
     if (YScale > MAX_SCALE) {
-	sprintf(s, "YScale too big, maximum scale selected instead (%f).",
-								MAX_SCALE);
+	(void)snprintf(s, sizeof(s), 
+		       "YScale too big, maximum scale selected instead (%f).",
+		       MAX_SCALE);
 	GIF_MESSAGE(s);
 	YScale = MAX_SCALE;
     }

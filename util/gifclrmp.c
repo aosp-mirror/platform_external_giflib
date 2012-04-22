@@ -111,7 +111,7 @@ int main(int argc, char **argv)
     }
 
     if (HelpFlag) {
-	fprintf(stderr, VersionStr);
+	(void)fputs(VersionStr, stderr);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_SUCCESS);
     }
@@ -297,7 +297,7 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
 	for (i = 0; i < ColorMap->ColorCount; i++) {
 	    if (feof(ColorFile))
 		GIF_EXIT("Color file to load color map from, too small.");
-	    fscanf(ColorFile, "%3d %3d %3d %3d\n", &Dummy, &Red, &Green, &Blue);
+	    (void)fscanf(ColorFile, "%3d %3d %3d %3d\n", &Dummy, &Red, &Green, &Blue);
 	    ColorMap->Colors[i].Red = Red;
 	    ColorMap->Colors[i].Green = Green;
 	    ColorMap->Colors[i].Blue = Blue;
@@ -325,7 +325,7 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
 	    int tmp;
 	    if (feof(TranslateFile))
 		GIF_EXIT("Color file to load color map from, too small.");
-	    fscanf(TranslateFile, "%3d %3d\n", &Dummy, &tmp);
+	    (void)fscanf(TranslateFile, "%3d %3d\n", &Dummy, &tmp);
 	    Translation[i] = tmp;
 	    if (Translation[i] > Max)
 		Max = Translation[i];

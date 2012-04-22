@@ -98,7 +98,7 @@ int main(int argc, char **argv)
     }
 
     if (HelpFlag) {
-	fprintf(stderr, VersionStr);
+	(void)fputs(VersionStr, stderr);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_SUCCESS);
     }
@@ -326,7 +326,8 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 
     /* Scan the content of GIF file and dump image(s) to seperate file(s): */
     do {
-	sprintf(CrntFileName, "%s%02d.gif", OutFileName, FileNum++);
+	snprintf(CrntFileName, sizeof(CrntFileName), 
+		 "%s%02d.gif", OutFileName, FileNum++);
 	if ((GifFileOut = EGifOpenFileName(CrntFileName, TRUE)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);
 	FileEmpty = TRUE;

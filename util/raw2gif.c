@@ -118,7 +118,7 @@ int main(int argc, char **argv)
     }
 
     if (HelpFlag) {
-	fprintf(stderr, VersionStr);
+	(void)fputs(VersionStr, stderr);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_SUCCESS);
     }
@@ -137,8 +137,8 @@ int main(int argc, char **argv)
 	for (ColorMapSize = 0;
 	     ColorMapSize < 256 && !feof(InColorMapFile);
 	     ColorMapSize++) {
-	    fscanf(InColorMapFile, "%3d %3d %3d %3d\n",
-						&Dummy, &Red, &Green, &Blue);
+	    (void)fscanf(InColorMapFile, "%3d %3d %3d %3d\n",
+			 &Dummy, &Red, &Green, &Blue);
 	    ColorMap->Colors[ColorMapSize].Red = Red;
 	    ColorMap->Colors[ColorMapSize].Green = Green;
 	    ColorMap->Colors[ColorMapSize].Blue = Blue;

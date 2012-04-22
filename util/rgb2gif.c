@@ -111,7 +111,7 @@ int main(int argc, char **argv)
     }
 
     if (HelpFlag) {
-	fprintf(stderr, VersionStr);
+	(void)fputs(VersionStr, stderr);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_SUCCESS);
     }

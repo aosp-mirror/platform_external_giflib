@@ -143,7 +143,7 @@ int main(int argc, char **argv)
     }
 
     if (HelpFlag) {
-	fprintf(stderr, VersionStr);
+	(void)fputs(VersionStr, stderr);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_SUCCESS);
     }
@@ -482,7 +482,8 @@ static void AllocateColors1(void)
 	GIF_EXIT("Can not display the image - not enough colors available.");
 
     if (Strip != 0) {
-	sprintf(Msg, "%d bits were stripped off the color map.", Strip);
+	(void)snprintf(Msg, sizeof(Msg),
+		       "%d bits were stripped off the color map.", Strip);
 	GIF_MESSAGE(Msg);
     }
 }
@@ -556,8 +557,9 @@ static void AllocateColors2(void)
 	}
 	free(XOldColorTable);
 
-	sprintf(Msg, "Colors will be approximated (average error = %ld).\n",
-		AvgDistance / Count);
+	(void)snprintf(Msg, sizeof(Msg), 
+		       "Colors will be approximated (average error = %ld).\n",
+		       AvgDistance / Count);
 	GIF_MESSAGE(Msg);
     }
 }

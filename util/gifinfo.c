@@ -104,7 +104,7 @@ int main(int argc, char **argv)
     }
 
     if (HelpFlag) {
-	fprintf(stderr, VersionStr);
+	(void)fputs(VersionStr, stderr);
 	GAPrintHowTo(CtrlStr);
 	printf("Format: quoted text string used for formating of information\n");
 	printf("  Special characters for various information can be used\n");

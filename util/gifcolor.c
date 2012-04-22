@@ -89,7 +89,7 @@ int main(int argc, char **argv)
     }
 
     if (HelpFlag) {
-	fprintf(stderr, VersionStr);
+	(void)fputs(VersionStr, stderr);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_SUCCESS);
     }
@@ -136,10 +136,11 @@ int main(int argc, char **argv)
 		    GifFile->Image.Width, GifFile->Image.Height);
 
     for (i = l = 0; i < ColorMap->ColorCount; i++) {
-	(void)sprintf(Line, "Color %-3d: [%-3d, %-3d, %-3d] ", i,
-		      ColorMap->Colors[i].Red,
-		      ColorMap->Colors[i].Green,
-		      ColorMap->Colors[i].Blue);
+	(void)snprintf(Line, sizeof(Line),
+		       "Color %-3d: [%-3d, %-3d, %-3d] ", i,
+		       ColorMap->Colors[i].Red,
+		       ColorMap->Colors[i].Green,
+		       ColorMap->Colors[i].Blue);
 	GenRasterTextLine(RasterBuffer, Line, IMAGEWIDTH, i);
 	for (j = 0; j < GIF_FONT_HEIGHT; j++) {
 	    if (EGifPutLine(GifFile, RasterBuffer[j], IMAGEWIDTH) == GIF_ERROR)

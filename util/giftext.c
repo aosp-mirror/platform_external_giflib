@@ -102,7 +102,7 @@ int main(int argc, char **argv)
     }
 
     if (HelpFlag) {
-	fprintf(stderr, VersionStr);
+	(void)fputs(VersionStr, stderr);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_SUCCESS);
     }
@@ -396,16 +396,18 @@ static void PrintExtBlock(GifByteType *Extension, int Reset)
 
     Len = Extension[0];
     for (i = 1; i <= Len; i++) {
-	sprintf(&HexForm[CrntPlace * 3], " %02x", Extension[i]);
-	sprintf(&AsciiForm[CrntPlace], "%c", MAKE_PRINTABLE(Extension[i]));
+	(void)snprintf(&HexForm[CrntPlace * 3], 3,
+		       " %02x", Extension[i]);
+	(void)snprintf(&AsciiForm[CrntPlace], 3,
+		       "%c", MAKE_PRINTABLE(Extension[i]));
 #ifdef __MSDOS__
 	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = FALSE;
 #endif /* __MSDOS__ */
 	if (++CrntPlace == 16) {
 	    HexForm[CrntPlace * 3] = 0;
 	    AsciiForm[CrntPlace] = 0;
-	    if (Print) printf("\n%05lx: %-49s  %-17s",
-				ExtCount, HexForm, AsciiForm);
+	    if (Print) 
+		printf("\n%05lx: %-49s  %-17s", ExtCount, HexForm, AsciiForm);
 	    ExtCount += 16;
 	    CrntPlace = 0;
 	}
@@ -444,8 +446,10 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, int Reset)
     if (!Print) return;
 
     for (i = 0; i < Len; i++) {
-	sprintf(&HexForm[CrntPlace * 3], " %02x", PixelBlock[i]);
-	sprintf(&AsciiForm[CrntPlace], "%c", MAKE_PRINTABLE(PixelBlock[i]));
+	(void)snprintf(&HexForm[CrntPlace * 3], 3,
+		       " %02x", PixelBlock[i]);
+	(void)snprintf(&AsciiForm[CrntPlace], 3,
+		       "%c", MAKE_PRINTABLE(PixelBlock[i]));
 #ifdef __MSDOS__
 	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = FALSE;
 #endif /* __MSDOS__ */

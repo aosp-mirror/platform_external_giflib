@@ -96,7 +96,7 @@ int main(int argc, char **argv)
     }
 
     if (HelpFlag) {
-	fprintf(stderr, VersionStr);
+	(void)fputs(VersionStr, stderr);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_SUCCESS);
     }
@@ -165,8 +165,9 @@ int main(int argc, char **argv)
 	    strcpy(DefaultName, FullPath);
 	    strcat(DefaultName, DEFAULT_OUT_NAME);
 	    if (rename(FoutTmpName, DefaultName) == 0) {
-		sprintf(s, "Failed to rename out file - left as %s.",
-								DefaultName);
+		(void)snprintf(s, sizeof(s), 
+			      "Failed to rename out file - left as %s.",
+			      DefaultName);
 		GIF_MESSAGE(s);
 	    }
 	    else {
