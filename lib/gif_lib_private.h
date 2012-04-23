@@ -6,14 +6,9 @@
 
 #define PROGRAM_NAME "GIFLIB"
 
-#ifdef SYSV
-#define VersionStr "Gif library module,\t\tEric S. Raymond\n\
-                    (C) Copyright 1997 Eric S. Raymond\n"
-#else
-#define VersionStr PROGRAM_NAME "    IBMPC " GIF_LIB_VERSION \
+#define VersionStr PROGRAM_NAME "  " GIF_LIB_VERSION \
                     "    Eric S. Raymond,    " __DATE__ ",   " \
                     __TIME__ "\n" "(C) Copyright 1997 Eric S. Raymond\n"
-#endif /* SYSV */
 
 #define LZ_MAX_CODE         4095    /* Biggest code possible in 12 bits. */
 #define LZ_BITS             12
