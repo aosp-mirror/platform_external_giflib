@@ -30,3 +30,6 @@ EXTRA_DIST = Makefile.unx \
 	     $(WINDOWS) \
 	     $(GAMEBOYADVANCE)
 #TESTS=test-unx
+
+splint: 
+	splint +quiet +posixlib lib/*.[ch]
