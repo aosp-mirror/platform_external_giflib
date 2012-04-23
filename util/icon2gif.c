@@ -289,7 +289,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	/* GIF inclusion */
 	else if (sscanf(buf, "include %s", InclusionFile) == 1)
 	{
-	    GifBooleanType	DoTranslation;
+	    bool	DoTranslation;
 	    GifPixelType	Translation[256];
 
 	    GifFileType	*Inclusion;
