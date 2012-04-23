@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <fcntl.h>
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -43,10 +44,6 @@
 #ifdef HAVE_IO_H
 #include <io.h>
 #endif
-
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
 
 #include "gif_lib.h"
 #include "gif_lib_private.h"

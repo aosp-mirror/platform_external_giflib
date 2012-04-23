@@ -13,6 +13,10 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <stdint.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -31,14 +35,6 @@
 #include <io.h>
 #endif
 
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif /* HAVE_UNISTD_H */
-#include <stdio.h>
-#include <string.h>
 #include "gif_lib.h"
 #include "gif_lib_private.h"
 

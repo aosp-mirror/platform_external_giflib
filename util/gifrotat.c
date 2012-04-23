@@ -14,30 +14,25 @@
 *  2 Aug 91 - Version 1.0 by Gershon Elber.				     *
 *****************************************************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#include <ctype.h>
+#include <string.h>
+#include <fcntl.h>
+#include <stdbool.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #ifdef __MSDOS__
 #include <graphics.h>
-#include <stdlib.h>
 #include <alloc.h>
 #include <io.h>
 #include <dos.h>
 #include <bios.h>
 #endif /* __MSDOS__ */
-
-#ifndef __MSDOS__
-#include <stdlib.h>
-#endif
-#include <stdio.h>
-#include <math.h>
-#include <ctype.h>
-#include <string.h>
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
-#include <stdbool.h>
 
 #include "gif_lib.h"
 #include "getarg.h"

@@ -19,30 +19,25 @@
 * 22 Dec 89 - Fix problems with const strings been modified (Version 1.1).   *
 *****************************************************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdbool.h>
+#include <fcntl.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #ifdef __MSDOS__
 #include <graphics.h>
-#include <stdlib.h>
 #include <alloc.h>
 #include <io.h>
 #include <dos.h>
 #include <bios.h>
 #endif /* __MSDOS__ */
 
-#ifndef __MSDOS__
-#include <stdlib.h>
-#endif
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdbool.h>
-
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
 #include "gif_lib.h"
 #include "getarg.h"
 

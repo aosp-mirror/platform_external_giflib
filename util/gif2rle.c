@@ -13,6 +13,13 @@
 * 5 Jan 90 - Version 1.0 by Gershon Elber.				     *
 *****************************************************************************/
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdbool.h>
+#include <fcntl.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -25,15 +32,6 @@
 #include <bios.h>
 #endif /* __MSDOS__ */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdbool.h>
-
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
 #include "gif_lib.h"
 #include "getarg.h"
 

@@ -84,6 +84,9 @@ AC_CHECK_HEADERS([limits.h], ,
 AC_CHECK_HEADERS(fcntl.h, ,
 		 AC_MSG_ERROR([giflib 4.x must have fcntl.h to compile]))
 
+AC_CHECK_HEADERS(stdint.h, ,
+		 AC_MSG_ERROR([giflib 4.x must have stdint.h to compile]))
+
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 

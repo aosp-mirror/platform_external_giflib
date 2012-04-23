@@ -16,22 +16,16 @@
 * 7 Jul 89 - Version 1.0 by Gershon Elber.				     *
 *****************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdbool.h>
 
 #ifdef __MSDOS__
 #include <alloc.h>
 #endif /* __MSDOS__ */
-
-#include <stdio.h>
-#include <stdlib.h>
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif /* HAVE_UNISTD_H */
-#include <ctype.h>
-#include <string.h>
-#include <stdbool.h>
 
 #include "gif_lib.h"
 #include "getarg.h"
