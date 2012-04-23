@@ -31,12 +31,6 @@
 
 #define PROGRAM_NAME	"giffiltr"
 
-#ifdef __MSDOS__
-extern unsigned int
-    _stklen = 16384;			     /* Increase default stack size. */
-#endif /* __MSDOS__ */
-
-
 /******************************************************************************
 * Close both input and output file (if open), and exit.			      *
 ******************************************************************************/

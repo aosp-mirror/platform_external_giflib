@@ -34,11 +34,6 @@
 #define DEFAULT_HISTO_HEIGHT	256
 #define HISTO_BITS_PER_PIXEL	2	/* Size of bitmap for histogram GIF. */
 
-#ifdef __MSDOS__
-extern unsigned int
-    _stklen = 16384;			     /* Increase default stack size. */
-#endif /* __MSDOS__ */
-
 static char
     *VersionStr =
 	PROGRAM_NAME

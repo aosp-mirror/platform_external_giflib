@@ -33,11 +33,6 @@
 
 #define PROGRAM_NAME	"gifspnge"
 
-#ifdef __MSDOS__
-extern unsigned int
-    _stklen = 16384;			     /* Increase default stack size. */
-#endif /* __MSDOS__ */
-
 int main(int argc, char **argv)
 {
     int	i;

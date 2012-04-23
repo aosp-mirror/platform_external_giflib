@@ -58,11 +58,6 @@
 #define EPSON_REG_DENSITY	"\033K"	      /* 640 pixels per 7.5" (line). */
 #define EPSON_DUAL_DENSITY	"\033L"	     /* 1280 pixels per 7.5" (line). */
 
-#ifdef __MSDOS__
-extern unsigned int
-    _stklen = 16384;			     /* Increase default stack size. */
-#endif /* __MSDOS__ */
-
 static char
     *VersionStr =
 	PROGRAM_NAME

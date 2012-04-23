@@ -34,11 +34,6 @@
 
 #define PROGRAM_NAME	"GifClrMp"
 
-#ifdef __MSDOS__
-extern unsigned int
-    _stklen = 16384;			     /* Increase default stack size. */
-#endif /* __MSDOS__ */
-
 static char
     *VersionStr =
 	PROGRAM_NAME

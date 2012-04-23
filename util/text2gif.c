@@ -38,11 +38,6 @@
 #define DEFAULT_COLOR_GREEN	255
 #define DEFAULT_COLOR_BLUE	255
 
-#ifdef __MSDOS__
-extern unsigned int
-    _stklen = 16384;			     /* Increase default stack size. */
-#endif /* __MSDOS__ */
-
 static char
     *VersionStr =
 	PROGRAM_NAME

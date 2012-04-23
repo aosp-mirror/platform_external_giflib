@@ -32,11 +32,6 @@
 
 #define DEFAULT_NUM_LEVELS	16     /* Number of colors to gen the image. */
 
-#ifdef __MSDOS__
-extern unsigned int
-    _stklen = 16384;			     /* Increase default stack size. */
-#endif /* __MSDOS__ */
-
 static char
     *VersionStr =
 	PROGRAM_NAME
