@@ -31,13 +31,6 @@
 #else
 #include <sys/types.h>
 #include <sys/stat.h>
-#ifdef R6000
-
-/* FIXME: What is sys/mode.h?  Can we substitute a check for this file rather
- * than a check based on machine type?
- */
-#include <sys/mode.h>
-#endif
 #endif /* __MSDOS__ */
 
 #ifdef HAVE_IO_H
