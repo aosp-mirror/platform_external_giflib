@@ -14,6 +14,11 @@ Retirements
   platform dependencies for platforms long dead.  There are enough
   platform-independent GIF viewers in the world that these weren't
   adding any value.
+* The undocumented DumpScreen2Gif() is gone from the library.  The
+  only non-obsolete capture mode it supported was through X, and that
+  probably hasn't been used in years and is replaceable by any number
+  of capture utilities.  Dropping this code makes the library's 
+  portability issues go away.
 
 Version 4.1.6
 =============

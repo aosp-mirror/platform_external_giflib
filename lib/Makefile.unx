@@ -66,7 +66,7 @@ CC = gcc
 CFLAGS = -fno-builtin -g -c -W -Wreturn-type -Wcomment
 
 
-OBJS = dev2gif.o egif_lib.o dgif_lib.o gifalloc.o gif_font.o gif_hash.o \
+OBJS = egif_lib.o dgif_lib.o gifalloc.o gif_font.o gif_hash.o \
 	gif_err.o quantize.o qprintf.o getarg.o
 
 .c.o:
@@ -86,7 +86,6 @@ $(SHLIB): $(OBJS)
 	rm -f libgif.so.$(V)
 	gcc -shared -o $(SHLIB) $(OBJS)
 
-dev2gif.o: gif_lib.h
 egif_lib.o: gif_lib.h gif_hash.h
 dgif_lib.o: gif_lib.h gif_hash.h
 gif_hash.o: gif_lib.h gif_hash.h

@@ -94,16 +94,6 @@ typedef enum {
     TERMINATE_RECORD_TYPE   /* Begin with ';' */
 } GifRecordType;
 
-/* DumpScreen2Gif routine constants identify type of window/screen to dump.
- * Note all values below 1000 are reserved for the IBMPC different display
- * devices (it has many!) and are compatible with the numbering TC2.0
- * (Turbo C 2.0 compiler for IBM PC) gives to these devices.
- */
-typedef enum {
-    GIF_DUMP_SGI_WINDOW = 1000,
-    GIF_DUMP_X_WINDOW = 1001
-} GifScreenDumpType;
-
 /* func type to read gif data from arbitrary sources (TVT) */
 typedef int (*InputFunc) (GifFileType *, GifByteType *, int);
 
@@ -231,15 +221,6 @@ extern void GifQprintf(char *Format, ...);
 extern void PrintGifError(void);
 #endif /* _GBA_NO_FILEIO */
 extern int GifLastError(void);
-
-/******************************************************************************
- * O.K., here are the routines from GIF_LIB file DEV2GIF.C.              
-******************************************************************************/
-extern int DumpScreen2Gif(const char *FileName,
-                          int ReqGraphDriver,
-                          long ReqGraphMode1,
-                          long ReqGraphMode2,
-                          long ReqGraphMode3);
 
 /*****************************************************************************
  *
