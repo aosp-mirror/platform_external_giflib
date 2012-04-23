@@ -144,9 +144,7 @@ int main(int argc, char **argv)
 #endif /* __MSDOS__ */
     }
 
-#ifdef __MSDOS__
     setvbuf(stdin, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE);
-#endif /* __MSDOS__ */
 
     /* Conver Raw image from stdin to Gif file in stdout: */
     Raw2Gif(ImageWidth, ImageHeight, ColorMap);

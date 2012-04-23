@@ -121,10 +121,9 @@ DGifOpenFileHandle(int FileHandle) {
 
     f = fdopen(FileHandle, "rb");    /* Make it into a stream: */
 
-#if defined(__MSDOS__) || defined(WINDOWS32)
+    /* MSDOS and Windows32 requires this, no reason not to do it under Unix */
     setvbuf(f, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE);    /* And inc. stream
                                                           buffer. */
-#endif /* __MSDOS__ */
 
     GifFile->Private = (void *)Private;
     Private->FileHandle = FileHandle;

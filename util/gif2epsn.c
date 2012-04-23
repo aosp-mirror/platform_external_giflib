@@ -393,12 +393,10 @@ static void DumpScreen2Epsn(GifRowType *ScreenBuffer,
                     GIF_EXIT("Failed to open output (printer) file.");
                 }
 
-#ifdef __MSDOS__
                 if (setvbuf(Prt, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE))
                 {
-                    GIF_EXIT("Failed to open output (printer) file.");
+                    GIF_EXIT("Failed to set buffering (printer) file.");
                 }
-#endif
         }
     }
 

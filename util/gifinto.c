@@ -92,12 +92,10 @@ int main(int argc, char **argv)
         GIF_EXIT("Failed to open input.");
     }
 
-#ifdef __MSDOS__
     if (setvbuf(Fin, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE)) /* Incr. stream buf.*/
     {
-        GIF_EXIT("Failed to open input.");
+        GIF_EXIT("Failed to set buffering on input.");
     }
-#endif
 
     /* Isolate the directory where our destination is, and set tmp file name */
     /* in the very same directory.					     */
@@ -124,12 +122,10 @@ int main(int argc, char **argv)
 	GIF_EXIT("Failed to open output.");
     }
 
-#ifdef __MSDOS__
     if (setvbuf(Fout, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE)) /*Incr. stream buf.*/
     {
-	GIF_EXIT("Failed to open output.");
+	GIF_EXIT("Failed to set buffering on output.");
     }
-#endif /* __MSDOS__ */
 
     while (!feof(Fin)) {
 	if (putc(getc(Fin), Fout) == EOF)
