@@ -65,11 +65,7 @@ DGifOpenFileName(const char *FileName) {
     int FileHandle;
     GifFileType *GifFile;
 
-    if ((FileHandle = open(FileName, O_RDONLY
-#if defined(__MSDOS__) || defined(WINDOWS32) || defined(_OPEN_BINARY)
-                           | O_BINARY
-#endif /* __MSDOS__ || _OPEN_BINARY */
-         )) == -1) {
+    if ((FileHandle = open(FileName, O_RDONLY)) == -1) {
         _GifError = D_GIF_ERR_OPEN_FAILED;
         return NULL;
     }
