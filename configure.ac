@@ -68,7 +68,6 @@ AC_SUBST(X_CFLAGS)
 AC_SUBST(MATH_LIB)
 AC_SUBST(RLE_LIB)
 
-
 dnl Check for limits.h so we have a definition of INT_MAX
 AC_CHECK_HEADERS([limits.h], ,
                  AC_MSG_ERROR([giflib requires limits.h to be present in order to compile]))
@@ -81,15 +80,6 @@ AC_CHECK_HEADERS(stdint.h, ,
 
 AC_CHECK_HEADERS(stdarg.h, ,
 		 AC_MSG_ERROR([giflib 4.x must have stdarg.h to compile]))
-
-dnl Checks for typedefs, structures, and compiler characteristics.
-AC_C_CONST
-
-dnl Checks for library functions.
-AC_FUNC_MEMCMP
-AC_FUNC_SETVBUF_REVERSED
-AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(strdup)
 
 AC_CONFIG_FILES([
 util/Makefile
