@@ -16,10 +16,6 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #ifdef __MSDOS__
 #include <dos.h>
 #include <graphics.h>

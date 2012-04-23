@@ -26,10 +26,6 @@
 #include <fcntl.h>
 #include <stdbool.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #ifdef __MSDOS__
 #include <conio.h>
 #include <io.h>
