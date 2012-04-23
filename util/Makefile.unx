@@ -4,11 +4,11 @@
 #
 # To make test versions in the utils directory:
 #
-#	make -f makefile.unx [all] [rle] [iris]
+#	make -f makefile.unx [all] [rle]
 #
 # To install them in the /usr/bin directory:
 #
-#	make -f makefile.unx [install-all] [install-rle] [install-iris]
+#	make -f makefile.unx [install-all] [install-rle]
 #
 #				Eric Raymond, September 1992
 #
@@ -45,14 +45,6 @@ DEST = /usr/bin
 # CFLAGS = $(INC) -O -s -sun4 -W -Wreturn-type -Wcomment -DUSE_VARARGS
 # CFLAGS = $(INC) -g -sun4 -W -Wreturn-type -Wcomment -DUSE_VARARGS
 # XLIBS = -lX11
-
-# These are the flags for cc on SGI iris4d. O.S. IRIX 3.2. Note you must
-# define XLIBS as well.
-#
-# CC = cc
-# CFLAGS = $(INC) -O -s -DSYSV -DNO_VOID_PTR -Olimit 1000 -Wf,-XNh5000 -Wf,-XNd5000 -G 4
-# CFLAGS = $(INC) -g -p -DSYSV -DNO_VOID_PTR -Olimit 1000 -Wf,-XNh5000 -Wf,-XNd5000 -G 4
-# XLIBS = -lbsd -lX11
 
 # These are the flags for xlc, ansi compiler for IBM R6000
 #
@@ -96,13 +88,10 @@ BINARIES = gif2ps gif2rgb gif2x11 gifasm gifbg \
 
 RLE =   gif2rle rle2gif
 
-IRIS =  gif2iris
-
 SCRIPTS = gifcompose gifburst
 
 all: $(BINARIES)
 rle: $(RLE)
-iris: $(IRIS)
 
 install-all:
 	cp $(BINARIES) $(SCRIPTS) $(DEST)
@@ -110,21 +99,15 @@ install-all:
 install-rle:
 	cp $(RLE) $(DEST)
 
-install-iris:
-	cp $(IRIS) $(DEST)
-
 .c:
 	$(CC) $(CFLAGS) $< $(GIF_LIB) -lm $(LDFLAGS) -o $*
 
 uninstall-utils:
-	(cd $(DEST); rm -f $(BINARIES) $(RLE) $(IRIS) $(SCRIPTS))
-
-gif2iris: gif2iris.c
-	$(CC) gif2iris.c $(CFLAGS) $(LDFLAGS) -lgl_s -o gif2iris
+	(cd $(DEST); rm -f $(BINARIES) $(RLE) $(SCRIPTS))
 
 gif2x11: gif2x11.c
 	$(CC) gif2x11.c $(CFLAGS) -I$(X_INC_DIR) -L$(X_LIB_DIR) $(LDFLAGS) $(GIF_LIB) $(XLIBS) -o gif2x11
 
 
 clean:
-	rm -f $(BINARIES) $(RLE) $(IRIS)
+	rm -f $(BINARIES) $(RLE)

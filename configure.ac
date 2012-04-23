@@ -48,7 +48,7 @@ if test "x$enable_gl" != "xno" ; then
   AC_CHECK_HEADERS([gl/gl.h],
     AC_CHECK_LIB(gl_s, main, [GL_S_LIB="${GL_S_LIB} -lgl_s $X_LIBS"
                  AC_DEFINE(HAVE_LIBGL_S, [1], [Define if the gl_s library is installed (SGI GL library)])
-		 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2iris${EXEEXT}"],, $X_LIBS))
+		 ],, $X_LIBS))
 fi
 
 if test "x$enable_x11" != "xno" ; then
