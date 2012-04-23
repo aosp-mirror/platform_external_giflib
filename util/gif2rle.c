@@ -38,13 +38,6 @@ extern unsigned int
     _stklen = 16384;			     /* Increase default stack size. */
 #endif /* __MSDOS__ */
 
-#ifdef SYSV
-static char *VersionStr =
-        "Gif toolkit module,\t\tGershon Elber\n\
-	(C) Copyright 1989 Gershon Elber.\n";
-static char
-    *CtrlStr = "Gif2Rle q%- a%- h%- GifFile!*s";
-#else
 static char
     *VersionStr =
 	PROGRAM_NAME
@@ -56,7 +49,6 @@ static char
     *CtrlStr =
 	PROGRAM_NAME
 	" q%- a%- h%- GifFile!*s";
-#endif /* SYSV */
 
 /* Make some variables global, so we could access them faster: */
 static int

@@ -31,13 +31,6 @@ extern unsigned int
     _stklen = 16384;			     /* Increase default stack size. */
 #endif /* __MSDOS__ */
 
-#ifdef SYSV
-static char *VersionStr =
-        "Gif compiler,\t\tEric S. Raymond\n\
-	(C) Copyright 1992 Eric S. Raymond, all rights reserved.\n";
-static char
-    *CtrlStr = "GifOvly t%-TransparentColor!d h%-";
-#else
 static char
     *VersionStr =
 	PROGRAM_NAME
@@ -49,7 +42,6 @@ static char
     *CtrlStr =
 	PROGRAM_NAME
 	" t%-TransparentColor!d h%-";
-#endif /* SYSV */
 
 int main(int argc, char **argv)
 {

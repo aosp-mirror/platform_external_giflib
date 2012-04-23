@@ -32,13 +32,6 @@ extern unsigned int
     _stklen = 16384;			     /* Increase default stack size. */
 #endif /* __MSDOS__ */
 
-#ifdef SYSV
-static char *VersionStr =
-        "Gif compiler,\t\tEric S. Raymond\n\
-	(C) Copyright 1992 Eric S. Raymond, all rights reserved.\n";
-static char
-    *CtrlStr = "GifAsm q%- d%- t%-Characters!s h%- GifFile(s)!*s";
-#else
 static char
     *VersionStr =
 	PROGRAM_NAME
@@ -50,7 +43,6 @@ static char
     *CtrlStr =
 	PROGRAM_NAME
 	" q%- d%- t%-Characters!s h%- GifFile(s)!*s";
-#endif /* SYSV */
 
 static char KeyLetters[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:<=>?@[\\]^_`{|}~";
 #define PRINTABLES	(sizeof(KeyLetters) - 1)

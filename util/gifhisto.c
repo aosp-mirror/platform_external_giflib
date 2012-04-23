@@ -39,13 +39,6 @@ extern unsigned int
     _stklen = 16384;			     /* Increase default stack size. */
 #endif /* __MSDOS__ */
 
-#ifdef SYSV
-static char *VersionStr =
-        "Gif toolkit module,\t\tGershon Elber\n\
-	(C) Copyright 1989 Gershon Elber.\n";
-static char
-    *CtrlStr = "GifHisto q%- t%- s%-Width|Height!d!d n%-ImageNumber!d b%- h%- GifFile!*s";
-#else
 static char
     *VersionStr =
 	PROGRAM_NAME
@@ -57,7 +50,6 @@ static char
     *CtrlStr =
 	PROGRAM_NAME
 	" q%- t%- s%-Width|Height!d!d n%-ImageNumber!d b%- h%- GifFile!*s";
-#endif /* SYSV */
 
 static int
     ImageWidth = DEFAULT_HISTO_WIDTH,

@@ -39,13 +39,6 @@ extern unsigned int
     _stklen = 16384;			     /* Increase default stack size. */
 #endif /* __MSDOS__ */
 
-#ifdef SYSV
-static char *VersionStr =
-        "Gif toolkit module,\t\tGershon Elber\n\
-	(C) Copyright 1989 Gershon Elber.\n";
-static char
-    *CtrlStr = "GifClrMp q%- s%- t%-TranslationFile!s l%-ColorMapFile!s g%-Gamma!F i%-Image#!d h%- GifFile!*s";
-#else
 static char
     *VersionStr =
 	PROGRAM_NAME
@@ -57,7 +50,6 @@ static char
     *CtrlStr =
 	PROGRAM_NAME
 	" q%- s%- t%-TranslationFile!s l%-ColorMapFile!s g%-Gamma!F i%-Image#!d h%- GifFile!*s";
-#endif /* SYSV */
 
 static bool
     SaveFlag = false,

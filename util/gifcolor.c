@@ -33,13 +33,6 @@ extern unsigned int
     _stklen = 16384;			     /* Increase default stack size. */
 #endif /* __MSDOS__ */
 
-#ifdef SYSV
-static char *VersionStr =
-        "Gif library module	\t\tGershon Elber\n\
-	(C) Copyright 1989 Gershon Elber.\n";
-static char
-    *CtrlStr = "GifColor q%- b%-Background!d h%-";
-#else
 static char
     *VersionStr =
 	PROGRAM_NAME
@@ -49,7 +42,6 @@ static char
 	"(C) Copyright 1989 Gershon Elber.\n";
 static char
     *CtrlStr = PROGRAM_NAME " q%- b%-Background!d h%-";
-#endif /* SYSV */
 
 static int BackGround = 0;
 static void QuitGifError(GifFileType *GifFile);
