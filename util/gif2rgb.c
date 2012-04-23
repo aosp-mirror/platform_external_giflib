@@ -29,7 +29,6 @@
 #include <graphics.h>
 #include <io.h>
 #include <dos.h>
-#include <bios.h>
 #endif /* __MSDOS__ */
 
 #include "gif_lib.h"

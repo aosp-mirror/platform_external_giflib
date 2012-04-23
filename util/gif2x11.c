@@ -31,7 +31,6 @@
 #include <graphics.h>
 #include <io.h>
 #include <dos.h>
-#include <bios.h>
 #endif /* __MSDOS__ */
 
 #ifdef HAVE_LIBX11
