@@ -26,11 +26,6 @@ Deprecation list.  Will be removed in giflib 5.0:
   instead.  (This and the previous int Function were deprecated because they
   only handle one Extension per image.  The new code handles multiple
   extensions.)
-* varargs style interface in qprintf and getarg: It's a mistake to have two
-  different interfaces that depend on compile time choices between varargs
-  and stdargs.  The future is to get rid of varargs style altogether.
-  (Also: these are probably going strictly into the utility functions so
-  the library won't have to worry about them at all.)
 ====
 
 I have found that automake currently generates Makefile's containing some
@@ -44,4 +39,3 @@ you should read the DEVELOPER file for hints on recreating the distribution
 using these tools.
 
 Good luck!
--Toshio Kuratomi <toshio@tiki-lounge.com>
