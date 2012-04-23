@@ -8,6 +8,13 @@ Code Fixes
 * Code updated internally to C99 to enable more correctness checks by
   the compiler. Compiles under GCC 4.6.1 without errors.
 
+Retirements
+-----------
+* The gif2epsn and gif2iris utilities are gone.  They were full of
+  platform dependencies for platforms long dead.  There are enough
+  platform-independent GIF viewers in the world that these weren't
+  adding any value.
+
 Version 4.1.6
 =============
 Brown paper bag release.  Fix a problem with header inclusion that could
