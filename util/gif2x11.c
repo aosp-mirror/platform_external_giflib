@@ -27,12 +27,6 @@
 #include <config.h>
 #endif
 
-#ifdef __MSDOS__
-#include <graphics.h>
-#include <io.h>
-#include <dos.h>
-#endif /* __MSDOS__ */
-
 #ifdef HAVE_LIBX11
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -46,11 +40,6 @@
 
 #define ICON_SIZE	60
 #define ABS(x)		((x) > 0 ? (x) : (-(x)))
-
-#ifdef __MSDOS__
-extern unsigned int
-    _stklen = 16384;			     /* Increase default stack size. */
-#endif /* __MSDOS__ */
 
 static char
     *VersionStr =
@@ -146,9 +135,6 @@ int main(int argc, char **argv)
     else {
 	/* Use the stdin instead: */
 
-#ifdef __MSDOS__
-	setmode(0, O_BINARY);
-#endif /* __MSDOS__ */
 	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
 	    PrintGifError();
 	    exit(EXIT_FAILURE);
