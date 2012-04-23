@@ -68,14 +68,6 @@ AC_SUBST(X_CFLAGS)
 AC_SUBST(MATH_LIB)
 AC_SUBST(RLE_LIB)
 
-AC_HEADER_STDC
-dnl * HEADER_STDC checks for stdargs.h so this is a bit redundant.
-dnl * The code will prefer stdargs.h if available.
-dnl   If not available, we will try to fallback to using varargs.h
-AC_CHECK_HEADERS([stdarg.h varargs.h], break, [])
-if test x"$ac_cv_header_stdarg_h" != "xyes" -a x"$ac_cv_header_varargs_h" != "xyes" ; then
-	AC_MSG_ERROR([giflib 4.x must have stdarg.h or varargs.h])
-fi
 
 dnl Check for limits.h so we have a definition of INT_MAX
 AC_CHECK_HEADERS([limits.h], ,
@@ -86,6 +78,9 @@ AC_CHECK_HEADERS(fcntl.h, ,
 
 AC_CHECK_HEADERS(stdint.h, ,
 		 AC_MSG_ERROR([giflib 4.x must have stdint.h to compile]))
+
+AC_CHECK_HEADERS(stdarg.h, ,
+		 AC_MSG_ERROR([giflib 4.x must have stdarg.h to compile]))
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

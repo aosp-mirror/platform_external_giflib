@@ -63,7 +63,6 @@ Theoretical release 5.0
 API changes:
    - GifBooleanType and VoidPtr go away in favor of C99 constructs
    - bool args to EGifOpenFileName() and EGifPutImageDesc() become bools.
-   - Drop vararegs support, it's pre-POSIX.
 
 Move utilities into a separate package.
   - Move GIF_ERROR and GIF_MESSAGE from gif_lib.h into getarg.

@@ -100,17 +100,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
- 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#ifdef HAVE_STDARG_H
 #include <stdarg.h>
-#elif defined(HAVE_VARARGS_H)
-#include <varargs.h>
-#endif
-
+ 
 #include "getarg.h"
 
 #ifndef MYMALLOC
@@ -149,10 +140,9 @@ static char *MyMalloc(unsigned size);
 #endif /* MYMALLOC */
 
 /***************************************************************************
- * Routine to access the    command    line argument and interpret them:       
- * Return ARG_OK (0) is case of succesfull parsing, error code else...       
+ * Routine to access the command line argument and interpret them:       
+ * Return ARG_OK (0) is case of successful parsing, error code else...       
  **************************************************************************/
-#ifdef HAVE_STDARG_H
 int
 GAGetArgs(int argc,
         char **argv,
@@ -169,33 +159,6 @@ GAGetArgs(int argc,
     for (i = 1; i <= MAX_PARAM; i++)
         Parameters[i - 1] = va_arg(ap, int *);
     va_end(ap);
-
-#elif defined(HAVE_VARARGS_H)
-int GAGetArgs(va_alist)
-    va_dcl
-{
-    va_list ap;
-    int argc, i, ParamCount = 0;
-    bool Error = false;
-    int *Parameters[MAX_PARAM];     /* Save here parameter addresses. */
-    char **argv, *CtrlStr, *Option, CtrlStrCopy[CTRL_STR_MAX_LEN];
-
-    va_start(ap);
-
-    argc = va_arg(ap, int);
-    argv = va_arg(ap, char **);
-    CtrlStr = va_arg(ap, char *);
-
-    va_end(ap);
-
-    strcpy(CtrlStrCopy, CtrlStr);
-
-    /* Using base address of parameters we access other parameters addr:
-     * Note that me (for sure!) samples data beyond the current function
-     * frame, but we accesson these set address only by demand. */
-    for (i = 1; i <= MAX_PARAM; i++)
-        Parameters[i - 1] = va_arg(ap, int *);
-#endif /* HAVE_STDARG_H */
 
     --argc;
     argv++;    /* Skip the program name (first in argv/c list). */

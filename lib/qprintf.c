@@ -10,19 +10,14 @@
  * 12 May 91 - Version 1.0 by Gershon Elber.
  *****************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 #include <stdio.h>
 #include <stdbool.h>
-
-#ifdef HAVE_STDARG_H
 #include <stdarg.h>
-#elif defined (HAVE_VARARGS_H)
-#include <varargs.h>
-#endif /* HAVE_STDARG_H */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 #include "gif_lib.h"
 
 #ifdef __MSDOS__
@@ -34,26 +29,13 @@ int GifQuietPrint = TRUE;
 /*****************************************************************************
  * Same as fprintf to stderr but with optional print.
  *****************************************************************************/
-#ifdef HAVE_STDARG_H
 void
 GifQprintf(char *Format, ...) {
     char Line[128];
     va_list ArgPtr;
 
     va_start(ArgPtr, Format);
-#else
-#  ifdef HAVE_VARARGS_H
-void
-GifQprintf(va_alist)
-           va_dcl
-{
-    char *Format, Line[128];
-    va_list ArgPtr;
 
-    va_start(ArgPtr);
-    Format = va_arg(ArgPtr, char *);
-#  endif /* HAVE_VARARGS_H */
-#endif /* HAVE_STDARG_H */
     if (GifQuietPrint)
         return;
 

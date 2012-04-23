@@ -225,12 +225,7 @@ int QuantizeBuffer(unsigned int Width, unsigned int Height,
  * O.K., here are the routines from GIF_LIB file QPRINTF.C.              
 ******************************************************************************/
 extern int GifQuietPrint;
-
-#ifdef HAVE_STDARG_H
-    extern void GifQprintf(char *Format, ...);
-#elif defined (HAVE_VARARGS_H)
-    extern void GifQprintf();
-#endif /* HAVE_STDARG_H */
+extern void GifQprintf(char *Format, ...);
 
 /******************************************************************************
  * O.K., here are the routines from GIF_LIB file GIF_ERR.C.              

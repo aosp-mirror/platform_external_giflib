@@ -16,12 +16,7 @@
 #define CMD_ERR_NumRead   4    /* Failed on reading number. */
 #define CMD_ERR_AllSatis  5    /* Fail to satisfy (must-'!') option. */
 
-#ifdef HAVE_STDARG_H
 int GAGetArgs(int argc, char **argv, char *CtrlStr, ...);
-#elif defined (HAVE_VARARGS_H)
-int GAGetArgs(int va_alist, ...);
-#endif /* HAVE_STDARG_H */
-
 void GAPrintErrMsg(int Error);
 void GAPrintHowTo(char *CtrlStr);
 
