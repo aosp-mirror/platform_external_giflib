@@ -25,12 +25,6 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-#ifdef __MSDOS__
-#include <graphics.h>
-#include <io.h>
-#include <dos.h>
-#endif /* __MSDOS__ */
-
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -129,9 +123,6 @@ int main(int argc, char **argv)
     else {
 	/* Use the stdin instead: */
 
-#ifdef __MSDOS__
-	setmode(0, O_BINARY);
-#endif /* __MSDOS__ */
 	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
 	    PrintGifError();
 	    exit(EXIT_FAILURE);
