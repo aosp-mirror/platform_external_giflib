@@ -3,7 +3,7 @@
  *
  * Written by:  Gershon Elber            IBM PC Ver 0.1,    Jun. 1989
  ******************************************************************************
- * Module to quatize high resolution image into lower one. You may want to
+ * Module to quantize high resolution image into lower one. You may want to
  * peek into the following article this code is based on:
  * "Color Image Quantization for frame buffer Display", by Paul Heckbert
  * SIGGRAPH 1982 page 297-307.
@@ -15,28 +15,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#ifdef __MSDOS__
-#include <dos.h>
-#include <graphics.h>
-#endif /* __MSDOS__ */
-
 #include "gif_lib.h"
 #include "gif_lib_private.h"
 
 #define ABS(x)    ((x) > 0 ? (x) : (-(x)))
 
-/* The colors are stripped to 5 bits per primary color if non MSDOS system
- * or to 4 (not enough memory...) if MSDOS as first step.
- */
-#ifdef __MSDOS__
-#define COLOR_ARRAY_SIZE 4096
-#define BITS_PER_PRIM_COLOR 4
-#define MAX_PRIM_COLOR      0x0f
-#else
 #define COLOR_ARRAY_SIZE 32768
 #define BITS_PER_PRIM_COLOR 5
 #define MAX_PRIM_COLOR      0x1f
-#endif /* __MSDOS__ */
 
 static int SortRGBAxis;
 
