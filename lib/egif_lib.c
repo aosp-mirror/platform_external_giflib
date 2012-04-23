@@ -65,17 +65,11 @@ EGifOpenFileName(const char *FileName,
     GifFileType *GifFile;
 
     if (TestExistance)
-        FileHandle = open(FileName, O_WRONLY | O_CREAT | O_EXCL
-#if defined(__MSDOS__) || defined(WINDOWS32) || defined(_OPEN_BINARY)
-                          | O_BINARY
-#endif /* __MSDOS__ */
-                          , S_IREAD | S_IWRITE);
+        FileHandle = open(FileName, O_WRONLY | O_CREAT | O_EXCL, 
+			  S_IREAD | S_IWRITE);
     else
-        FileHandle = open(FileName, O_WRONLY | O_CREAT | O_TRUNC
-#if defined(__MSDOS__) || defined(WINDOWS32) || defined(_OPEN_BINARY)
-                          | O_BINARY
-#endif /* __MSDOS__ */
-                          , S_IREAD | S_IWRITE);
+        FileHandle = open(FileName, O_WRONLY | O_CREAT | O_TRUNC, 
+			  S_IREAD | S_IWRITE);
 
     if (FileHandle == -1) {
         _GifError = E_GIF_ERR_OPEN_FAILED;
