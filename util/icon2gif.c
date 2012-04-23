@@ -16,12 +16,6 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-#ifdef __MSDOS__
-#include <dos.h>
-#include <graphics.h>
-#include <io.h>
-#endif /* __MSDOS__ */
-
 #include "gif_lib.h"
 #include "getarg.h"
 

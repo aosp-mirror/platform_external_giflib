@@ -23,9 +23,7 @@
 #include <stdbool.h>
 
 #ifdef __MSDOS__
-#include <graphics.h>
 #include <io.h>
-#include <dos.h>
 #endif /* __MSDOS__ */
 
 #include "gif_lib.h"
@@ -140,10 +138,6 @@ static void LoadRGB(char *FileName,
     FILE *f[3];
 
     Size = ((long) Width) * Height * sizeof(GifByteType);
-#ifdef __MSDOS__
-    if (Size > 65500L)
-	GIF_EXIT("Can't allocate more than 64k.");
-#endif /* __MSDOS__ */
 
     if ((*RedBuffer = (GifByteType *) malloc((unsigned int) Size)) == NULL ||
 	(*GreenBuffer = (GifByteType *) malloc((unsigned int) Size)) == NULL ||
