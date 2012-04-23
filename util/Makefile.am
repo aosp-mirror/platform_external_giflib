@@ -1,5 +1,5 @@
 
-bin_PROGRAMS = gif2epsn gif2ps gif2rgb gifasm gifbg gifclip gifcomb \
+bin_PROGRAMS = gif2ps gif2rgb gifasm gifbg gifclip gifcomb \
     giffix gifflip gifhisto gifinter gifinto gifovly gifpos gifrsize \
     giftext gifwedge raw2gif rgb2gif text2gif gifspnge giffiltr \
     icon2gif gifcolor gifinfo @COMPILABLE_EXTRAS@
@@ -32,7 +32,6 @@ gifrotat_SOURCES = gifrotat.c
 gifrotat_LDADD = $(LDADD) @MATH_LIB@
 
 gifinfo_SOURCES = gifinfo.c
-gif2epsn_SOURCES = gif2epsn.c
 gif2ps_SOURCES = gif2ps.c
 gif2rgb_SOURCES = gif2rgb.c
 gifasm_SOURCES = gifasm.c
