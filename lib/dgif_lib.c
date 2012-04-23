@@ -103,7 +103,7 @@ DGifOpenFileName(const char *FileName) {
 GifFileType *
 DGifOpenFileHandle(int FileHandle) {
 
-    unsigned char Buf[GIF_STAMP_LEN + 1];
+    char Buf[GIF_STAMP_LEN + 1];
     GifFileType *GifFile;
     GifFilePrivateType *Private;
     FILE *f;
@@ -143,7 +143,7 @@ DGifOpenFileHandle(int FileHandle) {
     GifFile->UserData = 0;    /* TVT */
 
     /* Lets see if this is a GIF file: */
-    if (READ(GifFile, Buf, GIF_STAMP_LEN) != GIF_STAMP_LEN) {
+    if (READ(GifFile, (unsigned char *)Buf, GIF_STAMP_LEN) != GIF_STAMP_LEN) {
         _GifError = D_GIF_ERR_READ_FAILED;
         fclose(f);
         free((char *)Private);
@@ -183,7 +183,7 @@ GifFileType *
 DGifOpen(void *userData,
          InputFunc readFunc) {
 
-    unsigned char Buf[GIF_STAMP_LEN + 1];
+    char Buf[GIF_STAMP_LEN + 1];
     GifFileType *GifFile;
     GifFilePrivateType *Private;
 
@@ -211,7 +211,7 @@ DGifOpen(void *userData,
     GifFile->UserData = userData;    /* TVT */
 
     /* Lets see if this is a GIF file: */
-    if (READ(GifFile, Buf, GIF_STAMP_LEN) != GIF_STAMP_LEN) {
+    if (READ(GifFile, (unsigned char *)Buf, GIF_STAMP_LEN) != GIF_STAMP_LEN) {
         _GifError = D_GIF_ERR_READ_FAILED;
         free((char *)Private);
         free((char *)GifFile);
