@@ -29,6 +29,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -70,8 +72,8 @@ static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, l, Error, GifQuietPrint, ColorMapSize,
-	BackGroundFlag = FALSE, HelpFlag = FALSE;
+    int	i, j, l, Error, GifQuietPrint, ColorMapSize;
+    bool BackGroundFlag = false, HelpFlag = false;
     char Line[LINE_LEN];
     GifRowType RasterBuffer[GIF_FONT_HEIGHT];
     ColorMapObject *ColorMap;
@@ -82,7 +84,7 @@ int main(int argc, char **argv)
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 			   &GifQuietPrint,
 			   &BackGroundFlag, &BackGround,
-			   &HelpFlag)) != FALSE) {
+			   &HelpFlag)) != false) {
 	GAPrintErrMsg(Error);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_FAILURE);

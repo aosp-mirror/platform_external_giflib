@@ -31,6 +31,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -70,8 +72,8 @@ static void QuitGifError(GifFileType *GifFileIn1, GifFileType *GifFileIn2,
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, Error, NumFiles, Size,
-	MaskFlag = FALSE, HelpFlag = FALSE;
+    int	i, j, Error, NumFiles, Size;
+    bool MaskFlag = false, HelpFlag = false;
     char **FileName = NULL, *MaskFileName;
     GifPixelType ColorTransIn2[256];
     GifRowType LineIn1 = NULL, LineIn2 = NULL, LineMask = NULL, LineOut = NULL;
@@ -82,7 +84,7 @@ int main(int argc, char **argv)
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&GifQuietPrint, &MaskFlag, &MaskFileName,
-		&HelpFlag, &NumFiles, &FileName)) != FALSE ||
+		&HelpFlag, &NumFiles, &FileName)) != false ||
 		(NumFiles != 2 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);

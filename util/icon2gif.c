@@ -27,6 +27,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -62,12 +64,12 @@ static char KeyLetters[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP
 
 static int HandleGifError(GifFileType *GifFile);
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
-#if FALSE
+#if __UNUSED__
 /* Apparently this is an unimplemented function of the program */
 static int MergeImage(GifFileType *BaseFile,
 		       GifFileType *Inclusion,
 		      SavedImage *NewImage);
-#endif
+#endif /* __UNUSED__ */
 static void Icon2Gif(char *FileName, FILE *txtin, int fdout);
 static void Gif2Icon(char *FileName,
 		     int fdin, int fdout,
@@ -80,14 +82,14 @@ static int EscapeString(char *cp, char *tp);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, Error, NumFiles,
-	DisasmFlag = FALSE, HelpFlag = FALSE, TextLineFlag = FALSE;
+    int	i, NumFiles;
+    bool Error,	DisasmFlag = false, HelpFlag = false, TextLineFlag = false;
     char **FileNames = NULL;
     char *TextLines[1];
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&GifQuietPrint, &DisasmFlag, &TextLineFlag, &TextLines[0],
-		&HelpFlag, &NumFiles, &FileNames)) != FALSE) {
+		&HelpFlag, &NumFiles, &FileNames)) != false) {
 	GAPrintErrMsg(Error);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_FAILURE);

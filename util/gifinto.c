@@ -34,6 +34,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -77,15 +79,15 @@ static int
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	Error, NumFiles,
-	MinSizeFlag = FALSE, HelpFlag = FALSE;
+    int	NumFiles;
+    bool Error, MinSizeFlag = false, HelpFlag = false;
     char **FileName = NULL,
         TmpName[80], FoutTmpName[80], FullPath[80], DefaultName[80], s[80], *p;
     FILE *Fin, *Fout;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
 		&MinSizeFlag, &MinFileSize, &HelpFlag,
-		&NumFiles, &FileName)) != FALSE ||
+		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);

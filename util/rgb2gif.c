@@ -37,6 +37,8 @@
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -69,11 +71,12 @@ static char
 
 /* Make some variables global, so we could access them faster: */
 static int
-    ColorFlag = FALSE,
     ExpNumOfColors = 8,
-    OneFileFlag = FALSE,
-    HelpFlag = FALSE,
     ColorMapSize = 256;
+static bool
+    ColorFlag = false,
+    OneFileFlag = false,
+    HelpFlag = false;
 
 static void LoadRGB(char *FileName,
 		    int OneFileFlag,
@@ -100,7 +103,7 @@ int main(int argc, char **argv)
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
 		&ColorFlag, &ExpNumOfColors, &OneFileFlag,
 		&SizeFlag, &Width, &Height, &HelpFlag,
-		&NumFiles, &FileName)) != FALSE ||
+		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);
@@ -195,7 +198,7 @@ static void LoadRGB(char *FileName,
 	}
     }
     else {
-	OneFileFlag = TRUE;
+	OneFileFlag = true;
 
 #ifdef __MSDOS__
 	setmode(0, O_BINARY);

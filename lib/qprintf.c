@@ -15,6 +15,7 @@
 #endif
 
 #include <stdio.h>
+#include <stdbool.h>
 
 #ifdef HAVE_STDARG_H
 #include <stdarg.h>

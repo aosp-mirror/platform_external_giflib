@@ -37,6 +37,8 @@
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -71,8 +73,8 @@ static char
 #endif /* SYSV */
 
 /* Make some variables global, so we could access them faster: */
-static int
-    HelpFlag = FALSE;
+static bool
+    HelpFlag = false;
 
 /******************************************************************************
 * Interpret the command line and scan the given GIF file.		      *
@@ -88,7 +90,7 @@ int main(int argc, char **argv)
     GifFileType  *GifFile;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &NumFormats, &Format,
-                           &HelpFlag, &NumFiles, &FileName)) != FALSE ||
+                           &HelpFlag, &NumFiles, &FileName)) != false ||
         (NumFiles > 1 && !HelpFlag)) {
         if (Error)
             GAPrintErrMsg(Error);

@@ -30,6 +30,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -63,11 +65,12 @@ static char
 /* Make some variables global, so we could access them faster: */
 static int
     ImageNum = 0,
-    SequencialFlag = FALSE,
-    InterlacedFlag = FALSE,
-    HelpFlag = FALSE,
     InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
     InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
+static bool
+    SequencialFlag = false,
+    InterlacedFlag = false,
+    HelpFlag = false;
 
 static int LoadImage(GifFileType *GifFile, GifRowType **ImageBuffer);
 static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer);
@@ -87,7 +90,7 @@ int main(int argc, char **argv)
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
 		&InterlacedFlag, &SequencialFlag, &HelpFlag,
-		&NumFiles, &FileName)) != FALSE ||
+		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);

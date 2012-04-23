@@ -37,6 +37,8 @@
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
+#include <stdbool.h>
+
 #include "getarg.h"
 #include "gif_lib.h"
 
@@ -96,9 +98,10 @@ static int HandleGifError(GifFileType *GifFile);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	Error, NumFiles, ImageWidth, ImageHeight, Dummy, Red, Green, Blue,
-	ColorMapSize, InFileHandle,
-	ImageSizeFlag = FALSE, ColorMapFlag = FALSE, HelpFlag = FALSE;
+    int	NumFiles, ImageWidth, ImageHeight, Dummy, Red, Green, Blue,
+	ColorMapSize, InFileHandle;
+    static bool Error,
+	ImageSizeFlag = false, ColorMapFlag = false, HelpFlag = false;
     char **FileName = NULL, *ColorMapFile;
     ColorMapObject *ColorMap;
     FILE *InColorMapFile;
@@ -107,7 +110,7 @@ int main(int argc, char **argv)
 		&ImageSizeFlag, &ImageWidth, &ImageHeight,
 		&ColorMapFlag, &ColorMapFile,
 		&HelpFlag,
-		&NumFiles, &FileName)) != FALSE ||
+		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);

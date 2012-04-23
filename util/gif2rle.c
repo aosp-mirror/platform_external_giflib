@@ -29,6 +29,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
@@ -68,11 +70,12 @@ static char
 static int
     ImageNum = 0,
     BackGround = 0,
-    AlphaFlag = FALSE,
-    HelpFlag = FALSE,
     ColorMapSize = 0,
     InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
-    InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
+    InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... *
+static bool
+    AlphaFlag = false,
+    HelpFlag = false;
 static ColorMapObject
     *ColorMap;
 
@@ -92,7 +95,7 @@ int main(int argc, char **argv)
     GifFileType *GifFile;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
-		&AlphaFlag, &HelpFlag, &NumFiles, &FileName)) != FALSE ||
+		&AlphaFlag, &HelpFlag, &NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);

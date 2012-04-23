@@ -31,6 +31,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -78,8 +80,8 @@ static void QuitGifError(GifFileType *GifFile);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, l, c, Error, LevelStep, LogNumLevels,
-	Count = 0, LevelsFlag = FALSE, SizeFlag = FALSE, HelpFlag = FALSE;
+    int	i, j, l, c, LevelStep, LogNumLevels, Count = 0; 
+    bool Error, LevelsFlag = false, SizeFlag = false, HelpFlag = false;
     GifRowType Line;
     ColorMapObject *ColorMap;
     GifFileType *GifFile;
@@ -87,7 +89,7 @@ int main(int argc, char **argv)
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&GifQuietPrint, &LevelsFlag, &NumLevels,
 		&SizeFlag, &ImageWidth, &ImageHeight,
-		&HelpFlag)) != FALSE) {
+		&HelpFlag)) != false) {
 	GAPrintErrMsg(Error);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_FAILURE);

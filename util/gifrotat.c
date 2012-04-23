@@ -37,6 +37,8 @@
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -89,13 +91,13 @@ static void QuitGifError(GifFileType *DstGifFile);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, Size, Error, NumFiles, Col, Row, Count, ExtCode,
+    int	i, j, Size, NumFiles, Col, Row, Count, ExtCode,
 	DstWidth, DstHeight, Width, Height,
-	ImageNum = 0,
-	DstSizeFlag = FALSE,
-	AngleFlag = FALSE,
-	Angle = 0,
-	HelpFlag = FALSE;
+	ImageNum = 0, Angle = 0;
+    bool Error,
+	DstSizeFlag = false,
+	AngleFlag = false,
+	HelpFlag = false;
     char **FileName = NULL;
     GifRecordType RecordType;
     GifByteType *Extension;
@@ -106,7 +108,7 @@ int main(int argc, char **argv)
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&AngleFlag, &Angle, &GifQuietPrint,
 		&DstSizeFlag, &DstWidth, &DstHeight, &HelpFlag,
-		&NumFiles, &FileName)) != FALSE ||
+		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);

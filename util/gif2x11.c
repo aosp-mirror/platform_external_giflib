@@ -41,6 +41,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
@@ -78,16 +80,17 @@ static char
 
 /* Make some variables global, so we could access them faster: */
 static int
-    PosFlag = FALSE,
-    HelpFlag = FALSE,
-    DisplayFlag = FALSE,
-    ForceFlag = FALSE,
     ColorMapSize = 0,
     BackGround = 0,
     XPosX = 0,
     XPosY = 0,
     InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
     InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
+static bool
+    PosFlag = false,
+    HelpFlag = false,
+    DisplayFlag = false,
+    ForceFlag = false;
 static char
     *DisplayName = NULL;
 static ColorMapObject
@@ -132,7 +135,7 @@ int main(int argc, char **argv)
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&GifQuietPrint, &PosFlag, &XPosX, &XPosY,
 	        &DisplayFlag, &DisplayName, &ForceFlag,
-		&HelpFlag, &NumFiles, &FileName)) != FALSE ||
+		&HelpFlag, &NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);
@@ -424,7 +427,7 @@ static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
 				XImageData, ScreenWidth, ScreenHeight,
                  BitmapPad(XDisplay), ScreenWidth*BYTESPERPIXEL);
 
-    while (TRUE) {
+    while (true) {
 	XNextEvent(XDisplay, &Event);
 	switch (Event.type) {
 	    case Expose:
@@ -504,7 +507,7 @@ static void AllocateColors2(void)
     int i, j, Index = 0, Count = 0, XNumOfColors;
     char Msg[80];
     unsigned long D, Distance, AvgDistance = 0, Red, Green, Blue;
-    GifBooleanType Failed = FALSE;
+    bool Failed = false;
     XColor *XOldColorTable;
 
     for (i = 0; i < 256; i++) {
@@ -523,7 +526,7 @@ static void AllocateColors2(void)
 	if (XAllocColor(XDisplay, XColorMap, &XColorTable[i]))
 	    XPixelTable[i] = XColorTable[i].pixel;
 	else
-	    Failed = TRUE;
+	    Failed = true;
 
     if (Failed) {
 	XNumOfColors = DisplayCells(XDisplay, XScreen);

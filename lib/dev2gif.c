@@ -37,6 +37,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 
 #define SVGA_SPECIAL 999    /* 800 by 600 Super VGA mode. */
@@ -121,7 +123,8 @@ DumpScreen2Gif(const char *FileName,
                long ReqGraphMode2,
                long ReqGraphMode3) {
 
-    int i, j, k;
+    int i, j;
+    bool k;
     GifPixelType *ScanLine;
     GifFileType *GifFile;
     ColorMapObject *ColorMap = NULL;
@@ -265,7 +268,7 @@ DumpScreen2Gif(const char *FileName,
           /* Scan the image for all different colors exists. */
           for (i = 0; i < 256; i++)
               XColorTable[i].pixel = 0;
-          k = FALSE;
+          k = false;
           for (i = 0; i < ScreenXMax; i++)
               for (j = 0; j < ScreenYMax; j++) {
                   XPixel = XGetPixel(XImg, i, j);
@@ -273,7 +276,7 @@ DumpScreen2Gif(const char *FileName,
                       if (!k) {
                           /* Make sure we state it once only. */
                           fprintf(stderr, "X Color table - truncated.\n");
-                          k = TRUE;
+                          k = true;
                       }
                       XPixel = 255;
                   }

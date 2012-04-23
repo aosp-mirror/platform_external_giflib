@@ -34,6 +34,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -108,10 +110,11 @@ static void QuitGifError(GifFileType *GifFile);
 int main(int argc, char **argv)
 {
     unsigned int Ratio;
-    int	i, j, l, LevelHeight, LevelWidth, Error, LogNumLevels, FlipDir,
-	Accumulator, StartX, StepX, Count = 0, DoAllMaximum = FALSE,
-	DirectionFlag = FALSE, LevelsFlag = FALSE, ColorFlag = FALSE,
-	MinFlag = FALSE, MaxFlag = FALSE, SizeFlag = FALSE, HelpFlag = FALSE;
+    int	i, j, l, LevelHeight, LevelWidth, LogNumLevels, 
+	Accumulator, StartX, StepX, Count = 0;
+    bool Error, FlipDir, DoAllMaximum = false,
+	DirectionFlag = false, LevelsFlag = false, ColorFlag = false,
+	MinFlag = false, MaxFlag = false, SizeFlag = false, HelpFlag = false;
     GifPixelType Color;
     char *DirectionStr = DEFAULT_DIR;
     GifRowType Line;
@@ -123,7 +126,7 @@ int main(int argc, char **argv)
 		&ColorFlag, &RedColor, &GreenColor, &BlueColor,
 		&MinFlag, &MinimumIntensity, &MaxFlag, &MaximumIntensity,
 		&SizeFlag, &ImageWidth, &ImageHeight,
-		&HelpFlag)) != FALSE) {
+		&HelpFlag)) != false) {
 	GAPrintErrMsg(Error);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_FAILURE);
@@ -142,7 +145,7 @@ int main(int argc, char **argv)
 
     /* Convert DirectionStr to our local representation: */
     Direction = DIR_NONE;
-    FlipDir = FALSE;
+    FlipDir = false;
     for (i = 0; i < (int)strlen(DirectionStr);  i++) /* Make sure its upper case. */
 	if (islower(DirectionStr[i]))
 	    DirectionStr[i] = toupper(DirectionStr[i]);
@@ -161,7 +164,7 @@ int main(int argc, char **argv)
 		    case 'L':
 		    case 'W':
 			Direction = DIR_TOP_LEFT;
-			FlipDir = TRUE;
+			FlipDir = true;
 			break;
 		}
 	    break;
@@ -173,7 +176,7 @@ int main(int argc, char **argv)
 	case 'S':
 	    if (strlen(DirectionStr) < 2) {
 		Direction = DIR_BOT;
-		FlipDir = TRUE;
+		FlipDir = true;
 	    }
 	    else
 		switch(DirectionStr[1]) {
@@ -184,14 +187,14 @@ int main(int argc, char **argv)
 		    case 'L':
 		    case 'W':
 			Direction = DIR_BOT_LEFT;
-			FlipDir = TRUE;
+			FlipDir = true;
 			break;
 		}
 	    break;
 	case 'L': /* Left or West */
 	case 'W':
 	    Direction = DIR_LEFT;
-	    FlipDir = TRUE;
+	    FlipDir = true;
 	    break;
     }
     if (Direction == DIR_NONE)
@@ -220,7 +223,7 @@ int main(int argc, char **argv)
     /* If binary mask is requested (special case): */
     if (MinimumIntensity == 100 && MaximumIntensity == 100 && NumLevels == 2) {
 	MinimumIntensity = 0;
-	DoAllMaximum = TRUE;
+	DoAllMaximum = true;
 	Direction = DIR_RIGHT;
     }
 

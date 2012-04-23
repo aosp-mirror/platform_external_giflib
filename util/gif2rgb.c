@@ -33,6 +33,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
@@ -70,12 +72,13 @@ static char
 static int
     ImageNum = 0,
     BackGround = 0,
-    OneFileFlag = FALSE,
-    HelpFlag = FALSE,
     InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
     InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
 static ColorMapObject
     *ColorMap;
+static bool
+    OneFileFlag = false,
+    HelpFlag = false;
 
 static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 			   GifRowType *ScreenBuffer,
@@ -86,8 +89,8 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, Error, NumFiles, Size, Row, Col, Width, Height, ExtCode, Count,
-	OutFileFlag = FALSE;
+    int	i, j, Error, NumFiles, Size, Row, Col, Width, Height, ExtCode, Count;
+    bool OutFileFlag = false;
     GifRecordType RecordType;
     GifByteType *Extension;
     char *OutFileName,
@@ -97,7 +100,7 @@ int main(int argc, char **argv)
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
 		&OneFileFlag, &OutFileFlag, &OutFileName,
-		&HelpFlag, &NumFiles, &FileName)) != FALSE ||
+		&HelpFlag, &NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);
@@ -274,7 +277,7 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
             }
         }
     } else {
-        OneFileFlag = TRUE;
+        OneFileFlag = true;
 
         #ifdef __MSDOS__
         setmode(0, O_BINARY);

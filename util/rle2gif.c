@@ -32,6 +32,8 @@
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -66,10 +68,11 @@ static char
 
 /* Make some variables global, so we could access them faster: */
 static int
-    ColorFlag = FALSE,
     ExpNumOfColors = 8,
-    HelpFlag = FALSE,
     ColorMapSize = 256;
+static bool
+    ColorFlag = false,
+    HelpFlag = false;
 
 static void LoadRle(char *FileName,
 		    GifByteType **RedBuffer,
@@ -86,7 +89,8 @@ static void QuitGifError(GifFileType *GifFile);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, Error, NumFiles, Width, Height;
+    int	i, j, NumFiles, Width, Height;
+    bool Error;
     char **FileName = NULL;
     GifByteType *RedBuffer = NULL, *GreenBuffer = NULL, *BlueBuffer = NULL,
         *OutputBuffer = NULL;
@@ -94,7 +98,7 @@ int main(int argc, char **argv)
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
 		&ColorFlag, &ExpNumOfColors, &HelpFlag,
-		&NumFiles, &FileName)) != FALSE ||
+		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);

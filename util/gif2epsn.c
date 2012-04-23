@@ -38,6 +38,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
@@ -97,19 +99,22 @@ static char
 static int
     ImageNum = 0,
     BackGround = 0,
-    DitherSize = 2, DitherFlag = FALSE,
-    BWThresholdFlag = FALSE, Threshold,
+    DitherSize = 2,
+    Threshold,
     BWThreshold = DEFAULT_THRESHOLD,	   /* Color->BW mapping threshold. */
-    Mapping, MappingFlag = FALSE,
-    InvertFlag = FALSE,
-    NiceFlag = FALSE,
-    PrinterFlag = FALSE,
-    HelpFlag = FALSE,
     ColorToBWMapping = C2BW_BACK_GROUND,
     InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should  */
     InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
 static GifColorType
     *ColorMap;
+static bool
+    DitherFlag = false,
+    BWThresholdFlag = false,
+    Mapping, MappingFlag = false,
+    InvertFlag = false,
+    NiceFlag = false,
+    PrinterFlag = false,
+    HelpFlag = false;
 
 static void EvalDitheredScanline(GifRowType *ScreenBuffer, int Row,
 					int RowSize, GifRowType *DitherBuffer);
@@ -135,7 +140,7 @@ int main(int argc, char **argv)
 		&BWThresholdFlag, &Threshold,
 		&MappingFlag, &Mapping,	&InvertFlag,
 		&NiceFlag, &PrinterFlag, &PrinterName, &HelpFlag,
-		&NumFiles, &FileName)) != FALSE ||
+		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);
@@ -363,8 +368,8 @@ static void EvalDitheredScanline(GifRowType *ScreenBuffer, int Row,
 
 /******************************************************************************
 * The real dumping routine. Few things are taken into account:		      *
-* 1. The Nice flag. If TRUE each pixel is printed twice in double density.    *
-* 2. The Invert flag. If TRUE each pixel before drawn is inverted.	      *
+* 1. The Nice flag. If true each pixel is printed twice in double density.    *
+* 2. The Invert flag. If true each pixel before drawn is inverted.	      *
 * 3. The rendering mode and dither matrix flag if dithering is selected.      *
 *   The image is drawn from ScreenBuffer ScreenTop/Left in the bottom/right   *
 * directions.							     	      *

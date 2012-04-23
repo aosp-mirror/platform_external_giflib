@@ -31,6 +31,8 @@
 #endif /* HAVE_UNISTD_H */
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -66,16 +68,17 @@ static char
 #endif /* SYSV */
 
 static int
-    AsmGifAnimFlag = FALSE,
     AsmGifAnimNumIters = 1,
-    AsmGifAnimDelay = 0,
-    AsmGifAnimUserWait = FALSE,
-    AsmFlag = FALSE;
+    AsmGifAnimDelay = 0;
+static bool
+    AsmGifAnimFlag = false,
+    AsmGifAnimUserWait = false,
+    AsmFlag = false;
 
-#if FALSE
+#ifdef __UNUSED__
  /* This is apparently not yet an implemented feature of the program */
 static void DoAssemblyGifAnim(int NumFiles, char **FileNames);
-#endif /* FALSE */
+#endif /* __UNUSED__ */
 static void DoAssembly(int NumFiles, char **FileNames);
 static void DoDisassembly(char *InFileName, char *OutFileName);
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
@@ -85,13 +88,14 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	Error, NumFiles, DisasmFlag = FALSE, HelpFlag = FALSE;
+    int NumFiles;
+    bool Error, DisasmFlag = false, HelpFlag = false;
     char **FileNames = NULL, *OutFileName;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
               &AsmGifAnimFlag, &AsmGifAnimDelay,
               &AsmFlag, &DisasmFlag, &OutFileName,
-              &HelpFlag, &NumFiles, &FileNames)) != FALSE) {
+              &HelpFlag, &NumFiles, &FileNames)) != false) {
 	GAPrintErrMsg(Error);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_FAILURE);
@@ -104,7 +108,7 @@ int main(int argc, char **argv)
     }
 
     if (!AsmFlag && !AsmGifAnimFlag && !DisasmFlag)
-        AsmFlag = TRUE; /* Make default - assemble. */
+        AsmFlag = true; /* Make default - assemble. */
     if ((AsmFlag || AsmGifAnimFlag) && NumFiles < 2) {
 	GIF_MESSAGE("At list two GIF files are required to assembly operation.");
 	GAPrintHowTo(CtrlStr);
@@ -288,7 +292,8 @@ static void DoAssembly(int NumFiles, char **FileNames)
 ******************************************************************************/
 static void DoDisassembly(char *InFileName, char *OutFileName)
 {
-    int	ExtCode, CodeSize, FileNum = 0, FileEmpty;
+    int	ExtCode, CodeSize, FileNum = 0;
+    bool FileEmpty;
     GifRecordType RecordType;
     char CrntFileName[80];
     GifByteType *Extension, *CodeBlock;
@@ -333,7 +338,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 		 "%s%02d.gif", OutFileName, FileNum++);
 	if ((GifFileOut = EGifOpenFileName(CrntFileName, TRUE)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);
-	FileEmpty = TRUE;
+	FileEmpty = true;
 
 	/* And dump out its exactly same screen information: */
 	if (EGifPutScreenDesc(GifFileOut,
@@ -348,7 +353,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 
 	    switch (RecordType) {
 		case IMAGE_DESC_RECORD_TYPE:
-		    FileEmpty = FALSE;
+		    FileEmpty = false;
 		    if (DGifGetImageDesc(GifFileIn) == GIF_ERROR)
 			QuitGifError(GifFileIn, GifFileOut);
 		    /* Put same image descriptor to out file: */
@@ -370,7 +375,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 			QuitGifError(GifFileIn, GifFileOut);
 		    break;
 		case EXTENSION_RECORD_TYPE:
-		    FileEmpty = FALSE;
+		    FileEmpty = false;
 		    /* Skip any extension blocks in file: */
 		    if (DGifGetExtension(GifFileIn, &ExtCode, &Extension)
 			== GIF_ERROR)

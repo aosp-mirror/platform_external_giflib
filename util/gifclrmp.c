@@ -38,6 +38,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -68,11 +70,11 @@ static char
 	" q%- s%- t%-TranslationFile!s l%-ColorMapFile!s g%-Gamma!F i%-Image#!d h%- GifFile!*s";
 #endif /* SYSV */
 
-static int
-    SaveFlag = FALSE,
-    TranslateFlag = FALSE,
-    LoadFlag = FALSE,
-    GammaFlag = FALSE;
+static bool
+    SaveFlag = false,
+    TranslateFlag = false,
+    LoadFlag = false,
+    GammaFlag = false;
 static
     double Gamma = 1.0;
 static
@@ -89,8 +91,8 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	Error, NumFiles, ExtCode, CodeSize, ImageNum = 0,
-	ImageNFlag = FALSE, ImageN, HelpFlag = FALSE, HasGIFOutput;
+    int	NumFiles, ExtCode, CodeSize, ImageNum = 0, ImageN, HasGIFOutput;
+    bool Error, ImageNFlag = false, HelpFlag = false;
     GifRecordType RecordType;
     GifByteType *Extension, *CodeBlock;
     char **FileName = NULL, *ColorFileName, *TranslateFileName;
@@ -100,7 +102,7 @@ int main(int argc, char **argv)
 		&TranslateFlag, &TranslateFileName,
 		&LoadFlag, &ColorFileName,
 		&GammaFlag, &Gamma, &ImageNFlag, &ImageN,
-		&HelpFlag, &NumFiles, &FileName)) != FALSE ||
+		&HelpFlag, &NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);

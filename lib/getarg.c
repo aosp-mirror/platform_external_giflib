@@ -114,6 +114,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "getarg.h"
 
 #ifndef MYMALLOC
@@ -125,12 +127,7 @@
 
 #define SPACE_CHAR '|'  /* The character not to print using HowTo. */
 
-#ifndef TRUE
-#define TRUE 1
-#define FALSE 0
-#endif /* TRUE */
-
-#define ARG_OK 0
+#define ARG_OK false
 
 #define ISSPACE(x) ((x) <= ' ') /* Not conventional - but works fine! */
 
@@ -141,7 +138,7 @@ static char *GAErrorToken;  /* On error, ErrorToken is set to point to it. */
 static int GATestAllSatis(char *CtrlStrCopy, char *CtrlStr, int *argc,
                           char ***argv, int *Parameters[MAX_PARAM],
                           int *ParamCount);
-static int GAUpdateParameters(int *Parameters[], int *ParamCount,
+static bool GAUpdateParameters(int *Parameters[], int *ParamCount,
                               char *Option, char *CtrlStrCopy, char *CtrlStr,
                               int *argc, char ***argv);
 static int GAGetParmeters(int *Parameters[], int *ParamCount,
@@ -151,7 +148,7 @@ static int GAGetMultiParmeters(int *Parameters[], int *ParamCount,
                                char *CtrlStrCopy, int *argc, char ***argv);
 static void GASetParamCount(char *CtrlStr, int Max, int *ParamCount);
 static void GAByteCopy(char *Dst, char *Src, unsigned n);
-static int GAOptionExists(int argc, char **argv);
+static bool GAOptionExists(int argc, char **argv);
 #ifdef MYMALLOC
 static char *MyMalloc(unsigned size);
 #endif /* MYMALLOC */
@@ -166,7 +163,8 @@ GAGetArgs(int argc,
         char **argv,
         char *CtrlStr, ...) {
 
-    int i, Error = FALSE, ParamCount = 0;
+    int i, ParamCount = 0;
+    bool Error = false;
     int *Parameters[MAX_PARAM];     /* Save here parameter addresses. */
     char *Option, CtrlStrCopy[CTRL_STR_MAX_LEN];
     va_list ap;
@@ -182,7 +180,8 @@ int GAGetArgs(va_alist)
     va_dcl
 {
     va_list ap;
-    int argc, i, Error = FALSE, ParamCount = 0;
+    int argc, i, ParamCount = 0;
+    bool Error = false;
     int *Parameters[MAX_PARAM];     /* Save here parameter addresses. */
     char **argv, *CtrlStr, *Option, CtrlStrCopy[CTRL_STR_MAX_LEN];
 
@@ -212,7 +211,7 @@ int GAGetArgs(va_alist)
         Option = *argv++;
         if ((Error = GAUpdateParameters(Parameters, &ParamCount, Option,
                                         CtrlStrCopy, CtrlStr, &argc,
-                                        &argv)) != FALSE)
+                                        &argv)) != false)
             return Error;
     }
     /* Check for results and update trail of command line: */
@@ -271,7 +270,7 @@ GATestAllSatis(char *CtrlStrCopy,
 /***************************************************************************
  * Routine to update the parameters according to the given Option:
  **************************************************************************/
-static int
+static bool
 GAUpdateParameters(int *Parameters[],
                    int *ParamCount,
                    char *Option,
@@ -280,7 +279,8 @@ GAUpdateParameters(int *Parameters[],
                    int *argc,
                    char ***argv) {
 
-    int i, BooleanTrue = Option[2] != '-';
+    int i;
+    bool BooleanTrue = Option[2] != '-';
 
     if (Option[0] != '-') {
         GAErrorToken = Option;
@@ -560,14 +560,14 @@ GAByteCopy(char *Dst,
  * Routine to check if more option (i.e. first char == '-') exists in the
  * given list argc, argv:
  **************************************************************************/
-static int
+static bool
 GAOptionExists(int argc,
                char **argv) {
 
     while (argc--)
         if ((*argv++)[0] == '-')
-            return TRUE;
-    return FALSE;
+            return true;
+    return false;
 }
 
 /***************************************************************************
@@ -606,7 +606,8 @@ GAPrintErrMsg(int Error) {
 void
 GAPrintHowTo(char *CtrlStr) {
 
-    int i = 0, SpaceFlag;
+    int i = 0;
+    bool SpaceFlag;
 
     fprintf(stderr, "Usage: ");
     /* Print program name - first word in ctrl. str. (optional): */
@@ -620,7 +621,7 @@ GAPrintHowTo(char *CtrlStr) {
           case '%':
               fprintf(stderr, " [-%c", CtrlStr[i++]);
               i += 2;    /* Skip the '%-' or '!- after the char! */
-              SpaceFlag = TRUE;
+              SpaceFlag = true;
               while (!ISCTRLCHAR(CtrlStr[i]) && (i < (int)strlen(CtrlStr)) &&
                      (!ISSPACE(CtrlStr[i])))
                   if (SpaceFlag) {
@@ -628,7 +629,7 @@ GAPrintHowTo(char *CtrlStr) {
                           fprintf(stderr, " ");
                       else
                           fprintf(stderr, " %c", CtrlStr[i - 1]);
-                      SpaceFlag = FALSE;
+                      SpaceFlag = false;
                   } else if (CtrlStr[i++] == SPACE_CHAR)
                       fprintf(stderr, " ");
                   else
@@ -643,7 +644,7 @@ GAPrintHowTo(char *CtrlStr) {
           case '!':
               fprintf(stderr, " -%c", CtrlStr[i++]);
               i += 2;    /* Skip the '%-' or '!- after the char! */
-              SpaceFlag = TRUE;
+              SpaceFlag = true;
               while (!ISCTRLCHAR(CtrlStr[i]) && (i < (int)strlen(CtrlStr)) &&
                      (!ISSPACE(CtrlStr[i])))
                   if (SpaceFlag) {
@@ -651,7 +652,7 @@ GAPrintHowTo(char *CtrlStr) {
                           fprintf(stderr, " ");
                       else
                           fprintf(stderr, " %c", CtrlStr[i - 1]);
-                      SpaceFlag = FALSE;
+                      SpaceFlag = false;
                   } else if (CtrlStr[i++] == SPACE_CHAR)
                       fprintf(stderr, " ");
                   else

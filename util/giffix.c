@@ -28,6 +28,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -69,8 +71,9 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, Error, NumFiles, ExtCode, Row, Col, Width, Height,
-	DarkestColor = 0, ColorIntens = 10000, HelpFlag = FALSE;
+    int	i, j, NumFiles, ExtCode, Row, Col, Width, Height,
+	DarkestColor = 0, ColorIntens = 10000;
+    bool Error, HelpFlag = false;
     GifRecordType RecordType;
     GifByteType *Extension;
     char **FileName = NULL;
@@ -79,7 +82,7 @@ int main(int argc, char **argv)
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint, &HelpFlag,
-		&NumFiles, &FileName)) != FALSE ||
+		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);

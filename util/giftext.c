@@ -37,6 +37,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <fcntl.h>
+#include <stdbool.h>
+
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -69,9 +71,9 @@ static char
 	" q%- c%- e%- z%- p%- r%- h%- GifFile!*s";
 #endif /* SYSV */
 
-static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, int Reset);
-static void PrintPixelBlock(GifByteType *PixelBlock, int Len, int Reset);
-static void PrintExtBlock(GifByteType *Extension, int Reset);
+static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Reset);
+static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset);
+static void PrintExtBlock(GifByteType *Extension, bool Reset);
 static void PrintLZCodes(GifFileType *GifFile);
 
 /******************************************************************************
@@ -79,9 +81,10 @@ static void PrintLZCodes(GifFileType *GifFile);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int i, j, ExtCode, CodeSize, Error, NumFiles, Len,
-	ColorMapFlag = FALSE, EncodedFlag = FALSE, LZCodesFlag = FALSE,
-	PixelFlag = FALSE, HelpFlag = FALSE, RawFlag = FALSE, ImageNum = 1;
+    int i, j, ExtCode, CodeSize, NumFiles, Len, ImageNum = 1;
+    bool Error,
+	ColorMapFlag = false, EncodedFlag = false, LZCodesFlag = false,
+	PixelFlag = false, HelpFlag = false, RawFlag = false; 
     char *GifFileName, **FileName = NULL;
     GifPixelType *Line;
     GifRecordType RecordType;
@@ -91,7 +94,7 @@ int main(int argc, char **argv)
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&GifQuietPrint, &ColorMapFlag, &EncodedFlag,
 		&LZCodesFlag, &PixelFlag, &RawFlag, &HelpFlag,
-		&NumFiles, &FileName)) != FALSE ||
+		&NumFiles, &FileName)) != false ||
 	(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);
@@ -125,7 +128,7 @@ int main(int argc, char **argv)
 
     /* Because we write binary data - make sure no text will be written. */
     if (RawFlag) {
-	ColorMapFlag = EncodedFlag = LZCodesFlag = PixelFlag = FALSE;
+	ColorMapFlag = EncodedFlag = LZCodesFlag = PixelFlag = false;
 #ifdef __MSDOS__
 	setmode(1, O_BINARY);             /* Make sure it is in binary mode. */
 #endif /* __MSDOS__ */
@@ -204,13 +207,13 @@ int main(int argc, char **argv)
 		    }
 		    printf("\nImage LZ compressed Codes (Code Size = %d):\n",
 			   CodeSize);
-		    PrintCodeBlock(GifFile, CodeBlock, TRUE);
+		    PrintCodeBlock(GifFile, CodeBlock, true);
 		    while (CodeBlock != NULL) {
 			if (DGifGetCodeNext(GifFile, &CodeBlock) == GIF_ERROR) {
 			    PrintGifError();
 			    exit(EXIT_FAILURE);
 			}
-			PrintCodeBlock(GifFile, CodeBlock, FALSE);
+			PrintCodeBlock(GifFile, CodeBlock, false);
 		    }
 		}
 		else if (LZCodesFlag) {
@@ -227,7 +230,7 @@ int main(int argc, char **argv)
 			}
 			PrintPixelBlock(Line, GifFile->Image.Width, i == 0);
 		    }
-		    PrintPixelBlock(NULL, GifFile->Image.Width, FALSE);
+		    PrintPixelBlock(NULL, GifFile->Image.Width, false);
 		    free((char *) Line);
 		}
 		else if (RawFlag) {
@@ -285,7 +288,7 @@ int main(int argc, char **argv)
 		    }
 		    printf(" (Ext Code = %d [%c]):\n",
 			   ExtCode, MAKE_PRINTABLE(ExtCode));
-		    PrintExtBlock(Extension, TRUE);
+		    PrintExtBlock(Extension, true);
 		}
 		for (;;) {
 		    if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
@@ -294,7 +297,7 @@ int main(int argc, char **argv)
 		    }
 		    if (Extension == NULL)
 			break;
-		    PrintExtBlock(Extension, FALSE);
+		    PrintExtBlock(Extension, false);
 		}
 		break;
 	    case TERMINATE_RECORD_TYPE:
@@ -320,9 +323,10 @@ int main(int argc, char **argv)
 * place). Save local information so printing can be performed continuously,   *
 * or reset to start state if Reset. If CodeBlock is NULL, output is flushed   *
 ******************************************************************************/
-static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, int Reset)
+static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Reset)
 {
-    static int CrntPlace = 0, Print = TRUE;
+    static int CrntPlace = 0; 
+    bool Print = true;
     static long CodeCount = 0;
     int i, Percent, Len;
     long NumBytes;
@@ -346,7 +350,7 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, int Res
 	}
 	CrntPlace = 0;
 	CodeCount = 0;
-	Print = TRUE;
+	Print = true;
     }
 
     Len = CodeBlock[0];
@@ -356,7 +360,7 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, int Res
 	    CodeCount += 16;
 	}
 #ifdef __MSDOS__
-	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = FALSE;
+	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = false;
 #endif /* __MSDOS__ */
 	if (Print) printf(" %02xh", CodeBlock[i]);
 	if (++CrntPlace >= 16) CrntPlace = 0;
@@ -368,9 +372,10 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, int Res
 * place). Save local information so printing can be performed continuously,   *
 * or reset to start state if Reset. If Extension is NULL, output is flushed   *
 ******************************************************************************/
-static void PrintExtBlock(GifByteType *Extension, int Reset)
+static void PrintExtBlock(GifByteType *Extension, bool Reset)
 {
-    static int CrntPlace = 0, Print = TRUE;
+    static int CrntPlace = 0;
+    bool Print = true;
     static long ExtCount = 0;
     static char HexForm[49], AsciiForm[17];
     int i, Len;
@@ -389,7 +394,7 @@ static void PrintExtBlock(GifByteType *Extension, int Reset)
 	}
 	CrntPlace = 0;
 	ExtCount = 0;
-	Print = TRUE;
+	Print = true;
     }
 
     if (!Print) return;
@@ -401,7 +406,7 @@ static void PrintExtBlock(GifByteType *Extension, int Reset)
 	(void)snprintf(&AsciiForm[CrntPlace], 3,
 		       "%c", MAKE_PRINTABLE(Extension[i]));
 #ifdef __MSDOS__
-	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = FALSE;
+	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = false;
 #endif /* __MSDOS__ */
 	if (++CrntPlace == 16) {
 	    HexForm[CrntPlace * 3] = 0;
@@ -419,9 +424,10 @@ static void PrintExtBlock(GifByteType *Extension, int Reset)
 * Save local information so printing can be performed continuously,           *
 * or reset to start state if Reset. If PixelBlock is NULL, output is flushed  *
 ******************************************************************************/
-static void PrintPixelBlock(GifByteType *PixelBlock, int Len, int Reset)
+static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset)
 {
-    static int CrntPlace = 0, Print = TRUE;
+    static int CrntPlace = 0; 
+    bool Print = true;
     static long ExtCount = 0;
     static char HexForm[49], AsciiForm[17];
     int i;
@@ -439,7 +445,7 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, int Reset)
 	}
 	CrntPlace = 0;
 	ExtCount = 0;
-	Print = TRUE;
+	Print = true;
 	if (PixelBlock == NULL) return;
     }
 
@@ -451,7 +457,7 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, int Reset)
 	(void)snprintf(&AsciiForm[CrntPlace], 3,
 		       "%c", MAKE_PRINTABLE(PixelBlock[i]));
 #ifdef __MSDOS__
-	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = FALSE;
+	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = false;
 #endif /* __MSDOS__ */
 	if (++CrntPlace == 16) {
 	    HexForm[CrntPlace * 3] = 0;
@@ -469,7 +475,8 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, int Reset)
 ******************************************************************************/
 static void PrintLZCodes(GifFileType *GifFile)
 {
-    int Code, Print = TRUE, CrntPlace = 0;
+    int Code, CrntPlace = 0;
+    bool Print = true;
     long CodeCount = 0;
 
     do {
@@ -483,7 +490,7 @@ static void PrintLZCodes(GifFileType *GifFile)
 	CodeCount++;
 	if (++CrntPlace >= 16) CrntPlace = 0;
 #ifdef __MSDOS__
-	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = FALSE;
+	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = false;
 #endif /* __MSDOS__ */
     }
     while (Code >= 0);

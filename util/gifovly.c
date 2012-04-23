@@ -26,6 +26,8 @@
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
+#include <stdbool.h>
+
 #include "getarg.h"
 #include "gif_lib.h"
 
@@ -61,12 +63,12 @@ int main(int argc, char **argv)
     int	k;
     GifFileType *GifFileIn, *GifFileOut = (GifFileType *)NULL;
     SavedImage *bp;
-    int	Error, TransparentColorFlag = FALSE, TransparentColor = 0,
-	HelpFlag = FALSE;
+    int	TransparentColor = 0;
+    bool Error, TransparentColorFlag = false, HelpFlag = false;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&TransparentColorFlag, &TransparentColor,
-		&HelpFlag)) != FALSE) {
+		&HelpFlag)) != false) {
 	GAPrintErrMsg(Error);
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_FAILURE);

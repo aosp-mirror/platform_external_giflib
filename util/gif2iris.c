@@ -69,15 +69,16 @@ static char
 
 /* Make some variables global, so we could access them faster: */
 static int
-    PosFlag = FALSE,
-    HelpFlag = FALSE,
-    ForeGroundFlag = FALSE,
     ColorMapSize = 0,
     BackGround = 0,
     IrisPosX = 0,
     IrisPosY = 0,
     InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
     InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
+static bool
+    PosFlag = false,
+    HelpFlag = false,
+    ForeGroundFlag = false;
 static ColorMapObject
     *ColorMap;
 
@@ -100,7 +101,7 @@ int main(int argc, char **argv)
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&GifQuietPrint, &ForeGroundFlag,
 		&PosFlag, &IrisPosX, &IrisPosY,
-		&HelpFlag, &NumFiles, &FileName)) != FALSE ||
+		&HelpFlag, &NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
 	    GAPrintErrMsg(Error);
@@ -285,7 +286,7 @@ static void Screen2Iris(GifRowType *ScreenBuffer,
     reshapeviewport();
     lrectwrite(0, 0, ScreenWidth - 1, ScreenHeight - 1, IrisScreenBuffer);
 
-    while (TRUE) {
+    while (true) {
 	if (qread(&Val) == REDRAW) {
 	    reshapeviewport();
 	    lrectwrite(0, 0, ScreenWidth - 1, ScreenHeight - 1,
