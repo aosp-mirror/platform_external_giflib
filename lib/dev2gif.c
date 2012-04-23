@@ -21,7 +21,6 @@
 
 #ifdef __MSDOS__
 #include <dos.h>
-#include <alloc.h>
 #include <graphics.h>
 #endif /* __MSDOS__ */
 

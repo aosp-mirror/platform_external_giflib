@@ -28,7 +28,6 @@
 
 #ifdef __MSDOS__
 #include <dos.h>
-#include <alloc.h>
 #include <graphics.h>
 #include <io.h>
 #endif /* __MSDOS__ */

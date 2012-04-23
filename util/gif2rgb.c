@@ -27,8 +27,6 @@
 
 #ifdef __MSDOS__
 #include <graphics.h>
-#include <stdlib.h>
-#include <alloc.h>
 #include <io.h>
 #include <dos.h>
 #include <bios.h>

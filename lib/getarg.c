@@ -105,10 +105,6 @@
 #include <config.h>
 #endif
 
-#ifdef __MSDOS__
-#include <alloc.h>
-#endif /* __MSDOS__ */
-
 #ifdef HAVE_STDARG_H
 #include <stdarg.h>
 #elif defined(HAVE_VARARGS_H)

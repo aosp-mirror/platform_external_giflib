@@ -28,7 +28,6 @@
 
 #ifdef __MSDOS__
 #include <io.h>
-#include <alloc.h>
 #endif /* __MSDOS__ */
 
 #include "gif_lib.h"

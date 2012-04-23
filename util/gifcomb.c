@@ -26,10 +26,6 @@
 #include <config.h>
 #endif
 
-#ifdef __MSDOS__
-#include <alloc.h>
-#endif /* _MSDOS__ */
-
 #include "gif_lib.h"
 #include "getarg.h"
 

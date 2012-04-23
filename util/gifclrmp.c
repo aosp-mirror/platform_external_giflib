@@ -33,10 +33,6 @@
 #include <config.h>
 #endif
 
-#ifdef __MSDOS__
-#include <alloc.h>
-#endif /* __MSDOS__ */
-
 #include "gif_lib.h"
 #include "getarg.h"
 

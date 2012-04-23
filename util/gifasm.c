@@ -23,10 +23,6 @@
 #include <string.h>
 #include <stdbool.h>
 
-#ifdef __MSDOS__
-#include <alloc.h>
-#endif /* __MSDOS__ */
-
 #include "gif_lib.h"
 #include "getarg.h"
 

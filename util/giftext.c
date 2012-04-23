@@ -31,7 +31,6 @@
 #endif
 
 #ifdef __MSDOS__
-#include <alloc.h>
 #include <conio.h>
 #include <io.h>
 #endif /* __MSDOS__ */
