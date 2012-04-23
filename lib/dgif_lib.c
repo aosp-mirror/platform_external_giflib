@@ -10,17 +10,13 @@
  *  3 Sep 90 - Version 1.1 by Gershon Elber (Support for Gif89, Unique names).
  *****************************************************************************/
 
+#include <stdlib.h>
+#include <limits.h>
+#include <stdint.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-
-#include <stdlib.h>
-#include <limits.h>
-#ifdef HAVE_INTTYPES_H
-#include <inttypes.h>
-#else
-#include <stdint.h>
-#endif /* HAVE_INTTYPES_H */
 
 #if defined (__MSDOS__) && !defined(__DJGPP__) && !defined(__GNUC__)
 #include <io.h>

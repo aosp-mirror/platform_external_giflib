@@ -10,24 +10,15 @@
 #ifndef _GIF_HASH_H_
 #define _GIF_HASH_H_
 
+#include <unistd.h>
+#include <stdint.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
-/* Find a thirty-two bit int type */
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#endif
-#ifdef HAVE_INTTYPES_H
-#include <inttypes.h>
 #endif
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #ifdef HAVE_BASETSD_H
 #include <basetsd.h>
 #endif
@@ -48,12 +39,12 @@
 #define HT_PUT_CODE(l)	(l & 0x0FFF)
 
 typedef struct GifHashTableType {
-    UINT32 HTable[HT_SIZE];
+    uint32_t HTable[HT_SIZE];
 } GifHashTableType;
 
 GifHashTableType *_InitHashTable(void);
 void _ClearHashTable(GifHashTableType *HashTable);
-void _InsertHashTable(GifHashTableType *HashTable, UINT32 Key, int Code);
-int _ExistsHashTable(GifHashTableType *HashTable, UINT32 Key);
+void _InsertHashTable(GifHashTableType *HashTable, uint32_t Key, int Code);
+int _ExistsHashTable(GifHashTableType *HashTable, uint32_t Key);
 
 #endif /* _GIF_HASH_H_ */

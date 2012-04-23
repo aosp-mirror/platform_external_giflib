@@ -78,46 +78,11 @@ if test x"$ac_cv_header_stdarg_h" != "xyes" -a x"$ac_cv_header_varargs_h" != "xy
 fi
 
 dnl Check for limits.h so we have a definition of INT_MAX
-AC_CHECK_HEADERS([limits.h], ,AC_MSG_ERROR([giflib requires limits.h to be present in order to compile]))
-
-dnl Check for inttypes.h or stdint.h so we have a definition of SIZE_MAX
-AC_CHECK_HEADERS([inttypes.h stdint.h], , [])
-if test x"$ac_cv_header_inttypes_h" != "xyes" -a x"$ac_cv_header_stdint_h" != "xyes" ; then
-	AC_MSG_ERROR([giflib 4.x requires either inttypes.h or stdint.h])
-fi
+AC_CHECK_HEADERS([limits.h], ,
+                 AC_MSG_ERROR([giflib requires limits.h to be present in order to compile]))
 
 AC_CHECK_HEADERS(fcntl.h, ,
 		 AC_MSG_ERROR([giflib 4.x must have fcntl.h to compile]))
-
-dnl Now look for a 32 bit integer type
-foundint=no
-AC_CHECK_TYPES([u_int32_t], [AC_DEFINE([UINT32], u_int32_t,
-		  [Set to an unsigned 32 bit integer available on this system])
-                  foundint=yes]
-)
-if test x$foundint != x'yes'; then
-  AC_CHECK_TYPES([uint32_t], [AC_DEFINE([UINT32], uint32_t,
-		  [Set to an unsigned 32 bit integer available on this system])
-                  foundint=yes]
-  )
-fi
-
-dnl Fall back on trying to find one ourselves by compiling and checking sizes.
-if test x$foundint != x'yes'; then
-	AC_CHECK_SIZEOF(unsigned int)
-	if test $ac_cv_sizeof_unsigned_int -eq 4; then
-		AC_DEFINE([UINT32], [unsigned int],
-		  [Set to an unsigned 32 bit integer available on this system])
-	else
-		AC_CHECK_SIZEOF(unsigned long)
-		if test $ac_cv_sizeof_unsigned_long -eq 4; then
-			AC_DEFINE([UINT32], [unsigned long],
-		  [Set to an unsigned 32 bit integer available on this system])
-		else
-			AC_ERROR("Unable to find a thirty-two bit integer type")
-		fi
-	fi
-fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

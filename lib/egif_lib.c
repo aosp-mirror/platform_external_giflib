@@ -11,22 +11,17 @@
  * 26 Jun 96 - Version 3.0 by Eric S. Raymond (Full GIF89 support)
  *****************************************************************************/
 
+#include <unistd.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-
-/* Find a thirty-two bit int type */
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
-#endif
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#ifdef HAVE_INTTYPES_H
-#include <inttypes.h>
 #endif
 
 #ifdef __MSDOS__
@@ -52,12 +47,7 @@
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif /* HAVE_FCNTL_H */
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif /* HAVE_UNISTD_H */
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+
 #include "gif_lib.h"
 #include "gif_lib_private.h"
 
@@ -858,7 +848,7 @@ EGifCompressLine(GifFileType * GifFile,
         /* Form a new unique key to search hash table for the code combines 
          * CrntCode as Prefix string with Pixel as postfix char.
          */
-        NewKey = (((UINT32) CrntCode) << 8) + Pixel;
+        NewKey = (((uint32_t) CrntCode) << 8) + Pixel;
         if ((NewCode = _ExistsHashTable(HashTable, NewKey)) >= 0) {
             /* This Key is already there, or the string is old one, so
              * simple take new code as our CrntCode:
