@@ -22,14 +22,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef __MSDOS__
-#include <io.h>
-#include <sys\stat.h>
-#else
-#include <sys/types.h>
-#include <sys/stat.h>
-#endif /* __MSDOS__ */
-
 #include "gif_lib.h"
 #include "gif_hash.h"
 #include "gif_lib_private.h"

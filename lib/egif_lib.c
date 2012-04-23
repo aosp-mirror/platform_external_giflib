@@ -18,13 +18,6 @@
 #include <string.h>
 #include <fcntl.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-
 #ifdef __MSDOS__
 #include <io.h>
 #include <sys\stat.h>
@@ -32,10 +25,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #endif /* __MSDOS__ */
-
-#ifdef HAVE_IO_H
-#include <io.h>
-#endif
 
 #include "gif_lib.h"
 #include "gif_lib_private.h"

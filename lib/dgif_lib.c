@@ -18,10 +18,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #if defined (__MSDOS__) && !defined(__DJGPP__) && !defined(__GNUC__)
 #include <io.h>
 #include <sys\stat.h>
@@ -29,10 +25,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #endif /* __MSDOS__ */
-
-#ifdef HAVE_IO_H
-#include <io.h>
-#endif
 
 #include "gif_lib.h"
 #include "gif_lib_private.h"
