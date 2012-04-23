@@ -22,12 +22,6 @@
 #include <string.h>
 #include <fcntl.h>
 
-#ifdef __MSDOS__
-#include <dos.h>
-#include <graphics.h>
-#include <io.h>
-#endif /* __MSDOS__ */
-
 #include "getarg.h"
 #include "gif_lib.h"
 
