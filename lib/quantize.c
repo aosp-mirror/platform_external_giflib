@@ -43,7 +43,7 @@ typedef struct NewColorMapType {
 static int SubdivColorMap(NewColorMapType * NewColorSubdiv,
                           unsigned int ColorMapSize,
                           unsigned int *NewColorMapSize);
-static int SortCmpRtn(const VoidPtr Entry1, const VoidPtr Entry2);
+static int SortCmpRtn(const void *Entry1, const void *Entry2);
 
 /******************************************************************************
  * Quantize high resolution image into lower one. Input image consists of a
@@ -301,11 +301,11 @@ SubdivColorMap(NewColorMapType * NewColorSubdiv,
 }
 
 /****************************************************************************
- * Routine called by qsort to compare to entries.
+ * Routine called by qsort to compare two entries.
  ****************************************************************************/
 static int
-SortCmpRtn(const VoidPtr Entry1,
-           const VoidPtr Entry2) {
+SortCmpRtn(const void *Entry1,
+           const void *Entry2) {
 
     return (*((QuantizedColorType **) Entry1))->RGB[SortRGBAxis] -
        (*((QuantizedColorType **) Entry2))->RGB[SortRGBAxis];

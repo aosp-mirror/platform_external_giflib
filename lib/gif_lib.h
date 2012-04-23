@@ -55,11 +55,8 @@ typedef unsigned char GifByteType;
 #define GIF_MESSAGE(Msg) fprintf(stderr, "\n%s: %s\n", PROGRAM_NAME, Msg)
 #define GIF_EXIT(Msg)    { GIF_MESSAGE(Msg); exit(-3); }
 
-#ifdef SYSV
-#define VoidPtr char *
-#else
+/* for backward compatibility in the API */
 #define VoidPtr void *
-#endif /* SYSV */
 
 typedef struct GifColorType {
     GifByteType Red, Green, Blue;
@@ -85,8 +82,8 @@ typedef struct GifFileType {
     int ImageCount;             /* Number of current image */
     GifImageDesc Image;         /* Block describing current image */
     struct SavedImage *SavedImages; /* Use this to accumulate file state */
-    VoidPtr UserData;           /* hook to attach user data (TVT) */
-    VoidPtr Private;            /* Don't mess with this! */
+    void *UserData;            /* hook to attach user data (TVT) */
+    void *Private;             /* Don't mess with this! */
 } GifFileType;
 
 typedef enum {
@@ -148,13 +145,13 @@ int EGifPutLine(GifFileType * GifFile, GifPixelType * GifLine,
 int EGifPutPixel(GifFileType * GifFile, GifPixelType GifPixel);
 int EGifPutComment(GifFileType * GifFile, const char *GifComment);
 int EGifPutExtensionFirst(GifFileType * GifFile, int GifExtCode,
-                          int GifExtLen, const VoidPtr GifExtension);
+                          int GifExtLen, const void *GifExtension);
 int EGifPutExtensionNext(GifFileType * GifFile, int GifExtCode,
-                         int GifExtLen, const VoidPtr GifExtension);
+                         int GifExtLen, const void *GifExtension);
 int EGifPutExtensionLast(GifFileType * GifFile, int GifExtCode,
-                         int GifExtLen, const VoidPtr GifExtension);
+                         int GifExtLen, const void *GifExtension);
 int EGifPutExtension(GifFileType * GifFile, int GifExtCode, int GifExtLen,
-                     const VoidPtr GifExtension);
+                     const void *GifExtension);
 int EGifPutCode(GifFileType * GifFile, int GifCodeSize,
                 const GifByteType * GifCodeBlock);
 int EGifPutCodeNext(GifFileType * GifFile,

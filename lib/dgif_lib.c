@@ -126,7 +126,7 @@ DGifOpenFileHandle(int FileHandle) {
                                                           buffer. */
 #endif /* __MSDOS__ */
 
-    GifFile->Private = (VoidPtr)Private;
+    GifFile->Private = (void *)Private;
     Private->FileHandle = FileHandle;
     Private->File = f;
     Private->FileState = FILE_STATE_READ;
@@ -193,7 +193,7 @@ DGifOpen(void *userData,
         return NULL;
     }
 
-    GifFile->Private = (VoidPtr)Private;
+    GifFile->Private = (void *)Private;
     Private->FileHandle = 0;
     Private->File = 0;
     Private->FileState = FILE_STATE_READ;

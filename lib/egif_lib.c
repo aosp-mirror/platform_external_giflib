@@ -143,13 +143,13 @@ EGifOpenFileHandle(int FileHandle) {
                                                         * buffer. */
 #endif /* __MSDOS__ */
 
-    GifFile->Private = (VoidPtr)Private;
+    GifFile->Private = (void *)Private;
     Private->FileHandle = FileHandle;
     Private->File = f;
     Private->FileState = FILE_STATE_WRITE;
 
     Private->Write = (OutputFunc) 0;    /* No user write routine (MRB) */
-    GifFile->UserData = (VoidPtr) 0;    /* No user write handle (MRB) */
+    GifFile->UserData = (void *)NULL;    /* No user write handle (MRB) */
 
     _GifError = 0;
 
@@ -190,7 +190,7 @@ EGifOpen(void *userData,
         return NULL;
     }
 
-    GifFile->Private = (VoidPtr) Private;
+    GifFile->Private = (void *)Private;
     Private->FileHandle = 0;
     Private->File = (FILE *) 0;
     Private->FileState = FILE_STATE_WRITE;
@@ -515,7 +515,7 @@ int
 EGifPutExtensionFirst(GifFileType * GifFile,
                       int ExtCode,
                       int ExtLen,
-                      const VoidPtr Extension) {
+                      const void *Extension) {
 
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
@@ -547,7 +547,7 @@ int
 EGifPutExtensionNext(GifFileType * GifFile,
                      int ExtCode,
                      int ExtLen,
-                     const VoidPtr Extension) {
+                     const void *Extension) {
 
     GifByteType Buf;
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
@@ -572,7 +572,7 @@ int
 EGifPutExtensionLast(GifFileType * GifFile,
                      int ExtCode,
                      int ExtLen,
-                     const VoidPtr Extension) {
+                     const void *Extension) {
 
     GifByteType Buf;
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
@@ -607,7 +607,7 @@ int
 EGifPutExtension(GifFileType * GifFile,
                  int ExtCode,
                  int ExtLen,
-                 const VoidPtr Extension) {
+                 const void *Extension) {
 
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
