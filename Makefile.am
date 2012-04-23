@@ -31,5 +31,12 @@ EXTRA_DIST = Makefile.unx \
 	     $(GAMEBOYADVANCE)
 #TESTS=test-unx
 
+# Auditing tools.  Plresently run only on the library, not the utilities.
+# These don't run clean yet.
+
 splint: 
 	splint +quiet +posixlib lib/*.[ch]
+
+cppcheck:
+	cppcheck --template gcc --all --force lib/*.[ch]
+
