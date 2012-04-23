@@ -13,16 +13,6 @@
 #include <unistd.h>
 #include <stdint.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_BASETSD_H
-#include <basetsd.h>
-#endif
-
 #define HT_SIZE			8192	   /* 12bits = 4096 or twice as big! */
 #define HT_KEY_MASK		0x1FFF			      /* 13bits keys */
 #define HT_KEY_NUM_BITS		13			      /* 13bits keys */
