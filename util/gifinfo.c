@@ -18,6 +18,13 @@
 * 21 Jun 99 - Version 1.0 by Martin Edlman.				     *
 *****************************************************************************/
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <fcntl.h>
+#include <stdbool.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -30,22 +37,12 @@
 #include <bios.h>
 #endif /* __MSDOS__ */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
-#include <stdbool.h>
-
 #include "gif_lib.h"
 #include "getarg.h"
 
 #define PROGRAM_NAME	"GifInfo"
 
 #define DEFAULTFORMAT   "Size: \\wx\\h\\nComment: \\c\\n"
-
 
 #ifdef __MSDOS__
 extern unsigned int

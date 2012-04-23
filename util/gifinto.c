@@ -14,6 +14,14 @@
 * 22 Dec 89 - Fix problem with tmpnam (Version 1.1).                         *
 *****************************************************************************/
 
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdbool.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -22,19 +30,6 @@
 #include <io.h>
 #include <alloc.h>
 #endif /* __MSDOS__ */
-
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdbool.h>
 
 #include "gif_lib.h"
 #include "getarg.h"

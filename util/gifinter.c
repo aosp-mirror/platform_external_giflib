@@ -15,22 +15,19 @@
 * 21 Dec 89 - Fix problems with -i and -s flags (Version 1.1).               *
 *****************************************************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdbool.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #ifdef __MSDOS__
-#include <stdlib.h>
 #include <alloc.h>
 #endif /* __MSDOS__ */
-
-#ifndef __MSDOS__
-#include <stdlib.h>
-#endif
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdbool.h>
 
 #include "gif_lib.h"
 #include "getarg.h"

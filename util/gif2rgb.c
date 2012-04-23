@@ -14,6 +14,13 @@
 * 5 Jan 90 - Version 1.0 by Gershon Elber.				     *
 *****************************************************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdbool.h>
+#include <fcntl.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -27,17 +34,6 @@
 #include <bios.h>
 #endif /* __MSDOS__ */
 
-#ifndef __MSDOS__
-#include <stdlib.h>
-#endif
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdbool.h>
-
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
 #include "gif_lib.h"
 #include "getarg.h"
 
@@ -279,9 +275,9 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
     } else {
         OneFileFlag = true;
 
-        #ifdef __MSDOS__
-        setmode(0, O_BINARY);
-        #endif /* __MSDOS__ */
+#ifdef __MSDOS__
+	setmode(0, O_BINARY);
+#endif /* __MSDOS__ */
         
         f[0] = stdout;
     }

@@ -12,6 +12,9 @@
  * 5 Jan 90 - Version 1.0 by Gershon Elber.
  *****************************************************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -22,8 +25,6 @@
 #include <graphics.h>
 #endif /* __MSDOS__ */
 
-#include <stdlib.h>
-#include <stdio.h>
 #include "gif_lib.h"
 #include "gif_lib_private.h"
 

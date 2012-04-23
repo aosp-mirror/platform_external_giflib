@@ -18,10 +18,14 @@
 
 #include <unistd.h>
 #include <stdint.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
+
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
 #endif
@@ -35,11 +39,6 @@
 #include <sys/stat.h>
 #endif /* __MSDOS__ */
 
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
-#include <stdio.h>
-#include <string.h>
 #include "gif_lib.h"
 #include "gif_hash.h"
 #include "gif_lib_private.h"

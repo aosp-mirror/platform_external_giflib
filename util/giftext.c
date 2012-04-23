@@ -20,24 +20,21 @@
 * 25 Dec 89 - Add the -r flag for raw output.                                *
 *****************************************************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <fcntl.h>
+#include <stdbool.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #ifdef __MSDOS__
-#include <stdlib.h>
 #include <alloc.h>
 #include <conio.h>
 #include <io.h>
 #endif /* __MSDOS__ */
-
-#ifndef __MSDOS__
-#include <stdlib.h>
-#endif
-#include <stdio.h>
-#include <ctype.h>
-#include <fcntl.h>
-#include <stdbool.h>
 
 #include "gif_lib.h"
 #include "getarg.h"

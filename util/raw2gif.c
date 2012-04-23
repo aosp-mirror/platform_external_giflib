@@ -14,6 +14,13 @@
 * 15 Oct 89 - Version 1.0 by Gershon Elber.				     *
 *****************************************************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdbool.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -21,23 +28,9 @@
 #ifdef __MSDOS__
 #include <dos.h>
 #include <alloc.h>
-#include <stdlib.h>
 #include <graphics.h>
 #include <io.h>
 #endif /* __MSDOS__ */
-
-#ifndef __MSDOS__
-#include <stdlib.h>
-#endif
-#include <stdio.h>
-#include <string.h>
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
-#include <stdbool.h>
 
 #include "getarg.h"
 #include "gif_lib.h"

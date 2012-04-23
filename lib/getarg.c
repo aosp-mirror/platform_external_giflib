@@ -96,12 +96,15 @@
  * 11 Mar 88 - Version 1.0 by Gershon Elber.
  **************************************************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+ 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include <stdlib.h>
- 
 #ifdef __MSDOS__
 #include <alloc.h>
 #endif /* __MSDOS__ */
@@ -111,10 +114,6 @@
 #elif defined(HAVE_VARARGS_H)
 #include <varargs.h>
 #endif
-
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
 
 #include "getarg.h"
 

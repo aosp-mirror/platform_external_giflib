@@ -23,6 +23,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <fcntl.h>
+#include <stdlib.h>
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -30,16 +31,11 @@
 
 #ifdef __MSDOS__
 #include <graphics.h>
-#include <stdlib.h>
 #include <alloc.h>
 #include <io.h>
 #include <dos.h>
 #include <bios.h>
 #endif /* __MSDOS__ */
-
-#ifndef __MSDOS__
-#include <stdlib.h>
-#endif
 
 #include "gif_lib.h"
 #include "getarg.h"

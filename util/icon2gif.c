@@ -9,6 +9,13 @@
 * 15 Sep 92 - Version 1.0 by Eric Raymond.				     *
 *****************************************************************************/
 
+#include <stdlib.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -16,18 +23,9 @@
 #ifdef __MSDOS__
 #include <dos.h>
 #include <alloc.h>
-#include <stdlib.h>
 #include <graphics.h>
 #include <io.h>
 #endif /* __MSDOS__ */
-
-#ifndef __MSDOS__
-#include <stdlib.h>
-#endif
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdbool.h>
 
 #include "gif_lib.h"
 #include "getarg.h"

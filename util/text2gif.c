@@ -17,22 +17,19 @@
 * 3 May 90 - Version 1.0 by Gershon Elber.				     *
 *****************************************************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdbool.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #ifdef __MSDOS__
-#include <stdlib.h>
 #include <alloc.h>
 #endif /* __MSDOS__ */
-
-#ifndef __MSDOS__
-#include <stdlib.h>
-#endif
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdbool.h>
 
 #include "gif_lib.h"
 #include "getarg.h"

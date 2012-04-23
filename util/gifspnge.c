@@ -17,6 +17,11 @@
  *					esr@snark.thyrsus.com
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -28,12 +33,6 @@
 #include <io.h>
 #endif /* __MSDOS__ */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
 #include "getarg.h"
 #include "gif_lib.h"
 

@@ -9,6 +9,12 @@
 * 6 May 94 - Version 1.0 by Eric Raymond.				     *
 *****************************************************************************/
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <stdbool.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -19,14 +25,6 @@
 #include <graphics.h>
 #include <io.h>
 #endif /* __MSDOS__ */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif /* HAVE_FCNTL_H */
-#include <stdbool.h>
 
 #include "getarg.h"
 #include "gif_lib.h"

@@ -10,11 +10,12 @@
  * 25 Sep 92 - Draw functions added by Eric S. Raymond                 
  ****************************************************************************/
 
+#include <string.h>
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include <string.h>
 #include "gif_lib.h"
 
 /*****************************************************************************
