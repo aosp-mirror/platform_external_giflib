@@ -14,10 +14,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "gif_lib.h"
 
 #define MAX(x, y)    (((x) > (y)) ? (x) : (y))

@@ -15,9 +15,6 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
 #include "gif_lib.h"
 
 #ifdef __MSDOS__
