@@ -16,8 +16,7 @@ HEADERS = getarg.h \
 		gif_hash.h \
 		gif_lib.h \
 		gif_lib_private.h
-SOURCES = dev2gif.c \
-		dgif_lib.c \
+SOURCES = dgif_lib.c \
 		egif_lib.c \
 		getarg.c \
 		gif_err.c \

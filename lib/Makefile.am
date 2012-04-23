@@ -9,8 +9,7 @@ include_HEADERS = gif_lib.h
 
 libgetarg_a_SOURCES = getarg.c getarg.h
 
-libgif_la_SOURCES = dev2gif.c   \
-                    dgif_lib.c  \
+libgif_la_SOURCES = dgif_lib.c  \
                     egif_lib.c  \
                     gif_err.c   \
                     gif_font.c  \
