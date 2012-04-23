@@ -1,3 +1,13 @@
+Repository head:
+===============
+
+Now maintained by ESR again after handoff by Toshio Kuratomi.
+
+Code Fixes
+----------
+* Code updated internally to C99 to enable more correctness checks by
+  the compiler. Compiles under GCC 4.6.1 without errors.
+
 Version 4.1.6
 =============
 Brown paper bag release.  Fix a problem with header inclusion that could
