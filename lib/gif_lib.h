@@ -110,13 +110,27 @@ typedef int (*OutputFunc) (GifFileType *, const GifByteType *, int);
  * (GIF_LIB file EGIF_LIB.C).                              
 ******************************************************************************/
 
+/* Main entry points */
 GifFileType *EGifOpenFileName(const char *GifFileName,
                               int GifTestExistance);
-GifFileType *EGifOpenFileHandle(int GifFileHandle);
 GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc);
-
 int EGifSpew(GifFileType * GifFile);
 void EGifSetGifVersion(const char *Version);
+int EGifCloseFile(GifFileType * GifFile);
+
+#define E_GIF_ERR_OPEN_FAILED    1    /* And EGif possible errors. */
+#define E_GIF_ERR_WRITE_FAILED   2
+#define E_GIF_ERR_HAS_SCRN_DSCR  3
+#define E_GIF_ERR_HAS_IMAG_DSCR  4
+#define E_GIF_ERR_NO_COLOR_MAP   5
+#define E_GIF_ERR_DATA_TOO_BIG   6
+#define E_GIF_ERR_NOT_ENOUGH_MEM 7
+#define E_GIF_ERR_DISK_IS_FULL   8
+#define E_GIF_ERR_CLOSE_FAILED   9
+#define E_GIF_ERR_NOT_WRITEABLE  10
+
+/* These are legacy.  You probably do not want to call them directly */
+GifFileType *EGifOpenFileHandle(int GifFileHandle);
 int EGifPutScreenDesc(GifFileType * GifFile,
                       int GifWidth, int GifHeight, int GifColorRes,
                       int GifBackGround,
@@ -140,43 +154,19 @@ int EGifPutCode(GifFileType * GifFile, int GifCodeSize,
                 const GifByteType * GifCodeBlock);
 int EGifPutCodeNext(GifFileType * GifFile,
                     const GifByteType * GifCodeBlock);
-int EGifCloseFile(GifFileType * GifFile);
-
-#define E_GIF_ERR_OPEN_FAILED    1    /* And EGif possible errors. */
-#define E_GIF_ERR_WRITE_FAILED   2
-#define E_GIF_ERR_HAS_SCRN_DSCR  3
-#define E_GIF_ERR_HAS_IMAG_DSCR  4
-#define E_GIF_ERR_NO_COLOR_MAP   5
-#define E_GIF_ERR_DATA_TOO_BIG   6
-#define E_GIF_ERR_NOT_ENOUGH_MEM 7
-#define E_GIF_ERR_DISK_IS_FULL   8
-#define E_GIF_ERR_CLOSE_FAILED   9
-#define E_GIF_ERR_NOT_WRITEABLE  10
 
 /******************************************************************************
  * O.K., here are the routines one can access in order to decode GIF file:     
  * (GIF_LIB file DGIF_LIB.C).                              
  *****************************************************************************/
+
+/* Main entry points */
 #ifndef _GBA_NO_FILEIO
 GifFileType *DGifOpenFileName(const char *GifFileName);
 GifFileType *DGifOpenFileHandle(int GifFileHandle);
 int DGifSlurp(GifFileType * GifFile);
 #endif /* _GBA_NO_FILEIO */
-GifFileType *DGifOpen(void *userPtr, InputFunc readFunc);    /* new one
-                                                             * (TVT) */
-int DGifGetScreenDesc(GifFileType * GifFile);
-int DGifGetRecordType(GifFileType * GifFile, GifRecordType * GifType);
-int DGifGetImageDesc(GifFileType * GifFile);
-int DGifGetLine(GifFileType * GifFile, GifPixelType * GifLine, int GifLineLen);
-int DGifGetPixel(GifFileType * GifFile, GifPixelType GifPixel);
-int DGifGetComment(GifFileType * GifFile, char *GifComment);
-int DGifGetExtension(GifFileType * GifFile, int *GifExtCode,
-                     GifByteType ** GifExtension);
-int DGifGetExtensionNext(GifFileType * GifFile, GifByteType ** GifExtension);
-int DGifGetCode(GifFileType * GifFile, int *GifCodeSize,
-                GifByteType ** GifCodeBlock);
-int DGifGetCodeNext(GifFileType * GifFile, GifByteType ** GifCodeBlock);
-int DGifGetLZCodes(GifFileType * GifFile, int *GifCode);
+GifFileType *DGifOpen(void *userPtr, InputFunc readFunc);    /* new one (TVT) */
 int DGifCloseFile(GifFileType * GifFile);
 
 #define D_GIF_ERR_OPEN_FAILED    101    /* And DGif possible errors. */
@@ -192,6 +182,22 @@ int DGifCloseFile(GifFileType * GifFile);
 #define D_GIF_ERR_NOT_READABLE   111
 #define D_GIF_ERR_IMAGE_DEFECT   112
 #define D_GIF_ERR_EOF_TOO_SOON   113
+
+/* These are legacy.  You probably do not want to call them directly */
+int DGifGetScreenDesc(GifFileType * GifFile);
+int DGifGetRecordType(GifFileType * GifFile, GifRecordType * GifType);
+int DGifGetImageDesc(GifFileType * GifFile);
+int DGifGetLine(GifFileType * GifFile, GifPixelType * GifLine, int GifLineLen);
+int DGifGetPixel(GifFileType * GifFile, GifPixelType GifPixel);
+int DGifGetComment(GifFileType * GifFile, char *GifComment);
+int DGifGetExtension(GifFileType * GifFile, int *GifExtCode,
+                     GifByteType ** GifExtension);
+int DGifGetExtensionNext(GifFileType * GifFile, GifByteType ** GifExtension);
+int DGifGetCode(GifFileType * GifFile, int *GifCodeSize,
+                GifByteType ** GifCodeBlock);
+int DGifGetCodeNext(GifFileType * GifFile, GifByteType ** GifCodeBlock);
+int DGifGetLZCodes(GifFileType * GifFile, int *GifCode);
+
 
 /******************************************************************************
  * O.K., here are the routines from GIF_LIB file QUANTIZE.C.              
