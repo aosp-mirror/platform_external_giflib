@@ -113,6 +113,7 @@ typedef int (*OutputFunc) (GifFileType *, const GifByteType *, int);
 /* Main entry points */
 GifFileType *EGifOpenFileName(const char *GifFileName,
                               int GifTestExistance);
+GifFileType *EGifOpenFileHandle(int GifFileHandle);
 GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc);
 int EGifSpew(GifFileType * GifFile);
 void EGifSetGifVersion(const char *Version);
@@ -130,7 +131,6 @@ int EGifCloseFile(GifFileType * GifFile);
 #define E_GIF_ERR_NOT_WRITEABLE  10
 
 /* These are legacy.  You probably do not want to call them directly */
-GifFileType *EGifOpenFileHandle(int GifFileHandle);
 int EGifPutScreenDesc(GifFileType * GifFile,
                       int GifWidth, int GifHeight, int GifColorRes,
                       int GifBackGround,
