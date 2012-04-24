@@ -40,10 +40,10 @@ extern "C" {
 
 #define GIF_FILE_BUFFER_SIZE 16384  /* Files uses bigger buffers than usual. */
 
-typedef int GifBooleanType;
 typedef unsigned char GifPixelType;
 typedef unsigned char *GifRowType;
 typedef unsigned char GifByteType;
+
 #ifdef _GBA_OPTMEM
     typedef unsigned short GifPrefixType;
     typedef short GifWord;
@@ -54,9 +54,6 @@ typedef unsigned char GifByteType;
 
 #define GIF_MESSAGE(Msg) fprintf(stderr, "\n%s: %s\n", PROGRAM_NAME, Msg)
 #define GIF_EXIT(Msg)    { GIF_MESSAGE(Msg); exit(-3); }
-
-/* for backward compatibility in the API */
-#define VoidPtr void *
 
 typedef struct GifColorType {
     GifByteType Red, Green, Blue;
@@ -97,7 +94,7 @@ typedef enum {
 /* func type to read gif data from arbitrary sources (TVT) */
 typedef int (*InputFunc) (GifFileType *, GifByteType *, int);
 
-/* func type to write gif data ro arbitrary targets.
+/* func type to write gif data to arbitrary targets.
  * Returns count of bytes written. (MRB)
  */
 typedef int (*OutputFunc) (GifFileType *, const GifByteType *, int);
@@ -298,6 +295,12 @@ extern void DrawBoxedText(SavedImage * Image,
                           const int x, const int y,
                           const char *legend,
                           const int border, const int bg, const int fg);
+
+/******************************************************************************
+ * These are deprecated, for backward compatibility in the API.
+ *****************************************************************************/
+#define VoidPtr void *
+typedef int GifBooleanType;
 
 #ifdef __cplusplus
 }
