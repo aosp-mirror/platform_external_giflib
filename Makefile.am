@@ -22,7 +22,6 @@ EXTRA_DIST = Makefile.unx \
 	     ONEWS \
 	     autogen.sh \
 	     test-unx \
-	     giflib.lsm \
 	     TODO \
 	     BUGS \
 	     DEVELOPERS \
