@@ -8,7 +8,7 @@ EXTRA_PROGRAMS = gif2rle rle2gif gif2x11 gifclrmp gifrotat
 
 EXTRA_DIST=Makefile.unx $(bin_SCRIPTS)
 
-LDADD = ../lib/libgif.la ../lib/libgetarg.a
+LDADD = ../lib/libgetarg.a ../lib/libgif.la
 
 AM_CPPFLAGS = -I$(srcdir) -I$(top_srcdir)/lib
 

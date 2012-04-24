@@ -6,7 +6,7 @@ Now maintained by ESR again after handoff by Toshio Kuratomi.
 Code Fixes
 ----------
 * Code updated internally to C99 to enable more correctness checks by
-  the compiler. Compiles under GCC 4.6.1 without errors.
+  the compiler. Compiles under GCC 4.6.1 without errors or warnings.
 
 Retirements
 -----------
@@ -19,6 +19,10 @@ Retirements
   probably hasn't been used in years and is replaceable by any number
   of capture utilities.  Dropping this code makes the library's 
   portability issues go away.
+* GifQprintf() and PrintGifError() have been removed from the library.  
+  They were used only by the utilities. Two new functions, GifError() 
+  and GifErrorString(), return the error state in a form that can be
+  used by programs.
 
 Version 4.1.6
 =============

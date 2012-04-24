@@ -7,16 +7,16 @@ noinst_LIBRARIES = libgetarg.a
 
 include_HEADERS = gif_lib.h
 
-libgetarg_a_SOURCES = getarg.c getarg.h
+libgetarg_a_SOURCES = getarg.c getarg.h \
+                    qprintf.c
 
 libgif_la_SOURCES = dgif_lib.c  \
                     egif_lib.c  \
-                    gif_err.c   \
                     gif_font.c  \
 					gif_hash.c  \
 					gif_hash.h	\
                     gifalloc.c  \
-                    qprintf.c   \
+                    gif_err.c   \
                     quantize.c  \
 					gif_lib_private.h
 

@@ -61,12 +61,10 @@ in simple ways.  Need to deprecate so we can do this in 5.0
 Theoretical release 5.0
 
 API changes:
-   - GifBooleanType and VoidPtr go away in favor of C99 constructs
    - bool args to EGifOpenFileName() and EGifPutImageDesc() become bools.
 
 Move utilities into a separate package.
   - Move GIF_ERROR and GIF_MESSAGE from gif_lib.h into getarg.
-  - Move qprintf into getarg 
   - Rename getarg utilsupport.a and move to the util directory.
 
 Now that we have sourceforge hosting, look into putting documentation and a

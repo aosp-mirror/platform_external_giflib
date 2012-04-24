@@ -12,6 +12,7 @@
 #include <stdio.h>
 
 #include "gif_lib.h"
+#include "gif_lib_private.h"
 
 int _GifError = 0;
 
@@ -26,13 +27,20 @@ GifLastError(void) {
 
     return i;
 }
-#ifndef _GBA_NO_FILEIO
 
 /*****************************************************************************
- * Print the last GIF error to stderr.                         
+ * Return the last GIF error (0 if none).
  ****************************************************************************/
-void
-PrintGifError(void) {
+int
+GifError(void) {
+    return _GifError;
+}
+
+/*****************************************************************************
+ * Return a string description of  the last GIF error
+ ****************************************************************************/
+char *
+GifErrorString(void) {
     char *Err;
 
     switch (_GifError) {
@@ -109,9 +117,5 @@ PrintGifError(void) {
         Err = NULL;
         break;
     }
-    if (Err != NULL)
-        fprintf(stderr, "\nGIF-LIB error: %s.\n", Err);
-    else
-        fprintf(stderr, "\nGIF-LIB undefined error %d.\n", _GifError);
+    return Err;
 }
-#endif /* _GBA_NO_FILEIO */

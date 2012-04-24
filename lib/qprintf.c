@@ -41,3 +41,15 @@ GifQprintf(char *Format, ...) {
 
     fputs(Line, stderr);
 }
+
+#ifndef _GBA_NO_FILEIO
+void
+PrintGifError(void) {
+    char *Err = GifErrorString();
+
+    if (Err != NULL)
+        fprintf(stderr, "\nGIF-LIB error: %s.\n", Err);
+    else
+        fprintf(stderr, "\nGIF-LIB undefined error %d.\n", GifError());
+}
+#endif /* _GBA_NO_FILEIO */

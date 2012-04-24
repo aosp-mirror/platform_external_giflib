@@ -206,17 +206,10 @@ int QuantizeBuffer(unsigned int Width, unsigned int Height,
                    GifColorType * OutputColorMap);
 
 /******************************************************************************
- * O.K., here are the routines from GIF_LIB file QPRINTF.C.              
-******************************************************************************/
-extern int GifQuietPrint;
-extern void GifQprintf(char *Format, ...);
-
-/******************************************************************************
  * O.K., here are the routines from GIF_LIB file GIF_ERR.C.              
 ******************************************************************************/
-#ifndef _GBA_NO_FILEIO
-extern void PrintGifError(void);
-#endif /* _GBA_NO_FILEIO */
+extern int GifError(void);
+extern char *GifErrorString(void);
 extern int GifLastError(void);
 
 /*****************************************************************************
