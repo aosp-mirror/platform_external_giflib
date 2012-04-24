@@ -106,7 +106,8 @@ int main(int argc, char **argv)
 	}
     }
 
-    /* Allocate the screen as vector of column of rows. We cannt allocate    */
+    /* (Following comment was probably written on a 286 running under DOS.)  */
+    /* Allocate the screen as vector of column of rows. We can't allocate    */
     /* the all screen at once, as this broken minded CPU can allocate up to  */
     /* 64k at a time and our image can be bigger than that:		     */
     /* Note this screen is device independent - its the screen as defined by */
