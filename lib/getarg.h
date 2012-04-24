@@ -34,4 +34,7 @@ extern void PrintGifError(void);
 #endif /* _GBA_NO_FILEIO */
 extern int GifLastError(void);
 
+#define GIF_MESSAGE(Msg) fprintf(stderr, "\n%s: %s\n", PROGRAM_NAME, Msg)
+#define GIF_EXIT(Msg)    { GIF_MESSAGE(Msg); exit(-3); }
+
 #endif /* _GETARG_H */
