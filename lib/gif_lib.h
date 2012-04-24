@@ -211,8 +211,8 @@ int QuantizeBuffer(unsigned int Width, unsigned int Height,
 /******************************************************************************
  * O.K., here are the routines from GIF_LIB file GIF_ERR.C.              
 ******************************************************************************/
-extern int GifError(void);
-extern char *GifErrorString(void);
+extern int GifError(void);             /* new in 2012 - ESR */
+extern char *GifErrorString(void);     /* new in 2012 - ESR */
 extern int GifLastError(void);
 
 /*****************************************************************************
