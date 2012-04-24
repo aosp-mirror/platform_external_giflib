@@ -133,6 +133,7 @@ int main(int argc, char **argv)
 
     if (!ImageNFlag) {
 	/* We are suppose to modify the screen color map, so do it: */
+	// cppcheck-suppress nullPointer
 	GifFileIn->SColorMap = ModifyColorMap(GifFileIn->SColorMap);
 	if (!HasGIFOutput) {
 	    /* We can quit here, as we have the color map: */

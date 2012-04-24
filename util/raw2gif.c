@@ -150,6 +150,7 @@ int main(int argc, char **argv)
     Raw2Gif(ImageWidth, ImageHeight, ColorMap);
 
     return 0;
+    // cppcheck-suppress resourceLeak
 }
 
 /******************************************************************************

@@ -29,15 +29,14 @@ EXTRA_DIST = Makefile.unx \
 	     $(GAMEBOYADVANCE)
 #TESTS=test-unx
 
-# Auditing tools.  Presently run only on the library, not the utilities.
-# These don't run clean yet.
+# Auditing tools.
 
-SUPPRESSIONS = -boolops -nullret
-splint: 
-	splint +quiet +posixlib $(SUPPRESSIONS) lib/*.[ch]
-
-
+# cppcheck should run clean
 cppcheck:
-	@echo 'Expect 1 error, "Resource leak: FileHandle"'.
-	cppcheck --template gcc --all --force lib/*.[ch]
+	cppcheck --inline-suppr --template gcc --all --force lib/*.[ch] util/*.[ch]
+
+# splint is nowhere near running clean
+SPLINT_SUPPRESSIONS = -boolops -nullret
+splint: 
+	splint +quiet +posixlib $(SPLINT_SUPPRESSIONS) lib/*.[ch]
 

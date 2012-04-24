@@ -194,5 +194,6 @@ int main(int argc, char **argv)
 	exit(EXIT_FAILURE);
     }
 
+    // cppcheck-suppress memleak
     return 0;
 }
