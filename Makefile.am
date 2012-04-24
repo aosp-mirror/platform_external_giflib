@@ -37,6 +37,6 @@ splint:
 
 
 cppcheck:
-	@echo 'Expect 1 error, "Resource leak: FileHandle".
+	@echo 'Expect 1 error, "Resource leak: FileHandle"'.
 	cppcheck --template gcc --all --force lib/*.[ch]
 
