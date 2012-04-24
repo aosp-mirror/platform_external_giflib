@@ -23,6 +23,7 @@
  * first.  The most significant bit of each constant is the leftmost bit of
  * the scan line.
  */
+/*@+charint@*/
 const unsigned char AsciiTable[][GIF_FONT_WIDTH] = {
     {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},    /* Ascii 0 */
     {0x3c, 0x42, 0xa5, 0x81, 0xbd, 0x42, 0x3c, 0x00},    /* Ascii 1 */
@@ -153,6 +154,7 @@ const unsigned char AsciiTable[][GIF_FONT_WIDTH] = {
     {0x00, 0x00, 0x70, 0x9a, 0x0e, 0x00, 0x00, 0x00},    /* ~ */
     {0x00, 0x00, 0x18, 0x3c, 0x66, 0xff, 0x00, 0x00}    /* Ascii 127 */
 };
+/*@=charint@*/
 
 void
 DrawText(SavedImage * Image,
@@ -208,7 +210,7 @@ DrawRectangle(SavedImage * Image,
     int i;
 
     for (i = 0; i < d; i++)
-        memset(bp + (i * Image->ImageDesc.Width), color, w);
+        memset(bp + (i * Image->ImageDesc.Width), color, (size_t)w);
 }
 
 void

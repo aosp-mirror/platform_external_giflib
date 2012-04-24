@@ -36,10 +36,10 @@ GifQprintf(char *Format, ...) {
     if (GifQuietPrint)
         return;
 
-    vsprintf(Line, Format, ArgPtr);
+    (void)vsnprintf(Line, sizeof(Line), Format, ArgPtr);
     va_end(ArgPtr);
 
-    fputs(Line, stderr);
+    (void)fputs(Line, stderr);
 }
 
 #ifndef _GBA_NO_FILEIO

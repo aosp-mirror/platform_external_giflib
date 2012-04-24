@@ -32,16 +32,18 @@
 /* #define DEBUG_NO_PREFIX                  Dump only compressed data. */
 
 /* Masks given codes to BitsPerPixel, to make sure all codes are in range: */
+/*@+charint@*/
 static const GifPixelType CodeMask[] = {
     0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff
 };
+/*@-charint@*/
 
 static char GifVersionPrefix[GIF_STAMP_LEN + 1] = GIF87_STAMP;
 
 #define WRITE(_gif,_buf,_len)   \
   (((GifFilePrivateType*)_gif->Private)->Write ?    \
    ((GifFilePrivateType*)_gif->Private)->Write(_gif,_buf,_len) :    \
-   fwrite(_buf, 1, _len, ((GifFilePrivateType*)_gif->Private)->File))
+   fwrite(_buf, 1, (size_t)_len, ((GifFilePrivateType*)_gif->Private)->File))
 
 static int EGifPutWord(int Word, GifFileType * GifFile);
 static int EGifSetupCompress(GifFileType * GifFile);

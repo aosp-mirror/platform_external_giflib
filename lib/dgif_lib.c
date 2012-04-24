@@ -90,16 +90,16 @@ DGifOpenFileHandle(int FileHandle) {
     GifFile = (GifFileType *)malloc(sizeof(GifFileType));
     if (GifFile == NULL) {
         _GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
-        close(FileHandle);
+        (void)close(FileHandle);
         return NULL;
     }
 
-    memset(GifFile, '\0', sizeof(GifFileType));
+    /*@i1@*/memset(GifFile, '\0', sizeof(GifFileType));
 
     Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
     if (Private == NULL) {
         _GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
-        close(FileHandle);
+        (void)close(FileHandle);
         free((char *)GifFile);
         return NULL;
     }
@@ -110,20 +110,22 @@ DGifOpenFileHandle(int FileHandle) {
     f = fdopen(FileHandle, "rb");    /* Make it into a stream: */
 
     /* MSDOS and Windows32 requires this, no reason not to do it under Unix */
-    setvbuf(f, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE);    /* And inc. stream
+    (int)setvbuf(f, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE);    /* And inc. stream
                                                           buffer. */
 
+    /*@-mustfreeonly@*/
     GifFile->Private = (void *)Private;
     Private->FileHandle = FileHandle;
     Private->File = f;
     Private->FileState = FILE_STATE_READ;
     Private->Read = 0;    /* don't use alternate input method (TVT) */
     GifFile->UserData = 0;    /* TVT */
+    /*@=mustfreeonly@*/
 
     /* Lets see if this is a GIF file: */
     if (READ(GifFile, (unsigned char *)Buf, GIF_STAMP_LEN) != GIF_STAMP_LEN) {
         _GifError = D_GIF_ERR_READ_FAILED;
-        fclose(f);
+        (void)fclose(f);
         free((char *)Private);
         free((char *)GifFile);
         return NULL;
@@ -198,7 +200,7 @@ DGifOpen(void *userData,
 
     /* The GIF Version number is ignored at this time. Maybe we should do
      * something more useful with it. */
-    Buf[GIF_STAMP_LEN] = 0;
+    Buf[GIF_STAMP_LEN] = '\0';
     if (strncmp(GIF_STAMP, Buf, GIF_VERSION_POS) != 0) {
         _GifError = D_GIF_ERR_NOT_GIF_FILE;
         free((char *)Private);
@@ -320,7 +322,7 @@ DGifGetRecordType(GifFileType * GifFile,
 int
 DGifGetImageDesc(GifFileType * GifFile) {
 
-    int i, BitsPerPixel;
+    unsigned int i, BitsPerPixel;
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
     SavedImage *sp;

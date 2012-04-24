@@ -32,8 +32,9 @@ EXTRA_DIST = Makefile.unx \
 # Auditing tools.  Presently run only on the library, not the utilities.
 # These don't run clean yet.
 
+SUPPRESSIONS = -boolops -nullret
 splint: 
-	splint +quiet +posixlib lib/*.[ch]
+	splint +quiet +posixlib $(SUPPRESSIONS) lib/*.[ch]
 
 
 cppcheck:
