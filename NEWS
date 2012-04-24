@@ -7,6 +7,8 @@ Code Fixes
 ----------
 * Code updated internally to C99 to enable more correctness checks by
   the compiler. Compiles under GCC 4.6.1 without errors or warnings.
+* Code audits clean under cppcheck.
+* splint cleanup begun, there's a lot of work still to do on this.
 
 Retirements
 -----------
@@ -29,6 +31,11 @@ Testing
 * There is now a proper regression-test suite; run 'make' in tests/.
   The old test-unx script is now tests/visual-check and can be run 
   occasionally for a check with the Mark One Eyeball.
+
+Documentation
+-------------
+* Build instructions now live in build.txt
+* An overview of the giflib API now lives in api.txt.
 
 Version 4.1.6
 =============
