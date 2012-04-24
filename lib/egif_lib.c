@@ -18,7 +18,7 @@
 #include <string.h>
 #include <fcntl.h>
 
-#ifdef __MSDOS__
+#if (defined (__MSDOS__) || defined(WINDOWS32))  && !defined(__DJGPP__) && !defined(__GNUC__)
 #include <io.h>
 #include <sys\stat.h>
 #else
