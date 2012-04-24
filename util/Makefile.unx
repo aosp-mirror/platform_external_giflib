@@ -1,4 +1,5 @@
 #
+# (Note: this is not presently used, there's an autoconf build.)
 # This is the make file for the util subdirectory of the GIF library
 # The compiler must be GNU gcc or ANSI-compliant.
 #
