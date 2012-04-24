@@ -24,6 +24,12 @@ Retirements
   and GifErrorString(), return the error state in a form that can be
   used by programs.
 
+Testing
+-------
+* There is now a proper regression-test suite; run 'make' in tests/.
+  The old test-unx script is now tests/visual-check and can be run 
+  occasionally for a check with the Mark One Eyeball.
+
 Version 4.1.6
 =============
 Brown paper bag release.  Fix a problem with header inclusion that could

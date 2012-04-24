@@ -21,13 +21,12 @@ GAMEBOYADVANCE = $(top_srcdir)/gba/giftest.c \
 EXTRA_DIST = Makefile.unx \
 	     ONEWS \
 	     autogen.sh \
-	     test-unx \
+	     tests \
 	     TODO \
 	     BUGS \
 	     DEVELOPERS \
 	     $(WINDOWS) \
 	     $(GAMEBOYADVANCE)
-#TESTS=test-unx
 
 # Auditing tools.
 
