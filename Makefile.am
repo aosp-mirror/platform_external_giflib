@@ -21,7 +21,6 @@ GAMEBOYADVANCE = $(top_srcdir)/gba/giftest.c \
 EXTRA_DIST = Makefile.unx \
 	     ONEWS \
 	     autogen.sh \
-	     giflib.spec \
 	     test-unx \
 	     giflib.lsm \
 	     TODO \
