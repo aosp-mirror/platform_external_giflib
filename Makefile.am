@@ -29,12 +29,14 @@ EXTRA_DIST = Makefile.unx \
 	     $(GAMEBOYADVANCE)
 #TESTS=test-unx
 
-# Auditing tools.  Plresently run only on the library, not the utilities.
+# Auditing tools.  Presently run only on the library, not the utilities.
 # These don't run clean yet.
 
 splint: 
 	splint +quiet +posixlib lib/*.[ch]
 
+
 cppcheck:
+	@echo 'Expect 1 error, "Resource leak: FileHandle".
 	cppcheck --template gcc --all --force lib/*.[ch]
 
