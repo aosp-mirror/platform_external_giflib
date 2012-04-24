@@ -1,0 +1,53 @@
+= The giflib API =
+
+== Overview ==
+
+=== Input  ===
+
+Use DGifOpenFileHandle() or DGifOpenFileName() to get a read handle 
+on a GIF file. Or use DGifOpen() to set up a read function hook.
+
+Use DGifSlurp() to read a GIF image into code from the handle or via
+the read hook.  look in the image structure members for the RGB
+bits. Use
+
+Use DGifClose() to free the read handle.
+
+=== Output ===
+
+Use EGifOpenFileHandle() or EGifOpenFileName() to get a write handle
+on a GIF file. Or use EGifOpen() to set up a write function hook.
+
+Use EGifSpew() to write a GIF image from appropriately populated
+structures in core to the file described by the write handle or via
+the write hook.
+
+Use EGifClose() to free the handle.
+
+=== Legacy ==
+
+The other entry points are primarily historical.
+
+Except for some details of extension-block handling and the addition
+of read/write function hooks, the DGifSlurp()/EGifSpew() interface has
+been stable since 1990.  It is expected to remain so.
+
+== Deprecation list ==
+
+Some features will be removed in giflib 5.0:
+
+* In the SavedImage struct: int Function will be removed.  Use
+  SavedImage.ExtensionBlocks[x].Function instead.
+
+* In gifalloc.c: MakeExtension is deprecated as well.  Use AddExtensionBlock
+  instead.  (This and the previous int Function were deprecated because they
+  only handle one Extension per image.  The new code handles multiple
+  extensions.)
+
+* Do not use GifBooleanType.  This is legacy from before the C
+  language got booleans. It is still in the .h file, but will be 
+  removed in 5.0.
+
+* Similarly, do not use the VoidPtr macro; it is legacy from when not
+  all C compilers had void *, and will be removed in 5.0
+

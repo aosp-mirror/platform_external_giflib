@@ -24,7 +24,8 @@ EXTRA_DIST = Makefile.unx \
 	     tests \
 	     TODO \
 	     BUGS \
-	     DEVELOPERS \
+	     build.txt \
+	     api.txt \
 	     $(WINDOWS) \
 	     $(GAMEBOYADVANCE)
 

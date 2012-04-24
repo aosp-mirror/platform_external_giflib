@@ -1,0 +1,57 @@
+= Build instructions =
+
+== From a distribution tarball ==
+
+Building this package from a distribtion tarball should be as simple as:
+
+-------------------------------------------
+    ./configure
+    make
+    cd tests; make
+-------------------------------------------
+
+The last line runs regression tests.
+
+Note that automake currently generates Makefiles containing some GNUmake
+specific syntax.  If you're having troubles building with your system
+provided make, please install GNU make and try rebuilding.
+
+Install with "make install".
+
+== From the version-control repository ==
+
+giflib presently uses autoconf, automake, and libtool in order to build
+shared libraries for a wide variety of platforms.  The distributed tarball has
+files prebuilt from these tools.  The repository does not.  If you want to
+build giflib you will need to have these tools available.  
+
+The build procedure is:
+
+-------------------------------------------
+   ./autogen.sh
+   make
+   cd tests; make
+-------------------------------------------
+
+As before, install with "make install".
+
+== Release Procedure ==
+
+'make dist' will create a tarball.
+
+To do a release:
+
+1. Check a clean tree out of the repository.
+
+3. make dist
+
+4. Unpack the tarball in a fresh directory.  
+
+5. Run ./autogen.sh in the test directory to refresh the autoconf 
+   generated files, then 'make' there.
+
+6. Run the regression tests in the test directory.
+
+7. Tag the release in the repo.
+
+8. Ship the release tarball.
