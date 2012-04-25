@@ -17,7 +17,6 @@ libgif_la_SOURCES = dgif_lib.c  \
 					gif_hash.h	\
                     gifalloc.c  \
                     gif_err.c   \
-                    quantize.c  \
 					gif_lib_private.h
 
 libgif_la_LDFLAGS = -version-info 5:6:1

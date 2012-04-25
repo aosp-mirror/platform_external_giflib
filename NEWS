@@ -24,9 +24,14 @@ Retirements
   probably hasn't been used in years and is replaceable by any number
   of capture utilities.  Dropping this code makes the library's 
   portability issues go away.
-* GifQprintf(), PrintGifError(), GIF_ERROR() and GIF_MESSAGE() have
-  been removed from the library.  They were used only by the
-  utilities. Two new functions, GifError() and GifErrorString(),
+* QuantizeBuffer(), GifQprintf(), PrintGifError(), GIF_ERROR() 
+  and GIF_MESSAGE() have been removed from the core library.  
+  They were used only by the utilities. QuantizwBuffer() has been
+  inlined where it was used and the latter three are now part of the
+  utility support library.
+
+New API Features
+* Two new functions, GifError() and GifErrorString(),
   return the error state in a form that can be used by programs.
 
 Testing

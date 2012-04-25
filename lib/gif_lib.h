@@ -200,15 +200,6 @@ int DGifGetLZCodes(GifFileType * GifFile, int *GifCode);
 
 
 /******************************************************************************
- * O.K., here are the routines from GIF_LIB file QUANTIZE.C.              
-******************************************************************************/
-int QuantizeBuffer(unsigned int Width, unsigned int Height,
-                   int *ColorMapSize, GifByteType * RedInput,
-                   GifByteType * GreenInput, GifByteType * BlueInput,
-                   GifByteType * OutputBuffer,
-                   GifColorType * OutputColorMap);
-
-/******************************************************************************
  * O.K., here are the routines from GIF_LIB file GIF_ERR.C.              
 ******************************************************************************/
 extern int GifError(void);             /* new in 2012 - ESR */
