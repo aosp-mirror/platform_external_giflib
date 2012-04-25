@@ -22,7 +22,7 @@ Use EGifSpew() to write a GIF image from appropriately populated
 structures in core to the file described by the write handle or via
 the write hook.
 
-Use EGifClose() to free the handle.
+Use EGifClose() to free the write handle.
 
 === Legacy ==
 
@@ -51,3 +51,7 @@ Some features will be removed in giflib 5.0:
 * Similarly, do not use the VoidPtr macro; it is legacy from when not
   all C compilers had void *, and will be removed in 5.0
 
+One API call will be renamed in 5.0:
+
+* DrawText (and the Windows name for it created to avoid some
+  collision, DrawGifText) will become GifDrawText.
