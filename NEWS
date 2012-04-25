@@ -10,6 +10,11 @@ Code Fixes
 * Code audits clean under cppcheck.
 * splint cleanup begun, there's a lot of work still to do on this.
 
+New API Features
+----------------
+* Two new functions, GifError() and GifErrorString(),
+  return the error state in a form that can be used by programs.
+
 Retirements
 -----------
 * The gif2epsn and gif2iris utilities are gone.  They were full of
@@ -29,10 +34,6 @@ Retirements
   They were used only by the utilities. QuantizeBuffer() has been
   inlined where it was used and the latter three are now part of the
   utility support library.
-
-New API Features
-* Two new functions, GifError() and GifErrorString(),
-  return the error state in a form that can be used by programs.
 
 Testing
 -------

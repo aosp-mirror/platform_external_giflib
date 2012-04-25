@@ -24,6 +24,11 @@ the write hook.
 
 Use EGifClose() to free the write handle.
 
+=== Errors ===
+
+You may find the functions GifError() and GifErrorString()
+useful for error handling.
+
 === Legacy ==
 
 The other entry points are primarily historical.
