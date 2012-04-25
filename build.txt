@@ -55,3 +55,7 @@ To do a release:
 7. Tag the release in the repo.
 
 8. Ship the release tarball.
+
+Note: the version needs to be bumped in two places, configure.ac
+and lib/gif_lib.h. You will also need to stamp the top entry in the
+NEWS file.
