@@ -4,19 +4,13 @@ bin_PROGRAMS = gif2ps gif2rgb gifasm gifbg gifclip gifcomb \
     giftext gifwedge raw2gif rgb2gif text2gif gifspnge giffiltr \
     icon2gif gifcolor gifinfo @COMPILABLE_EXTRAS@
 bin_SCRIPTS = gifcompose gifburst
-EXTRA_PROGRAMS = gif2rle rle2gif gif2x11 gifclrmp gifrotat
+EXTRA_PROGRAMS = gif2x11 gifclrmp gifrotat
 
 EXTRA_DIST=Makefile.unx $(bin_SCRIPTS)
 
 LDADD = ../lib/libgetarg.a ../lib/libgif.la
 
 AM_CPPFLAGS = -I$(srcdir) -I$(top_srcdir)/lib
-
-gif2rle_SOURCES = gif2rle.c
-gif2rle_LDADD = $(LDADD) @RLE_LIB@
-
-rle2gif_SOURCES = rle2gif.c
-rle2gif_LDADD = $(LDADD) @RLE_LIB@
 
 gif2x11_SOURCES = gif2x11.c
 gif2x11_LDADD = $(LDADD) @X11_LIB@

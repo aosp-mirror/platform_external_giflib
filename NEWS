@@ -15,7 +15,10 @@ Retirements
 * The gif2epsn and gif2iris utilities are gone.  They were full of
   platform dependencies for platforms long dead.  There are enough
   platform-independent GIF viewers in the world that these weren't
-  adding any value.
+  adding any value. Removing these gets rid of a dependency on GL.
+* The rle2gif and gif2rle utilities are also gone. There are enough
+  multiformat image converters in the world that these weren't adding 
+  any value either.  Removing them reduces the codebase's dependencies.
 * The undocumented DumpScreen2Gif() is gone from the library.  The
   only non-obsolete capture mode it supported was through X, and that
   probably hasn't been used in years and is replaceable by any number

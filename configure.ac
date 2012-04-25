@@ -24,25 +24,8 @@ dnl Checks for libraries.
 AC_CHECK_LIB(m, pow, [MATH_LIB="${MATH_LIB} -lm"
 		      COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gifclrmp${EXEEXT} gifrotat${EXEEXT}"] )
 
-AC_ARG_ENABLE([rle], AC_HELP_STRING([--enable-rle],[support conversion to/from rle[[default=detect]]]),
-    enable_rle=$enableval, enable_rle=detect)
-
 AC_ARG_ENABLE([x11], AC_HELP_STRING([--enable-x11],[support conversion directly to X11 windows[[default=detect]]]),
     enable_x11=$enableval, enable_x11=detect)
-
-AC_ARG_ENABLE([gl], AC_HELP_STRING([--enable-gl],[support conversion to/from gl[[default=detect]]]),
-    enable_gl=$enableval, enable_gl=detect)
-
-dnl I don't have this on my system.  Could someone else configure it and
-dnl check that it works?
-if test "x$enable_rle" != "xno" ; then
-  if test ${MATH_LIB}; then
-    AC_CHECK_HEADERS([rle.h],
-      AC_CHECK_LIB(rle, rle_hdr_init, [RLE_LIB="${RLE_LIBS} -lrle -lm"
-                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2rle${EXEEXT} rle2gif${EXEEXT}"],
-                 ,"-lm" ))
-  fi
-fi
 
 if test "x$enable_x11" != "xno" ; then
   AC_PATH_XTRA
@@ -52,7 +35,7 @@ if test "x$enable_x11" != "xno" ; then
                  COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2x11${EXEEXT}"],, $X_LIBS))
 fi
 
-DEVS="${GL_S_LIB} ${X11_LIB}" 
+DEVS="${X11_LIB}" 
 AC_SUBST(DEVS)
 AC_SUBST(COMPILABLE_EXTRAS)
 AC_SUBST(GL_S_LIB)

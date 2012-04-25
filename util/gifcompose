@@ -35,10 +35,6 @@ do
 		$echo "Pasting RGB file $2" 1>&2;
 		rgb2gif -s $3 $4 <$2 >tmp$$
 		shift; shift; shift; shift; postproc='y' ;;
-	rle)
-		$echo "Pasting RLE file $2" 1>&2;
-		rle2gif $2 >tmp$$
-		shift; shift; postproc='y' ;;
 	text)
 		$echo "Generating text \`$2'" 1>&2;
 		case "$3" in

@@ -1,6 +1,5 @@
 UTILHELP = gif2ps.html \
 	   gif2rgb.html \
-	   gif2rle.html \
 	   gif2x11.html \
 	   gifasm.html \
 	   gifbg.html \
@@ -26,7 +25,6 @@ UTILHELP = gif2ps.html \
 	   icon2gif.html \
 	   raw2gif.html \
 	   rgb2gif.html \
-	   rle2gif.html \
 	   text2gif.html
 LIBRARYHELP = GifFileType.png \
 	     gif89.txt \
