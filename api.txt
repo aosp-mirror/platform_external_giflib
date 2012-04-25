@@ -9,7 +9,7 @@ on a GIF file. Or use DGifOpen() to set up a read function hook.
 
 Use DGifSlurp() to read a GIF image into code from the handle or via
 the read hook.  look in the image structure members for the RGB
-bits. Use
+bits.
 
 Use DGifClose() to free the read handle.
 
