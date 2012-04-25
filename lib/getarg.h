@@ -1,7 +1,6 @@
 /***************************************************************************
- * Error numbers as returned by GAGetArg routine:
+ * Support routines for the giflib utilities
  *
- * Gershon Elber Mar 88
  ***************************************************************************
  * History:
  * 11 Mar 88 - Version 1.0 by Gershon Elber.
@@ -10,6 +9,9 @@
 #ifndef _GETARG_H
 #define _GETARG_H
 
+/***************************************************************************
+ * Error numbers as returned by GAGetArg routine:
+ **************************************************************************/ 
 #define CMD_ERR_NotAnOpt  1    /* None Option found. */
 #define CMD_ERR_NoSuchOpt 2    /* Undefined Option Found. */
 #define CMD_ERR_WildEmpty 3    /* Empty input for !*? seq. */
@@ -21,19 +23,20 @@ void GAPrintErrMsg(int Error);
 void GAPrintHowTo(char *CtrlStr);
 
 /******************************************************************************
- * O.K., here are the routines from GIF_LIB file QPRINTF.C.              
+ * O.K., here are the routines from QPRINTF.C.              
 ******************************************************************************/
 extern int GifQuietPrint;
 extern void GifQprintf(char *Format, ...);
 
 /******************************************************************************
- * O.K., here are the routines from GIF_LIB file GIF_ERR.C.              
+ * O.K., here are the routines from GIF_ERR.C.              
 ******************************************************************************/
 #ifndef _GBA_NO_FILEIO
 extern void PrintGifError(void);
 #endif /* _GBA_NO_FILEIO */
 extern int GifLastError(void);
 
+/* These used to live in the library header */
 #define GIF_MESSAGE(Msg) fprintf(stderr, "\n%s: %s\n", PROGRAM_NAME, Msg)
 #define GIF_EXIT(Msg)    { GIF_MESSAGE(Msg); exit(-3); }
 
