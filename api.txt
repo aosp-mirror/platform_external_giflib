@@ -51,7 +51,9 @@ Some features will be removed in giflib 5.0:
 * Similarly, do not use the VoidPtr macro; it is legacy from when not
   all C compilers had void *, and will be removed in 5.0
 
-One API call will be renamed in 5.0:
+Some API calls will be renamed in 5.0:
 
 * DrawText (and the Windows name for it created to avoid some
-  collision, DrawGifText) will become GifDrawText.
+  collision, DrawGifText) will become GifDrawText. The other
+  Draw* functions will also become GifDraw*.
+
