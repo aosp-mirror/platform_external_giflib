@@ -73,10 +73,7 @@ any memory for any of the functions of this library nor to free them
 directly.<P>
 
 In order to reduce disk access, the file buffer is increased to
-FILE_BUFFER_SIZE (defined in gif_lib.h).  The library was compiled in large
-model on the PC as the memory allocated per file is quite big: about 17k for
-decoding (DGIF_LIB.C), and 32k for encoding (EGIF_LIB.C), excluding the
-FILE_BUFFER_SIZE.<P>
+FILE_BUFFER_SIZE (defined in gif_lib.h).<P>
 
 Here is a module summary:<P>
 
@@ -85,13 +82,9 @@ Here is a module summary:<P>
 
 <DT>dgif_lib.c <DD> Decoding routines, all prefixed with D.<P>
 
-<DT>dev2gif.c  <DD> Routines to convert specific device buffers into GIF files.<P>
-
 <DT>gifalloc.c <DD> Routines for colormap handling and GIF record allocation.<P>
 
 <DT>gif_font.c <DD> The 8x8 font table for the GIF utility font.<P>
-
-<DT>gif_err.c <DD> Error handler for the library.<P>
 </DL>
 
 The library includes a sixth file of hash-function code which is accessed
@@ -552,6 +545,16 @@ initially zeroed out.  This image block will be seen by any following
 EGifSpew() calls.
 </code></pre>
 
+-<H1>Error Handling (gif_err.c)</H1>
+
+<pre><code>
+int GifError(void)
+int GifErrorString(void)
+</code></pre>
+
+These functions return the last error reported by a library function,
+as a numeric error code and string explanation respectively.</p>
+
 <H1>The GIF Utility Font</H1>
 
 The 8x8 utility font used in text2gif and gifcolor lives in the library
@@ -615,7 +618,12 @@ specially.  A tab (\t) is interpreted as a command to center the
 following text in the box.  A carriage return (\r) is interpreted
 as a request for a line break.<P>
 
-<H1>Error Handling (egif_lib.c)</H1>
+<H1>Utility support library</H1>
+
+These functions are not part of the core GIF library.  Ther are part
+of the getarg library that supports the utilities.
+
+<H2>Error Handling</H2>
 
 <pre><code>
 void PrintGifError(void)
@@ -634,36 +642,7 @@ Note it is the user's responsibility to call the file closing
 routine, so the file will be closed (if was opened), and allocated
 memory will be released.<P>
 
-<H1>Device Specific (XXX2gif.c)</H1>
-
-<pre><code>
-int DumpScreen2Gif(char *FileName, int ReqGraphDriver, int ReqGraphMode1,
-						       int ReqGraphMode2)
-</code></pre>
-
-Dumps the whole device buffer as specified by GraphDriver and
-GraphMode (as defined in TC 2.0 graphics.h) into FileName as GIF file.
-Current devices supported:<P>
-
-<pre>
-	1. Hercules.
-
-	2. EGA, EGA64, EGAMONO (all modes - see TC graphics.h).
-
-	3. VGA (all modes - see TC graphics.h).
-
-	4. SVGA_SPECIAL. This mode is special and not supported by Borland
-	   graphics.h. ReqGraphDriver must be equal to 999, and ReqGraphMode
-	   is ignored. This modes assumes 800 by 600 in 16 colors.
-	  Returns GIF_ERROR if something went wrong, GIF_OK otherwise.
-
-	5. SGI 4D using gl graphic library - window dump.
-
-	6. X11 window dump.
-</pre>
-
-
-<H1>Command Line Parsing</H1>
+<H2>Command Line Parsing</H2>
 
 <pre><code>
 int GAGetArgs(int argc, char **argv, char *CtrlStr, ...)
