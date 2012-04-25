@@ -26,7 +26,7 @@ Retirements
   portability issues go away.
 * QuantizeBuffer(), GifQprintf(), PrintGifError(), GIF_ERROR() 
   and GIF_MESSAGE() have been removed from the core library.  
-  They were used only by the utilities. QuantizwBuffer() has been
+  They were used only by the utilities. QuantizeBuffer() has been
   inlined where it was used and the latter three are now part of the
   utility support library.
 
