@@ -19,7 +19,7 @@ UniSys's lawyeritis attack of New Years' Day 1995, it is grandfathered
 in under their license terms and you do <em>not</em> have to pay fees
 for using it.<P>
 
-This package has been released under an X Consortium-life freeware
+This package has been released under an X Consortium-like open-source
 license.  Use and copy as you see fit.  If you make useful changes,
 add new tools, or find and fix bugs, please send your mods to the
 maintainers for general distribution.</P>
@@ -48,6 +48,13 @@ Here is a summary of the utilities in this package.  If you're looking
 at this page through a web browser, each utility name should be a
 hotlink to HTML documentation.<P>
 
+<H2>Viewers</H2>
+
+<DL>
+<DT><a href="gif2x11.html">gif2x11</a>
+<DD>display images saved as GIF files under X window system.
+</DL>
+
 <H2>Conversion Utilities</H2>
 
 <DL>
@@ -55,8 +62,6 @@ hotlink to HTML documentation.<P>
 <DD>print GIF file on laser printers supporting PostScript
 <DT><a href="gif2rgb.html">gif2rgb</a>
 <DD>convert images saved as GIF to 24-bit RGB image(s)
-<DT><a href="gif2x11.html">gif2x11</a>
-<DD>display images saved as GIF files under X window system
 <DT><a href="raw2gif.html">raw2gif</a>
 <DD>convert raw 8-bit image data into GIF files
 <DT><a href="rgb2gif.html">rgb2gif</a>
@@ -78,7 +83,7 @@ hotlink to HTML documentation.<P>
 
 <DL>
 <DT><a href="gifasm.html">gifasm</a>
-<DD>assemble multiple GIFs into one, or burst a multiple-mage GIF
+<DD>assemble multiple GIFs into one, or burst a multiple-image GIF
 <DT><a href="gifclip.html">gifclip</a>
 <DD>clip or crop a GIF image
 <DT><a href="gifclrmp.html">gifclrmp</a>
@@ -162,8 +167,8 @@ I/O on the stream-oriented GIF format.  The other supports grabbing an
 entire GIF into allocated core, operating on it in core, and then writing
 the modified in-core GIF out to disk.<P>
 
-Unless you are on a 286 or some other very memory-limited machine
-running under DOS, you probably want to use the second group.<P>
+Unless you are on extremely memory-limited machine you probably want
+to use the second group.<P>
 
 Detailed documentation on the library entry points is in <a
 href="gif_lib.html">gif_lib.html</a>. Library error codes are
@@ -171,21 +176,20 @@ described in <a href="liberror.html">liberror.html</a><P>
 
 <H1>The GIF Standard</H1>
 
-The doc subdurector includes flat-ASCII descriptions of <a
+The doc subdirectory includes flat-ASCII descriptions of <a
 href="gif89.txt">GIF89 format</a> and <a href="lzgif.txt">Lempel-Ziv
 Compression</a>.<P>
 
 <H1>History</H1>
 
-This package was originally written by Gershon Elber <gershon@cs.utah.edu>
+This package was originally written by Gershon Elber &lt;gershon@cs.utah.edu&gt;
 in 1990 on an IBM PC under MS-DOS using Borland Turbo C.  He made it portable
 to several UNIX environments.<P>
 
 The 2.1 version featured substantial changes and additions by Eric
-S. Raymond <esr@snark.thyrsus.com>.  These included the
-DGifSlurp/EGifSpew function pair for enabling non-sequential
-operations on GIF images and the tools icon2gif, gifovly, gifburst, and
-gifcompose.<P>
+S. Raymond <esr@thyrsus.com>.  These included the DGifSlurp/EGifSpew
+function pair for enabling non-sequential operations on GIF images and
+the tools icon2gif, gifovly, gifburst, and gifcompose.<P>
 
 The 2.4 version converted all the docs from an idiosyncratic
 plain-text format to to HTML.<P>
