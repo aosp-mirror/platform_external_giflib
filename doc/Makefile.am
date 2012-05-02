@@ -1,5 +1,4 @@
-UTILHELP = gif2ps.html \
-	   gif2rgb.html \
+UTILHELP = gif2rgb.html \
 	   gif2x11.html \
 	   gifasm.html \
 	   gifbg.html \

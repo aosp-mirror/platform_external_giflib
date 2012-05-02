@@ -21,7 +21,7 @@ Retirements
   platform dependencies for platforms long dead.  There are enough
   platform-independent GIF viewers in the world that these weren't
   adding any value. Removing these gets rid of a dependency on GL.
-* The rle2gif and gif2rle utilities are also gone. There are enough
+* The rle2gif, gif2rle, and gif2ps utilities are also gone. There are enough
   multiformat image converters in the world that these weren't adding 
   any value either.  Removing them reduces the codebase's dependencies.
 * The undocumented DumpScreen2Gif() is gone from the library.  The

@@ -33,7 +33,6 @@ util/.deps/
 util/.libs/
 util/Makefile
 util/Makefile.in
-util/gif2ps
 util/gif2rgb
 util/gif2x11
 util/gifasm
