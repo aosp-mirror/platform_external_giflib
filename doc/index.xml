@@ -274,36 +274,6 @@ change positions) that copy the image as a block of compressed data will print
 nothing --- they cannot identify a scan line number, and are enough faster that
 the feedback to the user doesn't seem necessary.</para>
 
-<para>Some of the utilities require memory on the order of the whole
-screen, while others read one scan line at a time.  Each utility HTML
-file has entry called <emphasis>Memory Usage</emphasis> which will be
-one of:</para>
-
-<variablelist>
-<varlistentry>
-<term>Line </term>
-<listitem>
-<para>memory required is on the order of one scan line</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term>Image </term>
-<listitem>
-<para>proportional to the size of the biggest image in GIF file</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term>Screen </term>
-<listitem>
-<para>proportional to GIF screen size</para>
-</listitem>
-</varlistentry>
-</variablelist>
-
-<para>In all cases a byte is allocated per pixel, so an image of 320
-by 200 pixels will requires approximately 64k bytes of main
-memory.</para>
-
 </sect2>
 </sect1>
 <sect1><title>Library Functions</title>

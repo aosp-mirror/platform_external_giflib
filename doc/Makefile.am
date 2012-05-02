@@ -43,7 +43,7 @@ SUFFIXES = .xml .html .txt
 
 all: allhtml alltxt alldvi
 
-SOURCES = index.xml
+SOURCES = index.xml gif2x11.xml
 
 alltxt: $(SOURCES:.xml=.txt)
 
