@@ -32,3 +32,19 @@ LIBRARYHELP = GifFileType.png \
 	     liberror.html \
 	     lzgif.txt
 EXTRA_DIST = $(UTILHELP) $(LIBRARYHELP)
+
+SUFFIXES = .xml .html .txt
+
+.xml.html:
+	xmlto xhtml-nochunks $<
+
+.xml.txt:
+	xmlto txt $<
+
+all: allhtml alltxt alldvi
+
+SOURCES = index.xml
+
+alltxt: $(SOURCES:.xml=.txt)
+
+allhtml: $(SOURCES:.xml=.html)
