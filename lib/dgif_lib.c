@@ -760,11 +760,8 @@ DGifDecompressLine(GifFileType * GifFile,
             /* Note however that usually we will not be here as we will stop
              * decoding as soon as we got all the pixel, or EOF code will
              * not be read at all, and DGifGetLine/Pixel clean everything.  */
-            if (i != LineLen - 1 || Private->PixelCount != 0) {
-                _GifError = D_GIF_ERR_EOF_TOO_SOON;
-                return GIF_ERROR;
-            }
-            i++;
+	    _GifError = D_GIF_ERR_EOF_TOO_SOON;
+	    return GIF_ERROR;
         } else if (CrntCode == ClearCode) {
             /* We need to start over again: */
             for (j = 0; j <= LZ_MAX_CODE; j++)
