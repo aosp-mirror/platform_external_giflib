@@ -5,8 +5,8 @@
 <refentry id='gif2x11.1'>
 <refentryinfo><date>2 May 2012</date></refentryinfo>
 <refmeta>
-<refentrytitle>gpsd</refentrytitle>
-<manvolnum>8</manvolnum>
+<refentrytitle>gif2x11</refentrytitle>
+<manvolnum>1</manvolnum>
 <refmiscinfo class="source">GIFLIB</refmiscinfo>
 <refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
 </refmeta>

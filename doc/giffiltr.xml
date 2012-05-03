@@ -7,8 +7,8 @@
 <refentry id='giffiltr.1'>
 <refentryinfo><date>2 May 2012</date></refentryinfo>
 <refmeta>
-<refentrytitle>GIFLIB</refentrytitle>
-<manvolnum>8</manvolnum>
+<refentrytitle>giffiltr</refentrytitle>
+<manvolnum>1</manvolnum>
 <refmiscinfo class="source">GIFLIB</refmiscinfo>
 <refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
 </refmeta>
