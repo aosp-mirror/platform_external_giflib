@@ -32,7 +32,6 @@
       		<replaceable>w</replaceable>
 		<replaceable>h</replaceable></arg>
       <arg choice='opt'>-h</arg>
-      <arg choice='plain'><replaceable>gif-file</replaceable></arg>
 </cmdsynopsis>
 </refsynopsisdiv>
 

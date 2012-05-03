@@ -26,7 +26,7 @@
       <arg choice='opt'>-g <replaceable>gamma</replaceable></arg>
       <arg choice='opt'>-i <replaceable>image</replaceable></arg>
       <arg choice='opt'>-h</arg>
-      <arg choice='plain'><replaceable>gif-file</replaceable></arg>
+      <arg choice='opt'><replaceable>gif-file</replaceable></arg>
 </cmdsynopsis>
 </refsynopsisdiv>
 

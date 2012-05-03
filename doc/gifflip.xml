@@ -25,7 +25,7 @@
       <arg choice='opt'>-x</arg>
       <arg choice='opt'>-y</arg>
       <arg choice='opt'>-h</arg>
-      <arg choice='plain'><replaceable>gif-file</replaceable></arg>
+      <arg choice='opt'><replaceable>gif-file</replaceable></arg>
 </cmdsynopsis>
 </refsynopsisdiv>
 

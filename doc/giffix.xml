@@ -21,7 +21,7 @@
   <command>giffix</command>
       <arg choice='opt'>-q</arg>
       <arg choice='opt'>-h</arg>
-      <arg choice='plain'><replaceable>gif-file</replaceable></arg>
+      <arg choice='opt'><replaceable>gif-file</replaceable></arg>
 </cmdsynopsis>
 </refsynopsisdiv>
 

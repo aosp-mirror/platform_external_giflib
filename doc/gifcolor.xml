@@ -22,7 +22,7 @@
       <arg choice='opt'>-q</arg>
       <arg choice='opt'>-b <replaceable>background</replaceable></arg>
       <arg choice='opt'>-h</arg>
-      <arg choice='plain'><replaceable>colormap-file</replaceable></arg>
+      <arg choice='opt'><replaceable>colormap-file</replaceable></arg>
 </cmdsynopsis>
 </refsynopsisdiv>
 
@@ -69,6 +69,8 @@ integrity will still be checked.</para>
 </listitem>
 </varlistentry>
 </variablelist>
+
+<para>If no colormap file is specified, the color map will be read from stdin.</para>
 
 </refsect1>
 <refsect1><title>Author</title>

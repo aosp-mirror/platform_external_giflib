@@ -22,7 +22,6 @@
 <cmdsynopsis>
   <command>gifcompose</command>
       <arg choice='opt'>-v</arg>
-      <arg choice='plain'><replaceable>specfile</replaceable></arg>
 </cmdsynopsis>
 </refsynopsisdiv>
 
@@ -34,8 +33,9 @@ a minilanguage for describing GIF pasteup sequences.</para>
 </refsect1>
 <refsect1><title>Specification Syntax</title>
 
-<para>The gifcompose tool takes a series of text lines and interprets them as
-commands to do pasteup operations. The commands are:</para>
+<para>The gifcompose tool takes a series of text lines on stdin and
+interprets them as commands to do pasteup operations. The commands
+are:</para>
 
 <variablelist>
 <varlistentry>
