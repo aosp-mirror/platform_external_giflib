@@ -39,17 +39,18 @@ Except for some details of extension-block handling and the addition
 of read/write function hooks, the DGifSlurp()/EGifSpew() interface has
 been stable since 1990.  It is expected to remain so.
 
-== Deprecation list ==
+== Roadmap and deprecation list ==
 
 Some features will be removed in giflib 5.0:
 
 * In the SavedImage struct: int Function will be removed.  Use
   SavedImage.ExtensionBlocks[x].Function instead.
 
-* In gifalloc.c: MakeExtension is deprecated as well.  Use AddExtensionBlock
-  instead.  (This and the previous int Function were deprecated because they
-  only handle one Extension per image.  The new code handles multiple
-  extensions.)
+* In gifalloc.c: MakeExtension is deprecated as well.  Use
+  AddExtensionBlock instead, but note that it will change in 5.0 to
+  take an additional function code argument.  (This and the previous
+  int Function were deprecated because they only handle one Extension
+  per image.  The new code handles multiple extensions.)
 
 * Do not use GifBooleanType.  This is legacy from before the C
   language got booleans. It is still in the .h file, but will be 
