@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC
+   "-//OASIS//DTD DocBook XML V4.1.2//EN"
+   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id='gifrsize.1'>
+<refentryinfo><date>2 May 2012</date></refentryinfo>
+<refmeta>
+<refentrytitle>gifrsize</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">GIFLIB</refmiscinfo>
+<refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
+</refmeta>
+<refnamediv id='name'>
+<refname>gifrsize</refname>
+<refpurpose>resize and scale GIFs</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+
+<cmdsynopsis>
+  <command>gifrsize</command>
+      <arg choice='opt'>-q</arg>
+      <arg choice='opt'>-S 
+      		<replaceable>x</replaceable>
+      		<replaceable>y</replaceable></arg>
+      <arg choice='opt'>-s <replaceable>scale</replaceable></arg>
+      <arg choice='opt'>-x <replaceable>xscale</replaceable></arg>
+      <arg choice='opt'>-y <replaceable>yscale</replaceable></arg>
+      <arg choice='opt'>-h</arg>
+      <arg choice='opt'><replaceable>gif-file</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1><title>Description</title>
+
+<para>A program to resize image size by an integer factor, deleting
+bits when scaling down and duplicating bits when scaling up.</para>
+
+</refsect1>
+<refsect1><title>Options</title>
+
+<variablelist>
+<varlistentry>
+<term>-q</term>
+<listitem>
+<para> Quiet mode.  Defaults off on MSDOS, on under UNIX.  Controls printout of running scan lines.  Use -q- to invert.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-S x y</term>
+<listitem>
+<para>Specifies the exact screen dimension of the output GIF.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-s scale</term>
+<listitem>
+<para>Set scaling factor for both x &amp; y direction to Scale. Default is 0.5. Note this is a floating point number.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-x xscale</term>
+<listitem>
+<para>Set scaling factor for x direction to Scale.  Default is 0.5. Note: this is a floating point number.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-y yscale</term>
+<listitem>
+<para>Set scaling factor for y direction to Scale. Default is 0.5. Note: this is a floating point number.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>Print one line of command line help, similar to Usage above.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>If no GIF file is given, gifrsize will try to read a GIF file
+from stdin.</para>
+
+</refsect1>
+<refsect1><title>Author</title>
+
+<para>Gershon Elber.</para>
+
+</refsect1>
+</refentry>

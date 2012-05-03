@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC
+   "-//OASIS//DTD DocBook XML V4.1.2//EN"
+   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id='gifrotat.1'>
+<refentryinfo><date>2 May 2012</date></refentryinfo>
+<refmeta>
+<refentrytitle>gifrotat</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">GIFLIB</refmiscinfo>
+<refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
+</refmeta>
+<refnamediv id='name'>
+<refname>gifrotat</refname>
+<refpurpose>rotate a GIF image by a specified angle.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+
+<cmdsynopsis>
+  <command>gifrotat</command>
+      <arg choice='opt'>-q</arg>
+      <arg choice='plain'>-a <replaceable>angle</replaceable></arg>
+      <arg choice='opt'>-s 
+      		<replaceable>width</replaceable>
+      		<replaceable>height</replaceable></arg>
+      <arg choice='opt'>-h</arg>
+      <arg choice='opt'><replaceable>gif-file</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1><title>Options</title>
+
+<variablelist>
+<varlistentry>
+<term>-a Angle</term>
+<listitem>
+<para>Specifies the angle to rotate in degrees with respect to the X
+(horizontal) axis.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-q</term>
+<listitem>
+<para>Quiet mode.  Defaults off on MSDOS, on under UNIX.  Controls
+printout of running scan lines. Use -q- to invert.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-s Width Height</term>
+<listitem>
+<para>Since the rotated image will have the same image size as the
+original, some parts of the image will by clipped out and lost. By
+specifing a (bigger) size explicitly using the `-s' option, these
+parts may be saved.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>Print one line of command line help, similar to Usage
+above.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>If no GIF file is given, gifrotat will try to read a GIF file
+from stdin.</para>
+
+</refsect1>
+<refsect1><title>Notes</title>
+
+<para>The image is rotated around its center.  No filtering is performed on the
+output, which has the same color map as the input.</para>
+
+</refsect1>
+<refsect1><title>Author:</title>
+
+<para>Gershon Elber.</para>
+
+</refsect1>
+</refentry>
