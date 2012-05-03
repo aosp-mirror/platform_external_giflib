@@ -1,17 +1,18 @@
-Edit utils to get rid of use of all deprecated Functions.
-- icon2gif has MakeExtension
+= GIFLIB TODO list =
 
-Check how the library uses MakeExtension and AddExtensionBlock.  I have the
-vague impression that the library currently requires a two step process:
-MakeExtension adds the Function type to deprecated: SavedImage->Function.
-Then, AddExtensionBlock must be called to add it to SavedImage->ExtensionBlock
-(The Function type is passed in via the SavedImage->Function so that's why we
-have to do that step first.  Need to untangle those functions.)
+== Clean up the extensions mess ==
 
-- Why do we have so many colormaps?  GifFile->SColorMap is the screen
-  descriptor colormap.
-  GifFile->Image.ColorMap ?
-  GifFile->SavedImages[x].ColorMap = Local colormap
+* Add a function-code argument to AddExtensionBlock()
+* Remove MakeExtension() and its remaining uses in icon2gif
+* Remove the Function member from the image structure
+
+This will require a break in object-library compatibility.
+
+Toshio wrote: The present Extension code is pretty hacky.  It looks
+like giflib's ability to do Extension code was added on at a later
+time and also was not implemented entirely in conformance with the
+gif89a spec.  I've hacked it further to make it conform to the spec,
+but it would benefit greatly from a complete rewrite.
 
 - Also check how we push the Extensions out to a gif file.  We should never
 touch SavedImage->Function when we write to file.  All information is saved in
@@ -22,6 +23,8 @@ First, Next, Last, and generic version of these functions?  Does the
 application programmer really need to know all this?  Shouldn't the library
 take care of it?  Also, they should use WRITE rather than fwrite directly to
 output the data.
+
+== Security and quality ==
 
 Make sure we set pointers that we don't fill to NULL.  (gifalloc.c seems
 pretty clean.  But GifFile isn't allocated in gifalloc.c)
@@ -77,15 +80,3 @@ Which is horrendously wasteful without compression.
 
 Any volunteers?
 
-=======
-The Present Extension code is pretty hacky.  It looks like giflib's ability to
-do Extension code was added on at a later time and also was not implemented
-entirely in conformance with the gif89a spec.  I've hacked it further to make
-it conform to the spec, but it would benefit greatly from a complete rewrite.
-
-If there is ever a version-5.0 of this library (with API level changes), this
-should definitely be one of the areas that gets worked on.
-
-=======
-Documentation needs updating to reflect additions to the API.  This would best
-be done with auto-extraction from the SOURCES....
