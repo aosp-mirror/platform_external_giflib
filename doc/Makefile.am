@@ -45,8 +45,8 @@ all: allhtml alltxt alldvi
 SOURCES = index.xml \
 	gif2rgb.xml gif2x11.xml gifasm.xml gifbg.xml gifclip.xml gifclrmp.xml \
 	gifcolor.xml gifcomb.xml gifcompose.xml giffiltr.xml giffix.xml \
-	gifflip.xml gifhisto.xml gifinter.xml gifinto.xml gifovly.xml
-
+	gifflip.xml gifhisto.xml gifinter.xml gifinto.xml gifovly.xml \
+	gifpos.xml
 alltxt: $(SOURCES:.xml=.txt)
 
 allhtml: $(SOURCES:.xml=.html)
