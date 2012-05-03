@@ -14,16 +14,6 @@ time and also was not implemented entirely in conformance with the
 gif89a spec.  I've hacked it further to make it conform to the spec,
 but it would benefit greatly from a complete rewrite.
 
-- Also check how we push the Extensions out to a gif file.  We should never
-touch SavedImage->Function when we write to file.  All information is saved in
-the ExtensionBlock.
-
-EGifPutExtension*/DGifGetExtension* needs to be looked at.  Why is there a
-First, Next, Last, and generic version of these functions?  Does the
-application programmer really need to know all this?  Shouldn't the library
-take care of it?  Also, they should use WRITE rather than fwrite directly to
-output the data.
-
 == Security and quality ==
 
 Make sure we set pointers that we don't fill to NULL.  (gifalloc.c seems
