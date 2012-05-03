@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC
+   "-//OASIS//DTD DocBook XML V4.1.2//EN"
+   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id='raw2gif.1'>
+<refentryinfo><date>2 May 2012</date></refentryinfo>
+<refmeta>
+<refentrytitle>raw2gif</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">GIFLIB</refmiscinfo>
+<refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
+</refmeta>
+<refnamediv id='name'>
+<refname>raw2gif</refname>
+<refpurpose>convert raw pixel data to a GIF</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+
+<cmdsynopsis>
+  <command>raw2gif</command>
+      <arg choice='opt'>-q</arg>
+      <arg choice='plain'>-s 
+      		<replaceable>width</replaceable>
+      		<replaceable>height</replaceable></arg>
+      <arg choice='opt'>-p <replaceable>color-map</replaceable></arg>
+      <arg choice='opt'>-h</arg>
+      <arg choice='opt'><replaceable>raw-file</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1><title>Description</title>
+
+<para>A program to convert RAW image data into GIF files.  Only one
+image can be handled.  The RAW image file is assumed to hold one pixel
+color in one byte, and therefore the file size must be Width times
+Height as specified by the -s option below.</para>
+
+<para>If no raw-file is given, raw2gif will try to read RAW data from stdin.
+The generated GIF File is dumped to stdout.</para>
+
+</refsect1>
+<refsect1><title>Options</title>
+
+<variablelist>
+<varlistentry>
+<term>-q</term>
+<listitem>
+<para> Quiet mode.  Defaults off on MSDOS, on under UNIX.  Controls printout of running scan lines. Use -q- to invert.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-s width height</term>
+<listitem>
+<para>The dimensions of the image <emphasis>must</emphasis> be
+specified in the command line.  The raw image file size must be
+exactly width times weight bytes (each byte is one pixel
+color).</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-p ColorMapFile</term>
+<listitem>
+<para> Color map to load for given RAW image.  This file has 4
+integers in line (ColorIndex Red Green Blue), and the ColorIndex is in
+order starting from 1. See gifclrmap, which can also use/create these
+bitmap files. If no color map is specified, uses the EGA 16 color
+palette as default color map.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>Print one line of command line help, similar to Usage above.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+<refsect1><title>Author</title>
+
+<para>Gershon Elber.</para>
+
+</refsect1>
+</refentry>
