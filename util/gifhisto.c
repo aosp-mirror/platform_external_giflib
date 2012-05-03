@@ -65,8 +65,7 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, Size, NumFiles, ExtCode, CodeSize, NumColors = 2, Color,
-	Count, ImageNum = 0;
+    int	i, j, NumFiles, ExtCode, CodeSize, NumColors = 2, Count, ImageNum = 0;
     bool Error, TextFlag = false, SizeFlag = false,
 	ImageNFlag = false, BackGroundFlag = false, HelpFlag = false;
     long Scaler, Histogram[256];
@@ -190,6 +189,7 @@ int main(int argc, char **argv)
 	    printf("%12ld  %3d\n", Histogram[i], i);
     }
     else {
+	int Color;
 	/* Open stdout for the histogram output file: */
 	if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);
@@ -215,6 +215,7 @@ int main(int argc, char **argv)
 
 	/* Dump out the image itself: */
 	for (Count = ImageHeight, i = 0, Color = 1; i < NumColors; i++) {
+	    int Size;
 	    if ((Size = Histogram[i] / Scaler) > ImageWidth) Size = ImageWidth;
 	    for (j = 0; j < Size; j++)
 		Line[j] = Color;

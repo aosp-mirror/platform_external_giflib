@@ -56,7 +56,7 @@ static int EscapeString(char *cp, char *tp);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, NumFiles;
+    int	NumFiles;
     bool Error,	DisasmFlag = false, HelpFlag = false, TextLineFlag = false;
     char **FileNames = NULL;
     char *TextLines[1];
@@ -95,7 +95,9 @@ int main(int argc, char **argv)
 	else
 	    Icon2Gif("Stdin", stdin, 1);
     }
-    else
+    else 
+    {
+	int i;
 	for (i = 0; i < NumFiles; i++)
 	{
 	    FILE	*fp;
@@ -118,6 +120,7 @@ int main(int argc, char **argv)
 
 	    (void) fclose(fp);
 	}
+    }
 
     return 0;
 }

@@ -433,7 +433,7 @@ static void LoadRGB(char *FileName,
 		    GifByteType **BlueBuffer,
 		    int Width, int Height)
 {
-    int i, j;
+    int i;
     unsigned long Size;
     GifByteType *RedP, *GreenP, *BlueP;
     FILE *f[3];
@@ -487,6 +487,7 @@ static void LoadRGB(char *FileName,
 	    GIF_EXIT("Failed to allocate memory required, aborted.");
 
 	for (i = 0; i < Height; i++) {
+	    int j;
 	    GifQprintf("\b\b\b\b%-4d", i);
 	    if (fread(Buffer, Width * 3, 1, f[0]) != 1)
 		GIF_EXIT("Input file(s) terminated prematurly.");

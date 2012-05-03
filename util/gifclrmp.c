@@ -259,8 +259,7 @@ int main(int argc, char **argv)
 ******************************************************************************/
 static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
 {
-    int i, Dummy, Red, Green, Blue, Max = 0;
-    double Gamma1;
+    int i, Dummy, Red, Green, Blue;
 
     if (SaveFlag) {
 	/* Save this color map to ColorFile: */
@@ -286,7 +285,7 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
     }
     else if (GammaFlag) {
 	/* Apply gamma correction to this color map: */
-	Gamma1 = 1.0 / Gamma;
+	double Gamma1 = 1.0 / Gamma;
 	for (i = 0; i < ColorMap->ColorCount; i++) {
 	    ColorMap->Colors[i].Red =
 		((int) (255 * pow(ColorMap->Colors[i].Red / 255.0, Gamma1)));
@@ -299,6 +298,7 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
     }
     else if (TranslateFlag) {
 	ColorMapObject *NewMap;
+	int Max = 0;
 
 	/* Read the translation table in TranslateFile: */
 	for (i = 0; i < ColorMap->ColorCount; i++) {

@@ -73,8 +73,7 @@ static int HandleGifError(GifFileType *GifFile);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	NumFiles, ImageWidth, ImageHeight, Dummy, Red, Green, Blue,
-	ColorMapSize, InFileHandle;
+    int	NumFiles, ImageWidth, ImageHeight, Dummy, Red, Green, Blue;
     static bool Error,
 	ImageSizeFlag = false, ColorMapFlag = false, HelpFlag = false;
     char **FileName = NULL, *ColorMapFile;
@@ -102,6 +101,8 @@ int main(int argc, char **argv)
     }
 
     if (ColorMapFlag) {
+	int ColorMapSize;
+
 	/* Read color map from given file: */
 	if ((InColorMapFile = fopen(ColorMapFile, "rt")) == NULL) {
 	    GIF_MESSAGE("Failed to open COLOR MAP file (not exists!?).");
@@ -128,6 +129,7 @@ int main(int argc, char **argv)
     }
 
     if (NumFiles == 1) {
+	int InFileHandle;
 #ifdef __MSDOS__
 	if ((InFileHandle = open(*FileName, O_RDONLY | O_BINARY)) == -1) {
 #else

@@ -86,8 +86,7 @@ static void QuitGifError(GifFileType *GifFile);
 int main(int argc, char **argv)
 {
     unsigned int Ratio;
-    int	i, j, l, LevelHeight, LevelWidth, LogNumLevels, 
-	Accumulator, StartX, StepX, Count = 0;
+    int	i, l, LevelWidth, LogNumLevels, StartX, StepX, Count = 0;
     bool Error, FlipDir, DoAllMaximum = false,
 	DirectionFlag = false, LevelsFlag = false, ColorFlag = false,
 	MinFlag = false, MaxFlag = false, SizeFlag = false, HelpFlag = false;
@@ -249,10 +248,12 @@ int main(int argc, char **argv)
 	GIF_EXIT("Failed to allocate memory required, aborted.");
 
     if (Direction == DIR_TOP) {
+	int LevelHeight;
 	/* We must evaluate the line each time level is changing: */
 	LevelHeight = ImageHeight / NumLevels;
 	for (Color = NumLevels, i = l = 0; i < ImageHeight; i++) {
 	    if (i == l) {
+		int j;
 		/* Time to update the line to next color level: */
 		if (Color != 0) Color--;
 		for (j = 0; j < ImageWidth; j++)
@@ -290,6 +291,7 @@ int main(int argc, char **argv)
 	}
     }
     else {
+	int Accumulator;
 	/* We are in one of the TOP_RIGHT, BOT_RIGHT cases: we will          */
 	/* initialize the Line with its double ImageWidth length from the    */
 	/* minimum intensity to the maximum intensity and shift along it     */
