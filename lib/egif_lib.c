@@ -61,7 +61,7 @@ static int EGifBufferedOutput(GifFileType * GifFile, GifByteType * Buf,
  *****************************************************************************/
 GifFileType *
 EGifOpenFileName(const char *FileName,
-                 int TestExistance) {
+                 bool TestExistance) {
 
     int FileHandle;
     GifFileType *GifFile;
@@ -300,7 +300,7 @@ EGifPutImageDesc(GifFileType * GifFile,
                  int Top,
                  int Width,
                  int Height,
-                 int Interlace,
+                 bool Interlace,
                  const ColorMapObject * ColorMap) {
 
     int i;
