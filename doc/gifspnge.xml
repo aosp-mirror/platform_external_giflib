@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC
+   "-//OASIS//DTD DocBook XML V4.1.2//EN"
+   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY email         "esr@thyrsus.com">
+]>
+<refentry id='gifspnge.1'>
+<refentryinfo><date>2 May 2012</date></refentryinfo>
+<refmeta>
+<refentrytitle>gifspnge</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">GIFLIB</refmiscinfo>
+<refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
+</refmeta>
+<refnamediv id='name'>
+<refname>gifspnge</refname>
+<refpurpose>expensive GIF copy, whole-image version</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+
+<cmdsynopsis>
+  <command>gifspnge</command>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1><title>Description</title>
+
+<para>This is an expensive way to copy a GIF from stdin to stdout.
+The source is included as a skeleton for more sophisticated filters
+using DGifSlurp() and EGifSpew().  See the source in the util
+directory of the distribution for details.</para>
+
+<para>Retains some utility as a test of DGifSlurp() and EGifSpew().
+The output should be bytewise identical to the input.</para>
+
+</refsect1>
+<refsect1><title>Author</title>
+
+<para>Eric S. Raymond <email>&email;</email></para>
+
+</refsect1>
+</refentry>

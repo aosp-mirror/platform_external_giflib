@@ -46,7 +46,8 @@ MANSOURCES = \
 	gif2rgb.xml gif2x11.xml gifasm.xml gifbg.xml gifclip.xml gifclrmp.xml \
 	gifcolor.xml gifcomb.xml gifcompose.xml giffiltr.xml giffix.xml \
 	gifflip.xml gifhisto.xml gifinter.xml gifinto.xml gifovly.xml \
-	gifpos.xml gifrotat.xml gifrsize.xml
+	gifpos.xml gifrotat.xml gifrsize.xml gifspnge.xml giftext.xml \
+	gifwedge.xml
 TXTSOURCES = index.xml gif_lib.xml
 SOURCES = $(MANSOURCES) $(TXTSOURCES)
 
