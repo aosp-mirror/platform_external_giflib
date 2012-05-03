@@ -959,7 +959,8 @@ EGifBufferedOutput(GifFileType * GifFile,
 int
 EGifSpew(GifFileType * GifFileOut) {
 
-    int i, j, gif89 = FALSE;
+    int i, j; 
+    bool gif89 = false;
     int bOff;   /* Block Offset for adding sub blocks in Extensions */
     char SavedStamp[GIF_STAMP_LEN + 1];
 
@@ -972,7 +973,7 @@ EGifSpew(GifFileType * GifFileOut) {
                 || function == GRAPHICS_EXT_FUNC_CODE
                 || function == PLAINTEXT_EXT_FUNC_CODE
                 || function == APPLICATION_EXT_FUNC_CODE)
-                gif89 = TRUE;
+                gif89 = true;
         }
     }
 

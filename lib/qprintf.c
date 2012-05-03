@@ -18,9 +18,9 @@
 #include "gif_lib.h"
 
 #ifdef __MSDOS__
-int GifQuietPrint = FALSE;
+bool GifQuietPrint = false;
 #else
-int GifQuietPrint = TRUE;
+bool GifQuietPrint = true;
 #endif /* __MSDOS__ */
 
 /*****************************************************************************
