@@ -19,6 +19,6 @@ libgif_la_SOURCES = dgif_lib.c  \
                     gif_err.c   \
 					gif_lib_private.h
 
-libgif_la_LDFLAGS = -version-info 5:6:1
+libgif_la_LDFLAGS = -version-info @SHLIBVERSION@
 libgif_la_LIBADD = @DEVS@
 libgif_CFLAGS = $(X_CFLAGS) $(AM_CFLAGS)

@@ -61,4 +61,5 @@ To do a release:
 
 Note: the version needs to be bumped in two places, configure.ac
 and lib/gif_lib.h. You will also need to stamp the top entry in the
-NEWS file.
+NEWS file.  The shared-library version is also set in configure.ac.
+

@@ -13,6 +13,9 @@ AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AM_PROG_CC_C_O
 
+dnl Shared-library version
+SHLIBVERSION=5:6:1
+
 dnl Define warnings if we're compiling with gcc.
 dnl Set it in CFLAGS so the end-user can disable it if they wish.
 if test "x$GCC" = "xyes" ; then
@@ -42,7 +45,7 @@ AC_SUBST(GL_S_LIB)
 AC_SUBST(X11_LIB)
 AC_SUBST(X_CFLAGS)
 AC_SUBST(MATH_LIB)
-AC_SUBST(RLE_LIB)
+AC_SUBST(SHLIBVERSION)
 
 dnl Check for limits.h so we have a definition of INT_MAX
 AC_CHECK_HEADERS([limits.h], ,
