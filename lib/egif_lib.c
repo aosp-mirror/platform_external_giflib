@@ -36,7 +36,7 @@ static const GifPixelType CodeMask[] = {
 };
 /*@-charint@*/
 
-static char GifVersionPrefix[GIF_STAMP_LEN + 1] = GIF87_STAMP;
+static char GifVersionPrefix[GIF_STAMP_LEN + 1];
 
 #define WRITE(_gif,_buf,_len)   \
   (((GifFilePrivateType*)_gif->Private)->Write ?    \
@@ -209,6 +209,8 @@ EGifPutScreenDesc(GifFileType * GifFile,
 
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
+    char *write_version;
+    int i, j;
 
     if (Private->FileState & FILE_STATE_SCREEN) {
         /* If already has screen descriptor - something is wrong! */
@@ -221,9 +223,39 @@ EGifPutScreenDesc(GifFileType * GifFile,
         return GIF_ERROR;
     }
 
+    /* Bulletproofing - always write GIF89 if we need to */
+    for (i = 0; i < GifFile->ImageCount; i++) {
+        for (j = 0; j < GifFile->SavedImages[i].ExtensionBlockCount; j++) {
+            int function =
+               GifFile->SavedImages[i].ExtensionBlocks[j].Function;
+
+            if (function == COMMENT_EXT_FUNC_CODE
+                || function == GRAPHICS_EXT_FUNC_CODE
+                || function == PLAINTEXT_EXT_FUNC_CODE
+                || function == APPLICATION_EXT_FUNC_CODE)
+                Private->gif89 = true;
+        }
+    }
+
+    /*
+     * Older versions of the library didn't compute which version 
+     * the image's extension blocks require here, but rather in EGifSpew(),
+     * and it was done in a non-thread-safe way. The default for sequential 
+     * writes was GIF87 but you could override it with EGifSetGifVersion.
+     * This new code lets you shoot yourself in the foot if you really
+     * want to, but defaults to the oldest version that will carry the
+     * extensions.
+     */
+    if (GifVersionPrefix[0] != '\0')
+	write_version = GifVersionPrefix;
+    else if (Private->gif89)
+	write_version = GIF89_STAMP;
+    else
+	write_version = GIF87_STAMP;
+
     /* First write the version prefix into the file. */
-    if (WRITE(GifFile, (unsigned char *)GifVersionPrefix,
-              strlen(GifVersionPrefix)) != strlen(GifVersionPrefix)) {
+    if (WRITE(GifFile, (unsigned char *)write_version,
+              strlen(write_version)) != strlen(write_version)) {
         _GifError = E_GIF_ERR_WRITE_FAILED;
         return GIF_ERROR;
     }
@@ -960,39 +992,16 @@ int
 EGifSpew(GifFileType * GifFileOut) {
 
     int i, j; 
-    bool gif89 = false;
     int bOff;   /* Block Offset for adding sub blocks in Extensions */
-    char SavedStamp[GIF_STAMP_LEN + 1];
 
-    for (i = 0; i < GifFileOut->ImageCount; i++) {
-        for (j = 0; j < GifFileOut->SavedImages[i].ExtensionBlockCount; j++) {
-            int function =
-               GifFileOut->SavedImages[i].ExtensionBlocks[j].Function;
-
-            if (function == COMMENT_EXT_FUNC_CODE
-                || function == GRAPHICS_EXT_FUNC_CODE
-                || function == PLAINTEXT_EXT_FUNC_CODE
-                || function == APPLICATION_EXT_FUNC_CODE)
-                gif89 = true;
-        }
-    }
-
-    strncpy(SavedStamp, GifVersionPrefix, GIF_STAMP_LEN);
-    if (gif89) {
-        strncpy(GifVersionPrefix, GIF89_STAMP, GIF_STAMP_LEN);
-    } else {
-        strncpy(GifVersionPrefix, GIF87_STAMP, GIF_STAMP_LEN);
-    }
     if (EGifPutScreenDesc(GifFileOut,
                           GifFileOut->SWidth,
                           GifFileOut->SHeight,
                           GifFileOut->SColorResolution,
                           GifFileOut->SBackGroundColor,
                           GifFileOut->SColorMap) == GIF_ERROR) {
-        strncpy(GifVersionPrefix, SavedStamp, GIF_STAMP_LEN);
         return (GIF_ERROR);
     }
-    strncpy(GifVersionPrefix, SavedStamp, GIF_STAMP_LEN);
 
     for (i = 0; i < GifFileOut->ImageCount; i++) {
         SavedImage *sp = &GifFileOut->SavedImages[i];
