@@ -292,42 +292,52 @@ GAGetParmeters(int *Parameters[],
     while (!(ISSPACE(CtrlStrCopy[i]))) {
         switch (CtrlStrCopy[i + 1]) {
           case 'd':    /* Get signed integers. */
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%d",
                                (int *)Parameters[(*ParamCount)++]);
               break;
           case 'u':    /* Get unsigned integers. */
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%u",
                                (unsigned *)Parameters[(*ParamCount)++]);
               break;
           case 'x':    /* Get hex integers. */
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%x",
                                (unsigned int *)Parameters[(*ParamCount)++]);
               break;
           case 'o':    /* Get octal integers. */
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%o",
                                (unsigned int *)Parameters[(*ParamCount)++]);
               break;
           case 'D':    /* Get signed long integers. */
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%ld",
                                (long *)Parameters[(*ParamCount)++]);
               break;
           case 'U':    /* Get unsigned long integers. */
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lu",
                                (unsigned long *)Parameters[(*ParamCount)++]);
               break;
           case 'X':    /* Get hex long integers. */
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lx",
                                (unsigned long *)Parameters[(*ParamCount)++]);
               break;
           case 'O':    /* Get octal long integers. */
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lo",
                                (unsigned long *)Parameters[(*ParamCount)++]);
               break;
           case 'f':    /* Get float number. */
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%f",
                                (float *)Parameters[(*ParamCount)++]);
 	      /*@fallthrough@*/
           case 'F':    /* Get double float number. */
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lf",
                                (double *)Parameters[(*ParamCount)++]);
               break;
@@ -390,55 +400,65 @@ GAGetMultiParmeters(int *Parameters[],
         switch (CtrlStrCopy[2]) { /* CtrlStr == '!*?' or '%*?' where ? is. */
           case 'd':    /* Format to read the parameters: */
               TmpArray.IntArray[NumOfPrm] = (int *)MyMalloc(sizeof(int));
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%d",
                                (int *)TmpArray.IntArray[NumOfPrm++]);
               break;
           case 'u':
               TmpArray.IntArray[NumOfPrm] = (int *)MyMalloc(sizeof(int));
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%u",
                                (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
               break;
           case 'o':
               TmpArray.IntArray[NumOfPrm] = (int *)MyMalloc(sizeof(int));
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%o",
                                (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
               break;
           case 'x':
               TmpArray.IntArray[NumOfPrm] = (int *)MyMalloc(sizeof(int));
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%x",
                                (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
               break;
           case 'D':
               TmpArray.LngArray[NumOfPrm] = (long *)MyMalloc(sizeof(long));
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%ld",
                                (long *)TmpArray.IntArray[NumOfPrm++]);
               break;
           case 'U':
               TmpArray.LngArray[NumOfPrm] = (long *)MyMalloc(sizeof(long));
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lu",
                                (unsigned long *)TmpArray.
                                IntArray[NumOfPrm++]);
               break;
           case 'O':
               TmpArray.LngArray[NumOfPrm] = (long *)MyMalloc(sizeof(long));
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lo",
                                (unsigned long *)TmpArray.
                                IntArray[NumOfPrm++]);
               break;
           case 'X':
               TmpArray.LngArray[NumOfPrm] = (long *)MyMalloc(sizeof(long));
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lx",
                                (unsigned long *)TmpArray.
                                IntArray[NumOfPrm++]);
               break;
           case 'f':
               TmpArray.FltArray[NumOfPrm] = (float *)MyMalloc(sizeof(float));
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%f",
                                (float *)TmpArray.LngArray[NumOfPrm++]);
               break;
           case 'F':
               TmpArray.DblArray[NumOfPrm] =
                  (double *)MyMalloc(sizeof(double));
+	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lf",
                                (double *)TmpArray.LngArray[NumOfPrm++]);
               break;

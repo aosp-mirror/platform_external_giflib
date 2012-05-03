@@ -33,7 +33,7 @@ EXTRA_DIST = Makefile.unx \
 
 # cppcheck should run clean
 cppcheck:
-	cppcheck --inline-suppr --template gcc --enable=all --force lib/*.[ch] util/*.[ch]
+	cppcheck --inline-suppr --template gcc --enable=all --suppress=unusedStructMember --suppress=unusedFunction --force lib/*.[ch] util/*.[ch]
 
 # splint is nowhere near running clean
 SPLINT_SUPPRESSIONS = -boolops -nullret

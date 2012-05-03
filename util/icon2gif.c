@@ -179,12 +179,15 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	 * Explicit header declarations
 	 */
 
+	// cppcheck-suppress invalidscanf 
 	if (sscanf(buf, "screen width %d\n", &GifFileOut->SWidth) == 1)
 	    continue;
 
+	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "screen height %d\n", &GifFileOut->SHeight) == 1)
 	    continue;
 
+	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "screen colors %d\n", &n) == 1)
 	{
 	    int	ResBits = BitSize(n);
@@ -199,6 +202,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    continue;
 	}
 
+	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf,
 			"screen background %d\n",
 			&GifFileOut->SBackGroundColor) == 1)
@@ -236,6 +240,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    memset(LocalColorKeys, '\0', sizeof(LocalColorKeys));
 	}
 
+	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "	rgb %d %d %d is %c",
 		   &red, &green, &blue, &KeyTable[ColorMapSize]) == 4)
 	{
@@ -264,6 +269,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	}
 
 	/* GIF inclusion */
+	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "include %s", InclusionFile) == 1)
 	{
 	    bool	DoTranslation;
@@ -350,9 +356,11 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	/*
 	 * Accept image attributes
 	 */
+	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "image top %d\n", &NewImage->ImageDesc.Top) == 1)
 	    continue;
 
+	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "image left %d\n", &NewImage->ImageDesc.Left)== 1)
 	    continue;
 
@@ -362,6 +370,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    continue;
 	}
 
+	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf,
 			"image bits %d by %d\n",
 			&NewImage->ImageDesc.Width,
