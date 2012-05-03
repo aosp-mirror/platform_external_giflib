@@ -25,14 +25,15 @@
       		<replaceable>ymin</replaceable>
       		<replaceable>xmax</replaceable>
       		<replaceable>ymax</replaceable></arg>
-      <arg choice='opt'>-n 
+      <arg choice='opt'>-n
+      		<replaceable>n</replaceable>
       		<replaceable>xmin</replaceable>
       		<replaceable>ymin</replaceable>
       		<replaceable>xmax</replaceable>
       		<replaceable>ymax</replaceable></arg>
       <arg choice='opt'>-c</arg>
       <arg choice='opt'>-h</arg>
-      <arg choice='plain'><replaceable>gif-file</replaceable></arg>
+      <arg choice='opt'><replaceable>gif-file</replaceable></arg>
 </cmdsynopsis>
 </refsynopsisdiv>
 
