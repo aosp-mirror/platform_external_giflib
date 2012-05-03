@@ -12,7 +12,7 @@
 </refmeta>
 <refnamediv id='name'>
 <refname>gifclrmap</refname>
-<refpurpose>A program to convert GIFs to 24-bit RGB</refpurpose>
+<refpurpose>extract colormaps drom GIF images</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>

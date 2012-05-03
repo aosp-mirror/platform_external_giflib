@@ -12,7 +12,7 @@
 </refmeta>
 <refnamediv id='name'>
 <refname>gifwedge</refname>
-<refpurpose>convert images saved as GIF to 24-bit RGB</refpurpose>
+<refpurpose>create a GIF test pattern</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>
