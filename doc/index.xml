@@ -192,12 +192,6 @@ hotlink to HTML documentation.</para>
 <para>resize a GIF by deletion or duplication of bits</para>
 </listitem>
 </varlistentry>
-<varlistentry>
-<term><ulink url="gifburst.html">gifburst</ulink></term>
-<listitem>
-<para>burst a GIF image into subrectangles.</para>
-</listitem>
-</varlistentry>
 </variablelist>
 
 </sect2>
@@ -308,7 +302,7 @@ environments.</para>
 <para>The 2.1 version featured substantial changes and additions by
 Eric S. Raymond <email>&email;</email>.  These included the
 DGifSlurp/EGifSpew function pair for enabling non-sequential
-operations on GIF images and the tools icon2gif, gifovly, gifburst,
+operations on GIF images and the tools icon2gif, gifovly,
 and gifcompose.</para>
 
 <para>The 2.4 version converted all the docs from an idiosyncratic
