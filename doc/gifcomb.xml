@@ -12,7 +12,7 @@
 </refmeta>
 <refnamediv id='name'>
 <refname>gifcomb</refname>
-<refpurpose>combine images with mask</refpurpose>
+<refpurpose>combine GIF images with mask</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>

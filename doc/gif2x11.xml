@@ -12,7 +12,7 @@
 </refmeta>
 <refnamediv id='name'>
 <refname>gif2x11</refname>
-<refpurpose>display images saved as GIF files under X window system</refpurpose>
+<refpurpose>display GIF files under X window system</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>

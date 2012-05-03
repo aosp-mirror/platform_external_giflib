@@ -12,7 +12,7 @@
 </refmeta>
 <refnamediv id='name'>
 <refname>gif2rgb</refname>
-<refpurpose>A program to convert images saved as GIF to 24-bit RGB image(s).</refpurpose>
+<refpurpose>convert images saved as GIF to 24-bit RGB</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>

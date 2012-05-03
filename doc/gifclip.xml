@@ -98,7 +98,7 @@ above.</para>
 <para>Note: all coordinates are 0-based --- the top left corner is (0,
 0).</para>
 
-<para>If no GIF file is given, GifClip will try to read a GIF file
+<para>If no GIF file is given, gifclip will try to read a GIF file
 from stdin.</para>
 
 </refsect1>
