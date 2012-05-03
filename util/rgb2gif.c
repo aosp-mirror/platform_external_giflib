@@ -15,6 +15,22 @@
 * 15 Jun 91 - Version 1.0 by Gershon Elber.				     *
 *****************************************************************************/
 
+/***************************************************************************
+
+Toshio Kuratomi had written this:
+
+  Besides fixing bugs, what's really needed is for someone to work out how to
+  calculate a colormap for writing gifs from rgb sources.  Right now, an rgb
+  source that has only two colors (b/w) is being converted into an 8 bit gif....
+  Which is horrendously wasteful without compression.
+
+I (ESR) took this off the main to-do list in 2012 because I don't think
+the GIFLIB project actually needs to be in the converters-and-tools business.
+Plenty of hackers do that; our jub is to supply stable library capability 
+with our utilities mainly interesting as test tools.
+
+***************************************************************************/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>

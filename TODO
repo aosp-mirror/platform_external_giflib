@@ -61,12 +61,3 @@ website onto sourceforge.  Don't know how much stuff I want to sync into this,
 though, as I keep hoping gif's will take their last gasp and die.  (Why do we
 need gif now that we have png and mng?)
 
-======
-
-Besides fixing bugs, what's really needed is for someone to work out how to
-calculate a colormap for writing gifs from rgb sources.  Right now, an rgb
-source that has only two colors (b/w) is being converted into an 8 bit gif....
-Which is horrendously wasteful without compression.
-
-Any volunteers?
-
