@@ -1,46 +1,15 @@
-UTILHELP = gif2rgb.html \
-	   gif2x11.html \
-	   gifasm.html \
-	   gifbg.html \
-	   gifclip.html \
-	   gifclrmp.html \
-	   gifcolor.html \
-	   gifcomb.html \
-	   gifcompose.html \
-	   giffiltr.html \
-	   giffix.html \
-	   gifflip.html \
-	   gifhisto.html \
-	   gifinter.html \
-	   gifinto.html \
-	   gifovly.html \
-	   gifpos.html \
-	   gifrotat.html \
-	   gifrsize.html \
-	   gifspnge.html \
-	   giftext.html \
-	   gifwedge.html \
-	   icon2gif.html \
-	   raw2gif.html \
-	   rgb2gif.html \
-	   text2gif.html
-LIBRARYHELP = GifFileType.png \
-	     gif89.txt \
-	     gif_lib.html \
-	     index.html \
-	     liberror.html \
-	     lzgif.txt
-EXTRA_DIST = $(UTILHELP) $(LIBRARYHELP)
-
-SUFFIXES = .xml .html .txt
+SUFFIXES = .xml .html .txt .1
 
 .xml.html:
 	xmlto xhtml-nochunks $<
 
+.xml.1:
+	xmlto man $<
+
 .xml.txt:
 	xmlto txt $<
 
-all: allhtml
+all: allhtml manpages
 
 MANSOURCES = \
 	gif2rgb.xml gif2x11.xml gifasm.xml gifbg.xml gifclip.xml gifclrmp.xml \
@@ -52,3 +21,18 @@ TXTSOURCES = index.xml gif_lib.xml liberror.xml
 SOURCES = $(MANSOURCES) $(TXTSOURCES)
 
 allhtml: $(SOURCES:.xml=.html)
+
+manpages: $(MANSOURCES:.xml=.1)
+
+# Control what goes in the distribution tarball.
+# We include all of the XML, the generated HTML, and generated manual pages, 
+# so people working from the distribution tarball won't need xmlto. 
+UTILHELP = $(MANSOURCES:.xml=.html)
+LIBRARYHELP = GifFileType.png \
+	     gif89.txt \
+	     lzgif.txt \
+	     $(SOURCES) $(TXTSOURCES:.xml=.html) $(MANSOURCES:.xml=.1)
+EXTRA_DIST = $(UTILHELP) $(LIBRARYHELP)
+
+distclean-local:
+	rm -f $(SOURCES:.xml=.html) $(MANSOURCES:.xml=.1)

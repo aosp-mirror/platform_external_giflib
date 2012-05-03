@@ -2,6 +2,8 @@
 
 == Overview ==
 
+A detailed description of the API can be found in the doc/ subdirectory.
+
 === Input  ===
 
 Use DGifOpenFileHandle() or DGifOpenFileName() to get a read handle 
