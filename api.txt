@@ -58,6 +58,9 @@ Some features will be removed in giflib 5.0:
 * Similarly, do not use the VoidPtr macro; it is legacy from when not
   all C compilers had void *, and will be removed in 5.0
 
+* The bool args to EGifOpenFileName() and EGifPutImageDesc() become
+  true C99 bools; the TRUE and FALSE macros will go away.
+
 Some API calls will be renamed in 5.0:
 
 * DrawText (and the Windows name for it created to avoid some
