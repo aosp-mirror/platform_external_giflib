@@ -7,6 +7,7 @@ MakeExtension adds the Function type to deprecated: SavedImage->Function.
 Then, AddExtensionBlock must be called to add it to SavedImage->ExtensionBlock
 (The Function type is passed in via the SavedImage->Function so that's why we
 have to do that step first.  Need to untangle those functions.)
+
 - Why do we have so many colormaps?  GifFile->SColorMap is the screen
   descriptor colormap.
   GifFile->Image.ColorMap ?
@@ -61,7 +62,6 @@ in simple ways.  Need to deprecate so we can do this in 5.0
 Theoretical release 5.0
 
 Move utilities into a separate package.
-  - Rename getarg utilsupport.a and move to the util directory.
 
 Now that we have sourceforge hosting, look into putting documentation and a
 website onto sourceforge.  Don't know how much stuff I want to sync into this,

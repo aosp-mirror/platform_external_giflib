@@ -1,4 +1,5 @@
 
+noinst_LIBRARIES = libgetarg.a
 bin_PROGRAMS = gif2rgb gifasm gifbg gifclip gifcomb \
     giffix gifflip gifhisto gifinter gifinto gifovly gifpos gifrsize \
     giftext gifwedge raw2gif rgb2gif text2gif gifspnge giffiltr \
@@ -8,9 +9,12 @@ EXTRA_PROGRAMS = gif2x11 gifclrmp gifrotat
 
 EXTRA_DIST=Makefile.unx $(bin_SCRIPTS)
 
-LDADD = ../lib/libgetarg.a ../lib/libgif.la
+LDADD = libgetarg.a ../lib/libgif.la
 
 AM_CPPFLAGS = -I$(srcdir) -I$(top_srcdir)/lib
+
+libgetarg_a_SOURCES = getarg.c getarg.h \
+                    qprintf.c
 
 gif2x11_SOURCES = gif2x11.c
 gif2x11_LDADD = $(LDADD) @X11_LIB@

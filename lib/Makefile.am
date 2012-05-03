@@ -3,12 +3,8 @@
 EXTRA_DIST = Makefile.unx
 
 lib_LTLIBRARIES = libgif.la
-noinst_LIBRARIES = libgetarg.a
 
 include_HEADERS = gif_lib.h
-
-libgetarg_a_SOURCES = getarg.c getarg.h \
-                    qprintf.c
 
 libgif_la_SOURCES = dgif_lib.c  \
                     egif_lib.c  \
