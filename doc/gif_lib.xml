@@ -737,7 +737,7 @@ memory will be released.</para>
 <sect2><title>Command Line Parsing</title>
 
 <programlisting id="GAGetArgs">
-int GAGetArgs(int argc, char **argv, char *CtrlStr, ...)
+bool GAGetArgs(int argc, char **argv, char *CtrlStr, ...)
 </programlisting>
 
 <para>Main routine of this module.  Given argc &amp; argv as received by
@@ -747,8 +747,7 @@ all parameters, parse the command line, and update the parameters.</para>
 <para>The CtrlStr defines what types of variables should follow. Look at the
 beginning of getarg.c for exact usage.</para>
 
-<para>Returns 0 if successful, error number (as defined by getarg.h)
-otherwise.</para>
+<para>Returns false if successful, returns true on failure.</para>
 
 <programlisting id="GAPrintErrMsg">
 void GAPrintErrMsg(int Error)
