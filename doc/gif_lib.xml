@@ -411,7 +411,12 @@ void EGifSetGifVersion(char *Version)
 
 <para>Sets the GIF version of all files opened, until another call to this
 routine is made.  Version is a 3 characters string of the form "87a"
-or "89a".  No test is made to validate this string.</para>
+or "89a".  No test is made to validate this string. </para>
+
+<para>Before this call is made, or after it has been made with a
+zero-length string as argument, the library computes the right version
+to use by looking at the GIF's extension blocks. (Older versions of
+the library defaulted to GIF87)</para>
 
 <programlisting>
 int EGifPutScreenDesc(GifFileType *GifFile,
