@@ -86,7 +86,7 @@ static void QuitGifError(GifFileType *GifFile);
 int main(int argc, char **argv)
 {
     unsigned int Ratio;
-    int	i, l, LevelWidth, LogNumLevels, StartX, StepX, Count = 0;
+    int	i, l, LevelWidth, LogNumLevels, Count = 0;
     bool Error, FlipDir, DoAllMaximum = false,
 	DirectionFlag = false, LevelsFlag = false, ColorFlag = false,
 	MinFlag = false, MaxFlag = false, SizeFlag = false, HelpFlag = false;
@@ -291,7 +291,7 @@ int main(int argc, char **argv)
 	}
     }
     else {
-	int Accumulator;
+	int Accumulator, StartX, StepX;
 	/* We are in one of the TOP_RIGHT, BOT_RIGHT cases: we will          */
 	/* initialize the Line with its double ImageWidth length from the    */
 	/* minimum intensity to the maximum intensity and shift along it     */

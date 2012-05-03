@@ -65,10 +65,10 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, NumFiles, ExtCode, CodeSize, NumColors = 2, Count, ImageNum = 0;
+    int	i, j, NumFiles, ExtCode, CodeSize, NumColors = 2, ImageNum = 0;
     bool Error, TextFlag = false, SizeFlag = false,
 	ImageNFlag = false, BackGroundFlag = false, HelpFlag = false;
-    long Scaler, Histogram[256];
+    long Histogram[256];
     GifRecordType RecordType;
     GifByteType *Extension, *CodeBlock;
     char **FileName = NULL;
@@ -189,7 +189,8 @@ int main(int argc, char **argv)
 	    printf("%12ld  %3d\n", Histogram[i], i);
     }
     else {
-	int Color;
+	int Color, Count;
+	long Scaler;
 	/* Open stdout for the histogram output file: */
 	if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);

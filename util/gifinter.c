@@ -167,7 +167,7 @@ int main(int argc, char **argv)
 ******************************************************************************/
 static int LoadImage(GifFileType *GifFile, GifRowType **ImageBufferPtr)
 {
-    int Size, i, j, Count;
+    int Size, i;
     GifRowType *ImageBuffer;
 
     /* Allocate the image as vector of column of rows. We cannt allocate     */
@@ -190,6 +190,7 @@ static int LoadImage(GifFileType *GifFile, GifRowType **ImageBufferPtr)
 	PROGRAM_NAME, ++ImageNum, GifFile->Image.Left, GifFile->Image.Top,
 				 GifFile->Image.Width, GifFile->Image.Height);
     if (GifFile->Image.Interlace) {
+	int j, Count;
 	/* Need to perform 4 passes on the images: */
 	for (Count = i = 0; i < 4; i++)
 	    for (j = InterlacedOffset[i]; j < GifFile->Image.Height;
