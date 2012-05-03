@@ -262,8 +262,6 @@ static void DoAssembly(int NumFiles, char **FileNames)
 
     if (EGifCloseFile(GifFileOut) == GIF_ERROR)
 	QuitGifError(GifFileIn, GifFileOut);
-
-    // cppcheck-suppress memleak
 }
 
 /******************************************************************************

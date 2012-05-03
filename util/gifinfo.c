@@ -56,7 +56,7 @@ int main(int argc, char **argv)
     int	i, Error, NumFiles, NumFormats, Size, Width=0, Height=0, ExtCode;
     GifRecordType RecordType;
     GifByteType  *Extension;
-    char         *Format = NULL, *Comment;
+    char         *Format = NULL, *Comment. *NewComment;
     char        **FileName = NULL;
     GifRowType    RowBuffer;
     GifFileType  *GifFile;
@@ -154,7 +154,11 @@ int main(int argc, char **argv)
 		while (Extension != NULL) {
 		    if(ExtCode == COMMENT_EXT_FUNC_CODE) {
 			Extension[Extension[0]+1] = '\000';   /* Convert gif's pascal-like string */
-			Comment = (char*) realloc(Comment, strlen(Comment) + Extension[0] + 1);
+			NewComment = (char*) realloc(Comment, strlen(Comment) + Extension[0] + 1);
+			if (NewComment == NULL)
+			    (void) free(Comment);
+			else
+			    Comment = NewComment;
 			strcat(Comment, (char*)Extension+1);
 		    }
 		    if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
