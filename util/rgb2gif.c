@@ -539,7 +539,7 @@ static void SaveGif(GifByteType *OutputBuffer,
 			  Width, Height, ExpColorMapSize, 0,
 			  OutputColorMap) == GIF_ERROR ||
 	EGifPutImageDesc(GifFile,
-			 0, 0, Width, Height, FALSE, NULL) ==
+			 0, 0, Width, Height, false, NULL) ==
 	                                                             GIF_ERROR)
 	QuitGifError(GifFile);
 

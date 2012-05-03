@@ -203,7 +203,7 @@ int main(int argc, char **argv)
 
 	/* Dump out image descriptor to fit histogram dimensions: */
 	if (EGifPutImageDesc(GifFileOut,
-			     0, 0, ImageWidth, ImageHeight, FALSE, NULL) == GIF_ERROR)
+			     0, 0, ImageWidth, ImageHeight, false, NULL) == GIF_ERROR)
 		QuitGifError(GifFileIn, GifFileOut);
 
 	/* Prepare scan line for histogram file, and find scaler to scale    */

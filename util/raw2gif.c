@@ -183,7 +183,7 @@ int Raw2Gif(int ImageWidth, int ImageHeight, ColorMapObject *ColorMap)
 	return HandleGifError(GifFile);
     }
 
-    if (EGifPutImageDesc(GifFile, 0, 0, ImageWidth, ImageHeight, FALSE,
+    if (EGifPutImageDesc(GifFile, 0, 0, ImageWidth, ImageHeight, false,
 			 NULL) == GIF_ERROR) {
 	free((char *) ScanLine);
 	return HandleGifError(GifFile);

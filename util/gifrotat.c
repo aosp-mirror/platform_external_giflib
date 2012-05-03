@@ -238,7 +238,7 @@ static void RotateGifImage(GifRowType *ScreenBuffer, GifFileType *SrcGifFile,
     if (EGifPutScreenDesc(DstGifFile, DstWidth, DstHeight,
 			  ColorMap->BitsPerPixel, 0, ColorMap) == GIF_ERROR ||
 	EGifPutImageDesc(DstGifFile, 0, 0, DstWidth, DstHeight,
-			 FALSE, NULL) == GIF_ERROR)
+			 false, NULL) == GIF_ERROR)
 	QuitGifError(DstGifFile);
 
     for (i = 0; i < DstHeight; i++) {

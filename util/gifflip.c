@@ -151,7 +151,7 @@ int main(int argc, char **argv)
 						GifFileIn->Image.Top,
 			GifFileIn->Image.Left,
 			GifFileIn->Image.Height, GifFileIn->Image.Width,
-			FALSE, GifFileIn->Image.ColorMap) == GIF_ERROR)
+			false, GifFileIn->Image.ColorMap) == GIF_ERROR)
 			    QuitGifError(GifFileIn, GifFileOut);
 		}
 		else if (LeftFlag) {
@@ -161,7 +161,7 @@ int main(int argc, char **argv)
 			GifFileIn->SWidth - GifFileIn->Image.Width -
 						GifFileIn->Image.Left,
 			GifFileIn->Image.Height, GifFileIn->Image.Width,
-			FALSE, GifFileIn->Image.ColorMap) == GIF_ERROR)
+			false, GifFileIn->Image.ColorMap) == GIF_ERROR)
 			    QuitGifError(GifFileIn, GifFileOut);
 		}
 		else {
@@ -169,7 +169,7 @@ int main(int argc, char **argv)
 		    if (EGifPutImageDesc(GifFileOut,
 			GifFileIn->Image.Left, GifFileIn->Image.Top,
 			GifFileIn->Image.Width, GifFileIn->Image.Height,
-			FALSE, GifFileIn->Image.ColorMap) == GIF_ERROR)
+			false, GifFileIn->Image.ColorMap) == GIF_ERROR)
 			    QuitGifError(GifFileIn, GifFileOut);
 		}
 

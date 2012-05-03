@@ -366,7 +366,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 	else if (strcmp(buf, "image interlaced\n") == 0)
 	{
-	    NewImage->ImageDesc.Interlace = TRUE;
+	    NewImage->ImageDesc.Interlace = true;
 	    continue;
 	}
 

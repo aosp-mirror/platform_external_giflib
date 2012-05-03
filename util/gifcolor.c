@@ -106,7 +106,7 @@ int main(int argc, char **argv)
 
     /* Dump out the image descriptor: */
     if (EGifPutImageDesc(GifFile,
-	0, 0, IMAGEWIDTH, ColorMapSize * GIF_FONT_HEIGHT, FALSE, NULL) == GIF_ERROR)
+	0, 0, IMAGEWIDTH, ColorMapSize * GIF_FONT_HEIGHT, false, NULL) == GIF_ERROR)
 	QuitGifError(GifFile);
 
     GifQprintf("\n%s: Image 1 at (%d, %d) [%dx%d]:     ",

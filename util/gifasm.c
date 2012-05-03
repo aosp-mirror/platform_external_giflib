@@ -313,7 +313,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
     do {
 	snprintf(CrntFileName, sizeof(CrntFileName), 
 		 "%s%02d.gif", OutFileName, FileNum++);
-	if ((GifFileOut = EGifOpenFileName(CrntFileName, TRUE)) == NULL)
+	if ((GifFileOut = EGifOpenFileName(CrntFileName, true)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);
 	FileEmpty = true;
 

@@ -119,7 +119,7 @@ int main(int argc, char **argv)
 
 		/* Put the image descriptor to out file: */
 		if (EGifPutImageDesc(GifFileOut, Col, Row, Width, Height,
-		    FALSE, GifFileIn->Image.ColorMap) == GIF_ERROR)
+		    false, GifFileIn->Image.ColorMap) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
 
 		/* Find the darkest color in color map to use as a filler. */

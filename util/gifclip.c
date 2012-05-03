@@ -153,7 +153,7 @@ int main(int argc, char **argv)
 		    if (EGifPutImageDesc(GifFileOut,
 			GifFileIn->Image.Left, GifFileIn->Image.Top,
 			ImageWidth, ImageDepth,
-			FALSE, GifFileIn->Image.ColorMap) == GIF_ERROR)
+			false, GifFileIn->Image.ColorMap) == GIF_ERROR)
 			QuitGifError(GifFileIn, GifFileOut);
 
 		    /* o.k. - read the image and clip it: */
