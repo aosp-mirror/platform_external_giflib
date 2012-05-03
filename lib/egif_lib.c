@@ -29,8 +29,6 @@
 #include "gif_lib.h"
 #include "gif_lib_private.h"
 
-/* #define DEBUG_NO_PREFIX                  Dump only compressed data. */
-
 /* Masks given codes to BitsPerPixel, to make sure all codes are in range: */
 /*@+charint@*/
 static const GifPixelType CodeMask[] = {
@@ -223,14 +221,12 @@ EGifPutScreenDesc(GifFileType * GifFile,
         return GIF_ERROR;
     }
 
-/* First write the version prefix into the file. */
-#ifndef DEBUG_NO_PREFIX
+    /* First write the version prefix into the file. */
     if (WRITE(GifFile, (unsigned char *)GifVersionPrefix,
               strlen(GifVersionPrefix)) != strlen(GifVersionPrefix)) {
         _GifError = E_GIF_ERR_WRITE_FAILED;
         return GIF_ERROR;
     }
-#endif /* DEBUG_NO_PREFIX */
 
     GifFile->SWidth = Width;
     GifFile->SHeight = Height;
@@ -264,12 +260,9 @@ EGifPutScreenDesc(GifFileType * GifFile,
                                                             color table. */
     Buf[1] = BackGround;    /* Index into the ColorTable for background color */
     Buf[2] = 0;             /* Pixel Aspect Ratio */
-#ifndef DEBUG_NO_PREFIX
     WRITE(GifFile, Buf, 3);
-#endif /* DEBUG_NO_PREFIX */
 
     /* If we have Global color map - dump it also: */
-#ifndef DEBUG_NO_PREFIX
     if (ColorMap != NULL) {
 	int i;
         for (i = 0; i < ColorMap->ColorCount; i++) {
@@ -283,7 +276,6 @@ EGifPutScreenDesc(GifFileType * GifFile,
             }
         }
     }
-#endif /* DEBUG_NO_PREFIX */
 
     /* Mark this file as has screen descriptor, and no pixel written yet: */
     Private->FileState |= FILE_STATE_SCREEN;
@@ -340,9 +332,7 @@ EGifPutImageDesc(GifFileType * GifFile,
 
     /* Put the image descriptor into the file: */
     Buf[0] = ',';    /* Image seperator character. */
-#ifndef DEBUG_NO_PREFIX
     WRITE(GifFile, Buf, 1);
-#endif /* DEBUG_NO_PREFIX */
     EGifPutWord(Left, GifFile);
     EGifPutWord(Top, GifFile);
     EGifPutWord(Width, GifFile);
@@ -350,12 +340,9 @@ EGifPutImageDesc(GifFileType * GifFile,
     Buf[0] = (ColorMap ? 0x80 : 0x00) |
        (Interlace ? 0x40 : 0x00) |
        (ColorMap ? ColorMap->BitsPerPixel - 1 : 0);
-#ifndef DEBUG_NO_PREFIX
     WRITE(GifFile, Buf, 1);
-#endif /* DEBUG_NO_PREFIX */
 
     /* If we have Global color map - dump it also: */
-#ifndef DEBUG_NO_PREFIX
     if (ColorMap != NULL) {
 	int i;
         for (i = 0; i < ColorMap->ColorCount; i++) {
@@ -369,7 +356,6 @@ EGifPutImageDesc(GifFileType * GifFile,
             }
         }
     }
-#endif /* DEBUG_NO_PREFIX */
     if (GifFile->SColorMap == NULL && GifFile->Image.ColorMap == NULL) {
         _GifError = E_GIF_ERR_NO_COLOR_MAP;
         return GIF_ERROR;
@@ -740,14 +726,10 @@ EGifPutWord(int Word,
 
     c[0] = Word & 0xff;
     c[1] = (Word >> 8) & 0xff;
-#ifndef DEBUG_NO_PREFIX
     if (WRITE(GifFile, c, 2) == 2)
         return GIF_OK;
     else
         return GIF_ERROR;
-#else
-    return GIF_OK;
-#endif /* DEBUG_NO_PREFIX */
 }
 
 /******************************************************************************
