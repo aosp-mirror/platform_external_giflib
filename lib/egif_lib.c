@@ -209,7 +209,6 @@ EGifPutScreenDesc(GifFileType * GifFile,
                   int BackGround,
                   const ColorMapObject * ColorMap) {
 
-    int i;
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
 
@@ -271,7 +270,8 @@ EGifPutScreenDesc(GifFileType * GifFile,
 
     /* If we have Global color map - dump it also: */
 #ifndef DEBUG_NO_PREFIX
-    if (ColorMap != NULL)
+    if (ColorMap != NULL) {
+	int i;
         for (i = 0; i < ColorMap->ColorCount; i++) {
             /* Put the ColorMap out also: */
             Buf[0] = ColorMap->Colors[i].Red;
@@ -282,6 +282,7 @@ EGifPutScreenDesc(GifFileType * GifFile,
                 return GIF_ERROR;
             }
         }
+    }
 #endif /* DEBUG_NO_PREFIX */
 
     /* Mark this file as has screen descriptor, and no pixel written yet: */
@@ -303,7 +304,6 @@ EGifPutImageDesc(GifFileType * GifFile,
                  bool Interlace,
                  const ColorMapObject * ColorMap) {
 
-    int i;
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
@@ -356,7 +356,8 @@ EGifPutImageDesc(GifFileType * GifFile,
 
     /* If we have Global color map - dump it also: */
 #ifndef DEBUG_NO_PREFIX
-    if (ColorMap != NULL)
+    if (ColorMap != NULL) {
+	int i;
         for (i = 0; i < ColorMap->ColorCount; i++) {
             /* Put the ColorMap out also: */
             Buf[0] = ColorMap->Colors[i].Red;
@@ -367,6 +368,7 @@ EGifPutImageDesc(GifFileType * GifFile,
                 return GIF_ERROR;
             }
         }
+    }
 #endif /* DEBUG_NO_PREFIX */
     if (GifFile->SColorMap == NULL && GifFile->Image.ColorMap == NULL) {
         _GifError = E_GIF_ERR_NO_COLOR_MAP;

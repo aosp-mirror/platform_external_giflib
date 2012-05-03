@@ -227,7 +227,7 @@ DGifOpen(void *userData,
 int
 DGifGetScreenDesc(GifFileType * GifFile) {
 
-    int i, BitsPerPixel;
+    int BitsPerPixel;
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
@@ -250,6 +250,7 @@ DGifGetScreenDesc(GifFileType * GifFile) {
     BitsPerPixel = (Buf[0] & 0x07) + 1;
     GifFile->SBackGroundColor = Buf[1];
     if (Buf[0] & 0x80) {    /* Do we have global color map? */
+	int i;
 
         GifFile->SColorMap = MakeMapObject(1 << BitsPerPixel, NULL);
         if (GifFile->SColorMap == NULL) {
@@ -323,7 +324,7 @@ DGifGetRecordType(GifFileType * GifFile,
 int
 DGifGetImageDesc(GifFileType * GifFile) {
 
-    unsigned int i, BitsPerPixel;
+    unsigned int BitsPerPixel;
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
     SavedImage *sp;
@@ -353,6 +354,8 @@ DGifGetImageDesc(GifFileType * GifFile) {
     }
     /* Does this image have local color map? */
     if (Buf[0] & 0x80) {
+	unsigned int i;
+
         GifFile->Image.ColorMap = MakeMapObject(1 << BitsPerPixel, NULL);
         if (GifFile->Image.ColorMap == NULL) {
             _GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
@@ -563,20 +566,9 @@ int
 DGifCloseFile(GifFileType * GifFile) {
     
     GifFilePrivateType *Private;
-    FILE *File;
 
-    if (GifFile == NULL)
+    if (GifFile == NULL || GifFile->Private == NULL)
         return GIF_ERROR;
-
-    Private = (GifFilePrivateType *) GifFile->Private;
-
-    if (!IS_READABLE(Private)) {
-        /* This file was NOT open for reading: */
-        _GifError = D_GIF_ERR_NOT_READABLE;
-        return GIF_ERROR;
-    }
-
-    File = Private->File;
 
     if (GifFile->Image.ColorMap) {
         FreeMapObject(GifFile->Image.ColorMap);
@@ -588,22 +580,27 @@ DGifCloseFile(GifFileType * GifFile) {
         GifFile->SColorMap = NULL;
     }
 
-    if (Private) {
-        free((char *)Private);
-        Private = NULL;
-    }
-
     if (GifFile->SavedImages) {
         FreeSavedImages(GifFile);
         GifFile->SavedImages = NULL;
     }
 
-    free(GifFile);
+    Private = (GifFilePrivateType *) GifFile->Private;
 
-    if (File && (fclose(File) != 0)) {
+    if (!IS_READABLE(Private)) {
+        /* This file was NOT open for reading: */
+        _GifError = D_GIF_ERR_NOT_READABLE;
+        return GIF_ERROR;
+    }
+
+    if (Private->File && (fclose(Private->File) != 0)) {
         _GifError = D_GIF_ERR_CLOSE_FAILED;
         return GIF_ERROR;
     }
+
+    free((char *)GifFile->Private);
+    free(GifFile);
+
     return GIF_OK;
 }
 

@@ -56,7 +56,7 @@ int main(int argc, char **argv)
     int	i, Error, NumFiles, NumFormats, Size, Width=0, Height=0, ExtCode;
     GifRecordType RecordType;
     GifByteType  *Extension;
-    char         *Format = NULL, *Comment. *NewComment;
+    char         *Format = NULL, *Comment, *NewComment;
     char        **FileName = NULL;
     GifRowType    RowBuffer;
     GifFileType  *GifFile;
