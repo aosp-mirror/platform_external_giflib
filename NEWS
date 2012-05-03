@@ -14,6 +14,13 @@ New API Features
 ----------------
 * Two new functions, GifError() and GifErrorString(),
   return the error state in a form that can be used by programs.
+* Two library functions - EGifOpenFileName() and EGifPutImageDesc() -
+  now have bool rather than int flag arguments. Since bool is a
+  typedef of int and TRUE/FALSE have been redefined to true/false, 
+  both source and object compatibility with older library versions
+  should be preserved. 
+* GAGetArgs(), used only in the utilities, now returns bool rather
+  than int. 
 
 Retirements
 -----------

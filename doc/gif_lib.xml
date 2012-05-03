@@ -380,7 +380,7 @@ with a GIF89 stamp.</para>
 to use the following functions for sequential write.</para>
 
 <programlisting id="EGifOpenFileName">
-GifFileType *EGifOpenFileName(char *GifFileName, int GifTestExistance)
+GifFileType *EGifOpenFileName(char *GifFileName, bool GifTestExistance)
 </programlisting>
 
 <para>Open a new GIF file using the given GifFileName.  If GifTestExistance
@@ -431,7 +431,7 @@ opened.</para>
 int EGifPutImageDesc(GifFileType *GifFile,
         int GifLeft, int GifTop,
         int Width, int GifHeight,
-        int GifInterlace,
+        bool GifInterlace,
         ColorMapObject *GifColorMap)
 </programlisting>
 
