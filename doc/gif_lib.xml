@@ -181,9 +181,10 @@ int DGifSlurp(GifFileType)
 indicated file handle into in-core allocated structures.  It returns
 GIF_OK on success, GIF_ERROR on failure.</para>
 
-<para>Once you have done this, all image, raster, and extension-block data in the
-GIF is accessable in the SavedImages member (see the structures in fif_lib.h).
-When you have modified the image to taste, write it out with EGifSpew().</para>
+<para>Once you have done this, all image, raster, and extension-block
+data in the GIF is accessable in the SavedImages member (see the
+structures in gif_lib.h).  When you have modified the image to taste,
+write it out with EGifSpew().</para>
 
 <para>If you are handling large images on a memory-limited machine, you may need
 to use the following functions for sequential read.</para>
@@ -347,6 +348,15 @@ int DGifCloseFile(GifFileType *GifFile)
 not be used after this routine has been called.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
+
+<para>There is one more way to read from a GIF file: through a
+function hook. Initialize with </para>
+
+<programlisting id="DGifOpen">
+GifFileType *DGifOpen(void *userPtr, InputFunc readFunc)
+</programlisting>
+
+<para>and see the library header file for the type of InputFunc.</para>
 
 </sect1>
 <sect1><title>Encoding (egif_lib.c)</title>
@@ -576,6 +586,14 @@ should not be used, once this routine has been called.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
 
+<para>There is one more way to write to a GIF file: through a
+function hook. Initialize with </para>
+
+<programlisting id="EGifOpen">
+GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc)
+</programlisting>
+
+<para>and see the library header file for the type of OutputFunc.</para>
 </sect1>
 <sect1><title>Color map handling and allocation routines</title>
 
