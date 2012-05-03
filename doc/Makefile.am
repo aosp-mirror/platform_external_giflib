@@ -42,11 +42,14 @@ SUFFIXES = .xml .html .txt
 
 all: allhtml alltxt alldvi
 
-SOURCES = index.xml \
+MANSOURCES = \
 	gif2rgb.xml gif2x11.xml gifasm.xml gifbg.xml gifclip.xml gifclrmp.xml \
 	gifcolor.xml gifcomb.xml gifcompose.xml giffiltr.xml giffix.xml \
 	gifflip.xml gifhisto.xml gifinter.xml gifinto.xml gifovly.xml \
 	gifpos.xml
+TXTSOURCES = index.xml gif_lib.xml
+SOURCES = $(MANSOURCES) $(TXTSOURCES)
+
 alltxt: $(SOURCES:.xml=.txt)
 
 allhtml: $(SOURCES:.xml=.html)
