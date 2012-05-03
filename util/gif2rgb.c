@@ -63,8 +63,8 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, Error, NumFiles, Size, Row, Col, Width, Height, ExtCode, Count;
-    bool OutFileFlag = false;
+    int	i, j, NumFiles, Size, Row, Col, Width, Height, ExtCode, Count;
+    bool Error, OutFileFlag = false;
     GifRecordType RecordType;
     GifByteType *Extension;
     char *OutFileName,

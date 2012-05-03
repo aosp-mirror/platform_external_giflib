@@ -143,7 +143,7 @@ static char *MyMalloc(unsigned size);
  * Routine to access the command line argument and interpret them:       
  * Return ARG_OK (0) is case of successful parsing, error code else...       
  **************************************************************************/
-int
+bool
 GAGetArgs(int argc,
         char **argv,
         char *CtrlStr, ...) {
@@ -174,7 +174,7 @@ GAGetArgs(int argc,
     }
     /* Check for results and update trail of command line: */
     return GATestAllSatis(CtrlStrCopy, CtrlStr, &argc, &argv, Parameters,
-                          &ParamCount);
+                          &ParamCount) != ARG_OK;
 }
 
 /***************************************************************************

@@ -369,7 +369,8 @@ SortCmpRtn(const void *Entry1,
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	Error, NumFiles, Width, Height, SizeFlag;
+    int	NumFiles, Width, Height, SizeFlag;
+    bool Error;
     char **FileName = NULL;
     GifByteType *RedBuffer = NULL, *GreenBuffer = NULL, *BlueBuffer = NULL,
 	*OutputBuffer = NULL;

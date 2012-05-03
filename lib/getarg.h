@@ -9,6 +9,8 @@
 #ifndef _GETARG_H
 #define _GETARG_H
 
+#include <stdbool.h>
+
 /***************************************************************************
  * Error numbers as returned by GAGetArg routine:
  **************************************************************************/ 
@@ -18,7 +20,7 @@
 #define CMD_ERR_NumRead   4    /* Failed on reading number. */
 #define CMD_ERR_AllSatis  5    /* Fail to satisfy (must-'!') option. */
 
-int GAGetArgs(int argc, char **argv, char *CtrlStr, ...);
+bool GAGetArgs(int argc, char **argv, char *CtrlStr, ...);
 void GAPrintErrMsg(int Error);
 void GAPrintHowTo(char *CtrlStr);
 

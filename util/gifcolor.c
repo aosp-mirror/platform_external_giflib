@@ -48,8 +48,8 @@ static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, l, Error, GifQuietPrint, ColorMapSize;
-    bool BackGroundFlag = false, HelpFlag = false;
+    int	i, j, l, GifQuietPrint, ColorMapSize;
+    bool Error, BackGroundFlag = false, HelpFlag = false;
     char Line[LINE_LEN];
     GifRowType RasterBuffer[GIF_FONT_HEIGHT];
     ColorMapObject *ColorMap;

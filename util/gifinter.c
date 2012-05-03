@@ -57,7 +57,8 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	Error, NumFiles, ExtCode;
+    int	NumFiles, ExtCode;
+    bool Error;
     GifRecordType RecordType;
     GifByteType *Extension;
     char **FileName = NULL;

@@ -48,8 +48,8 @@ static void QuitGifError(GifFileType *GifFileIn1, GifFileType *GifFileIn2,
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, Error, NumFiles, Size;
-    bool MaskFlag = false, HelpFlag = false;
+    int	i, j, NumFiles, Size;
+    bool Error, MaskFlag = false, HelpFlag = false;
     char **FileName = NULL, *MaskFileName;
     GifPixelType ColorTransIn2[256];
     GifRowType LineIn1 = NULL, LineIn2 = NULL, LineMask = NULL, LineOut = NULL;

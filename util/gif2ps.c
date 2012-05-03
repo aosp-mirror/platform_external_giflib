@@ -80,7 +80,8 @@ static void PutString(unsigned char *Line, int Len);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, Error, NumFiles, Size, Row, Col, Width, Height, ExtCode, Count;
+    int	i, j, NumFiles, Size, Row, Col, Width, Height, ExtCode, Count;
+    bool Error;
     GifRecordType RecordType;
     GifByteType *Extension;
     char **FileName = NULL;

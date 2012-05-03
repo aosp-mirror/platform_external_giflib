@@ -53,7 +53,8 @@ static bool
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, Error, NumFiles, NumFormats, Size, Width=0, Height=0, ExtCode;
+    int	i, NumFiles, NumFormats, Size, Width=0, Height=0, ExtCode;
+    bool Error;
     GifRecordType RecordType;
     GifByteType  *Extension;
     char         *Format = NULL, *Comment, *NewComment;

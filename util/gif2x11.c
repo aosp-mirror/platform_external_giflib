@@ -99,8 +99,9 @@ static void AllocateColors2(void);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, Error, NumFiles, ImageNum = 0, Size, Row, Col, Width, Height,
+    int	i, j, NumFiles, ImageNum = 0, Size, Row, Col, Width, Height,
         ExtCode, Count;
+    bool Error;
     GifRecordType RecordType;
     GifByteType *Extension;
     char **FileName = NULL;
