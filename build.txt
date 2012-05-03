@@ -25,6 +25,9 @@ shared libraries for a wide variety of platforms.  The distributed tarball has
 files prebuilt from these tools.  The repository does not.  If you want to
 build giflib you will need to have these tools available.  
 
+You will also need xmlto to build the derived forms of the
+documentation from the DocBook-XML sources.
+
 The build procedure is:
 
 -------------------------------------------

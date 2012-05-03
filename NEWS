@@ -47,6 +47,8 @@ Documentation
 -------------
 * Build instructions now live in build.txt
 * An overview of the giflib API now lives in api.txt.
+* Documentation is now in DocBook-XML, so either HTML or man pages can
+  ve generated from it.
 
 Version 4.1.6
 =============
