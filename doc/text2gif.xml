@@ -2,23 +2,23 @@
 <!DOCTYPE refentry PUBLIC
    "-//OASIS//DTD DocBook XML V4.1.2//EN"
    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
-<refentry id='gif2rgb.1'>
+<refentry id='text2gif.1'>
 <refentryinfo><date>2 May 2012</date></refentryinfo>
 <refmeta>
-<refentrytitle>gif2rgb</refentrytitle>
+<refentrytitle>text2gif</refentrytitle>
 <manvolnum>1</manvolnum>
 <refmiscinfo class="source">GIFLIB</refmiscinfo>
 <refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
 </refmeta>
 <refnamediv id='name'>
-<refname>gif2rgb</refname>
+<refname>text2gif</refname>
 <refpurpose></refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>
 
 <cmdsynopsis>
-  <command>gif2rgb</command>
+  <command>text2gif</command>
       <arg choice='opt'>-q</arg>
       <arg choice='opt'>-s <replaceable>colormap-size</replaceable></arg>
       <arg choice='opt'>-f <replaceable>foreground</replaceable></arg>

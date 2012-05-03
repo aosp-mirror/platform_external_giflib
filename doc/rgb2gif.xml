@@ -2,23 +2,23 @@
 <!DOCTYPE refentry PUBLIC
    "-//OASIS//DTD DocBook XML V4.1.2//EN"
    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
-<refentry id='raw2gif.1'>
+<refentry id='rgb2gif.1'>
 <refentryinfo><date>2 May 2012</date></refentryinfo>
 <refmeta>
-<refentrytitle>raw2gif</refentrytitle>
+<refentrytitle>rgb2gif</refentrytitle>
 <manvolnum>1</manvolnum>
 <refmiscinfo class="source">GIFLIB</refmiscinfo>
 <refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
 </refmeta>
 <refnamediv id='name'>
-<refname>raw2gif</refname>
+<refname>rgb2gif</refname>
 <refpurpose>convert 24-bit images to GIF images using color quantization</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>
 
 <cmdsynopsis>
-  <command>raw2gif</command>
+  <command>rgb2gif</command>
       <arg choice='opt'>-q</arg>
       <arg choice='opt'>-c <replaceable>colors</replaceable></arg>
       <arg choice='opt'>-1</arg>

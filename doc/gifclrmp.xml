@@ -2,23 +2,23 @@
 <!DOCTYPE refentry PUBLIC
    "-//OASIS//DTD DocBook XML V4.1.2//EN"
    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
-<refentry id='gifclrmap.1'>
+<refentry id='gifclrmp.1'>
 <refentryinfo><date>2 May 2012</date></refentryinfo>
 <refmeta>
-<refentrytitle>gifclrmap</refentrytitle>
+<refentrytitle>gifclrmp</refentrytitle>
 <manvolnum>1</manvolnum>
 <refmiscinfo class="source">GIFLIB</refmiscinfo>
 <refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
 </refmeta>
 <refnamediv id='name'>
-<refname>gifclrmap</refname>
+<refname>gifclrmp</refname>
 <refpurpose>extract colormaps drom GIF images</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>
 
 <cmdsynopsis>
-  <command>gifclrmap</command>
+  <command>gifclrmp</command>
       <arg choice='opt'>-q</arg>
       <arg choice='opt'>-s</arg>
       <arg choice='opt'>-l <replaceable>mapfile</replaceable></arg>
