@@ -78,7 +78,7 @@ DGifOpenFileName(const char *FileName) {
 /******************************************************************************
  * Update a new gif file, given its file handle.
  * Returns GifFileType pointer dynamically allocated which serves as the gif
- * info record. _GifError is cleared if succesfull.
+ * info record. _GifError is cleared if succesful.
  *****************************************************************************/
 GifFileType *
 DGifOpenFileHandle(int FileHandle) {
@@ -132,8 +132,7 @@ DGifOpenFileHandle(int FileHandle) {
         return NULL;
     }
 
-    /* The GIF Version number is ignored at this time. Maybe we should do
-     * something more useful with it.  */
+    /* Check for GIF prefix at start of file */
     Buf[GIF_STAMP_LEN] = 0;
     if (strncmp(GIF_STAMP, Buf, GIF_VERSION_POS) != 0) {
         _GifError = D_GIF_ERR_NOT_GIF_FILE;
@@ -151,6 +150,9 @@ DGifOpenFileHandle(int FileHandle) {
     }
 
     _GifError = 0;
+
+    /* What version of GIF? */
+    Private->gif89 = (Buf[GIF_VERSION_POS] == '9');
 
     return GifFile;
 }
@@ -199,8 +201,7 @@ DGifOpen(void *userData,
         return NULL;
     }
 
-    /* The GIF Version number is ignored at this time. Maybe we should do
-     * something more useful with it. */
+    /* Check for GIF prefix at start of file */
     Buf[GIF_STAMP_LEN] = '\0';
     if (strncmp(GIF_STAMP, Buf, GIF_VERSION_POS) != 0) {
         _GifError = D_GIF_ERR_NOT_GIF_FILE;
@@ -216,6 +217,9 @@ DGifOpen(void *userData,
     }
 
     _GifError = 0;
+
+    /* What version of GIF? */
+    Private->gif89 = (Buf[GIF_VERSION_POS] == '9');
 
     return GifFile;
 }

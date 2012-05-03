@@ -47,6 +47,7 @@ typedef struct GifFilePrivateType {
     GifByteType Suffix[LZ_MAX_CODE + 1];    /* So we can trace the codes. */
     GifPrefixType Prefix[LZ_MAX_CODE + 1];
     GifHashTableType *HashTable;
+    bool gif89;
 } GifFilePrivateType;
 
 extern int _GifError;
