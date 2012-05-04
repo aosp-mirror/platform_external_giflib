@@ -1,8 +1,8 @@
 = GIFLIB TODO list =
 
 This list is short because GIFLIB is very old, very stable code with 
-a very simple interface.  There are no worlds to conquer here and
-we shouldn't go looking for any.
+a very simple interface.  There are no new worlds to conquer here and
+we shouldn't go looking for any, just provide a rock-solid service.
 
 Thus: there used to be items on here about redesigning the API, but
 DGifSlurp()/EGifSpew() is almost all anyone ever uses. The utilities
@@ -22,7 +22,12 @@ Maybe we should even drop gif2x11.  It's nice for testing, though.
 == GIFLIB website ==
 
 Now that we can make decent HTML from up-to-data documentation, put it up
-on our hosting site.
+on our hosting site. Do something with doc/GifFileType.png.
+
+== More regression tests ==
+
+Not all the utilities have tests yet.  Idempotency checks on some of the
+conversions that are invertible would be good ideas.
 
 == Clean up the extensions mess ==
 
