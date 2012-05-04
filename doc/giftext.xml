@@ -37,10 +37,6 @@
 <para>If no GIF file is given, giftext will try to read a GIF file
 from stdin.</para>
 
-<para>As giftext can generate huge amounts of data, ^C will kill it,
-but 'q' will stop only the printing (of one of -e, -z, -p), while file
-integrity will still be checked.</para>
-
 </refsect1>
 <refsect1><title>Options</title>
 
@@ -108,7 +104,7 @@ above.</para>
 </refsect1>
 <refsect1><title>Author</title>
 
-<para>Gershon Elber</para>
+<para>Gershon Elber.</para>
 
 </refsect1>
 </refentry>

@@ -27,7 +27,6 @@
 #include <stdbool.h>
 
 #ifdef __MSDOS__
-#include <conio.h>
 #include <io.h>
 #endif /* __MSDOS__ */
 
@@ -305,7 +304,6 @@ int main(int argc, char **argv)
 static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Reset)
 {
     static int CrntPlace = 0; 
-    bool Print = true;
     static long CodeCount = 0;
     int i, Percent, Len;
     long NumBytes;
@@ -313,7 +311,7 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Re
     if (Reset || CodeBlock == NULL) {
 	if (CodeBlock == NULL) {
 	    if (CrntPlace > 0) {
-		if (Print) printf("\n");
+		printf("\n");
 		CodeCount += CrntPlace - 16;
 	    }
 	    if (GifFile->Image.ColorMap)
@@ -329,19 +327,15 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Re
 	}
 	CrntPlace = 0;
 	CodeCount = 0;
-	Print = true;
     }
 
     Len = CodeBlock[0];
     for (i = 1; i <= Len; i++) {
 	if (CrntPlace == 0) {
-	    if (Print) printf("\n%05lxh:  ", CodeCount);
+	    printf("\n%05lxh:  ", CodeCount);
 	    CodeCount += 16;
 	}
-#ifdef __MSDOS__
-	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = false;
-#endif /* __MSDOS__ */
-	if (Print) printf(" %02xh", CodeBlock[i]);
+	(void)printf(" %02xh", CodeBlock[i]);
 	if (++CrntPlace >= 16) CrntPlace = 0;
     }
 }
@@ -354,7 +348,6 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Re
 static void PrintExtBlock(GifByteType *Extension, bool Reset)
 {
     static int CrntPlace = 0;
-    bool Print = true;
     static long ExtCount = 0;
     static char HexForm[49], AsciiForm[17];
     int i, Len;
@@ -364,19 +357,15 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset)
 	    if (CrntPlace > 0) {
 		HexForm[CrntPlace * 3] = 0;
 		AsciiForm[CrntPlace] = 0;
-		if (Print) printf("\n%05lx: %-49s  %-17s\n",
-				ExtCount, HexForm, AsciiForm);
+		printf("\n%05lx: %-49s  %-17s\n", ExtCount, HexForm, AsciiForm);
 		return;
 	    }
-	    else if (Print)
+	    else
 		printf("\n");
 	}
 	CrntPlace = 0;
 	ExtCount = 0;
-	Print = true;
     }
-
-    if (!Print) return;
 
     Len = Extension[0];
     for (i = 1; i <= Len; i++) {
@@ -384,14 +373,10 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset)
 		       " %02x", Extension[i]);
 	(void)snprintf(&AsciiForm[CrntPlace], 3,
 		       "%c", MAKE_PRINTABLE(Extension[i]));
-#ifdef __MSDOS__
-	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = false;
-#endif /* __MSDOS__ */
 	if (++CrntPlace == 16) {
 	    HexForm[CrntPlace * 3] = 0;
 	    AsciiForm[CrntPlace] = 0;
-	    if (Print) 
-		printf("\n%05lx: %-49s  %-17s", ExtCount, HexForm, AsciiForm);
+	    printf("\n%05lx: %-49s  %-17s", ExtCount, HexForm, AsciiForm);
 	    ExtCount += 16;
 	    CrntPlace = 0;
 	}
@@ -435,14 +420,10 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset)
 		       " %02x", PixelBlock[i]);
 	(void)snprintf(&AsciiForm[CrntPlace], 3,
 		       "%c", MAKE_PRINTABLE(PixelBlock[i]));
-#ifdef __MSDOS__
-	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = false;
-#endif /* __MSDOS__ */
 	if (++CrntPlace == 16) {
 	    HexForm[CrntPlace * 3] = 0;
 	    AsciiForm[CrntPlace] = 0;
-	    if (Print) printf("\n%05lx: %-49s  %-17s",
-				ExtCount, HexForm, AsciiForm);
+	    printf("\n%05lx: %-49s  %-17s", ExtCount, HexForm, AsciiForm);
 	    ExtCount += 16;
 	    CrntPlace = 0;
 	}
@@ -455,22 +436,18 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset)
 static void PrintLZCodes(GifFileType *GifFile)
 {
     int Code, CrntPlace = 0;
-    bool Print = true;
     long CodeCount = 0;
 
     do {
-	if (Print && CrntPlace == 0) printf("\n%05lx:", CodeCount);
+	if (CrntPlace == 0) printf("\n%05lx:", CodeCount);
 	if (DGifGetLZCodes(GifFile, &Code) == GIF_ERROR) {
 	    PrintGifError();
 	    exit(EXIT_FAILURE);
 	}
-	if (Print && Code >= 0)
+	if (Code >= 0)
 	    printf(" %03x", Code);	      /* EOF Code is returned as -1. */
 	CodeCount++;
 	if (++CrntPlace >= 16) CrntPlace = 0;
-#ifdef __MSDOS__
-	if (kbhit() && ((c = getch()) == 'q' || c == 'Q')) Print = false;
-#endif /* __MSDOS__ */
     }
     while (Code >= 0);
 }
