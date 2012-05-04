@@ -36,12 +36,8 @@ but it would benefit greatly from a complete rewrite.
 Make sure we set pointers that we don't fill to NULL.  (gifalloc.c seems
 pretty clean.  But GifFile isn't allocated in gifalloc.c)
 
-Toshio found a reported bug about libungif not handling interlaced images
-correctly.  However, the latest library seems to work.  Need to figure out
-what change fixed it and if it fixed it correctly or in a manner that is
-apt to break later.
-
 Make sure tmpnam is secure in gifinto.c (Use mkstemp if possible..)
 
-Run the utils through indent
+Run the utils through indent?
+
 
