@@ -6,14 +6,18 @@ we shouldn't go looking for any.
 
 Thus: there used to be items on here about redesigning the API, but
 DGifSlurp()/EGifSpew() is almost all anyone ever uses. The utilities
-are historical relics mainly useful for testing.  Accordingly, the top
-item is...
+are historical relics mainly useful for testing, and I (ESR) don't
+think we need to be competing with the likes of ImageMagick and PIL.
+
+Accordingly, the top to-do item is...
 
 == Remove more features ==
 
 Get rid of the GameBoy Advanced code?  The product was EOLed years ago.
 
 Get rid of the Windows-specific code unless someone documents it.
+
+Maybe we should even drop gif2x11.  It's nice for testing, though.
 
 == GIFLIB website ==
 
@@ -35,9 +39,6 @@ gif89a spec.  I've hacked it further to make it conform to the spec,
 but it would benefit greatly from a complete rewrite.
 
 == Security and quality ==
-
-Make sure we set pointers that we don't fill to NULL.  (gifalloc.c seems
-pretty clean.  But GifFile isn't allocated in gifalloc.c)
 
 Make sure tmpnam is secure in gifinto.c (Use mkstemp if possible..)
 

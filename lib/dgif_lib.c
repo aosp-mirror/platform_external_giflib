@@ -97,6 +97,10 @@ DGifOpenFileHandle(int FileHandle) {
 
     /*@i1@*/memset(GifFile, '\0', sizeof(GifFileType));
 
+    /* Belt and suspenders, in case the null pointer isn't zero */
+    GifFile->SavedImages = NULL;
+    GifFile->SColorMap = NULL;
+
     Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
     if (Private == NULL) {
         _GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
@@ -119,8 +123,8 @@ DGifOpenFileHandle(int FileHandle) {
     Private->FileHandle = FileHandle;
     Private->File = f;
     Private->FileState = FILE_STATE_READ;
-    Private->Read = 0;    /* don't use alternate input method (TVT) */
-    GifFile->UserData = 0;    /* TVT */
+    Private->Read = NULL;        /* don't use alternate input method (TVT) */
+    GifFile->UserData = NULL;    /* TVT */
     /*@=mustfreeonly@*/
 
     /* Lets see if this is a GIF file: */
@@ -178,6 +182,10 @@ DGifOpen(void *userData,
 
     memset(GifFile, '\0', sizeof(GifFileType));
 
+    /* Belt and suspenders, in case the null pointer isn't zero */
+    GifFile->SavedImages = NULL;
+    GifFile->SColorMap = NULL;
+
     Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
     if (!Private) {
         _GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
@@ -187,7 +195,7 @@ DGifOpen(void *userData,
 
     GifFile->Private = (void *)Private;
     Private->FileHandle = 0;
-    Private->File = 0;
+    Private->File = NULL;
     Private->FileState = FILE_STATE_READ;
 
     Private->Read = readFunc;    /* TVT */
