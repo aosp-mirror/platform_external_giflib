@@ -1,17 +1,17 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to convert GIF file to RGB 24 bits.				     *
-* Options:								     *
-* -v : verbose mode.						     *
-* -1 : dump as one file using RGBRGB triples.				     *
-* -h : on-line help.							     *
-* -o FileName : specify the output file name(s).			     *
+* Program to convert GIF file to RGB 24 bits.
+* Options:
+* -v : verbose mode.
+* -1 : dump as one file using RGBRGB triples.
+* -h : on-line help.
+* -o FileName : specify the output file name(s).
 ******************************************************************************
-* History:								     *
-* 5 Jan 90 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 5 Jan 90 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -59,7 +59,7 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 			   int ScreenWidth, int ScreenHeight);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -219,7 +219,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* The real dumping routine.						      *
+* The real dumping routine.
 ******************************************************************************/
 static void DumpScreen2RGB(char *FileName, int OneFileFlag,
                GifRowType *ScreenBuffer,

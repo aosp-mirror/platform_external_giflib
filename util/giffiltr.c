@@ -26,7 +26,7 @@
 #define PROGRAM_NAME	"giffiltr"
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.			      *
+* Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
@@ -37,7 +37,7 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 }
 
 /******************************************************************************
-* Main sequence								      *
+* Main sequence
 ******************************************************************************/
 int main(int argc, char **argv)
 {

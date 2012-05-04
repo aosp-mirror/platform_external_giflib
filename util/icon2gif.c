@@ -1,12 +1,12 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jun. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jun. 1989
 ******************************************************************************
-* Module to convert an editable text representation into a GIF file.         *
+* Module to convert an editable text representation into a GIF file.
 ******************************************************************************
-* History:								     *
-* 15 Sep 92 - Version 1.0 by Eric Raymond.				     *
+* History:
+* 15 Sep 92 - Version 1.0 by Eric Raymond.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -46,7 +46,7 @@ static void VisibleDumpBuffer(char *buf, int Len);
 static int EscapeString(char *cp, char *tp);
 
 /******************************************************************************
-* Main Sequence 							      *
+* Main Sequence
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Parse image directives 						      *
+* Parse image directives
 ******************************************************************************/
 #define PARSE_ERROR(str)  (void) fprintf(stderr,"%s:%d: %s\n",FileName,LineNum,str);
 
@@ -728,7 +728,7 @@ static void VisibleDumpBuffer(char *buf, int len)
 }
 
 /******************************************************************************
-* Handle last GIF error. Try to close the file and free all allocated memory. *
+* Handle last GIF error. Try to close the file and free all allocated memory.
 ******************************************************************************/
 static int HandleGifError(GifFileType *GifFile)
 {
@@ -741,7 +741,7 @@ static int HandleGifError(GifFileType *GifFile)
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.			      *
+* Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {

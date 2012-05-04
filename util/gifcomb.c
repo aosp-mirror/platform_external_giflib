@@ -1,19 +1,19 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to combine 2 GIF images into single one, using optional mask GIF   *
-* file. Result colormap will be the union of the two images colormaps.	     *
+* Program to combine 2 GIF images into single one, using optional mask GIF
+* file. Result colormap will be the union of the two images colormaps.
 * Both images should have exactly the same size, although they may be mapped *
-* differently on screen. Only First GIF screen descriptor info. is used.     *
-* Options:								     *
-* -v : verbose mode.						     *
+* differently on screen. Only First GIF screen descriptor info. is used.
+* Options:
+* -v : verbose mode.
 * -m mask : optional boolean image, defines where second GIF should be used. *
-* -h : on-line help.							     *
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-* 12 Jul 89 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 12 Jul 89 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -44,7 +44,7 @@ static void QuitGifError(GifFileType *GifFileIn1, GifFileType *GifFileIn2,
 			 GifFileType *GifMaskFile, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -193,7 +193,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Read until first image in GIF file is detected and read its descriptor.     *
+* Read until first image in GIF file is detected and read its descriptor.
 ******************************************************************************/
 static int ReadUntilImage(GifFileType *GifFile)
 {
@@ -230,7 +230,7 @@ static int ReadUntilImage(GifFileType *GifFile)
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.			      *
+* Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn1, GifFileType *GifFileIn2,
 			 GifFileType *GifMaskFile, GifFileType *GifFileOut)

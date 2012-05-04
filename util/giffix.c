@@ -1,16 +1,16 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
 * Program to attempt and fix broken GIF images. Currently fix the following: *
-* 1. EOF terminates before end of image size (adds black in the end).        *
-* Options:								     *
-* -v : verbose mode.						     *
-* -h : on-line help							     *
+* 1. EOF terminates before end of image size (adds black in the end).
+* Options:
+* -v : verbose mode.
+* -h : on-line help
 ******************************************************************************
-* History:								     *
-* 5 May 91 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 5 May 91 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -43,7 +43,7 @@ static int
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -187,7 +187,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.			      *
+* Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {

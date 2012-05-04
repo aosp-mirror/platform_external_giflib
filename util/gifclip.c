@@ -1,18 +1,18 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to clip an image and dump out only portion of it.		     *
-* Options:								     *
-* -v : verbose mode.						     *
-* -i left top width bottom : clipping information for first image.	     *
-* -n n left top width bottom : clipping information for nth image.	     *
-* -c complement; remove the bands specified by -i or -n			     *
-* -h : on-line help							     *
+* Program to clip an image and dump out only portion of it.		
+* Options:
+* -v : verbose mode.
+* -i left top width bottom : clipping information for first image.
+* -n n left top width bottom : clipping information for nth image.
+* -c complement; remove the bands specified by -i or -n
+* -h : on-line help
 ******************************************************************************
-* History:								     *
-* 8 Jul 89 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 8 Jul 89 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -41,7 +41,7 @@ static char
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.		
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -291,7 +291,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.			      *
+* Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {

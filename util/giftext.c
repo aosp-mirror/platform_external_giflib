@@ -1,23 +1,23 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jun. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jun. 1989
 ******************************************************************************
-* Program to dump GIF file content as TEXT information			     *
-* Options:								     *
-* -v : verbose mode.						     *
-* -c : include the color maps as well.					     *
-* -e : include encoded information packed as bytes as well.		     *
+* Program to dump GIF file content as TEXT information
+* Options:
+* -v : verbose mode.
+* -c : include the color maps as well.
+* -e : include encoded information packed as bytes as well.
 * -z : include encoded information (12bits) codes as result from the zl alg. *
-* -p : dump pixel information instead of encoded information.		     *
-* -r : same as -p but dump one pixel as one byte in binary form with no      *
-*      other information. This will create a file of size Width by Height.   *
-* -h : on-line help.							     *
+* -p : dump pixel information instead of encoded information.
+* -r : same as -p but dump one pixel as one byte in binary form with no
+*      other information. This will create a file of size Width by Height.
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-* 28 Jun 89 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 28 Jun 89 - Version 1.0 by Gershon Elber.
 * 21 Dec 89 - Fix segmentation fault problem in PrintCodeBlock (Version 1.1) *
-* 25 Dec 89 - Add the -r flag for raw output.                                *
+* 25 Dec 89 - Add the -r flag for raw output.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -55,7 +55,7 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset);
 static void PrintLZCodes(GifFileType *GifFile);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -297,9 +297,9 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Print the given CodeBlock - a string in pascal notation (size in first      *
-* place). Save local information so printing can be performed continuously,   *
-* or reset to start state if Reset. If CodeBlock is NULL, output is flushed   *
+* Print the given CodeBlock - a string in pascal notation (size in first
+* place). Save local information so printing can be performed continuously,
+* or reset to start state if Reset. If CodeBlock is NULL, output is flushed
 ******************************************************************************/
 static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Reset)
 {
@@ -341,9 +341,9 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Re
 }
 
 /******************************************************************************
-* Print the given Extension - a string in pascal notation (size in first      *
-* place). Save local information so printing can be performed continuously,   *
-* or reset to start state if Reset. If Extension is NULL, output is flushed   *
+* Print the given Extension - a string in pascal notation (size in first
+* place). Save local information so printing can be performed continuously,
+* or reset to start state if Reset. If Extension is NULL, output is flushed
 ******************************************************************************/
 static void PrintExtBlock(GifByteType *Extension, bool Reset)
 {
@@ -384,9 +384,9 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset)
 }
 
 /******************************************************************************
-* Print the given PixelBlock of length Len.				      *
-* Save local information so printing can be performed continuously,           *
-* or reset to start state if Reset. If PixelBlock is NULL, output is flushed  *
+* Print the given PixelBlock of length Len.
+* Save local information so printing can be performed continuously,
+* or reset to start state if Reset. If PixelBlock is NULL, output is flushed
 ******************************************************************************/
 static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset)
 {
@@ -431,7 +431,7 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset)
 }
 
 /******************************************************************************
-* Print the image as LZ codes (each 12bits), until EOF marker is reached.     *
+* Print the image as LZ codes (each 12bits), until EOF marker is reached.
 ******************************************************************************/
 static void PrintLZCodes(GifFileType *GifFile)
 {

@@ -1,19 +1,19 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to display GIF file under X11 window system.			     *
-* Options:								     *
-* -v : verbose mode.						     *
-* -p PosX PosY : defines the position where to put the image.		     *
-* -d Display : what display should go to.				     *
-* -f : force attempt to allocate the exact colors. This usually look bad...  *
-* -h : on-line help.							     *
+* Program to display GIF file under X11 window system.
+* Options:
+* -v : verbose mode.
+* -p PosX PosY : defines the position where to put the image.
+* -d Display : what display should go to.
+* -f : force attempt to allocate the exact colors. This usually looks bad...
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-* 28 Dec 89 - Version 1.0 by Gershon Elber, color allocation is based on the *
-*		xgif program by John Bradley, bradley@cis.ipenn.edu.	     *
+* History:
+* 28 Dec 89 - Version 1.0 by Gershon Elber, color allocation is based on the
+*		xgif program by John Bradley, bradley@cis.ipenn.edu.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -89,7 +89,7 @@ static void AllocateColors1(void);
 static void AllocateColors2(void);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -270,7 +270,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* The real display routine.						      *
+* The real display routine.
 ******************************************************************************/
 static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
 		     int ScreenWidth, int ScreenHeight)
@@ -375,7 +375,7 @@ static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
     /* Set out own cursor: */
     XCursor = XCreateFontCursor(XDisplay, XC_diamond_cross);
     XDefineCursor(XDisplay, XImageWndw, XCursor);
-    
+   
     XMapWindow(XDisplay, XImageWndw);
 
     /* Create the image in X format: */
@@ -418,9 +418,9 @@ static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
 }
 
 /******************************************************************************
-* Routine to allocate the requested colors from the X server.		      *
-* Colors are allocated until success by stripping off the least bits of the   *
-* colors.								      *
+* Routine to allocate the requested colors from the X server.
+* Colors are allocated until success by stripping off the least bits of the
+* colors.
 ******************************************************************************/
 static void AllocateColors1(void)
 {
@@ -459,15 +459,15 @@ static void AllocateColors1(void)
 }
 
 /******************************************************************************
-* Routine to allocate the requested colors from the X server.		      *
-* Two stages are performed:						      *
-* 1. Colors are requested directly.					      *
-* 2. If not enough colors can be allocated, the closest current color	      *
-*    in current table is selected instead.				      *
-* This allocation is not optimal as when fail to allocate all colors one      *
-* should pick the right colors to do allocate in order to minimize the        *
-* closest distance from the unallocated ones under some norm (what is a good  *
-* norm for the RGB space?). Improve it if you are bored.		      *
+* Routine to allocate the requested colors from the X server.
+* Two stages are performed:
+* 1. Colors are requested directly.
+* 2. If not enough colors can be allocated, the closest current color
+*    in current table is selected instead.
+* This allocation is not optimal as when fail to allocate all colors one
+* should pick the right colors to do allocate in order to minimize the
+* closest distance from the unallocated ones under some norm (what is a good
+* norm for the RGB space?). Improve it if you are bored.
 ******************************************************************************/
 static void AllocateColors2(void)
 {
@@ -527,7 +527,7 @@ static void AllocateColors2(void)
 	}
 	free(XOldColorTable);
 
-	(void)snprintf(Msg, sizeof(Msg), 
+	(void)snprintf(Msg, sizeof(Msg),
 		       "Colors will be approximated (average error = %ld).\n",
 		       AvgDistance / Count);
 	GIF_MESSAGE(Msg);

@@ -1,22 +1,22 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to create histogram of the colors used by the given GIF file.      *
-* Dumps out GIF file of constants size GIF_WIDTH by GIF_HEIGHT.		     *
-* Options:								     *
-* -v : verbose mode.						     *
+* Program to create histogram of the colors used by the given GIF file.
+* Dumps out GIF file of constants size GIF_WIDTH by GIF_HEIGHT.
+* Options:
+* -v : verbose mode.
 * -t : Dump out text instead of GIF - #Colors lines, each with #appearances. *
-* -i W H : size of GIF image to generate. Colors of input GIF file are	     *
-*      spread homogeneously along Height, which better by dividable by the   *
-*      number of colors in input image.					     *
-* -n n : select image number to generate histogram to (1 by default).	     *
-* -b : strip off background color count.				     *
-* -h : on-line help							     *
+* -i W H : size of GIF image to generate. Colors of input GIF file are
+*      spread homogeneously along Height, which better by dividable by the
+*      number of colors in input image.
+* -n n : select image number to generate histogram to (1 by default).
+* -b : strip off background color count.
+* -h : on-line help
 ******************************************************************************
-* History:								     *
-* 8 Jul 89 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 8 Jul 89 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -61,7 +61,7 @@ static GifColorType
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -242,7 +242,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.			      *
+* Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {

@@ -1,20 +1,20 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to rotate image 90 degrees to the right/left or flip the image     *
-* horizintally/vertically (mirror).					     *
-* Options:								     *
-* -v : verbose mode.						     *
-* -r : rotate 90 degrees to the right (default).			     *
-* -l : rotate 90 degrees to the left.					     *
-* -x : Mirror the image horizontally (first line switch places with last).   *
-* -y : Mirror the image vertically (first column switch places with last).   *
-* -h : on-line help							     *
+* Program to rotate image 90 degrees to the right/left or flip the image
+* horizintally/vertically (mirror).
+* Options:
+* -v : verbose mode.
+* -r : rotate 90 degrees to the right (default).
+* -l : rotate 90 degrees to the left.
+* -x : Mirror the image horizontally (first line switch places with last).
+* -y : Mirror the image vertically (first column switch places with last).
+* -h : on-line help
 ******************************************************************************
-* History:								     *
-* 10 Jul 89 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 10 Jul 89 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -56,7 +56,7 @@ static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer,
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -212,9 +212,9 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Routine to read Image out. The image can be Non interlaced only.	      *
-* The memory required to hold the image is allocate by the routine itself.    *
-* Return GIF_OK if succesful, GIF_ERROR otherwise.			      *
+* Routine to read Image out. The image can be Non interlaced only.
+* The memory required to hold the image is allocate by the routine itself.
+* Return GIF_OK if succesful, GIF_ERROR otherwise.
 ******************************************************************************/
 static int LoadImage(GifFileType *GifFile, GifRowType **ImageBufferPtr)
 {
@@ -251,11 +251,11 @@ static int LoadImage(GifFileType *GifFile, GifRowType **ImageBufferPtr)
 }
 
 /******************************************************************************
-* Routine to dump image out. The given Image buffer should always hold the    *
-* image sequencially, and Width & Height hold image dimensions BEFORE flip.   *
-* Image will be dumped according to FlipDirection.			      *
-* Once dumped, the memory holding the image is freed.			      *
-* Return GIF_OK if succesful, GIF_ERROR otherwise.			      *
+* Routine to dump image out. The given Image buffer should always hold the
+* image sequencially, and Width & Height hold image dimensions BEFORE flip.
+* Image will be dumped according to FlipDirection.
+* Once dumped, the memory holding the image is freed.
+* Return GIF_OK if succesful, GIF_ERROR otherwise.
 ******************************************************************************/
 static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer,
 				int Width, int Height, int FlipDirection)
@@ -315,7 +315,7 @@ static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer,
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.			      *
+* Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {

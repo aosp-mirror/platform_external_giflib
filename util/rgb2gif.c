@@ -1,18 +1,18 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jun. 1991   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jun. 1991
 ******************************************************************************
-* Program to convert 24bits RGB files to GIF format.			     *
-* Options:								     *
-* -v : verbose mode.						     *
+* Program to convert 24bits RGB files to GIF format.
+* Options:
+* -v : verbose mode.
 * -c #colors : in power of two, i.e. 7 will allow upto 128 colors in output. *
-* -1 : one file holding RGBRGB.. triples of bytes			     *
-* -s Width Height : specifies size of raw image.                             *
-* -h : on-line help.							     *
+* -1 : one file holding RGBRGB.. triples of bytes
+* -s Width Height : specifies size of raw image.
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-* 15 Jun 91 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 15 Jun 91 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 /***************************************************************************
@@ -381,7 +381,7 @@ SortCmpRtn(const void *Entry1,
        (*((QuantizedColorType **) Entry2))->RGB[SortRGBAxis];
 }
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -441,7 +441,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Load RGB file into internal frame buffer.				      *
+* Load RGB file into internal frame buffer.
 ******************************************************************************/
 static void LoadRGB(char *FileName,
 		    int OneFileFlag,
@@ -537,7 +537,7 @@ static void LoadRGB(char *FileName,
 }
 
 /******************************************************************************
-* Save the GIF resulting image.						      *
+* Save the GIF resulting image.
 ******************************************************************************/
 static void SaveGif(GifByteType *OutputBuffer,
 		    ColorMapObject *OutputColorMap,
@@ -576,7 +576,7 @@ static void SaveGif(GifByteType *OutputBuffer,
 }
 
 /******************************************************************************
-* Close output file (if open), and exit.				      *
+* Close output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {

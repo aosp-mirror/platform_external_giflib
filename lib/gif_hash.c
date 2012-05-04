@@ -1,19 +1,19 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber			IBM PC Ver 0.1,	Jun. 1989    *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber			IBM PC Ver 0.1,	Jun. 1989
 ******************************************************************************
-* Module to support the following operations:				     *
-*									     *
-* 1. InitHashTable - initialize hash table.				     *
-* 2. ClearHashTable - clear the hash table to an empty state.		     *
-* 2. InsertHashTable - insert one item into data structure.		     *
-* 3. ExistsHashTable - test if item exists in data structure.		     *
-*									     *
-* This module is used to hash the GIF codes during encoding.		     *
+* Module to support the following operations:
+*
+* 1. InitHashTable - initialize hash table.
+* 2. ClearHashTable - clear the hash table to an empty state.
+* 2. InsertHashTable - insert one item into data structure.
+* 3. ExistsHashTable - test if item exists in data structure.
+*
+* This module is used to hash the GIF codes during encoding.
 ******************************************************************************
-* History:								     *
-* 14 Jun 89 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 14 Jun 89 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <unistd.h>

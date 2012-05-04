@@ -1,17 +1,17 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to read stdin, and save it into the specified file iff the result  *
-* and inspired by the rle utah tool kit I decided to implement and add it.   *
-* -v : verbose mode.						     *
-* -s minsize : the minimum file size to keep it.			     *
-* -h : on-line help.							     *
+* Program to read stdin, and save it into the specified file iff the result
+* and inspired by the rle utah tool kit I decided to implement and add it.
+* -v : verbose mode.
+* -s minsize : the minimum file size to keep it.
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-* 7 Jul 89 - Version 1.0 by Gershon Elber.				     *
-* 22 Dec 89 - Fix problem with tmpnam (Version 1.1).                         *
+* History:
+* 7 Jul 89 - Version 1.0 by Gershon Elber.
+* 22 Dec 89 - Fix problem with tmpnam (Version 1.1).
 *****************************************************************************/
 
 #include <unistd.h>
@@ -51,8 +51,8 @@ static int
     MinFileSize = DEFAULT_MIN_FILE_SIZE;
 
 /******************************************************************************
-* The is simply: read until EOF, then close the output, test its length, and  *
-* if non zero then rename it.						      *
+* The is simply: read until EOF, then close the output, test its length, and
+* if non zero then rename it.
 ******************************************************************************/
 int main(int argc, char **argv)
 {

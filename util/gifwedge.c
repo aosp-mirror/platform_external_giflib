@@ -1,19 +1,19 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to create a test image of White and Red/Green/Blue levels for      *
-* test purposes. The Primary (RGB) and Secondary (YCM) are also displayed.   *
-* background.								     *
-* Options:								     *
-* -v : verbose mode.						     *
-* -s Width Height : set image size.					     *
-* -l levels : number of color levels.					     *
-* -h : on-line help.							     *
+* Program to create a test image of White and Red/Green/Blue levels for
+* test purposes. The Primary (RGB) and Secondary (YCM) are also displayed.
+* background.
+* Options:
+* -v : verbose mode.
+* -s Width Height : set image size.
+* -l levels : number of color levels.
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-* 4 Jan 90 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 4 Jan 90 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -52,7 +52,7 @@ static int
 static void QuitGifError(GifFileType *GifFile);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -144,7 +144,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Close output file (if open), and exit.				      *
+* Close output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {

@@ -1,22 +1,22 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to generate back ground image that can be used to replace constant *
-* background.								     *
-* Options:								     *
-* -v : verbose mode.						     *
-* -d direction : set direction image should increase intensity.		     *
-* -l levels : number of color levels.					     *
-* -c r g b : colors of the back ground.					     *
-* -m min : minimin intensity in percent.				     *
-* -M max : maximum intensity in percent.				     *
-* -s width height : size of image to create.				     *
-* -h : on-line help.							     *
+* Program to generate back ground image that can be used to replace constant
+* background.
+* Options:
+* -v : verbose mode.
+* -d direction : set direction image should increase intensity.
+* -l levels : number of color levels.
+* -c r g b : colors of the back ground.
+* -m min : minimin intensity in percent.
+* -M max : maximum intensity in percent.
+* -s width height : size of image to create.
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-* 9 Jul 89 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 9 Jul 89 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdio.h>
@@ -81,7 +81,7 @@ static unsigned int
 static void QuitGifError(GifFileType *GifFile);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -342,7 +342,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Close output file (if open), and exit.				      *
+* Close output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {

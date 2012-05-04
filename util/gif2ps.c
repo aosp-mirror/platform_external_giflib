@@ -1,21 +1,21 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to dump GIF file into PostScript type printers		     *
-* Options:								     *
-* -v : verbose mode.						     *
-* -x : force image to be horizontal.					     *
-* -y : force image to be vertical.					     *
-* -s x y : force image to be of given size.				     *
-* -p x y : force image to be positioned at given position in page.	     *
-* -i : invert the image.						     *
-* -n n : number of copies.						     *
-* -h : on-line help.							     *
+* Program to dump GIF file into PostScript type printers
+* Options:
+* -v : verbose mode.
+* -x : force image to be horizontal.
+* -y : force image to be vertical.
+* -s x y : force image to be of given size.
+* -p x y : force image to be positioned at given position in page.
+* -i : invert the image.
+* -n n : number of copies.
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-* 22 Dec 89 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 22 Dec 89 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdio.h>
@@ -76,7 +76,7 @@ static void DumpScreen2PS(GifRowType *ScreenBuffer,
 static void PutString(unsigned char *Line, int Len);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -241,7 +241,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* The real dumping routine.						      *
+* The real dumping routine.
 ******************************************************************************/
 static void DumpScreen2PS(GifRowType *ScreenBuffer,
 					int ScreenWidth, int ScreenHeight)

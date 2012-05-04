@@ -1,19 +1,19 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to reposition GIF file, by changing screen size and/or image(s)    *
-* position. Neither image(s) not colormap(s) are changed by any mean.	     *
-* Options:								     *
-* -v : verbose mode.						     *
-* -s w h : set new screen size - width & height.			     *
-* -i t l : set new image position - top & left (for first image).	     *
-* -n n w h : set new image position - top & left (for image number n).	     *
-* -h : on-line help.							     *
+* Program to reposition GIF file, by changing screen size and/or image(s)
+* position. Neither image(s) not colormap(s) are changed by any mean.
+* Options:
+* -v : verbose mode.
+* -s w h : set new screen size - width & height.
+* -i t l : set new image position - top & left (for first image).
+* -n n w h : set new image position - top & left (for image number n).
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-* 6 Jul 89 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 6 Jul 89 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdio.h>
@@ -42,7 +42,7 @@ static char
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -181,7 +181,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.			      *
+* Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {

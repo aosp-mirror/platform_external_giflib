@@ -1,10 +1,10 @@
 /******************************************************************************
-* Declarations, global to other of the GIF-HASH.C module.		      *
-*									      *
-*					Written by Gershon Elber,  Jun 1989   *
+* Declarations, global to other of the GIF-HASH.C module.
+*
+*					Written by Gershon Elber,  Jun 1989
 *******************************************************************************
-* History:								      *
-* 14 Jun 89 - Version 1.0 by Gershon Elber.				      *
+* History:
+* 14 Jun 89 - Version 1.0 by Gershon Elber.
 ******************************************************************************/
 
 #ifndef _GIF_HASH_H_

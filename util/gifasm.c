@@ -1,19 +1,19 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to assemble/disassemble GIF files: disassembles multi image file   *
-* into seperated files, or assembles few single image GIF files into one.    *
-* Options:								     *
-* -v : verbose mode.						     *
-* -A : assemble few files into one as an animation gif.                 *
-* -a : assemble few files into one (default)				     *
-* -d name : disassmble given GIF file into seperate files derived from name. *
-* -h : on-line help.							     *
+* Program to assemble/disassemble GIF files: disassembles multi image file
+* into seperated files, or assembles few single image GIF files into one.
+* Options:
+* -v : verbose mode.
+* -A : assemble several files into one as an animation gif.
+* -a : assemble several files into one (default)
+* -d name : disassmble given GIF file into seperate files derived from name.
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-* 7 Jul 89 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 7 Jul 89 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdio.h>
@@ -57,7 +57,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName);
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -102,7 +102,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Perform the assembly operation - take few input files into one output.      *
+* Perform the assembly operation - take few input files into one output.
 ******************************************************************************/
 static void DoAssembly(int NumFiles, char **FileNames)
 {
@@ -261,7 +261,7 @@ static void DoAssembly(int NumFiles, char **FileNames)
 }
 
 /******************************************************************************
-* Perform the disassembly operation - take one input files into few output.   *
+* Perform the disassembly operation - take one input files into few output.
 ******************************************************************************/
 static void DoDisassembly(char *InFileName, char *OutFileName)
 {
@@ -386,7 +386,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.			      *
+* Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {

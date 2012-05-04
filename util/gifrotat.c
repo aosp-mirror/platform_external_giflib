@@ -1,17 +1,17 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Aug. 1991   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Aug. 1991
 ******************************************************************************
-* Program to rotate a GIF image by an arbitrary angle.			     *
-* Options:								     *
-* -v : verbose mode.						     *
-* -a Angle : angle to rotate with respect to the X axis.		     *
-* -s Width Height : specifies size of output image.                          *
-* -h : on-line help.							     *
+* Program to rotate a GIF image by an arbitrary angle.
+* Options:
+* -v : verbose mode.
+* -a Angle : angle to rotate with respect to the X axis.
+* -s Width Height : specifies size of output image.
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-*  2 Aug 91 - Version 1.0 by Gershon Elber.				     *
+* History:
+*  2 Aug 91 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -53,7 +53,7 @@ static void RotateGifLine(GifRowType *ScreenBuffer, int BackGroundColor,
 static void QuitGifError(GifFileType *DstGifFile);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -212,7 +212,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Save the GIF resulting image.						      *
+* Save the GIF resulting image.
 ******************************************************************************/
 static void RotateGifImage(GifRowType *ScreenBuffer, GifFileType *SrcGifFile,
 			   int Angle, ColorMapObject *ColorMap,
@@ -251,7 +251,7 @@ static void RotateGifImage(GifRowType *ScreenBuffer, GifFileType *SrcGifFile,
 
 
 /******************************************************************************
-* Save the GIF resulting image.						      *
+* Save the GIF resulting image.
 ******************************************************************************/
 static void RotateGifLine(GifRowType *ScreenBuffer, int BackGroundColor,
 		          int SrcWidth, int SrcHeight,
@@ -285,7 +285,7 @@ static void RotateGifLine(GifRowType *ScreenBuffer, int BackGroundColor,
 }
 
 /******************************************************************************
-* Close output file (if open), and exit.				      *
+* Close output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *DstGifFile)
 {

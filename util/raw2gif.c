@@ -1,17 +1,17 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.				     *
-*									     *
-* Written by:  Gershon Elber				Ver 0.1, Jun. 1989   *
+*   "Gif-Lib" - Yet another gif library.
+*
+* Written by:  Gershon Elber				Ver 0.1, Jun. 1989
 ******************************************************************************
-* Module to conver raw image into a GIF file.				     *
-* Options:                                                                   *
-* -v : verbose mode.						     *
-* -s Width Height : specifies size of raw image.                             *
-* -p ColorMapFile : specifies color map for ray image (see gifclrmp).        *
-* -h : on-line help.                                                         *
+* Module to conver raw image into a GIF file.
+* Options:
+* -v : verbose mode.
+* -s Width Height : specifies size of raw image.
+* -p ColorMapFile : specifies color map for ray image (see gifclrmp).
+* -h : on-line help.
 ******************************************************************************
-* History:								     *
-* 15 Oct 89 - Version 1.0 by Gershon Elber.				     *
+* History:
+* 15 Oct 89 - Version 1.0 by Gershon Elber.
 *****************************************************************************/
 
 #include <stdlib.h>
@@ -69,7 +69,7 @@ int Raw2Gif(int ImagwWidth, int ImagwHeight, ColorMapObject *ColorMap);
 static int HandleGifError(GifFileType *GifFile);
 
 /******************************************************************************
-* Interpret the command line, prepar global data and call the Gif routines.   *
+* Interpret the command line, prepar global data and call the Gif routines.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -156,9 +156,9 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Convert Raw image (One byte per pixel) into Gif file. Raw data is read from *
-* stdin, and Gif is dumped to stdout. ImagwWidth times ImageHeight bytes are  *
-* read. Color map is dumped from ColorMap.				      *
+* Convert Raw image (One byte per pixel) into Gif file. Raw data is read from
+* stdin, and Gif is dumped to stdout. ImagwWidth times ImageHeight bytes are
+* read. Color map is dumped from ColorMap.
 ******************************************************************************/
 int Raw2Gif(int ImageWidth, int ImageHeight, ColorMapObject *ColorMap)
 {

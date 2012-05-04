@@ -1,21 +1,21 @@
 /*****************************************************************************
-* "Gifinfo"								     *
-*									     *
-* Written by:  Martin Edlman			Ver 0.1.0, Jul. 1989	     *
+* "Gifinfo"
+*
+* Written by:  Martin Edlman			Ver 0.1.0, Jul. 1989
 ******************************************************************************
-* Program to display information (size and comments) in GIF file.	     *
-* uses libungif	on Linux. Not tried on other systems.			     *
-* Options:								     *
-* -h : on-line help.							     *
-* -f : format output string						     *
-*      \h - height							     *
-*      \w - width							     *
-*      \c - comment							     *
-*      \f - file name							     *
-*      Example: -f 'Image \f:\n Size: \wx\h\n Comment: \c\n'		     *
+* Program to display information (size and comments) in GIF file.
+* uses libungif	on Linux. Not tried on other systems.
+* Options:
+* -h : on-line help.
+* -f : format output string
+*      \h - height
+*      \w - width
+*      \c - comment
+*      \f - file name
+*      Example: -f 'Image \f:\n Size: \wx\h\n Comment: \c\n'
 ******************************************************************************
-* History:								     *
-* 21 Jun 99 - Version 1.0 by Martin Edlman.				     *
+* History:
+* 21 Jun 99 - Version 1.0 by Martin Edlman.
 *****************************************************************************/
 
 #include <stdio.h>
@@ -49,7 +49,7 @@ static bool
     HelpFlag = false;
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.		      *
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
