@@ -13,8 +13,6 @@ Accordingly, the top to-do item is...
 
 == Remove more features ==
 
-Get rid of the GameBoy Advanced code?  The product was EOLed years ago.
-
 Get rid of the Windows-specific code unless someone documents it.
 
 Maybe we should even drop gif2x11.  It's nice for testing, though.

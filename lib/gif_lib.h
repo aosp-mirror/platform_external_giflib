@@ -46,14 +46,8 @@ extern "C" {
 typedef unsigned char GifPixelType;
 typedef unsigned char *GifRowType;
 typedef unsigned char GifByteType;
-
-#ifdef _GBA_OPTMEM
-    typedef unsigned short GifPrefixType;
-    typedef short GifWord;
-#else
-    typedef unsigned int GifPrefixType;
-    typedef int GifWord;
-#endif
+typedef unsigned int GifPrefixType;
+typedef int GifWord;
 
 typedef struct GifColorType {
     GifByteType Red, Green, Blue;
@@ -164,11 +158,9 @@ int EGifPutCodeNext(GifFileType * GifFile,
  *****************************************************************************/
 
 /* Main entry points */
-#ifndef _GBA_NO_FILEIO
 GifFileType *DGifOpenFileName(const char *GifFileName);
 GifFileType *DGifOpenFileHandle(int GifFileHandle);
 int DGifSlurp(GifFileType * GifFile);
-#endif /* _GBA_NO_FILEIO */
 GifFileType *DGifOpen(void *userPtr, InputFunc readFunc);    /* new one (TVT) */
 int DGifCloseFile(GifFileType * GifFile);
 

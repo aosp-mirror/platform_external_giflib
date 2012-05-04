@@ -33,9 +33,7 @@ extern void GifQprintf(char *Format, ...);
 /******************************************************************************
  * O.K., here are the routines from GIF_ERR.C.              
 ******************************************************************************/
-#ifndef _GBA_NO_FILEIO
 extern void PrintGifError(void);
-#endif /* _GBA_NO_FILEIO */
 extern int GifLastError(void);
 
 /* These used to live in the library header */

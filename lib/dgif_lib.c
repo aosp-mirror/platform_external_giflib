@@ -53,7 +53,6 @@ static int DGifGetPrefixChar(GifPrefixType *Prefix, int Code, int ClearCode);
 static int DGifDecompressInput(GifFileType *GifFile, int *Code);
 static int DGifBufferedInput(GifFileType *GifFile, GifByteType *Buf,
                              GifByteType *NextByte);
-#ifndef _GBA_NO_FILEIO
 
 /******************************************************************************
  * Open a new gif file for read, given by its name.
@@ -160,8 +159,6 @@ DGifOpenFileHandle(int FileHandle) {
 
     return GifFile;
 }
-
-#endif /* _GBA_NO_FILEIO */
 
 /******************************************************************************
  * GifFileType constructor with user supplied input function (TVT)
@@ -1002,7 +999,6 @@ DGifBufferedInput(GifFileType * GifFile,
 
     return GIF_OK;
 }
-#ifndef _GBA_NO_FILEIO
 
 /******************************************************************************
  * This routine reads an entire GIF into core, hanging all its state info off
@@ -1099,4 +1095,4 @@ DGifSlurp(GifFileType * GifFile) {
 
     return (GIF_OK);
 }
-#endif /* _GBA_NO_FILEIO */
+
