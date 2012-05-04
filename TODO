@@ -1,5 +1,10 @@
 = GIFLIB TODO list =
 
+== GIFLIB website ==
+
+Now that we can make decent HTML from up-to-data documentation, put it up
+on our hosting site.
+
 == Clean up the extensions mess ==
 
 * Add a function-code argument to AddExtensionBlock()
@@ -26,11 +31,6 @@ apt to break later.
 
 Make sure tmpnam is secure in gifinto.c (Use mkstemp if possible..)
 
-# Make sure all malloc calls check their return value.
-Still need to check dev2gif.c (Know there's problems there)
-dgif_lib.c
-egif_lib.c
-
 Merge the windows changes from the last cvs version.  Contact Lennie Araki
 about whether he is interested in maintaining the windows changes
 
@@ -49,15 +49,4 @@ MakeMapObject?)
 
 Start thinking about namespacing all our code!  This will break so many things
 in simple ways.  Need to deprecate so we can do this in 5.0
-
-=======
-
-Theoretical release 5.0
-
-Move utilities into a separate package.
-
-Now that we have sourceforge hosting, look into putting documentation and a
-website onto sourceforge.  Don't know how much stuff I want to sync into this,
-though, as I keep hoping gif's will take their last gasp and die.  (Why do we
-need gif now that we have png and mng?)
 
