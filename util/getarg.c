@@ -104,10 +104,6 @@
  
 #include "getarg.h"
 
-#ifndef MYMALLOC
-#define MYMALLOC    /* If no "MyMalloc" routine elsewhere define this. */
-#endif
-
 #define MAX_PARAM           100    /* maximum number of parameters allowed. */
 #define CTRL_STR_MAX_LEN    1024
 
@@ -135,10 +131,23 @@ static int GAGetMultiParmeters(int *Parameters[], int *ParamCount,
 static void GASetParamCount(char *CtrlStr, int Max, int *ParamCount);
 static void GAByteCopy(char *Dst, char *Src, unsigned n);
 static bool GAOptionExists(int argc, char **argv);
-#ifdef MYMALLOC
-static char *MyMalloc(unsigned size);
-#endif /* MYMALLOC */
 
+/***************************************************************************
+ * Allocate or die
+ **************************************************************************/
+static char *
+xmalloc(unsigned size) {
+
+    char *p;
+
+    if ((p = (char *)malloc(size)) != NULL)
+        return p;
+
+    fprintf(stderr, "Not enough memory, exit.\n");
+    exit(2);
+
+    return NULL;    /* Makes warning silent. */
+}
 /***************************************************************************
  * Routine to access the command line argument and interpret them:       
  * Return ARG_OK (0) is case of successful parsing, error code else...       
@@ -399,65 +408,65 @@ GAGetMultiParmeters(int *Parameters[],
     do {
         switch (CtrlStrCopy[2]) { /* CtrlStr == '!*?' or '%*?' where ? is. */
           case 'd':    /* Format to read the parameters: */
-              TmpArray.IntArray[NumOfPrm] = (int *)MyMalloc(sizeof(int));
+              TmpArray.IntArray[NumOfPrm] = (int *)xmalloc(sizeof(int));
 	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%d",
                                (int *)TmpArray.IntArray[NumOfPrm++]);
               break;
           case 'u':
-              TmpArray.IntArray[NumOfPrm] = (int *)MyMalloc(sizeof(int));
+              TmpArray.IntArray[NumOfPrm] = (int *)xmalloc(sizeof(int));
 	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%u",
                                (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
               break;
           case 'o':
-              TmpArray.IntArray[NumOfPrm] = (int *)MyMalloc(sizeof(int));
+              TmpArray.IntArray[NumOfPrm] = (int *)xmalloc(sizeof(int));
 	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%o",
                                (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
               break;
           case 'x':
-              TmpArray.IntArray[NumOfPrm] = (int *)MyMalloc(sizeof(int));
+              TmpArray.IntArray[NumOfPrm] = (int *)xmalloc(sizeof(int));
 	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%x",
                                (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
               break;
           case 'D':
-              TmpArray.LngArray[NumOfPrm] = (long *)MyMalloc(sizeof(long));
+              TmpArray.LngArray[NumOfPrm] = (long *)xmalloc(sizeof(long));
 	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%ld",
                                (long *)TmpArray.IntArray[NumOfPrm++]);
               break;
           case 'U':
-              TmpArray.LngArray[NumOfPrm] = (long *)MyMalloc(sizeof(long));
+              TmpArray.LngArray[NumOfPrm] = (long *)xmalloc(sizeof(long));
 	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lu",
                                (unsigned long *)TmpArray.
                                IntArray[NumOfPrm++]);
               break;
           case 'O':
-              TmpArray.LngArray[NumOfPrm] = (long *)MyMalloc(sizeof(long));
+              TmpArray.LngArray[NumOfPrm] = (long *)xmalloc(sizeof(long));
 	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lo",
                                (unsigned long *)TmpArray.
                                IntArray[NumOfPrm++]);
               break;
           case 'X':
-              TmpArray.LngArray[NumOfPrm] = (long *)MyMalloc(sizeof(long));
+              TmpArray.LngArray[NumOfPrm] = (long *)xmalloc(sizeof(long));
 	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lx",
                                (unsigned long *)TmpArray.
                                IntArray[NumOfPrm++]);
               break;
           case 'f':
-              TmpArray.FltArray[NumOfPrm] = (float *)MyMalloc(sizeof(float));
+              TmpArray.FltArray[NumOfPrm] = (float *)xmalloc(sizeof(float));
 	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%f",
                                (float *)TmpArray.LngArray[NumOfPrm++]);
               break;
           case 'F':
               TmpArray.DblArray[NumOfPrm] =
-                 (double *)MyMalloc(sizeof(double));
+                 (double *)xmalloc(sizeof(double));
 	      // cppcheck-suppress invalidscanf 
               ScanRes = sscanf(*((*argv)++), "%lf",
                                (double *)TmpArray.LngArray[NumOfPrm++]);
@@ -483,7 +492,7 @@ GAGetMultiParmeters(int *Parameters[],
 
     /* Now allocate the block with the exact size, and set it: */
     Ptemp = Pmain =
-       (int **)MyMalloc((unsigned)(NumOfPrm + 1) * sizeof(int *));
+       (int **)xmalloc((unsigned)(NumOfPrm + 1) * sizeof(int *));
     /* And here we use the assumption that all pointers are the same: */
     for (i = 0; i < NumOfPrm; i++)
         *Ptemp++ = TmpArray.IntArray[i];
@@ -654,24 +663,3 @@ GAPrintHowTo(char *CtrlStr) {
     fprintf(stderr, "\n");
 }
 
-#ifdef MYMALLOC
-
-/***************************************************************************
- * My Routine to allocate dynamic memory. All program requests must call
- * this routine (no direct call to malloc). Dies if no memory.
- **************************************************************************/
-static char *
-MyMalloc(unsigned size) {
-
-    char *p;
-
-    if ((p = (char *)malloc(size)) != NULL)
-        return p;
-
-    fprintf(stderr, "Not enough memory, exit.\n");
-    exit(2);
-
-    return NULL;    /* Makes warning silent. */
-}
-
-#endif /* MYMALLOC */
