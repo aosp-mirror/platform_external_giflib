@@ -6,7 +6,7 @@
 * Program to rotate image 90 degrees to the right/left or flip the image     *
 * horizintally/vertically (mirror).					     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -r : rotate 90 degrees to the right (default).			     *
 * -l : rotate 90 degrees to the left.					     *
 * -x : Mirror the image horizontally (first line switch places with last).   *
@@ -44,7 +44,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- r%- l%- x%- y%- h%- GifFile!*s";
+	" v%- r%- l%- x%- y%- h%- GifFile!*s";
 
 /* Make some variables global, so we could access them faster: */
 static int
@@ -70,7 +70,7 @@ int main(int argc, char **argv)
     GifRowType *ImageBuffer;
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&RightFlag, &LeftFlag, &HorizFlag, &VertFlag, &HelpFlag,
 		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {

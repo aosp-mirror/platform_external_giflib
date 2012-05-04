@@ -6,7 +6,7 @@
 * Program to assemble/disassemble GIF files: disassembles multi image file   *
 * into seperated files, or assembles few single image GIF files into one.    *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -A : assemble few files into one as an animation gif.                 *
 * -a : assemble few files into one (default)				     *
 * -d name : disassmble given GIF file into seperate files derived from name. *
@@ -42,7 +42,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-    " q%- A%-Delay!d a%- d%-OutFileName!s h%- GifFile(s)!*s";
+    " v%- A%-Delay!d a%- d%-OutFileName!s h%- GifFile(s)!*s";
 
 static int
     AsmGifAnimNumIters = 1,
@@ -69,7 +69,7 @@ int main(int argc, char **argv)
     bool Error, DisasmFlag = false, HelpFlag = false;
     char **FileNames = NULL, *OutFileName;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
               &AsmGifAnimFlag, &AsmGifAnimDelay,
               &AsmFlag, &DisasmFlag, &OutFileName,
               &HelpFlag, &NumFiles, &FileNames)) != false) {

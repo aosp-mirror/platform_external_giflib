@@ -6,7 +6,7 @@
 * Program to attempt and fix broken GIF images. Currently fix the following: *
 * 1. EOF terminates before end of image size (adds black in the end).        *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -h : on-line help							     *
 ******************************************************************************
 * History:								     *
@@ -34,7 +34,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- h%- GifFile!*s";
+	" v%- h%- GifFile!*s";
 
 /* Make some variables global, so we could access them faster: */
 static int
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
     ColorMapObject *ColorMap;
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint, &HelpFlag,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint, &HelpFlag,
 		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)

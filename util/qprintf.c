@@ -4,7 +4,7 @@
  * Written by:  Gershon Elber            IBM PC Ver 0.1,    Jun. 1989
  ******************************************************************************
  * Module to emulate a printf with a possible quiet (disable mode.)
- * A global variable GifQuietPrint controls the printing of this routine
+ * A global variable GifNoisyPrint controls the printing of this routine
  ******************************************************************************
  * History:
  * 12 May 91 - Version 1.0 by Gershon Elber.
@@ -17,11 +17,7 @@
 
 #include "gif_lib.h"
 
-#ifdef __MSDOS__
-bool GifQuietPrint = false;
-#else
-bool GifQuietPrint = true;
-#endif /* __MSDOS__ */
+bool GifNoisyPrint = false;
 
 /*****************************************************************************
  * Same as fprintf to stderr but with optional print.
@@ -33,7 +29,7 @@ GifQprintf(char *Format, ...) {
 
     va_start(ArgPtr, Format);
 
-    if (GifQuietPrint)
+    if (!GifNoisyPrint)
         return;
 
     (void)vsnprintf(Line, sizeof(Line), Format, ArgPtr);

@@ -5,7 +5,7 @@
 ******************************************************************************
 * Program to convert GIF file to RGB 24 bits.				     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -1 : dump as one file using RGBRGB triples.				     *
 * -h : on-line help.							     *
 * -o FileName : specify the output file name(s).			     *
@@ -40,7 +40,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- 1%- o%-OutFileName!s h%- GifFile!*s";
+	" v%- 1%- o%-OutFileName!s h%- GifFile!*s";
 
 /* Make some variables global, so we could access them faster: */
 static int
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
     GifRowType *ScreenBuffer;
     GifFileType *GifFile;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&OneFileFlag, &OutFileFlag, &OutFileName,
 		&HelpFlag, &NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {

@@ -5,7 +5,7 @@
 ******************************************************************************
 * Module to conver raw image into a GIF file.				     *
 * Options:                                                                   *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -s Width Height : specifies size of raw image.                             *
 * -p ColorMapFile : specifies color map for ray image (see gifclrmp).        *
 * -h : on-line help.                                                         *
@@ -42,7 +42,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- s!-Width|Height!d!d p%-ColorMapFile!s h%- RawFile!*s";
+	" v%- s!-Width|Height!d!d p%-ColorMapFile!s h%- RawFile!*s";
 
 static GifColorType EGAPalette[] =      /* Default color map is EGA palette. */
 {
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     ColorMapObject *ColorMap;
     FILE *InColorMapFile;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&ImageSizeFlag, &ImageWidth, &ImageHeight,
 		&ColorMapFlag, &ColorMapFile,
 		&HelpFlag,

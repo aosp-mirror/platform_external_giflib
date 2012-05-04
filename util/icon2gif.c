@@ -31,7 +31,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- d%- t%-Characters!s h%- GifFile(s)!*s";
+	" v%- d%- t%-Characters!s h%- GifFile(s)!*s";
 
 static char KeyLetters[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:<=>?@[\\]^_`{|}~";
 #define PRINTABLES	(sizeof(KeyLetters) - 1)
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     char *TextLines[1];
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
-		&GifQuietPrint, &DisasmFlag, &TextLineFlag, &TextLines[0],
+		&GifNoisyPrint, &DisasmFlag, &TextLineFlag, &TextLines[0],
 		&HelpFlag, &NumFiles, &FileNames)) != false) {
 	GAPrintErrMsg(Error);
 	GAPrintHowTo(CtrlStr);
@@ -386,7 +386,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		exit(EXIT_FAILURE);
 	    }
 
-	    if (!GifQuietPrint)
+	    if (!GifNoisyPrint)
 		fprintf(stderr, "%s: Image %d at (%d, %d) [%dx%d]:     ",
 		    PROGRAM_NAME, GifFileOut->ImageCount,
 		    NewImage->ImageDesc.Left, NewImage->ImageDesc.Top,
@@ -416,11 +416,11 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 			exit(EXIT_FAILURE);
 		    }
 
-		if (!GifQuietPrint)
+		if (!GifNoisyPrint)
 		    fprintf(stderr, "\b\b\b\b%-4d", i);
 	    }
 
-	    if (!GifQuietPrint)
+	    if (!GifNoisyPrint)
 		putc('\n', stderr);
 
 	    NewImage->RasterBits = (unsigned char *) Raster;

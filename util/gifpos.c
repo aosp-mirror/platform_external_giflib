@@ -6,7 +6,7 @@
 * Program to reposition GIF file, by changing screen size and/or image(s)    *
 * position. Neither image(s) not colormap(s) are changed by any mean.	     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -s w h : set new screen size - width & height.			     *
 * -i t l : set new image position - top & left (for first image).	     *
 * -n n w h : set new image position - top & left (for image number n).	     *
@@ -37,7 +37,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- s%-Width|Height!d!d i%-Left|Top!d!d n%-n|Left|Top!d!d!d h%- GifFile!*s";
+	" v%- s%-Width|Height!d!d i%-Left|Top!d!d n%-n|Left|Top!d!d!d h%- GifFile!*s";
 
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
     char **FileName = NULL;
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&ScreenFlag, &ScreenWidth, &ScreenHeight,
 		&ImageFlag, &ImageLeft, &ImageTop,
 		&ImageNFlag, &ImageN, &ImageNLeft, &ImageNTop,

@@ -5,7 +5,7 @@
 ******************************************************************************
 * Program to dump GIF file content as TEXT information			     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -c : include the color maps as well.					     *
 * -e : include encoded information packed as bytes as well.		     *
 * -z : include encoded information (12bits) codes as result from the zl alg. *
@@ -47,7 +47,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- c%- e%- z%- p%- r%- h%- GifFile!*s";
+	" v%- c%- e%- z%- p%- r%- h%- GifFile!*s";
 
 static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Reset);
 static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset);
@@ -70,7 +70,7 @@ int main(int argc, char **argv)
     GifFileType *GifFile;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
-		&GifQuietPrint, &ColorMapFlag, &EncodedFlag,
+		&GifNoisyPrint, &ColorMapFlag, &EncodedFlag,
 		&LZCodesFlag, &PixelFlag, &RawFlag, &HelpFlag,
 		&NumFiles, &FileName)) != false ||
 	(NumFiles > 1 && !HelpFlag)) {

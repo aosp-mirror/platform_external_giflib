@@ -5,7 +5,7 @@
 ******************************************************************************
 * Program to read stdin, and save it into the specified file iff the result  *
 * and inspired by the rle utah tool kit I decided to implement and add it.   *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -s minsize : the minimum file size to keep it.			     *
 * -h : on-line help.							     *
 ******************************************************************************
@@ -45,7 +45,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- s%-MinFileSize!d h%- GifFile!*s";
+	" v%- s%-MinFileSize!d h%- GifFile!*s";
 
 static int
     MinFileSize = DEFAULT_MIN_FILE_SIZE;
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
         TmpName[80], FoutTmpName[80], FullPath[80], DefaultName[80], s[80], *p;
     FILE *Fin, *Fout;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&MinSizeFlag, &MinFileSize, &HelpFlag,
 		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {

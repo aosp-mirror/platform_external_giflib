@@ -19,7 +19,7 @@
 
 <cmdsynopsis>
   <command>gif2x11</command>
-      <arg choice='opt'>-q</arg>
+      <arg choice='opt'>-v</arg>
       <arg choice='opt'>-p <replaceable>PosX PosY</replaceable></arg>
       <arg choice='opt'>-d <replaceable>display</replaceable></arg>
       <arg choice='opt'>-f</arg>
@@ -32,10 +32,10 @@
 
 <variablelist>
 <varlistentry>
-<term>-q</term>
+<term>-v</term>
 <listitem>
-<para>Quiet mode.  Defaults off on MSDOS, on under UNIX.  Controls
-printout of running scan lines.  Use -q- to invert.</para>
+<para>Verbose mode (show progress).  
+Enables printout of running scan lines. </para>
 </listitem>
 </varlistentry>
 <varlistentry>

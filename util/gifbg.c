@@ -6,7 +6,7 @@
 * Program to generate back ground image that can be used to replace constant *
 * background.								     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -d direction : set direction image should increase intensity.		     *
 * -l levels : number of color levels.					     *
 * -c r g b : colors of the back ground.					     *
@@ -64,7 +64,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- d%-Dir!s l%-#Lvls!d c%-R|G|B!d!d!d m%-MinI!d M%-MaxI!d s%-W|H!d!d h%-";
+	" v%- d%-Dir!s l%-#Lvls!d c%-R|G|B!d!d!d m%-MinI!d M%-MaxI!d s%-W|H!d!d h%-";
 
 static int
     MaximumIntensity = DEFAULT_MAX_INTENSITY,		      /* In percent. */
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
     ColorMapObject *ColorMap;
     GifFileType *GifFile;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&DirectionFlag, &DirectionStr, &LevelsFlag, &NumLevels,
 		&ColorFlag, &RedColor, &GreenColor, &BlueColor,
 		&MinFlag, &MinimumIntensity, &MaxFlag, &MaximumIntensity,

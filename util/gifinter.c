@@ -5,7 +5,7 @@
 ******************************************************************************
 * Program to flip interlaced and non interlaced images in GIF files.	     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -i : Force all images to be intelaced.				     *
 * -s : Force all images to be sequencial (non interlaced). This is default.  *
 * -h : on-line help							     *
@@ -36,7 +36,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- i%- s%- h%- GifFile!*s";
+	" v%- i%- s%- h%- GifFile!*s";
 
 /* Make some variables global, so we could access them faster: */
 static int
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
     GifRowType *ImageBuffer;
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&InterlacedFlag, &SequencialFlag, &HelpFlag,
 		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {

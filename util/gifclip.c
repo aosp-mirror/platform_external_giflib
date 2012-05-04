@@ -5,7 +5,7 @@
 ******************************************************************************
 * Program to clip an image and dump out only portion of it.		     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -i left top width bottom : clipping information for first image.	     *
 * -n n left top width bottom : clipping information for nth image.	     *
 * -c complement; remove the bands specified by -i or -n			     *
@@ -36,7 +36,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- c%- i%-Xmin|Ymin|Xmax|Ymax!d!d!d!d n%-n|Xmin|Ymin|Xmax|Ymax!d!d!d!d!d h%- GifFile!*s";
+	" v%- c%- i%-Xmin|Ymin|Xmax|Ymax!d!d!d!d n%-n|Xmin|Ymin|Xmax|Ymax!d!d!d!d!d h%- GifFile!*s";
 
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
     /* Same image dimension vars for both Image & ImageN as only one allowed.*/
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint, &Complement,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint, &Complement,
 		&ImageFlag, &ImageX1, &ImageY1, &ImageX2, &ImageY2,
 		&ImageNFlag, &ImageN, &ImageX1, &ImageY1, &ImageX2, &ImageY2,
 		&HelpFlag, &NumFiles, &FileName)) != false ||

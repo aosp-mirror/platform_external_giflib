@@ -19,7 +19,7 @@
 
 <cmdsynopsis>
   <command>gifcomb</command>
-      <arg choice='opt'>-q</arg>
+      <arg choice='opt'>-v</arg>
       <arg choice='opt'>-m <replaceable>maskfile</replaceable></arg>
       <arg choice='opt'>-h</arg>
       <arg rep='repeat'>
@@ -43,9 +43,10 @@ must be of exactly the same size.</para>
 
 <variablelist>
 <varlistentry>
-<term>-q</term>
+<term>-v</term>
 <listitem>
-<para> Quiet mode.  Default off on MSDOS, on under UNIX.  Controls printout of running scan lines.  Use -q- to invert.</para>
+<para> Verbose mode.  
+Enables printout of running scan lines. </para>
 </listitem>
 </varlistentry>
 <varlistentry>

@@ -19,7 +19,7 @@
 
 <cmdsynopsis>
   <command>gifflip</command>
-      <arg choice='opt'>-q</arg>
+      <arg choice='opt'>-v</arg>
       <arg choice='opt'>-r</arg>
       <arg choice='opt'>-l</arg>
       <arg choice='opt'>-x</arg>
@@ -42,9 +42,10 @@ from stdin.</para>
 
 <variablelist>
 <varlistentry>
-<term>-q</term>
+<term>-v</term>
 <listitem>
-<para> Quiet mode. Default off on MSDOS, on under UNIX.  Controls printout of running scan lines.  Use -q- to invert.</para>
+<para>Verbose mode. 
+Enables printout of running scan lines. </para>
 </listitem>
 </varlistentry>
 <varlistentry>

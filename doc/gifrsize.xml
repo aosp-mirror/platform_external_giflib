@@ -19,7 +19,7 @@
 
 <cmdsynopsis>
   <command>gifrsize</command>
-      <arg choice='opt'>-q</arg>
+      <arg choice='opt'>-v</arg>
       <arg choice='opt'>-S 
       		<replaceable>x</replaceable>
       		<replaceable>y</replaceable></arg>
@@ -41,9 +41,10 @@ bits when scaling down and duplicating bits when scaling up.</para>
 
 <variablelist>
 <varlistentry>
-<term>-q</term>
+<term>-v</term>
 <listitem>
-<para> Quiet mode.  Defaults off on MSDOS, on under UNIX.  Controls printout of running scan lines.  Use -q- to invert.</para>
+<para> Verbose mode (show progress).
+Enables printout of running scan lines. </para>
 </listitem>
 </varlistentry>
 

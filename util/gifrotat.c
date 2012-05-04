@@ -5,7 +5,7 @@
 ******************************************************************************
 * Program to rotate a GIF image by an arbitrary angle.			     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -a Angle : angle to rotate with respect to the X axis.		     *
 * -s Width Height : specifies size of output image.                          *
 * -h : on-line help.							     *
@@ -37,7 +37,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" a!-Angle!d q%- s%-Width|Height!d!d h%- GifFile!*s";
+	" a!-Angle!d v%- s%-Width|Height!d!d h%- GifFile!*s";
 
 static int
     InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
     ColorMapObject *ColorMap = NULL;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
-		&AngleFlag, &Angle, &GifQuietPrint,
+		&AngleFlag, &Angle, &GifNoisyPrint,
 		&DstSizeFlag, &DstWidth, &DstHeight, &HelpFlag,
 		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {

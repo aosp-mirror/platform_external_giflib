@@ -5,7 +5,7 @@
 ******************************************************************************
 * Program to convert 24bits RGB files to GIF format.			     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -c #colors : in power of two, i.e. 7 will allow upto 128 colors in output. *
 * -1 : one file holding RGBRGB.. triples of bytes			     *
 * -s Width Height : specifies size of raw image.                             *
@@ -57,7 +57,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- c%-#Colors!d 1%- s!-Width|Height!d!d h%- RGBFile!*s";
+	" v%- c%-#Colors!d 1%- s!-Width|Height!d!d h%- RGBFile!*s";
 
 /* Make some variables global, so we could access them faster: */
 static int
@@ -392,7 +392,7 @@ int main(int argc, char **argv)
 	*OutputBuffer = NULL;
     ColorMapObject *OutputColorMap = NULL;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&ColorFlag, &ExpNumOfColors, &OneFileFlag,
 		&SizeFlag, &Width, &Height, &HelpFlag,
 		&NumFiles, &FileName)) != false ||

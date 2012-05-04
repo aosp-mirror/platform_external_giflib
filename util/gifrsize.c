@@ -5,7 +5,7 @@
 ******************************************************************************
 * Program to resize GIF by given factors horizontally and vertically.	     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -S x y : scale into size as specified by x and y.			     *
 * -s r : resize both x & y direction by factor r.			     *
 * -x r : resize the x direction (horizontally) by factor r.		     *
@@ -41,7 +41,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- S%-X|Y!d!d s%-Scale!F x%-XScale!F y%-YScale!F h%- GifFile!*s";
+	" v%- S%-X|Y!d!d s%-Scale!F x%-XScale!F y%-YScale!F h%- GifFile!*s";
 
 /* Make some variables global, so we could access them faster: */
 static GifPixelType
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
-		&GifQuietPrint, &SizeFlag, &XSize, &YSize, &ScaleFlag, &Scale,
+		&GifNoisyPrint, &SizeFlag, &XSize, &YSize, &ScaleFlag, &Scale,
 		&XScaleFlag, &XScale, &YScaleFlag, &YScale,
 		&HelpFlag, &NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {

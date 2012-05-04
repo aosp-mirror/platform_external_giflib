@@ -6,7 +6,7 @@
 * Program to generate GIF image page from a given text by drawing the chars  *
 * using 8 by 8 fixed font.						     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -s ColorMapSize : in bits, i.e. 6 bits for 64 colors.			     *
 * -f ForeGroundIndex : by default foreground is 1. Must be in range 0..255.  *
 * -c R G B : set the foregound color values. By default it is white.	     *
@@ -48,7 +48,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- s%-ClrMapSize!d f%-FGClr!d c%-R|G|B!d!d!d t%-\"Text\"!s h%-";
+	" v%- s%-ClrMapSize!d f%-FGClr!d c%-R|G|B!d!d!d t%-\"Text\"!s h%-";
 
 static unsigned int
     RedColor = DEFAULT_COLOR_RED,
@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     GifFileType *GifFile;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
-		&GifQuietPrint, &ClrMapSizeFlag, &ColorMapSize,
+		&GifNoisyPrint, &ClrMapSizeFlag, &ColorMapSize,
 		&ForeGroundFlag, &ForeGroundIndex,
 		&ColorFlag, &RedColor, &GreenColor, &BlueColor,
 		&TextLineFlag, &TextLines[0],

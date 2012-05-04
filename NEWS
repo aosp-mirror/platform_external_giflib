@@ -54,6 +54,12 @@ Retirements
   in 2008; more to the point, nobody ever documented the code's assumptions
   or expected results.
 
+Behavior changes
+----------------
+* The -q option of the utilities is replaced by an opposite -v (verbose)
+  option; the default is now quiet for all platforms.  Defaulting to chattiness
+  on MSDOS made sense in a world of slow text consoles, but not today.
+
 Testing
 -------
 * There is now a proper regression-test suite; run 'make' in tests/.

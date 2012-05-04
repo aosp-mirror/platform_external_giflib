@@ -19,7 +19,7 @@
 
 <cmdsynopsis>
   <command>raw2gif</command>
-      <arg choice='opt'>-q</arg>
+      <arg choice='opt'>-v</arg>
       <arg choice='plain'>-s 
       		<replaceable>width</replaceable>
       		<replaceable>height</replaceable></arg>
@@ -44,9 +44,10 @@ The generated GIF File is dumped to stdout.</para>
 
 <variablelist>
 <varlistentry>
-<term>-q</term>
+<term>-v</term>
 <listitem>
-<para> Quiet mode.  Defaults off on MSDOS, on under UNIX.  Controls printout of running scan lines. Use -q- to invert.</para>
+<para>Verbose mode (show progress).
+Enables printout of running scan lines.</para>
 </listitem>
 </varlistentry>
 

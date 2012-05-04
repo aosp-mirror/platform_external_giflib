@@ -8,7 +8,7 @@
 * Both images should have exactly the same size, although they may be mapped *
 * differently on screen. Only First GIF screen descriptor info. is used.     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -m mask : optional boolean image, defines where second GIF should be used. *
 * -h : on-line help.							     *
 ******************************************************************************
@@ -37,7 +37,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- m%-MaskGIFFile!s h%- GifFile!*s";
+	" v%- m%-MaskGIFFile!s h%- GifFile!*s";
 
 static int ReadUntilImage(GifFileType *GifFile);
 static void QuitGifError(GifFileType *GifFileIn1, GifFileType *GifFileIn2,
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 	*GifFileOut = NULL;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
-		&GifQuietPrint, &MaskFlag, &MaskFileName,
+		&GifNoisyPrint, &MaskFlag, &MaskFileName,
 		&HelpFlag, &NumFiles, &FileName)) != false ||
 		(NumFiles != 2 && !HelpFlag)) {
 	if (Error)

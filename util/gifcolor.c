@@ -6,7 +6,7 @@
 * Program to generate a test pattern from a given color map		     *
 ******************************************************************************
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -b : set background color.
 * -h : on-line help.							     *
 ******************************************************************************
@@ -36,7 +36,7 @@ static char
 	__DATE__ ",   " __TIME__ "\n"
 	"(C) Copyright 1989 Gershon Elber.\n";
 static char
-    *CtrlStr = PROGRAM_NAME " q%- b%-Background!d h%-";
+    *CtrlStr = PROGRAM_NAME " v%- b%-Background!d h%-";
 
 static int BackGround = 0;
 static void QuitGifError(GifFileType *GifFile);
@@ -48,7 +48,7 @@ static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, l, GifQuietPrint, ColorMapSize;
+    int	i, j, l, GifNoisyPrint, ColorMapSize;
     bool Error, BackGroundFlag = false, HelpFlag = false;
     char Line[LINE_LEN];
     GifRowType RasterBuffer[GIF_FONT_HEIGHT];
@@ -58,7 +58,7 @@ int main(int argc, char **argv)
     int red, green, blue;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
-			   &GifQuietPrint,
+			   &GifNoisyPrint,
 			   &BackGroundFlag, &BackGround,
 			   &HelpFlag)) != false) {
 	GAPrintErrMsg(Error);

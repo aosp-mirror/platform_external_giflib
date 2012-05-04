@@ -5,7 +5,7 @@
 ******************************************************************************
 * Program to modify GIF file color map(s). Images are not modified at all.   *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -s : save screen color map (unless -i - see below), to stdout.	     *
 * -l colormap.file : substitute given colormap.file colormap into screen     *
 *    colormap (unless -i - see below).					     *
@@ -44,7 +44,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- s%- t%-TranslationFile!s l%-ColorMapFile!s g%-Gamma!F i%-Image#!d h%- GifFile!*s";
+	" v%- s%- t%-TranslationFile!s l%-ColorMapFile!s g%-Gamma!F i%-Image#!d h%- GifFile!*s";
 
 static bool
     SaveFlag = false,
@@ -74,7 +74,7 @@ int main(int argc, char **argv)
     char **FileName = NULL, *ColorFileName, *TranslateFileName;
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint, &SaveFlag, 
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint, &SaveFlag, 
 		&TranslateFlag, &TranslateFileName,
 		&LoadFlag, &ColorFileName,
 		&GammaFlag, &Gamma, &ImageNFlag, &ImageN,

@@ -19,7 +19,7 @@
 
 <cmdsynopsis>
   <command>gifclrmp</command>
-      <arg choice='opt'>-q</arg>
+      <arg choice='opt'>-v</arg>
       <arg choice='opt'>-s</arg>
       <arg choice='opt'>-l <replaceable>mapfile</replaceable></arg>
       <arg choice='opt'>-t <replaceable>trans</replaceable></arg>
@@ -40,10 +40,10 @@ a GIF file can be modified at a time, or the global screen one.</para>
 
 <variablelist>
 <varlistentry>
-<term>-q</term>
+<term>-v</term>
 <listitem>
-<para> Quiet mode.  Defaults off on MSDOS, on under UNIX.  Controls
-printout of running scan lines.  Use -q- to invert.</para>
+<para> Verbose mode (show progress).  
+Enables printout of running scan lines. </para>
 </listitem>
 </varlistentry>
 <varlistentry>

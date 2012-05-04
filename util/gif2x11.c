@@ -5,7 +5,7 @@
 ******************************************************************************
 * Program to display GIF file under X11 window system.			     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -p PosX PosY : defines the position where to put the image.		     *
 * -d Display : what display should go to.				     *
 * -f : force attempt to allocate the exact colors. This usually look bad...  *
@@ -51,7 +51,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- p%-PosX|PosY!d!d d%-Display!s f%- h%- GifFile!*s";
+	" v%- p%-PosX|PosY!d!d d%-Display!s f%- h%- GifFile!*s";
 
 /* Make some variables global, so we could access them faster: */
 static int
@@ -109,7 +109,7 @@ int main(int argc, char **argv)
     GifFileType *GifFile;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
-		&GifQuietPrint, &PosFlag, &XPosX, &XPosY,
+		&GifNoisyPrint, &PosFlag, &XPosX, &XPosY,
 	        &DisplayFlag, &DisplayName, &ForceFlag,
 		&HelpFlag, &NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {

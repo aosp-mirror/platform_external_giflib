@@ -19,7 +19,7 @@
 
 <cmdsynopsis>
   <command>giffix</command>
-      <arg choice='opt'>-q</arg>
+      <arg choice='opt'>-v</arg>
       <arg choice='opt'>-h</arg>
       <arg choice='opt'><replaceable>gif-file</replaceable></arg>
 </cmdsynopsis>
@@ -41,8 +41,8 @@ stdin.  The fixed file is dumped to stdout.</para>
 <varlistentry>
 <term>-t</term>
 <listitem>
-<para>Quiet mode.  Defaults off on MSDOS, on under UNIX.  Controls
-printout of running scan lines.  Use -q- to invert.</para>
+<para>Verbose mode (show progress).
+Enables printout of running scan lines. </para>
 </listitem>
 </varlistentry>
 <varlistentry>

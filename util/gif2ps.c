@@ -5,7 +5,7 @@
 ******************************************************************************
 * Program to dump GIF file into PostScript type printers		     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -x : force image to be horizontal.					     *
 * -y : force image to be vertical.					     *
 * -s x y : force image to be of given size.				     *
@@ -49,7 +49,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- x%- y%- s%-SizeX|SizeY!F!F p%-PosX|PosY!F!F i%- n%-#Copies!d h%- GifFile!*s";
+	" v%- x%- y%- s%-SizeX|SizeY!F!F p%-PosX|PosY!F!F i%- n%-#Copies!d h%- GifFile!*s";
 
 /* Make some variables global, so we could access them faster: */
 static int
@@ -88,7 +88,7 @@ int main(int argc, char **argv)
     GifRowType *ScreenBuffer;
     GifFileType *GifFile;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr,&GifQuietPrint,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr,&GifNoisyPrint,
 		&ForceXFlag, &ForceYFlag, &SizeFlag, &PSSizeX, &PSSizeY,
 		&PosFlag, &PSPosX, &PSPosY,
 		&InvertFlag, &NumCopiesFlag, &NumOfCopies, &HelpFlag,

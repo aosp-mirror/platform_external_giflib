@@ -7,7 +7,7 @@
 * test purposes. The Primary (RGB) and Secondary (YCM) are also displayed.   *
 * background.								     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -s Width Height : set image size.					     *
 * -l levels : number of color levels.					     *
 * -h : on-line help.							     *
@@ -42,7 +42,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- l%-#Lvls!d s%-Width|Height!d!d h%-";
+	" v%- l%-#Lvls!d s%-Width|Height!d!d h%-";
 
 static int
     NumLevels = DEFAULT_NUM_LEVELS,
@@ -63,7 +63,7 @@ int main(int argc, char **argv)
     GifFileType *GifFile;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
-		&GifQuietPrint, &LevelsFlag, &NumLevels,
+		&GifNoisyPrint, &LevelsFlag, &NumLevels,
 		&SizeFlag, &ImageWidth, &ImageHeight,
 		&HelpFlag)) != false) {
 	GAPrintErrMsg(Error);

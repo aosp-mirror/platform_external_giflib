@@ -19,7 +19,7 @@
 
 <cmdsynopsis>
   <command>text2gif</command>
-      <arg choice='opt'>-q</arg>
+      <arg choice='opt'>-v</arg>
       <arg choice='opt'>-s <replaceable>colormap-size</replaceable></arg>
       <arg choice='opt'>-f <replaceable>foreground</replaceable></arg>
       <arg choice='opt'>-c 
@@ -46,9 +46,10 @@ and will dump the created GIF file to stdout.</para>
 
 <variablelist>
 <varlistentry>
-<term>-q</term>
+<term>-v</term>
 <listitem>
-<para> Quiet mode.  Defaults off on MSDOS, on under UNIX.  Controls printout of running scan lines.  Use -q- to invert.</para>
+<para>Verbose mode (show progress).
+Enables printout of running scan lines. </para>
 </listitem>
 </varlistentry>
 

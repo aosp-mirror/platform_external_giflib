@@ -19,7 +19,7 @@
 
 <cmdsynopsis>
   <command>gifclip</command>
-      <arg choice='opt'>-q</arg>
+      <arg choice='opt'>-v</arg>
       <arg choice='opt'>-i 
       		<replaceable>xmin</replaceable>
       		<replaceable>ymin</replaceable>
@@ -49,10 +49,10 @@ url="gifpos.html">gifpos</ulink> for that).</para>
 
 <variablelist>
 <varlistentry>
-<term>-q</term>
+<term>-v</term>
 <listitem>
-<para> Quiet mode.  Default off on MSDOS, on under UNIX.  Controls
-printout of running scan lines.  Use -q- to invert.</para>
+<para>Verbose mode.  
+Enables printout of running scan lines. </para>
 </listitem>
 </varlistentry>
 <varlistentry>

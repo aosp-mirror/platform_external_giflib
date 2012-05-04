@@ -21,7 +21,7 @@
 
 <cmdsynopsis>
   <command>icon2gif</command>
-      <arg choice='opt'>-q</arg>
+      <arg choice='opt'>-v</arg>
       <arg choice='opt'>-a</arg>
       <arg choice='opt'>-d</arg>
       <arg choice='opt'>-t <replaceable>translation-table</replaceable></arg>
@@ -124,10 +124,10 @@ an included multi-image GIF will be included in order.</para>
 
 <variablelist>
 <varlistentry>
-<term>-q</term>
+<term>-v</term>
 <listitem>
-<para>Quiet mode.  Defaults off on MSDOS, on under UNIX.  Controls
-printout of running scan lines. Use -q- to invert.</para>
+<para>Verbose mode (show progress).
+Enables printout of running scan lines.</para>
 </listitem>
 </varlistentry>
 

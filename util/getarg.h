@@ -29,7 +29,7 @@ void GAPrintHowTo(char *CtrlStr);
 /******************************************************************************
  * O.K., here are the routines from QPRINTF.C.              
 ******************************************************************************/
-extern bool GifQuietPrint;
+extern bool GifNoisyPrint;
 extern void GifQprintf(char *Format, ...);
 
 /******************************************************************************

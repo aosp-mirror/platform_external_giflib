@@ -6,7 +6,7 @@
 * Program to create histogram of the colors used by the given GIF file.      *
 * Dumps out GIF file of constants size GIF_WIDTH by GIF_HEIGHT.		     *
 * Options:								     *
-* -q : quiet printing mode.						     *
+* -v : verbose mode.						     *
 * -t : Dump out text instead of GIF - #Colors lines, each with #appearances. *
 * -i W H : size of GIF image to generate. Colors of input GIF file are	     *
 *      spread homogeneously along Height, which better by dividable by the   *
@@ -44,7 +44,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" q%- t%- s%-Width|Height!d!d n%-ImageNumber!d b%- h%- GifFile!*s";
+	" v%- t%- s%-Width|Height!d!d n%-ImageNumber!d b%- h%- GifFile!*s";
 
 static int
     ImageWidth = DEFAULT_HISTO_WIDTH,
@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
     /* Same image dimension vars for both Image & ImageN as only one allowed */
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifQuietPrint,
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&TextFlag, &SizeFlag, &ImageWidth, &ImageHeight,
 		&ImageNFlag, &ImageN, &BackGroundFlag,
 		&HelpFlag, &NumFiles, &FileName)) != false ||
