@@ -1,5 +1,17 @@
 = GIFLIB TODO list =
 
+This list is short because GIFLIB is very old, very stable code with 
+a very simple interface.  There used to be items on here about
+redesigning the API, but DGifSlurp()/EGifSpew() is almost all anyone
+ever uses. The utilities are historical relics mainly useful for testing.
+Accordingly, the top item is...
+
+== Remove more features ==
+
+Get rid of the GameBoy Advanced code?  The peoduct was EOLed years ago.
+
+Get rid of the Windows-specific code unless someone documents it.
+
 == GIFLIB website ==
 
 Now that we can make decent HTML from up-to-data documentation, put it up
