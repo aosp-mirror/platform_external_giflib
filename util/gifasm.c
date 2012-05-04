@@ -52,10 +52,6 @@ static bool
     AsmGifAnimUserWait = false,
     AsmFlag = false;
 
-#ifdef __UNUSED__
- /* This is apparently not yet an implemented feature of the program */
-static void DoAssemblyGifAnim(int NumFiles, char **FileNames);
-#endif /* __UNUSED__ */
 static void DoAssembly(int NumFiles, char **FileNames);
 static void DoDisassembly(char *InFileName, char *OutFileName);
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);

@@ -38,12 +38,6 @@ static char KeyLetters[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP
 
 static int HandleGifError(GifFileType *GifFile);
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
-#if __UNUSED__
-/* Apparently this is an unimplemented function of the program */
-static int MergeImage(GifFileType *BaseFile,
-		       GifFileType *Inclusion,
-		      SavedImage *NewImage);
-#endif /* __UNUSED__ */
 static void Icon2Gif(char *FileName, FILE *txtin, int fdout);
 static void Gif2Icon(char *FileName,
 		     int fdin, int fdout,
