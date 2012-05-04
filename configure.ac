@@ -49,18 +49,14 @@ AC_SUBST(X_CFLAGS)
 AC_SUBST(MATH_LIB)
 AC_SUBST(SHLIBVERSION)
 
-dnl Check for limits.h so we have a definition of INT_MAX
-AC_CHECK_HEADERS([limits.h], ,
-                 AC_MSG_ERROR([giflib requires limits.h to be present in order to compile]))
-
+AC_CHECK_HEADERS(limits.h, ,
+                 AC_MSG_ERROR([giflib needs limits.h to compile]))
 AC_CHECK_HEADERS(fcntl.h, ,
-		 AC_MSG_ERROR([giflib 4.x must have fcntl.h to compile]))
-
+		 AC_MSG_ERROR([giflib needs fcntl.h to compile]))
 AC_CHECK_HEADERS(stdint.h, ,
-		 AC_MSG_ERROR([giflib 4.x must have stdint.h to compile]))
-
+		 AC_MSG_ERROR([giflib needs stdint.h to compile]))
 AC_CHECK_HEADERS(stdarg.h, ,
-		 AC_MSG_ERROR([giflib 4.x must have stdarg.h to compile]))
+		 AC_MSG_ERROR([giflib needs stdarg.h to compile]))
 
 AC_CONFIG_FILES([
 util/Makefile
