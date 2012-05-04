@@ -23,15 +23,9 @@
 #include <stdbool.h>
 #include <fcntl.h>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#ifdef HAVE_LIBX11
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/cursorfont.h>
-#endif /* HAVE_LIBX11 */
 
 #include "gif_lib.h"
 #include "getarg.h"
