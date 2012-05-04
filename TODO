@@ -41,12 +41,3 @@ delete things from there.  Some is in my mailbox at home.  Others were
 on the old CVS server.  I think most of the CVS backlog has been
 merged but I've just started ot look at the stuff at home.
 
-Start thinking about function naming and standardizing things.  The MakeXXX,
-FreeXXX is a good step, but should things operate on GifFiles or the interior
-data structures?  What about the functions in the rest of the library?
-Should I be able to (MakeGifFileType(), FreeGifFileType(GifFile *) just like
-MakeMapObject?)
-
-Start thinking about namespacing all our code!  This will break so many things
-in simple ways.  Need to deprecate so we can do this in 5.0
-
