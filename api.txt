@@ -31,6 +31,12 @@ Use EGifClose() to free the write handle.
 You may find the functions GifError() and GifErrorString()
 useful for error handling.
 
+=== Forward and Backward compatibility ===
+
+If you need to write code that operates with multiple versions 
+of the library, there are some useful version #defines in the
+library header.  See the details in the library documentation.
+
 === Legacy ==
 
 The other entry points are primarily historical.

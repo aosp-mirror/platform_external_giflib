@@ -11,6 +11,8 @@
 
 #include <stdbool.h>
 
+#define VERSION_COOKIE " Version %d.%d, "
+
 /***************************************************************************
  * Error numbers as returned by GAGetArg routine:
  **************************************************************************/ 

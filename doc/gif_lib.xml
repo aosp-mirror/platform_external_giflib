@@ -770,6 +770,23 @@ void GAPrintHowTo(char *CtrlStr)
 
 </sect2>
 </sect1>
+<sect1><title>Forward and Backward Compatibility</title>
+
+<para>The library header contains some version #defines you can useif you
+need to condition your code so it can compile with different library 
+versions</para>
+
+<para>Versions up to 4.1.6 defined a GIF_LIB_VERSION macro that was
+string-valued with a tricky format to parse.  This macro has been
+retired.</para>
+
+<para>Versions after 4.1.6 define integer-valued GIFLIB_MAJOR, GIFLIB_MINOR,
+and GIFLIB_RELEASE macros for the three components of the version. See the
+NEWS file in the GIFLIB distribution to track API changes.</para>
+
+<para></para>
+
+</sect1>
 <sect1><title>Skeletons of GIF filters</title>
 
 <para>If you are developing on a virtual-memory OS such as most flavors of

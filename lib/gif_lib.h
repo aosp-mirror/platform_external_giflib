@@ -20,7 +20,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define GIF_LIB_VERSION " Version 4.1, "
+#define GIFLIB_MAJOR 4
+#define GIFLIB_MINOR 1
+#define GIFLIB_RELEASE 6
 
 #define GIF_ERROR   0
 #define GIF_OK      1

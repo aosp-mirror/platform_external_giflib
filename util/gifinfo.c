@@ -35,7 +35,7 @@
 static char
     *VersionStr =
 	PROGRAM_NAME
-	GIF_LIB_VERSION
+	VERSION_COOKIE
 	"	Martin Edlman,	"
 	__DATE__ ",   " __TIME__ "\n"
 	"(C) Copyright 1999 Martin Edlman.\n";
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     }
 
     if (HelpFlag) {
-	(void)fputs(VersionStr, stderr);
+	(void)fprintf(stderr, VersionStr, GIFLIB_MAJOR, GIFLIB_MINOR);
 	GAPrintHowTo(CtrlStr);
 	printf("Format: quoted text string used for formating of information\n");
 	printf("  Special characters for various information can be used\n");

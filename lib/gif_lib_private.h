@@ -4,12 +4,6 @@
 #include "gif_lib.h"
 #include "gif_hash.h"
 
-#define PROGRAM_NAME "GIFLIB"
-
-#define VersionStr PROGRAM_NAME "  " GIF_LIB_VERSION \
-                    "    Eric S. Raymond,    " __DATE__ ",   " \
-                    __TIME__ "\n" "(C) Copyright 1997 Eric S. Raymond\n"
-
 #define LZ_MAX_CODE         4095    /* Biggest code possible in 12 bits. */
 #define LZ_BITS             12
 
