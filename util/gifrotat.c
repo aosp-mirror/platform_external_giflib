@@ -208,7 +208,6 @@ int main(int argc, char **argv)
     RotateGifImage(ScreenBuffer, GifFile, Angle, ColorMap,
 		   DstWidth, DstHeight);
 
-    // cppcheck-suppress memleak
     return 0;
 }
 
