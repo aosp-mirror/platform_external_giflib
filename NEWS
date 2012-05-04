@@ -51,7 +51,7 @@ Retirements
   inlined where it was used and the latter three are now part of the
   utility support library.
 * The Game Boy Advanced test code is gone.  The platform was discontinued
-  in 2008; more to to the point, nobody every documented the code's assumptions
+  in 2008; more to the point, nobody ever documented the code's assumptions
   or expected results.
 
 Testing
