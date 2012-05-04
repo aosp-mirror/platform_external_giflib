@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(giflib, [4.1.6], [abadger1999@sourceforge.net], giflib)
+AC_INIT(giflib, [4.1.6], [esr@thyrsus.com], giflib)
 AC_CONFIG_SRCDIR([lib/dgif_lib.c])
 AM_INIT_AUTOMAKE([gnu dist-bzip2 -Wall])
 
