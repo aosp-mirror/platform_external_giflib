@@ -1,4 +1,4 @@
-## Process this file with automake to produce a Makefile.in for libungif.
+## Process this file with automake to produce a Makefile.in for giflib.
 
 EXTRA_DIST = Makefile.unx
 
