@@ -43,13 +43,5 @@ apt to break later.
 
 Make sure tmpnam is secure in gifinto.c (Use mkstemp if possible..)
 
-Merge the windows changes from the last cvs version.  Contact Lennie Araki
-about whether he is interested in maintaining the windows changes
-
 Run the utils through indent
-
-Toshio wrote: Make sure the backlog is really all merged and then
-delete things from there.  Some is in my mailbox at home.  Others were
-on the old CVS server.  I think most of the CVS backlog has been
-merged but I've just started ot look at the stuff at home.
 
