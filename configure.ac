@@ -2,6 +2,9 @@ dnl Process this file with autoconf to produce a configure script.
 AC_INIT(giflib, [4.1.6], [abadger1999@sourceforge.net], giflib)
 AC_CONFIG_SRCDIR([lib/dgif_lib.c])
 AM_INIT_AUTOMAKE([gnu dist-bzip2 -Wall])
+
+dnl Note: config.h is not used in the current build
+dnl We leave this in place only to supptess an error message at autogen time
 AM_CONFIG_HEADER(config.h)
 
 dnl Checks for programs.
@@ -41,7 +44,6 @@ fi
 DEVS="${X11_LIB}" 
 AC_SUBST(DEVS)
 AC_SUBST(COMPILABLE_EXTRAS)
-AC_SUBST(GL_S_LIB)
 AC_SUBST(X11_LIB)
 AC_SUBST(X_CFLAGS)
 AC_SUBST(MATH_LIB)
