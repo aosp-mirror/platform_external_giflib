@@ -292,23 +292,6 @@ url="gif89.txt">GIF89 format</ulink> and <ulink url="lzgif.txt">Lempel-Ziv
 Compression</ulink>.</para>
 
 </sect1>
-<sect1><title>History</title>
-
-<para>This package was originally written by Gershon Elber
-&lt;gershon@cs.utah.edu&gt; in 1990 on an IBM PC under MS-DOS using
-Borland Turbo C.  He made it portable to several UNIX
-environments.</para>
-
-<para>The 2.1 version featured substantial changes and additions by
-Eric S. Raymond <email>&email;</email>.  These included the
-DGifSlurp/EGifSpew function pair for enabling non-sequential
-operations on GIF images and the tools icon2gif, gifovly,
-and gifcompose.</para>
-
-<para>The 2.4 version converted all the docs from an idiosyncratic
-plain-text format to HTML.</para>
-
-</sect1>
 <sect1><title>Package Status</title>
 
 <para>GIFLIB's current maintainer is Eric S. Raymond.  You can find his home

@@ -8,6 +8,7 @@ EXTRA_DIST = Makefile.unx \
 	     BUGS \
 	     build.txt \
 	     api.txt \
+	     history.txt \
 	     $(WINDOWS)
 
 # Auditing tools.
