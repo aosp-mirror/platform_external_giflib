@@ -22,7 +22,7 @@
 <cmdsynopsis>
   <command>gifovly</command>
       <arg choice='opt'>-q</arg>
-      <arg choice='opt'>-s <replaceable>trans-color</replaceable></arg>
+      <arg choice='opt'>-t <replaceable>trans-color</replaceable></arg>
       <arg choice='opt'>-h</arg>
 </cmdsynopsis>
 </refsynopsisdiv>
