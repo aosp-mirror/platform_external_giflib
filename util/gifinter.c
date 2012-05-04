@@ -6,8 +6,8 @@
 * Program to flip interlaced and non interlaced images in GIF files.
 * Options:
 * -v : verbose mode.
-* -i : Force all images to be intelaced.
-* -s : Force all images to be sequencial (non interlaced). This is default.
+* -i : Force all images to be interlaced.
+* -s : Force all images to be sequential (non-interlaced). This is default.
 * -h : on-line help
 ******************************************************************************
 * History:
@@ -24,7 +24,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifInter"
+#define PROGRAM_NAME	"gifinter"
 
 static char
     *VersionStr =

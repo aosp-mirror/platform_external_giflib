@@ -9,7 +9,7 @@
 * -v : verbose mode.
 * -d direction : set direction image should increase intensity.
 * -l levels : number of color levels.
-* -c r g b : colors of the back ground.
+* -c r g b : colors of the background.
 * -m min : minimin intensity in percent.
 * -M max : maximum intensity in percent.
 * -s width height : size of image to create.
@@ -28,7 +28,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifBG"
+#define PROGRAM_NAME	"gifbg"
 
 #define DEFAULT_WIDTH	640
 #define DEFAULT_HEIGHT	350

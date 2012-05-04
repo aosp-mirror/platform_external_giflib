@@ -25,7 +25,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifWedge"
+#define PROGRAM_NAME	"gifwedge"
 
 #define DEFAULT_WIDTH	640
 #define DEFAULT_HEIGHT	350

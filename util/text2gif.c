@@ -26,7 +26,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"Text2Gif"
+#define PROGRAM_NAME	"text2gif"
 
 #define MAX_NUM_TEXT_LINES	100	 /* Maximum number of lines in file. */
 

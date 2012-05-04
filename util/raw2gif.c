@@ -3,7 +3,7 @@
 *
 * Written by:  Gershon Elber				Ver 0.1, Jun. 1989
 ******************************************************************************
-* Module to conver raw image into a GIF file.
+* Module to convert raw image into a GIF file.
 * Options:
 * -v : verbose mode.
 * -s Width Height : specifies size of raw image.
@@ -30,7 +30,7 @@
 #include "getarg.h"
 #include "gif_lib.h"
 
-#define PROGRAM_NAME	"Raw2Gif"
+#define PROGRAM_NAME	"raw2gif"
 
 static char
     *VersionStr =

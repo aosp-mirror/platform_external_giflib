@@ -4,7 +4,7 @@
 * Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
 * Program to reposition GIF file, by changing screen size and/or image(s)
-* position. Neither image(s) not colormap(s) are changed by any mean.
+* position. Neither image(s) nor colormap(s) are changedin any way.
 * Options:
 * -v : verbose mode.
 * -s w h : set new screen size - width & height.
@@ -25,7 +25,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifPos"
+#define PROGRAM_NAME	"gifpos"
 
 static char
     *VersionStr =

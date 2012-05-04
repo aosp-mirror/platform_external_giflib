@@ -3,8 +3,10 @@
 *
 * Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Program to read stdin, and save it into the specified file iff the result
-* and inspired by the rle utah tool kit I decided to implement and add it.
+* Program to read stdin, and save it into the specified file iff the
+* result is long enough to be a valid GIF and inspired by the rle utah
+* tool kit I decided to implement and add it.
+* Options:
 * -v : verbose mode.
 * -s minsize : the minimum file size to keep it.
 * -h : on-line help.
@@ -29,7 +31,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifInto"
+#define PROGRAM_NAME	"gifinto"
 
 #define DEFAULT_MIN_FILE_SIZE	14     /* More than GIF stamp + screen desc. */
 #define	DEFAULT_OUT_NAME	"GifInto.Gif"

@@ -28,7 +28,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"Gif2RGB"
+#define PROGRAM_NAME	"gif2rgb"
 
 static char
     *VersionStr =

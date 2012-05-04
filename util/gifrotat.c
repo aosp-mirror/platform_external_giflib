@@ -25,7 +25,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifRotat"
+#define PROGRAM_NAME	"gifrotat"
 
 static char
     *VersionStr =

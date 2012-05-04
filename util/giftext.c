@@ -33,7 +33,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifText"
+#define PROGRAM_NAME	"giftext"
 
 #define MAKE_PRINTABLE(c)  (isprint(c) ? (c) : ' ')
 

@@ -9,7 +9,7 @@
 * -v : verbose mode.
 * -A : assemble several files into one as an animation gif.
 * -a : assemble several files into one (default)
-* -d name : disassmble given GIF file into seperate files derived from name.
+* -d name : disassemble given GIF file into separate files derived from name.
 * -h : on-line help.
 ******************************************************************************
 * History:
@@ -26,7 +26,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifAsm"
+#define PROGRAM_NAME	"gifasm"
 #define GIF_ASM_NAME   "NETSCAPE2.0"
 #define COMMENT_GIF_ASM    "(c) Gershon Elber, GifLib"
 

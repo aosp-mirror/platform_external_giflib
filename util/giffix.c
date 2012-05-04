@@ -22,7 +22,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifFix"
+#define PROGRAM_NAME	"giffix"
 
 static char
     *VersionStr =

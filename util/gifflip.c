@@ -4,7 +4,7 @@
 * Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
 * Program to rotate image 90 degrees to the right/left or flip the image
-* horizintally/vertically (mirror).
+* horizontally/vertically (mirror).
 * Options:
 * -v : verbose mode.
 * -r : rotate 90 degrees to the right (default).
@@ -26,7 +26,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifFlip"
+#define PROGRAM_NAME	"gifflip"
 
 #define FLIP_NONE	0
 #define FLIP_RIGHT	1

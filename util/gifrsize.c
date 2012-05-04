@@ -27,7 +27,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifRSize"
+#define PROGRAM_NAME	"gifrsize"
 
 #define MAX_SCALE	16.0			  /* Maximum scaling factor. */
 

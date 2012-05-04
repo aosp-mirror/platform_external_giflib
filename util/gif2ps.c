@@ -28,7 +28,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"Gif2PS"
+#define PROGRAM_NAME	"gif2ps"
 
 #define PAGE_WIDTH      7.5		    /* All dimensions are in inches. */
 #define PAGE_HEIGHT     9.0

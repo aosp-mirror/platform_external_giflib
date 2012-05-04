@@ -24,7 +24,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifClip"
+#define PROGRAM_NAME	"gifclip"
 
 static char
     *VersionStr =

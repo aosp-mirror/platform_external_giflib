@@ -32,7 +32,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifClrMp"
+#define PROGRAM_NAME	"gifclrmp"
 
 static char
     *VersionStr =

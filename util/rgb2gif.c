@@ -6,7 +6,7 @@
 * Program to convert 24bits RGB files to GIF format.
 * Options:
 * -v : verbose mode.
-* -c #colors : in power of two, i.e. 7 will allow upto 128 colors in output. *
+* -c #colors : in power of two, i.e. 7 will allow up to 128 colors in output.
 * -1 : one file holding RGBRGB.. triples of bytes
 * -s Width Height : specifies size of raw image.
 * -h : on-line help.
@@ -45,7 +45,7 @@ with our utilities mainly interesting as test tools.
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"RGB2Gif"
+#define PROGRAM_NAME	"rgb2gif"
 
 static char
     *VersionStr =

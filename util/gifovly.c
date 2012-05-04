@@ -3,7 +3,7 @@
 *
 * Written by:  Gershon Elber				Ver 0.1, Jul. 1989
 ******************************************************************************
-* Takes a multi-image gif and yields the overlay of all the images
+* Takes a multi-image GIF and yields the overlay of all the images
 ******************************************************************************
 * History:
 * 6 May 94 - Version 1.0 by Eric Raymond.

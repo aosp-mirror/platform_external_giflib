@@ -30,7 +30,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"Gif2X11"
+#define PROGRAM_NAME	"gif2x11"
 
 #define ICON_SIZE	60
 #define ABS(x)		((x) > 0 ? (x) : (-(x)))

@@ -23,7 +23,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifColor"
+#define PROGRAM_NAME	"gifcolor"
 
 #define LINE_LEN		40
 #define IMAGEWIDTH		LINE_LEN*GIF_FONT_WIDTH

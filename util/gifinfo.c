@@ -4,7 +4,7 @@
 * Written by:  Martin Edlman			Ver 0.1.0, Jul. 1989
 ******************************************************************************
 * Program to display information (size and comments) in GIF file.
-* uses libungif	on Linux. Not tried on other systems.
+* uses giflib on Linux. Not tried on other systems.
 * Options:
 * -h : on-line help.
 * -f : format output string
@@ -28,7 +28,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifInfo"
+#define PROGRAM_NAME	"gifinfo"
 
 #define DEFAULTFORMAT   "Size: \\wx\\h\\nComment: \\c\\n"
 

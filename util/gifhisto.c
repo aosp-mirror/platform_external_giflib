@@ -28,7 +28,7 @@
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"GifHisto"
+#define PROGRAM_NAME	"gifhisto"
 
 #define DEFAULT_HISTO_WIDTH	100	      /* Histogram image diemnsions. */
 #define DEFAULT_HISTO_HEIGHT	256
