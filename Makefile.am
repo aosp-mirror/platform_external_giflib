@@ -9,6 +9,7 @@ EXTRA_DIST = Makefile.unx \
 	     build.txt \
 	     api.txt \
 	     history.txt \
+	     control \
 	     $(WINDOWS)
 
 # Auditing tools.
@@ -22,3 +23,6 @@ SPLINT_SUPPRESSIONS = -boolops -nullret
 splint: 
 	splint +quiet +posixlib $(SPLINT_SUPPRESSIONS) lib/*.[ch]
 
+# release using the shipper tool
+release: dist
+	shipper -u -m -t; make clean
