@@ -106,7 +106,7 @@ doc/gifwedge.1
 doc/gifwedge.html
 doc/icon2gif.1
 doc/icon2gif.html
-doc/index.html
+doc/intro.html
 doc/liberror.html
 doc/lift.el
 doc/raw2gif.1
@@ -115,3 +115,4 @@ doc/rgb2gif.1
 doc/rgb2gif.html
 doc/text2gif.1
 doc/text2gif.html
+doc/staging/

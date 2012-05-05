@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
+    'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html>
+<head>
+<link rev='made' href='mailto:esr@snark.thyrsus.com' />
+<meta name='generator' content='shipper' />
+<meta name='MSSmartTagsPreventParsing' content='TRUE' />
+<meta name='description' content="enable lossless editing of PNGs via a textual representation"/>
+<title>The GIFLIB project</title>
+<script type="text/javascript">
+// JavaScript to generate a compact date representation
+
+//
+// format date as dd-mmm-yyyyy
+// example: 12-Jan-1999
+//
+function date_ddmmmyyyy(date)
+{
+  var d = date.getDate();
+  var m = date.getMonth() + 1;
+  var y = date.getFullYear();
+
+  // could use splitString() here 
+  // but the following method is 
+  // more compatible
+  var mmm = 
+    ( 1==m)?'Jan':( 2==m)?'Feb':(3==m)?'Mar':
+    ( 4==m)?'Apr':( 5==m)?'May':(6==m)?'Jun':
+    ( 7==m)?'Jul':( 8==m)?'Aug':(9==m)?'Sep':
+    (10==m)?'Oct':(11==m)?'Nov':'Dec';
+
+  return "" +
+    (d<10?"0"+d:d) + " " + mmm + " " + y;
+}
+
+
+//
+// get last modified date of the 
+// current document.
+//
+function date_lastmodified()
+{
+  var lmd = document.lastModified;
+  var s   = "Unknown";
+  var d1;
+
+  // check if we have a valid date
+  // before proceeding
+  if(0 != (d1=Date.parse(lmd)))
+  {
+    s = "" + date_ddmmmyyyy(new Date(d1));
+  }
+
+  return s;
+}
+// End
+</script>
+</head>
+<body>
+<table width='100%' cellpadding='0' summary='Canned page header' bgcolor="#ddd">
+<tr>
+<td><h2>The GIFLIB project</h2></td>
+<td align="center"></td><!-- put a logo here someday -->
+<td align='right'><script type="text/javascript">
+document.write(date_lastmodified());
+</script></td><!-- generate a date here someday -->
+</tr>
+</table>
+
+<p>The GIFLIB project maintains the giflib service library, which has
+been pulling images out of GIFs since 1989. It is deployed everywhere
+you can think of and some places you probably can't - graphics
+applications and web browsers on multiple operating systems, game
+consoles, smartphones, and probably your ATM too.</p>
+
+<p>This is very mature and stable code that needs only occasional
+minor bugfixes. Test reports from odd platforms and better regression
+tests are particularly welcome. Don't try to redesign it, applications
+beyond counting would break if you did.</p>
+
+<p>It's "GIFLIB" in caps as a nod to the code's origins in the dark
+and backward abysm of MS-DOS, but Unix hackers are encouraged to spell it 
+"giflib" in deference to local conventions. :-)
+
+<p>You can read GIFLIB's documentation <a
+href="intro.html">here</a>. People to thank for this code: Gershon
+Elber, Eric S. Raymond, Toshio Kuratomi.</p>
+
+<p>The SourceForge summary page (where you can download the source,
+review the project, find links to the bugtracker  and mailing list
+pages, or ask to join the project as a developer) is <a
+href="https://sourceforge.net/projects/giflib/">here</a>.
+
+<p>There is a Freecode <a href='http://freecode.com/projects/giflib'>GIFLIB page</a>.</p>
+
+</body>
+</html>

@@ -25,4 +25,6 @@ splint:
 
 # release using the shipper tool
 release: dist
+	cd doc; make website
 	shipper -u -m -t; make clean
+	rm -fr doc/staging
