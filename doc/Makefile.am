@@ -38,4 +38,4 @@ website: allhtml
 	rm -fr staging; mkdir staging; cp $(SOURCES:.xml=.html) staging
 
 clean-local:
-	rm -f $(SOURCES:.xml=.html) $(MANSOURCES:.xml=.1)
+	rm -fr staging $(SOURCES:.xml=.html) $(MANSOURCES:.xml=.1)
