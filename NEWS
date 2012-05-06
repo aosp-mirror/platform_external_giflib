@@ -64,6 +64,9 @@ Retirements
 * The Game Boy Advanced test code is gone.  The platform was discontinued
   in 2008; more to the point, nobody ever documented the code's assumptions
   or expected results.
+* The Changelog file is now retained for archival purposes only, and because
+  autotools throws a hissy fit if there isn't one.  The single point of
+  truth about changes and the reasons for them is the repository history.
 
 Behavior changes
 ----------------
