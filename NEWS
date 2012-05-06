@@ -9,8 +9,8 @@ Short-form summary of recent news:
   The documentation has been updated and improved.
   EGifSpew() is now thread-safe.
 
-Repository head:
-===============
+Version 4.2.0
+=============
 
 Now maintained by ESR again after handoff by Toshio Kuratomi.
 
