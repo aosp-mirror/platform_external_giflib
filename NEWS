@@ -210,7 +210,6 @@ Version 3.1.1
  * When closing a gif that had a local colormap, DGifCloseFile would attempt
    to free the colormap twice.
  * Fix a potential memory leak in DGifSlurp.
-The following enhancements have been made:
  * New function DGifOpen to allow specifying a user definable gif reading
    function.
 
@@ -223,23 +222,135 @@ Version 3.1.0
 
 Version 3.0
 ===========
-Changes from Eric Raymond's libgif:
- * A new gif encoder that makes uncompressed gifs rather than standard,
-   LZW-compressed gifs.  This is actually the major motivating factor behind
-   libungif; to provide third-party distributors a means to provide a gif
-   library without the patented LZW encoder.
 
- * A new configure script to make compilation of the library on multiple
-   platforms easier.  The package should now build shared libraries on all
-   platforms supported by GNU libtool.
+Changes from Eric Raymond's libgif
+----------------------------------
+* A new gif encoder that makes uncompressed gifs rather than standard,
+  LZW-compressed gifs.  This is actually the major motivating factor behind
+  libungif; to provide third-party distributors a means to provide a gif
+  library without the patented LZW encoder.
+* A new configure script to make compilation of the library on multiple
+  platforms easier.  The package should now build shared libraries on all
+  platforms supported by GNU libtool.
+* Removed the getarg functions from libgif.  These were not part of the
+  public API and only used by the tools in the utils directory so I separated
+  them from the rest of the library.
+* Fixed a few bugs in the tools in the utils directory.
 
- * Removed the getarg functions from libgif.  These were not part of the
-   public API and only used by the tools in the utils directory so I separated
-   them from the rest of the library.
+Version 3.0
+===========
 
- * Fixed a few bugs in the tools in the utils directory.
+New features
+------------
+* Incorporated Sirtaj Kang's changes to make both static and shared libs.
+* All the utility and library docs are HTML now.
+* The library and relevant utilities are now fully GIF89-aware.
+* Functions for drawing text and boxes on saved images are documented.
+* The distribution is now issued under a simple X-Consortium-style license.
+* Can now generate package RPMs and LSM automatically.
+* Home page with Web-acessible documentation at http://www.ccil.org/~esr/giflib
 
-========
-Changes predating libungif 3.0 (news in the original libgif, in other words.)
-is in ONEWS
+Bug fixes
+---------
+* Fix giftext to not core dump on a null extension record.
+* Incorporate Philip VanBaren's change to prevent a core dump in gifasm.
+
+Version 2.3
+===========
+* Fixed a core-dump bug in gifcomb revealed by ELF environment in Linux 1.2.13.
+
+Version 2.2b
+============
+* Added gifburst tool.
+
+Version 2.2
+===========
+* Linux is supported.
+
+Version 2.1
+===========
+* Added the gifovly tool, which supports making a composite from several GIF
+  images.
+* Used gifovly to implement a full-fledged pasteup program in shell.  It's
+  called gifcompose and lives in the util directory.
+* Added a copy of the GIF89 standard to the doc directory (gif89.txt);
+  also a description of the preferred compression method (lzgif.txt).
+
+Version 2.0
+===========
+   With this version, development was taken over from Gershon Elber by Eric
+S. Raymond <esr@snark.thyrsus.com>.  Note that I, esr, have pretty much
+adhered to Gershon's coding style, even though it's quite baroque and DOS-
+headed by my standards.
+
+Library Improvements
+--------------------
+* New DGifSlurp() and EGifSpew() library entry points allow all GIF-bashing
+  to be done in core on machines with sufficient memory.  Writing code to
+  slice'n'dice multiple GIFs in non-sequential ways is now much easier (send
+  kudos and brickbats to esr, small unmarked bills preferred).
+* The interface has changed somewhat.  Members in the GifFileType structure
+  have been renamed and regrouped.  This was required for support of the
+  SavedImages member (which enables the new functions mentioned in 1).  Also,
+  there is a new data type for allocated color maps and routines to handle
+  it conveniently.
+* Some minor bugs have been fixed.  Most notably, the DGif code now correctly
+  handles the possibility of more than one code block per extension record,
+  as per the GIF spec.  It's not clear, however, that anyone ever has or
+  ever will use this feature for anything...
+
+New Tools and Options
+---------------------
+* A brand new, ultra-spiffy tool `icon2gif' is included.  It assembles named
+  GIFs with editable text color map & icon raster representations to produce
+  multi-image GIFs usable as graphical resource files.  It can also dump most
+  GIFs in the same text-only form it parses.  This makes it easy to edit GIFs
+  even if you don't have a graphics editor.
+* The gifclip utility supports a new `-c' (complement) option that allows you
+  to perform an `inverse clip', removing horizontal or vertical bands from an
+  image.
+* The gifclrmp utility supports a new `-t' switch for shuffling color index
+   values.
+* A new tool `gifcolor' generates test pattern from colormap input.
+
+New Documentation and Examples
+------------------------------
+* The documentation has been overhauled completely and translated out of the
+  dialect spoken by the estimable Mr. Elber into something like standard
+  English :-).
+* Two source code files gifspnge.c and giffiltr.c have been added to the
+  util directory.  These are GIF copiers that exercise the I/O routines,
+  provided as skeletons for your applications.  Read the comments in them
+  for more info.
+* The util Makefile for UNIX has been improved.  It now uses the cc/gcc -s
+  option rather than strip(1).  There are now separate install productions,
+  so you can test new versions in util before installation for production
+  (the top-level make script still does an install).
+
+Version 1.2
+===========
+* GIFFIX - a new tool to attempt and fix broken GIF images. Currently fix
+  images that has EOF prematurely by padding with the darkest color.
+* Make GIF2BGI display as much as it can considering the mem. avail.
+* Add -q flag to all tools for quite running scan line number mode.
+* Fix a (minor!?) bug in the GIF decoder when encountering code 4095.
+* New tools (RGB2GIF and GIF2RGB) to convert GIF to/from 24 bits RGB images.
+* New tool GIFROTAT to rotate a gif image by an arbitrary angle.
+* GifRSize was updated to resize by an arbitrary factor.
+
+Version 1.1
+===========
+* GIF2BGI - a new utility to display GIF images using Borland's BGI drivers
+  (if you have one...)
+* TEXT2GIF - Converts plain text into GIF images.
+* GIF2IRIS - SGI4D display program for GIF images.
+* GIF_LIB naming convension has been modified to make sure it has unique
+  names (see gif_lib.h).
+* Support for SGI4D gl and X11 window grabbing has been added to the
+  library. SGI4D input is quantizied into 8 bits.
+  Also support for EGA/VGA devices has been added as well.
+  see Dev2gif.c module.
+* Support for the new gif89a format has been added.
+
+
 

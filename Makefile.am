@@ -1,7 +1,6 @@
 SUBDIRS = lib util doc pic
 
 EXTRA_DIST = Makefile.unx \
-	     ONEWS \
 	     autogen.sh \
 	     tests \
 	     TODO \
