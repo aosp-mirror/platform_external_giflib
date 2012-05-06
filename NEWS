@@ -1,3 +1,14 @@
+			GIFLIB NEWS
+
+Short-form summary of recent news:
+  Code updated to c99 conformance, no warnings under GCC 4.6.1 or cppcheck.
+  GIF version to write is now computed at write time from extension blocks.
+  Six obsolete utilities have been removed to lessen dependencies.
+  A regression-test suite has been added to the distribution.
+  Some helper functions for the utilities have moved out of the core library.
+  The documentation has been updated and improved.
+  EGifSpew() is now thread-safe.
+
 Repository head:
 ===============
 
@@ -147,7 +158,7 @@ long Comments, and multi-block extensions read in from another file.
   but maybe someone out there will find it useful.  Caveat hacker.
 
 Version 4.1.2
-===============
+=============
 * Numerous bug fixes from people on the old libungif mailing list.
 * GIF_ERROR and GIF_MESSAGE are on the deprecation list as they are also
   utility helper functions rather than essential to the functioning of the
@@ -168,7 +179,7 @@ Version 4.1.1
   reading library has no business requiring.)
 
 Version 4.1.0
-============
+=============
 * Several minor memory leaks in error conditions have been plugged.
 * New Function EGifOpen(void *userData, OutputFunc writeFunc) allows user
   specified gif writing functions.
