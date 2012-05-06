@@ -64,4 +64,6 @@ Steps 7 and 8 can be done with "make release" if you have shipper installed.
 Note: the version needs to be bumped in two places, configure.ac
 and lib/gif_lib.h. You will also need to stamp the top entry in the
 NEWS file.  The shared-library version is also set in configure.ac.
+If you are changing major versions, sync the XBS-SourceForge-Folder
+attribute in the control file.
 
