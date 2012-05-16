@@ -367,18 +367,20 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset)
 	ExtCount = 0;
     }
 
-    Len = Extension[0];
-    for (i = 1; i <= Len; i++) {
-	(void)snprintf(&HexForm[CrntPlace * 3], 3,
-		       " %02x", Extension[i]);
-	(void)snprintf(&AsciiForm[CrntPlace], 3,
-		       "%c", MAKE_PRINTABLE(Extension[i]));
-	if (++CrntPlace == 16) {
-	    HexForm[CrntPlace * 3] = 0;
-	    AsciiForm[CrntPlace] = 0;
-	    printf("\n%05lx: %-49s  %-17s", ExtCount, HexForm, AsciiForm);
-	    ExtCount += 16;
-	    CrntPlace = 0;
+    if (Extension != NULL) {
+	Len = Extension[0];
+	for (i = 1; i <= Len; i++) {
+	    (void)snprintf(&HexForm[CrntPlace * 3], 3,
+			   " %02x", Extension[i]);
+	    (void)snprintf(&AsciiForm[CrntPlace], 3,
+			   "%c", MAKE_PRINTABLE(Extension[i]));
+	    if (++CrntPlace == 16) {
+		HexForm[CrntPlace * 3] = 0;
+		AsciiForm[CrntPlace] = 0;
+		printf("\n%05lx: %-49s  %-17s", ExtCount, HexForm, AsciiForm);
+		ExtCount += 16;
+		CrntPlace = 0;
+	    }
 	}
     }
 }
