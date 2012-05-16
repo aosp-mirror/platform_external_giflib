@@ -481,8 +481,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	}
     }
 
-    if (EGifSpew(GifFileOut) == GIF_ERROR)
-	HandleGifError(GifFileOut);
+    EGifSpew(GifFileOut);
 }
 
 static void Gif2Icon(char *FileName,

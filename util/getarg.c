@@ -503,6 +503,7 @@ GAGetMultiParmeters(int *Parameters[],
     *Parameters[(*ParamCount)++] = NumOfPrm;
     GAByteCopy((char *)Parameters[(*ParamCount)++], (char *)&Pmain,
                sizeof(char *));
+    free(Pmain);
     return NumOfPrm;
 }
 

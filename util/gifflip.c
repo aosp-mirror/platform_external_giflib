@@ -274,8 +274,10 @@ static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer,
 		GifQprintf("\b\b\b\b%-4d", Count--);
 		for (j = 0; j < Height; j++)
 		    Line[j] = ImageBuffer[Height - j - 1][i];
-		if (EGifPutLine(GifFile, Line, Height) == GIF_ERROR)
+		if (EGifPutLine(GifFile, Line, Height) == GIF_ERROR) {
+		    free(Line);
 	    	    return GIF_ERROR;
+		}
 	    }
 	    break;
 	case FLIP_LEFT:
@@ -283,15 +285,19 @@ static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer,
 		GifQprintf("\b\b\b\b%-4d", i + 1);
 		for (j = 0; j < Height; j++)
 		    Line[j] = ImageBuffer[j][i];
-		if (EGifPutLine(GifFile, Line, Height) == GIF_ERROR)
+		if (EGifPutLine(GifFile, Line, Height) == GIF_ERROR) {
+		    free(Line);
 	    	    return GIF_ERROR;
+		}
 	    }
 	    break;
 	case FLIP_HORIZ:
 	    for (i = Height - 1; i >= 0; i--) {
 		GifQprintf("\b\b\b\b%-4d", i);
-		if (EGifPutLine(GifFile, ImageBuffer[i], Width) == GIF_ERROR)
+		if (EGifPutLine(GifFile, ImageBuffer[i], Width) == GIF_ERROR) {
+		    free(Line);
 		    return GIF_ERROR;
+		}
 	    }
 	    break;
 	case FLIP_VERT:
@@ -299,8 +305,10 @@ static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer,
 		GifQprintf("\b\b\b\b%-4d", Count--);
 		for (j = 0; j < Width; j++)
 		    Line[j] = ImageBuffer[i][Width - j - 1];
-		if (EGifPutLine(GifFile, Line, Width) == GIF_ERROR)
+		if (EGifPutLine(GifFile, Line, Width) == GIF_ERROR) {
+		    free(Line);
 	    	    return GIF_ERROR;
+		}
 	    }
 	    break;
     }

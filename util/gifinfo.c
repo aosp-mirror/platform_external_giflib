@@ -156,8 +156,10 @@ int main(int argc, char **argv)
 		    if(ExtCode == COMMENT_EXT_FUNC_CODE) {
 			Extension[Extension[0]+1] = '\000';   /* Convert gif's pascal-like string */
 			NewComment = (char*) realloc(Comment, strlen(Comment) + Extension[0] + 1);
-			if (NewComment == NULL)
+			if (NewComment == NULL) {
 			    (void) free(Comment);
+			    exit(EXIT_FAILURE);
+			}
 			else
 			    Comment = NewComment;
 			strcat(Comment, (char*)Extension+1);
