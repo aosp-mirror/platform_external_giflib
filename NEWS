@@ -20,6 +20,8 @@ Code Fixes
   the compiler. Compiles under GCC 4.6.1 without errors or warnings.
 * Code audits clean under cppcheck.
 * splint cleanup begun, there's a lot of work still to do on this.
+* A rare resource leak in the colormap-object maker was found with
+  Coverity and fixed.
 
 New API Features
 ----------------
