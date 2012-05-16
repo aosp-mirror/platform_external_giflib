@@ -324,8 +324,8 @@ SubdivColorMap(NewColorMapType * NewColorSubdiv,
         Sum = NewColorSubdiv[Index].Count / 2 - QuantizedColor->Count;
         NumEntries = 1;
         Count = QuantizedColor->Count;
-        while ((Sum -= QuantizedColor->Pnext->Count) >= 0 &&
-               QuantizedColor->Pnext != NULL &&
+        while (QuantizedColor->Pnext != NULL &&
+	       (Sum -= QuantizedColor->Pnext->Count) >= 0 &&
                QuantizedColor->Pnext->Pnext != NULL) {
             QuantizedColor = QuantizedColor->Pnext;
             NumEntries++;
