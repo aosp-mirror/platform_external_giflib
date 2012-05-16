@@ -44,9 +44,5 @@ time and also was not implemented entirely in conformance with the
 gif89a spec.  I've hacked it further to make it conform to the spec,
 but it would benefit greatly from a complete rewrite.
 
-== Security and quality ==
-
-Make sure tmpnam is secure in gifinto.c (Use mkstemp if possible..)
-
 
 
