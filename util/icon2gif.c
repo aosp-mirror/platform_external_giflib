@@ -36,7 +36,6 @@ static char
 static char KeyLetters[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:<=>?@[\\]^_`{|}~";
 #define PRINTABLES	(sizeof(KeyLetters) - 1)
 
-static int HandleGifError(GifFileType *GifFile);
 static void Icon2Gif(char *FileName, FILE *txtin, int fdout);
 static void Gif2Icon(char *FileName,
 		     int fdin, int fdout,
@@ -138,7 +137,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
     int n, LineNum = 0;
 
     if ((GifFileOut = EGifOpenFileHandle(fdout)) == NULL) {
-	(void) HandleGifError(GifFileOut);
+	if (EGifCloseFile(GifFileOut) == GIF_ERROR) {
+	    PrintGifError();
+	}
+	exit(EXIT_FAILURE);
     }
 
     /* OK, interpret directives */
@@ -732,18 +734,5 @@ static void VisibleDumpBuffer(char *buf, int len)
 	else
 	    printf("\\0x%02x", *cp);
     }
-}
-
-/******************************************************************************
-* Handle last GIF error. Try to close the file and free all allocated memory.
-******************************************************************************/
-static int HandleGifError(GifFileType *GifFile)
-{
-    int i = GifLastError();
-
-    if (EGifCloseFile(GifFile) == GIF_ERROR) {
-	GifLastError();
-    }
-    return i;
 }
 
