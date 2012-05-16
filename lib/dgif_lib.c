@@ -669,15 +669,17 @@ DGifGetCodeNext(GifFileType * GifFile,
     GifByteType Buf;
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
+    /* coverity[tainted_data_argument] */
     if (READ(GifFile, &Buf, 1) != 1) {
         _GifError = D_GIF_ERR_READ_FAILED;
         return GIF_ERROR;
     }
 
+    /* coverity[lower_bounds] */
     if (Buf > 0) {
         *CodeBlock = Private->Buf;    /* Use private unused buffer. */
         (*CodeBlock)[0] = Buf;  /* Pascal strings notation (pos. 0 is len.). */
-	/* coverity[tainted_data_argument] */
+	/* coverity[tainted_data] */
         if (READ(GifFile, &((*CodeBlock)[1]), Buf) != Buf) {
             _GifError = D_GIF_ERR_READ_FAILED;
             return GIF_ERROR;
