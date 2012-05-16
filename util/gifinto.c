@@ -101,7 +101,7 @@ int main(int argc, char **argv)
 
     /* Isolate the directory where our destination is, and set tmp file name */
     /* in the very same directory.					     */
-    strcpy(FullPath, *FileName);
+    strncpy(FullPath, *FileName, sizeof(FullPath)-1);
     if ((p = strrchr(FullPath, '/')) != NULL ||
 	(p = strrchr(FullPath, '\\')) != NULL)
 	p[1] = 0;

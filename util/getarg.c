@@ -163,7 +163,7 @@ GAGetArgs(int argc,
     char *Option, CtrlStrCopy[CTRL_STR_MAX_LEN];
     va_list ap;
 
-    strcpy(CtrlStrCopy, CtrlStr);
+    strncpy(CtrlStrCopy, CtrlStr, sizeof(CtrlStrCopy)-1);
     va_start(ap, CtrlStr);
     for (i = 1; i <= MAX_PARAM; i++)
         Parameters[i - 1] = va_arg(ap, int *);

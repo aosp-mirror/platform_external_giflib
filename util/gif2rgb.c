@@ -240,8 +240,9 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
             static char *Postfixes[] = { ".R", ".G", ".B" };
 
             for (i = 0; i < 3; i++) {
-                strcpy(OneFileName, FileName);
-                strcat(OneFileName, Postfixes[i]);
+                strncpy(OneFileName, FileName, sizeof(OneFileName)-1);
+                strncat(OneFileName, Postfixes[i], 
+			sizeof(OneFileName) - 1 - strlen(OneFileName));
     
                 if ((f[i] = fopen(OneFileName, "wb")) == NULL) {
                     GIF_EXIT("Can't open input file name.");

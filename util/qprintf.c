@@ -29,13 +29,12 @@ GifQprintf(char *Format, ...) {
 
     va_start(ArgPtr, Format);
 
-    if (!GifNoisyPrint)
-        return;
+    if (GifNoisyPrint) {
+	(void)vsnprintf(Line, sizeof(Line), Format, ArgPtr);
+	(void)fputs(Line, stderr);
+    }
 
-    (void)vsnprintf(Line, sizeof(Line), Format, ArgPtr);
     va_end(ArgPtr);
-
-    (void)fputs(Line, stderr);
 }
 
 void
