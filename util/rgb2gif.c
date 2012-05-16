@@ -337,6 +337,7 @@ SubdivColorMap(NewColorMapType * NewColorSubdiv,
          * they need to be rescaled.
          */
         MaxColor = QuantizedColor->RGB[SortRGBAxis]; /* Max. of first half */
+	/* coverity[var_deref_op] */
         MinColor = QuantizedColor->Pnext->RGB[SortRGBAxis]; /* of second */
         MaxColor <<= (8 - BITS_PER_PRIM_COLOR);
         MinColor <<= (8 - BITS_PER_PRIM_COLOR);

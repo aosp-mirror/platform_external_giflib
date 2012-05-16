@@ -102,7 +102,6 @@ int main(int argc, char **argv)
     /* Isolate the directory where our destination is, and set tmp file name */
     /* in the very same directory. This code is isecure because it creates   */
     /* predictable names, but it's not worth the effort and risk to fix.     */
-    /* coverity[secure_temp] */
     strncpy(FullPath, *FileName, sizeof(FullPath)-1);
     if ((p = strrchr(FullPath, '/')) != NULL ||
 	(p = strrchr(FullPath, '\\')) != NULL)
@@ -114,6 +113,7 @@ int main(int argc, char **argv)
 
     strcpy(FoutTmpName, FullPath);   /* Generate destination temporary name. */
     /* Make sure the temporary is made in the current directory: */
+    /* coverity[secure_temp] */
     p = tmpnam(TmpName);
     if (strrchr(p, '/')) p = strrchr(p, '/') + 1;
     if (strrchr(p, '\\')) p = strrchr(p, '\\') + 1;
