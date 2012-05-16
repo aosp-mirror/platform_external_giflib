@@ -218,7 +218,7 @@ static void DoAssembly(int NumFiles, char **FileNames)
 
 		/* Now read image itself and remap to global color map.  */
 		for (k = 0; k < GifFileIn->Image.Height; k++) {
-		    /* coverity[freed_arg] Doesn't know that QuitGifError exits */
+		    /* coverity[pass_freed_arg] Doesn't know that QuitGifError exits */
 		    if (DGifGetLine(GifFileIn, Line, Len) != GIF_ERROR) {
 			for (j = 0; j < Len; j++)
 			    Line[j] = ReMapColor[Line[j]];

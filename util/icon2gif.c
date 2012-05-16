@@ -153,6 +153,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	/*
 	 * Skip lines consisting only of whitespace and comments
 	 */
+	/* coverity[tainted_data_argument] */
 	for (cp = buf; isspace((int)(*cp)); cp++)
 	    continue;
 	if (*cp == '#' || *cp == '\0')
