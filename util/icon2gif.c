@@ -37,7 +37,6 @@ static char KeyLetters[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP
 #define PRINTABLES	(sizeof(KeyLetters) - 1)
 
 static int HandleGifError(GifFileType *GifFile);
-static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 static void Icon2Gif(char *FileName, FILE *txtin, int fdout);
 static void Gif2Icon(char *FileName,
 		     int fdin, int fdout,
@@ -276,7 +275,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		|| DGifSlurp(Inclusion) == GIF_ERROR)
 	    {
 		PARSE_ERROR("Inclusion read failed.");
-        QuitGifError(Inclusion, GifFileOut);
+		PrintGifError();
+		if (Inclusion != NULL) DGifCloseFile(Inclusion);
+		if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
+		exit(EXIT_FAILURE);
 	    }
 
 	    if ((DoTranslation = (GifFileOut->SColorMap!=(ColorMapObject*)NULL)))
@@ -289,7 +291,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		if (UnionMap == NULL)
 		{
 		    PARSE_ERROR("Inclusion failed --- global map conflict.");
-            QuitGifError(Inclusion, GifFileOut);
+		    PrintGifError();
+		    if (Inclusion != NULL) DGifCloseFile(Inclusion);
+		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
+		    exit(EXIT_FAILURE);
 		}
 
 		FreeMapObject(GifFileOut->SColorMap);
@@ -303,7 +308,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		if ((NewImage = MakeSavedImage(GifFileOut, CopyFrom)) == NULL)
 		{
 		    PARSE_ERROR("Inclusion failed --- out of memory.");
-            QuitGifError(Inclusion, GifFileOut);
+		    PrintGifError();
+		    if (Inclusion != NULL) DGifCloseFile(Inclusion);
+		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
+		    exit(EXIT_FAILURE);
 		}
 		else if (DoTranslation)
 		    ApplyTranslation(NewImage, Translation);
@@ -739,13 +747,3 @@ static int HandleGifError(GifFileType *GifFile)
     return i;
 }
 
-/******************************************************************************
-* Close both input and output file (if open), and exit.
-******************************************************************************/
-static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
-{
-    PrintGifError();
-    if (GifFileIn != NULL) DGifCloseFile(GifFileIn);
-    if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
-    exit(EXIT_FAILURE);
-}
