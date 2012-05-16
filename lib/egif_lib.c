@@ -713,6 +713,8 @@ EGifCloseFile(GifFileType * GifFile) {
         return GIF_ERROR;
 
     Private = (GifFilePrivateType *) GifFile->Private;
+    if (Private == NULL)
+	return GIF_ERROR;
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
         _GifError = E_GIF_ERR_NOT_WRITEABLE;
