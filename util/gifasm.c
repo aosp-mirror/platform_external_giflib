@@ -232,6 +232,7 @@ static void DoAssembly(int NumFiles, char **FileNames)
 			QuitGifError(GifFileIn, GifFileOut);
 		    }
 		}
+		free(Line);
 		break;
 	    case EXTENSION_RECORD_TYPE:
 		/* Skip any extension blocks in file: */

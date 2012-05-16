@@ -105,13 +105,11 @@ int main(int argc, char **argv)
 	}
     }
 
-    /* Allocate the screen as vector of column of rows. We cannt allocate    */
-    /* the all screen at once, as this broken minded CPU can allocate up to  */
-    /* 64k at a time and our image can be bigger than that:		     */
+    /* Allocate the screen as vector of column of rows.			     */
     /* Note this screen is device independent - its the screen as defined by */
     /* the GIF file parameters itself.					     */
     if ((ScreenBuffer = (GifRowType *)
-	malloc(GifFile->SHeight * sizeof(GifRowType *))) == NULL)
+	malloc(GifFile->SHeight * sizeof(GifRowType))) == NULL)
 	    GIF_EXIT("Failed to allocate memory required, aborted.");
 
     Size = GifFile->SWidth * sizeof(GifPixelType);/* Size in bytes one row.*/

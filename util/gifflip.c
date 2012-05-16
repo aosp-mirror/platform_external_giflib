@@ -221,11 +221,9 @@ static int LoadImage(GifFileType *GifFile, GifRowType **ImageBufferPtr)
     int Size, i;
     GifRowType *ImageBuffer;
 
-    /* Allocate the image as vector of column of rows. We cannt allocate     */
-    /* the all screen at once, as this broken minded CPU can allocate up to  */
-    /* 64k at a time and our image can be bigger than that:		     */
+    /* Allocate the image as vector of column of rows */
     if ((ImageBuffer = (GifRowType *)
-	malloc(GifFile->Image.Height * sizeof(GifRowType *))) == NULL)
+	malloc(GifFile->Image.Height * sizeof(GifRowType))) == NULL)
 	    GIF_EXIT("Failed to allocate memory required, aborted.");
 
     Size = GifFile->Image.Width * sizeof(GifPixelType);/* One row size in bytes.*/

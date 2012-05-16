@@ -306,7 +306,7 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
 	    if (feof(TranslateFile))
 		GIF_EXIT("Color file to load color map from, too small.");
 	    if (fscanf(TranslateFile, "%3d %3d\n", &Dummy, &tmp) == 2) {
-		Translation[i] = tmp;
+		Translation[i] = tmp & 0xff;
 		if (Translation[i] > Max)
 		    Max = Translation[i];
 	    }
