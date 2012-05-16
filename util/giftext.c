@@ -391,7 +391,6 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset)
 static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset)
 {
     static int CrntPlace = 0; 
-    bool Print = true;
     static long ExtCount = 0;
     static char HexForm[49], AsciiForm[17];
     int i;
@@ -401,19 +400,15 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset)
 	    if (CrntPlace > 0) {
 		HexForm[CrntPlace * 3] = 0;
 		AsciiForm[CrntPlace] = 0;
-		if (Print) printf("\n%05lx: %-49s  %-17s\n",
-				ExtCount, HexForm, AsciiForm);
+		printf("\n%05lx: %-49s  %-17s\n", ExtCount, HexForm, AsciiForm);
 	    }
-	    else if (Print)
+	    else
 		printf("\n");
 	}
 	CrntPlace = 0;
 	ExtCount = 0;
-	Print = true;
 	if (PixelBlock == NULL) return;
     }
-
-    if (!Print) return;
 
     for (i = 0; i < Len; i++) {
 	(void)snprintf(&HexForm[CrntPlace * 3], 3,

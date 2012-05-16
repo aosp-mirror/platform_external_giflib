@@ -107,13 +107,13 @@ int main(int argc, char **argv)
     }
 
     /* (Following comment was probably written on a 286 running under DOS.)  */
-    /* Allocate the screen as vector of column of rows. We can't allocate    */
-    /* the all screen at once, as this broken minded CPU can allocate up to  */
+    /* Allocate the screen as vector of column of rows. We can't allocate the*/
+    /* whole screen at once, as this broken minded CPU can allocate up to    */
     /* 64k at a time and our image can be bigger than that:		     */
-    /* Note this screen is device independent - its the screen as defined by */
-    /* the GIF file parameters itself.					     */
+    /* Note this screen is device independent - it's the screen defined by   */
+    /* the GIF file parameters.						     */
     if ((ScreenBuffer = (GifRowType *)
-	malloc(GifFile->SHeight * sizeof(GifRowType *))) == NULL)
+	malloc(GifFile->SHeight * sizeof(GifRowType))) == NULL)
 	    GIF_EXIT("Failed to allocate memory required, aborted.");
 
     Size = GifFile->SWidth * sizeof(GifPixelType);/* Size in bytes one row.*/
@@ -241,6 +241,7 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 
             for (i = 0; i < 3; i++) {
                 strncpy(OneFileName, FileName, sizeof(OneFileName)-1);
+		/* cppcheck-suppress uninitstring */
                 strncat(OneFileName, Postfixes[i], 
 			sizeof(OneFileName) - 1 - strlen(OneFileName));
     

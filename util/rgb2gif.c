@@ -477,8 +477,10 @@ static void LoadRGB(char *FileName,
 	    static char *Postfixes[] = { ".R", ".G", ".B" };
 
 	    for (i = 0; i < 3; i++) {
-		strcpy(OneFileName, FileName);
-		strcat(OneFileName, Postfixes[i]);
+		strncpy(OneFileName, FileName, sizeof(OneFileName)-1);
+		/* cppcheck-suppress uninitstring */
+		strncat(OneFileName, Postfixes[i], 
+			sizeof(OneFileName) - 1 - strlen(OneFileName));
 
 		if ((f[i] = fopen(OneFileName, "rb")) == NULL)
 		    GIF_EXIT("Can't open input file name.");

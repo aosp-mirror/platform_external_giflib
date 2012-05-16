@@ -147,13 +147,14 @@ int main(int argc, char **argv)
     XSetBackground(XDisplay, XGraphContext, BlackPixel(XDisplay, XScreen));
     XSetForeground(XDisplay, XGraphContext, WhitePixel(XDisplay, XScreen));
 
-    /* Allocate the screen as vector of column of rows. We cannt allocate    */
-    /* the all screen at once, as this broken minded CPU can allocate up to  */
+    /* The following comment was written under DOS on a 286:                 */
+    /* Allocate the screen as vector of column of rows. We can't allocate the*/
+    /* whole screen at once, as this broken minded CPU can allocate up to    */
     /* 64k at a time and our image can be bigger than that:		     */
-    /* Note this screen is device independent - its the screen as defined by */
-    /* the GIF file parameters itself.					     */
+    /* Note this screen is device independent - its the screen defined by    */
+    /* the GIF file parameters.						     */
     if ((ScreenBuffer = (GifRowType *)
-	malloc(GifFile->SHeight * sizeof(GifRowType *))) == NULL)
+	malloc(GifFile->SHeight * sizeof(GifRowType))) == NULL)
 	    GIF_EXIT("Failed to allocate memory required, aborted.");
 
     Size = GifFile->SWidth * sizeof(GifPixelType);/* Size in bytes one row.*/
