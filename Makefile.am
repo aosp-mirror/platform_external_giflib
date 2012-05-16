@@ -13,6 +13,11 @@ EXTRA_DIST = Makefile.unx \
 
 # Auditing tools.
 
+# Coverity - avoid making doc as xmlto craps out under cov-build
+coverity:
+	cd lib; make
+	cd util; make
+
 # cppcheck should run clean
 cppcheck:
 	cppcheck -Ilib --inline-suppr --template gcc --enable=all --suppress=unusedStructMember --suppress=unusedFunction --force lib/*.[ch] util/*.[ch]
