@@ -1,0 +1,35 @@
+= Test coverage =
+
+.Test coverage matrix
+[options="header"]
+|========================================================================
+| Utility   | Test? 
+|gif2rgb    | make render-regress
+|gif2x11    | visual-check
+|gifasm     | -
+|gifbg      | visual-check
+|gifburst   | -
+|gifclip    | visual-check
+|gifclrmp   | -
+|gifcolor   | -
+|gifcomb    | -
+|gifcompose | -
+|giffiltr   | -
+|giffix     | -
+|gifflip    | -
+|gifhisto   | visual-check
+|gifinfo    | -
+|gifinter   | -
+|gifinto    | -
+|gifovly    | -
+|gifpos     | visual-check
+|gifrotat   | visual-check
+|gifrsize   | visual-check
+|gifspnge   | visual-check
+|giftext    | -
+|gifwedge   | make util-regress
+|icon2gif   | -
+|raw2gif    | -
+|rgb2gif    | -
+|text2gif   | -
+|=======================================================================
