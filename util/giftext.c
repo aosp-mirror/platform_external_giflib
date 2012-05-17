@@ -350,7 +350,6 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset)
     static int CrntPlace = 0;
     static long ExtCount = 0;
     static char HexForm[49], AsciiForm[17];
-    int i, Len;
 
     if (Reset || Extension == NULL) {
 	if (Extension == NULL) {
@@ -368,6 +367,7 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset)
     }
 
     if (Extension != NULL) {
+	int i, Len;
 	Len = Extension[0];
 	for (i = 1; i <= Len; i++) {
 	    (void)snprintf(&HexForm[CrntPlace * 3], 3,
