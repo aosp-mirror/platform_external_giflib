@@ -124,17 +124,20 @@ int main(int argc, char **argv)
 
 static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 {
-    unsigned int	ExtCode, ColorMapSize = 0;
+    unsigned int	ColorMapSize = 0;
     GifColorType GlobalColorMap[256], LocalColorMap[256],
 	*ColorMap = GlobalColorMap;
     char GlobalColorKeys[PRINTABLES], LocalColorKeys[PRINTABLES],
 	*KeyTable = GlobalColorKeys;
-    int red, green, blue;
+#ifndef __COVERITY__
+    unsigned int ExtCode;
+    int red, green, blue, n;
+#endif /* __COVERITY__ */
 
     char buf[BUFSIZ * 2], InclusionFile[64];
     GifFileType *GifFileOut;
     SavedImage *NewImage = NULL;
-    int n, LineNum = 0;
+    int LineNum = 0;
 
     if ((GifFileOut = EGifOpenFileHandle(fdout)) == NULL) {
 	if (EGifCloseFile(GifFileOut) == GIF_ERROR) {
