@@ -22,6 +22,7 @@ Code Fixes
 * splint cleanup begun, there's a lot of work still to do on this.
 * A rare resource leak in the colormap-object maker was found with
   Coverity and fixed.
+* The code now audits clean under Coverity - zero defects detected.
 
 New API Features
 ----------------
