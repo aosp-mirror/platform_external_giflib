@@ -20,22 +20,14 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define GIFLIB_MAJOR 4
-#define GIFLIB_MINOR 2
+#define GIFLIB_MAJOR 5
+#define GIFLIB_MINOR 0
 #define GIFLIB_RELEASE 0
 
 #define GIF_ERROR   0
 #define GIF_OK      1
 
 #include <stdbool.h>
-
-/* this is a backward-compatibility hack; these will go away in 5.0 */
-#ifndef TRUE
-#define TRUE        true
-#endif /* TRUE */
-#ifndef FALSE
-#define FALSE       false
-#endif /* FALSE */
 
 #define GIF_STAMP "GIFVER"          /* First chars in file - GIF stamp.  */
 #define GIF_STAMP_LEN sizeof(GIF_STAMP) - 1
@@ -279,12 +271,6 @@ extern void DrawBoxedText(SavedImage * Image,
                           const int x, const int y,
                           const char *legend,
                           const int border, const int bg, const int fg);
-
-/******************************************************************************
- * These are deprecated, for backward compatibility in the API.
- *****************************************************************************/
-#define VoidPtr void *
-typedef int GifBooleanType;
 
 #ifdef __cplusplus
 }
