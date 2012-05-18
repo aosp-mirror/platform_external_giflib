@@ -3,7 +3,7 @@
 
 Package: giflib
 
-Destinations: ~,sourceforge
+Destinations: ~,sourceforge,freecode
 
 Description: a library for rendering and generating GIF image files.
  This is the GIF service code in C used for over two decades by graphics
