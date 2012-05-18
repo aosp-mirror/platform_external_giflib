@@ -228,25 +228,10 @@ ApplyTranslation(SavedImage * Image,
  * Extension record functions                              
  *****************************************************************************/
 
-void
-MakeExtension(SavedImage * New,
-              int Function) {
-
-    New->Function = Function;
-    /*** FIXME:
-     * Someday we might have to deal with multiple extensions.
-     * ??? Was this a note from Gershon or from me?  Does the multiple
-     * extension blocks solve this or do we need multiple Functions?  Or is
-     * this an obsolete function?  (People should use AddExtensionBlock
-     * instead?)
-     * Looks like AddExtensionBlock needs to take the int Function argument
-     * then it can take the place of this function.  Right now people have to
-     * use both.  Fix AddExtensionBlock and add this to the deprecation list.
-     */
-}
 
 int
 AddExtensionBlock(SavedImage * New,
+		  int Function,
                   int Len,
                   unsigned char ExtData[]) {
 
@@ -264,6 +249,7 @@ AddExtensionBlock(SavedImage * New,
 
     ep = &New->ExtensionBlocks[New->ExtensionBlockCount++];
 
+    ep->Function = Function;
     ep->ByteCount=Len;
     ep->Bytes = (char *)malloc(ep->ByteCount);
     if (ep->Bytes == NULL)
@@ -271,7 +257,6 @@ AddExtensionBlock(SavedImage * New,
 
     if (ExtData) {
         memcpy(ep->Bytes, ExtData, Len);
-        ep->Function = New->Function;
     }
 
     return (GIF_OK);

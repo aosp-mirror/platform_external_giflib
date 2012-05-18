@@ -229,15 +229,13 @@ typedef struct {
 typedef struct SavedImage {
     GifImageDesc ImageDesc;
     unsigned char *RasterBits;  /* on malloc(3) heap */
-    int Function;   /* DEPRECATED: Use ExtensionBlocks[x].Function instead */
     int ExtensionBlockCount;
     ExtensionBlock *ExtensionBlocks;    /* on malloc(3) heap */
 } SavedImage;
 
 extern void ApplyTranslation(SavedImage * Image, GifPixelType Translation[]);
-extern void MakeExtension(SavedImage * New, int Function);
-extern int AddExtensionBlock(SavedImage * New, int Len,
-                             unsigned char ExtData[]);
+extern int AddExtensionBlock(SavedImage * New, int Function, 
+				 int Len, unsigned char ExtData[]);
 extern void FreeExtension(SavedImage * Image);
 extern SavedImage *MakeSavedImage(GifFileType * GifFile,
                                   const SavedImage * CopyFrom);

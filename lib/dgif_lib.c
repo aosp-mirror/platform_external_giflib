@@ -1016,6 +1016,7 @@ DGifSlurp(GifFileType * GifFile) {
     GifRecordType RecordType;
     SavedImage *sp;
     GifByteType *ExtData;
+    int ExtFunction;
     SavedImage temp_save;
 
     temp_save.ExtensionBlocks = NULL;
@@ -1057,28 +1058,22 @@ DGifSlurp(GifFileType * GifFile) {
 
                   temp_save.ExtensionBlocks = NULL;
                   temp_save.ExtensionBlockCount = 0;
-
-                  /* FIXME: The following is wrong.  It is left in only for
-                   * backwards compatibility.  Someday it should go away. Use 
-                   * the sp->ExtensionBlocks->Function variable instead. */
-                  sp->Function = sp->ExtensionBlocks[0].Function;
               }
               break;
 
           case EXTENSION_RECORD_TYPE:
-              if (DGifGetExtension(GifFile, &temp_save.Function, &ExtData) ==
+              if (DGifGetExtension(GifFile, &ExtFunction, &ExtData) ==
                   GIF_ERROR)
                   return (GIF_ERROR);
               while (ExtData != NULL) {
 
                   /* Create an extension block with our data */
-                  if (AddExtensionBlock(&temp_save, ExtData[0], &ExtData[1])
+                  if (AddExtensionBlock(&temp_save, ExtFunction, ExtData[0], &ExtData[1])
                       == GIF_ERROR)
                       return (GIF_ERROR);
 
                   if (DGifGetExtensionNext(GifFile, &ExtData) == GIF_ERROR)
                       return (GIF_ERROR);
-                  temp_save.Function = 0;
               }
               break;
 

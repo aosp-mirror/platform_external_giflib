@@ -446,7 +446,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 #endif /* __COVERITY__ */
 	else if (sscanf(buf, "comment"))
 	{
-	    MakeExtension(NewImage, COMMENT_EXT_FUNC_CODE);
 	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
 		if (strcmp(buf, "end\n") == 0)
 		    break;
@@ -456,7 +455,8 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (AddExtensionBlock(NewImage, Len, (unsigned char *)buf) == GIF_ERROR) {
+		    if (AddExtensionBlock(NewImage, COMMENT_EXT_FUNC_CODE,
+					  Len, (unsigned char *)buf) == GIF_ERROR) {
 			PARSE_ERROR("out of memory while adding comment block.");
 			exit(EXIT_FAILURE);
 		    }
@@ -464,7 +464,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	}
 	else if (sscanf(buf, "plaintext"))
 	{
-	    MakeExtension(NewImage, PLAINTEXT_EXT_FUNC_CODE);
 	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
 		if (strcmp(buf, "end\n") == 0)
 		    break;
@@ -474,7 +473,8 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (AddExtensionBlock(NewImage, Len, (unsigned char *)buf) == GIF_ERROR) {
+		    if (AddExtensionBlock(NewImage, PLAINTEXT_EXT_FUNC_CODE,
+					  Len, (unsigned char *)buf) == GIF_ERROR) {
 			PARSE_ERROR("out of memory while adding plaintext block.");
 			exit(EXIT_FAILURE);
 		    }
@@ -483,7 +483,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 #ifndef __COVERITY__
 	else if (sscanf(buf, "extension %02x", &ExtCode))
 	{
-	    MakeExtension(NewImage, ExtCode);
 	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
 		if (strcmp(buf, "end\n") == 0)
 		    break;
@@ -493,7 +492,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (AddExtensionBlock(NewImage, Len, (unsigned char *)buf) == GIF_ERROR) {
+		    if (AddExtensionBlock(NewImage, ExtCode, Len, (unsigned char *)buf) == GIF_ERROR) {
 			PARSE_ERROR("out of memory while adding extension block.");
 			exit(EXIT_FAILURE);
 		    }

@@ -30,19 +30,5 @@ Not all the utilities have tests yet.  Idempotency checks on some of the
 conversions that are invertible would be good ideas.  See the file 
 tests/coverage.txt.
 
-== Clean up the extensions mess ==
-
-* Add a function-code argument to AddExtensionBlock()
-* Remove MakeExtension() and its remaining uses in icon2gif
-* Remove the Function member from the image structure
-
-This will require a break in object-library compatibility.
-
-Toshio wrote: The present Extension code is pretty hacky.  It looks
-like giflib's ability to do Extension code was added on at a later
-time and also was not implemented entirely in conformance with the
-gif89a spec.  I've hacked it further to make it conform to the spec,
-but it would benefit greatly from a complete rewrite.
-
 
 
