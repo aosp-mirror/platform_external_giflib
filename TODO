@@ -17,11 +17,6 @@ Get rid of the Windows-specific code unless someone documents it.
 
 Maybe we should even drop gif2x11.  It's nice for testing, though.
 
-== GIFLIB website ==
-
-Merge the new git repository with a conversion of the old one so we have
-a proper and continuous history.
-
 == More regression tests ==
 
 Not all the utilities have tests yet.  Idempotency checks on some of the
