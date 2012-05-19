@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC
+   "-//OASIS//DTD DocBook XML V4.1.2//EN"
+   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
+<refentry id='gifinfo.1'>
+<refentryinfo><date>21 July 1999</date></refentryinfo>
+<refmeta>
+<refentrytitle>gifinfo</refentrytitle>
+<manvolnum>1</manvolnum>
+<refmiscinfo class="source">GIFLIB</refmiscinfo>
+<refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
+</refmeta>
+<refnamediv id='name'>
+<refname>gifinfo</refname>
+<refpurpose>extract information from a GIF</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id='synopsis'>
+
+<cmdsynopsis>
+  <command>gifinfo</command>
+      <arg choice='opt'>-v</arg>
+      <arg choice='opt'>-f <replaceable>format string</replaceable></arg>
+      <arg choice='opt'>-h</arg>
+      <arg rep='repeat'>
+	<group><replaceable>gif-file</replaceable></group>
+      </arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1><title>Description</title>
+
+<para>Dump meta-information from a GIF as expansions of escapes in a
+format string.</para>
+
+</refsect1>
+<refsect1><title>Options</title>
+
+<variablelist>
+<varlistentry>
+<term>-f format string</term>
+<listitem>
+<para>In the format string, certain escapes (listed below) are expanded,</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>Print one line of command line help, similar to Usage above.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>The escapes are as follows:</para>
+
+<variablelist>
+<varlistentry>
+<term>\h</term>
+<listitem>
+<para>Image height</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>\w</term>
+<listitem>
+<para>width</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>\c</term>
+<listitem>
+<para>Image comment.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>\f</term>
+<listitem>
+<para>Image file name.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+<refsect1><title>Author</title>
+
+<para>Martin Edlman.</para>
+
+</refsect1>
+</refentry>
