@@ -1,19 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to create a test image of White and Red/Green/Blue levels for
-* test purposes. The Primary (RGB) and Secondary (YCM) are also displayed.
-* background.
-* Options:
-* -v : verbose mode.
-* -s Width Height : set image size.
-* -l levels : number of color levels.
-* -h : on-line help.
-******************************************************************************
-* History:
-* 4 Jan 90 - Version 1.0 by Gershon Elber.
+
+gifwedge - create a GIF test pattern
+
 *****************************************************************************/
 
 #include <stdlib.h>

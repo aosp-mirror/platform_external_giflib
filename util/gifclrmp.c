@@ -1,25 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to modify GIF file color map(s). Images are not modified at all.
-* Options:
-* -v : verbose mode.
-* -s : save screen color map (unless -i - see below), to stdout.
-* -l colormap.file : substitute given colormap.file colormap into screen
-*    colormap (unless -i - see below).
-* -g correction : apply gamma correction to the screen colormap (unless -i - *
-*    see below).
-* -i n : select image number n color map instead of screen map for above
-*    operations (n = 1 for first image).
-* -h : on-line help.
-*   All color maps are ascii text files, with one line per color of the
-* form: index, Red color, Green color, Blue color - all in the range 0..255. *
-*   All color maps should be in the exact same length.
-******************************************************************************
-* History:
-* 17 Jul 89 - Version 1.0 by Gershon Elber.
+
+gifclrmap - extract colormaps from GIF images
+
 *****************************************************************************/
 
 #include <math.h>

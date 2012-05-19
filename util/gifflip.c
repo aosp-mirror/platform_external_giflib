@@ -1,20 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to rotate image 90 degrees to the right/left or flip the image
-* horizontally/vertically (mirror).
-* Options:
-* -v : verbose mode.
-* -r : rotate 90 degrees to the right (default).
-* -l : rotate 90 degrees to the left.
-* -x : Mirror the image horizontally (first line switch places with last).
-* -y : Mirror the image vertically (first column switch places with last).
-* -h : on-line help
-******************************************************************************
-* History:
-* 10 Jul 89 - Version 1.0 by Gershon Elber.
+
+gifflip - flip or rotate a GIF
+
 *****************************************************************************/
 
 #include <stdlib.h>

@@ -12,7 +12,7 @@
 </refmeta>
 <refnamediv id='name'>
 <refname>gifclrmp</refname>
-<refpurpose>extract colormaps drom GIF images</refpurpose>
+<refpurpose>extract colormaps from GIF images</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>

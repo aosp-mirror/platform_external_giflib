@@ -1,19 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to assemble/disassemble GIF files: disassembles multi image file
-* into seperated files, or assembles few single image GIF files into one.
-* Options:
-* -v : verbose mode.
-* -A : assemble several files into one as an animation gif.
-* -a : assemble several files into one (default)
-* -d name : disassemble given GIF file into separate files derived from name.
-* -h : on-line help.
-******************************************************************************
-* History:
-* 7 Jul 89 - Version 1.0 by Gershon Elber.
+
+gifasm - assemble or disassemble multi-GIF animations
+
 *****************************************************************************/
 
 #include <stdio.h>

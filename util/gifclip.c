@@ -1,18 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to clip an image and dump out only portion of it.		
-* Options:
-* -v : verbose mode.
-* -i left top width bottom : clipping information for first image.
-* -n n left top width bottom : clipping information for nth image.
-* -c complement; remove the bands specified by -i or -n
-* -h : on-line help
-******************************************************************************
-* History:
-* 8 Jul 89 - Version 1.0 by Gershon Elber.
+
+gifclip - clip a region from a GIF
+
 *****************************************************************************/
 
 #include <stdlib.h>

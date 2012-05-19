@@ -1,100 +1,107 @@
 /***************************************************************************
- * Routines to grab the parameters from the command line:
- * All the routines except the main one, starts with GA (Get Arguments) to
- * prevent from names conflicts.
- * It is assumed in these routine that any pointer, for any type has the
- * same length (i.e. length of int pointer is equal to char pointer etc.)
- *
- * The following routines are available in this module:
- * 1. int GAGetArgs(argc, argv, CtrlStr, Variables...)
- * where argc, argv as received on entry.
- * CtrlStr is the contrl string (see below)
- * Variables are all the variables to be set according to CtrlStr.
- * Note that all the variables MUST be transfered by address.
- * return 0 on correct parsing, otherwise error number (see GetArg.h).
- * 2. GAPrintHowTo(CtrlStr)
- * Print the control string to stderr, in the correct format needed.
- * This feature is very useful in case of error during GetArgs parsing.
- * Chars equal to SPACE_CHAR are not printed (regular spaces are NOT
- * allowed, and so using SPACE_CHAR you can create space in PrintHowTo).
- * 3. GAPrintErrMsg(Error)
- * Print the error to stderr, according to Error (usually returned by
- * GAGetArgs).
- *
- * CtrlStr format:
- * The control string passed to GetArgs controls the way argv (argc) are
- * parsed. Each entry in this string must not have any spaces in it. The
- * First Entry is the name of the program which is usually ignored except
- * when GAPrintHowTo is called. All the other entries (except the last one
- * which we will come back to it later) must have the following format:
- * 1. One letter which sets the option letter.
- * 2. '!' or '%' to determines if this option is really optional ('%') or
- * it must exists ('!')...
- * 3. '-' allways.
- * 4. Alpha numeric string, usually ignored, but used by GAPrintHowTo to
- * print the meaning of this input.
- * 5. Sequences starts with '!' or '%'. Again if '!' then this sequence
- * must exists (only if its option flag is given of course), and if '%'
- * it is optional. Each sequence will continue with one or two
- * characters which defines the kind of the input:
- * a. d, x, o, u - integer is expected (decimal, hex, octal base or
- * unsigned).
- * b. D, X, O, U - long integer is expected (same as above).
- * c. f - float number is expected.
- * d. F - double number is expected.
- * e. s - string is expected.
- * f. *? - any number of '?' kind (d, x, o, u, D, X, O, U, f, F, s)
- * will match this one. If '?' is numeric, it scans until
- * none numeric input is given. If '?' is 's' then it scans
- * up to the next option or end of argv.
- *
- * If the last parameter given in the CtrlStr, is not an option (i.e. the
- * second char is not in ['!', '%'] and the third one is not '-'), all what
- * remained from argv is linked to it.
- *
- * The variables passed to GAGetArgs (starting from 4th parameter) MUST
- * match the order of the CtrlStr:
- * For each option, one integer address must be passed. This integer must
- * initialized by 0. If that option is given in the command line, it will
- * be set to one.
- * In addition, the sequences that might follow an option require the
- * following parameters to pass:
- * 1. d, x, o, u - pointer to integer (int *).
- * 2. D, X, O, U - pointer to long (long *).
- * 3. f - pointer to float (float *).
- * 4. F - pointer to double (double *).
- * 5. s - pointer to char (char *). NO allocation is needed!
- * 6. *? - TWO variables are passed for each wild request. the first
- * one is (address of) integer, and it will return number of
- * parameters actually matched this sequence, and the second
- * one is a pointer to pointer to ? (? **), and will return an
- * address to a block of pointers to ? kind, terminated with
- * NULL pointer. NO pre-allocation is needed.
- * note that these two variables are pretty like the argv/argc
- * pair...
- *
- * Examples:
- *
- * "Example1 i%-OneInteger!d s%-Strings!*s j%- k!-Float!f Files"
- * Will match: Example1 -i 77 -s String1 String2 String3 -k 88.2 File1 File2
- * or match: Example1 -s String1 -k 88.3 -i 999 -j
- * but not: Example1 -i 77 78 (option i expects one integer, k must be).
- * Note the option k must exists, and that the order of the options is not
- * not important. In the first examples File1 & File2 will match the Files
- * in the command line.
- * A call to GAPrintHowTo with this CtrlStr will print to stderr:
- * Example1 [-i OneIngeter] [-s Strings...] [-j] -k Float Files...
- *
- * Notes:
- *
- * 1. This module assumes that all the pointers to all kind of data types
- * have the same length and format, i.e. sizeof(int *) == sizeof(char *).
- *
- * Gershon Elber Ver 0.2 Mar 88
- ***************************************************************************
- * History:
- * 11 Mar 88 - Version 1.0 by Gershon Elber.
- **************************************************************************/
+
+getarg.c - routines to grab the parameters from the command line:
+
+All the routines except the main one, starts with GA (Get Arguments) to
+prevent from names conflicts.
+It is assumed in these routine that any pointer, for any type has the
+same length (i.e. length of int pointer is equal to char pointer etc.)
+
+The following routines are available in this module:
+
+1. int GAGetArgs(argc, argv, CtrlStr, Variables...)
+where argc, argv as received on entry.
+CtrlStr is the contrl string (see below)
+Variables are all the variables to be set according to CtrlStr.
+Note that all the variables MUST be transfered by address.
+return 0 on correct parsing, otherwise error number (see GetArg.h).
+
+2. GAPrintHowTo(CtrlStr)
+Print the control string to stderr, in the correct format needed.
+This feature is very useful in case of error during GetArgs parsing.
+Chars equal to SPACE_CHAR are not printed (regular spaces are NOT
+allowed, and so using SPACE_CHAR you can create space in PrintHowTo).
+
+3. GAPrintErrMsg(Error)
+Print the error to stderr, according to Error (usually returned by
+GAGetArgs).
+
+CtrlStr format:
+
+The control string passed to GetArgs controls the way argv (argc) are
+parsed. Each entry in this string must not have any spaces in it. The
+First Entry is the name of the program which is usually ignored except
+when GAPrintHowTo is called. All the other entries (except the last one
+which we will come back to it later) must have the following format:
+1. One letter which sets the option letter.
+2. '!' or '%' to determines if this option is really optional ('%') or
+it must exists ('!')...
+3. '-' allways.
+4. Alpha numeric string, usually ignored, but used by GAPrintHowTo to
+print the meaning of this input.
+5. Sequences starts with '!' or '%'. Again if '!' then this sequence
+must exists (only if its option flag is given of course), and if '%'
+it is optional. Each sequence will continue with one or two
+characters which defines the kind of the input:
+a. d, x, o, u - integer is expected (decimal, hex, octal base or
+unsigned).
+b. D, X, O, U - long integer is expected (same as above).
+c. f - float number is expected.
+d. F - double number is expected.
+e. s - string is expected.
+f. *? - any number of '?' kind (d, x, o, u, D, X, O, U, f, F, s)
+will match this one. If '?' is numeric, it scans until
+none numeric input is given. If '?' is 's' then it scans
+up to the next option or end of argv.
+
+If the last parameter given in the CtrlStr, is not an option (i.e. the
+second char is not in ['!', '%'] and the third one is not '-'), all what
+remained from argv is linked to it.
+
+The variables passed to GAGetArgs (starting from 4th parameter) MUST
+match the order of the CtrlStr:
+For each option, one integer address must be passed. This integer must
+initialized by 0. If that option is given in the command line, it will
+be set to one.
+
+In addition, the sequences that might follow an option require the
+following parameters to pass:
+
+1. d, x, o, u - pointer to integer (int *).
+2. D, X, O, U - pointer to long (long *).
+3. f - pointer to float (float *).
+4. F - pointer to double (double *).
+5. s - pointer to char (char *). NO allocation is needed!
+6. *? - TWO variables are passed for each wild request. the first
+
+one is (address of) integer, and it will return number of
+parameters actually matched this sequence, and the second
+one is a pointer to pointer to ? (? **), and will return an
+address to a block of pointers to ? kind, terminated with
+NULL pointer. NO pre-allocation is needed.
+
+note that these two variables are pretty like the argv/argc
+pair...
+
+Examples:
+
+"Example1 i%-OneInteger!d s%-Strings!*s j%- k!-Float!f Files"
+Will match: Example1 -i 77 -s String1 String2 String3 -k 88.2 File1 File2
+or match: Example1 -s String1 -k 88.3 -i 999 -j
+but not: Example1 -i 77 78 (option i expects one integer, k must be).
+Note the option k must exists, and that the order of the options is not
+not important. In the first examples File1 & File2 will match the Files
+in the command line.
+
+A call to GAPrintHowTo with this CtrlStr will print to stderr:
+Example1 [-i OneIngeter] [-s Strings...] [-j] -k Float Files...
+
+Notes:
+
+1. This module assumes that all the pointers to all kind of data types
+have the same length and format, i.e. sizeof(int *) == sizeof(char *).
+
+**************************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>

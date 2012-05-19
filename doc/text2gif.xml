@@ -12,7 +12,7 @@
 </refmeta>
 <refnamediv id='name'>
 <refname>text2gif</refname>
-<refpurpose></refpurpose>
+<refpurpose>generate a GIF from ASCII text</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>

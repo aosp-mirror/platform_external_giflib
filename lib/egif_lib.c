@@ -1,15 +1,8 @@
 /******************************************************************************
- *   "Gif-Lib" - Yet another gif library.
- *
- * Written by:  Gershon Elber                Ver 1.1, Aug. 1990
- ******************************************************************************
- * The kernel of the GIF Encoding process can be found here.
- ******************************************************************************
- * History:
- * 14 Jun 89 - Version 1.0 by Gershon Elber.
- *  3 Sep 90 - Version 1.1 by Gershon Elber (Support for Gif89, Unique names).
- * 26 Jun 96 - Version 3.0 by Eric S. Raymond (Full GIF89 support)
- *****************************************************************************/
+
+egif_lib.c - the kernel of the GIF Encoding process can be found here.
+
+*****************************************************************************/
 
 #include <unistd.h>
 #include <stdint.h>

@@ -1,22 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to generate back ground image that can be used to replace constant
-* background.
-* Options:
-* -v : verbose mode.
-* -d direction : set direction image should increase intensity.
-* -l levels : number of color levels.
-* -c r g b : colors of the background.
-* -m min : minimin intensity in percent.
-* -M max : maximum intensity in percent.
-* -s width height : size of image to create.
-* -h : on-line help.
-******************************************************************************
-* History:
-* 9 Jul 89 - Version 1.0 by Gershon Elber.
+
+gifbg - generate a test-pattern GIF
+
 *****************************************************************************/
 
 #include <stdio.h>

@@ -1,19 +1,22 @@
-/*
- * Skeleton file for generic GIF `filter' program --- sequentially read GIF
- * records from stdin, process them, send them out.  Most of the junk above
- * `int main' isn't needed for the skeleton, but is likely to be for what
- * you'll do with it.
- *
- * If you compile this, it will turn into an expensive GIF copying routine;
- * stdin to stdout with no changes and minimal validation.  Well, it's a
- * decent test of the low-level routines, anyway.
- *
- * Note: due to the vicissitudes of Lempel-Ziv compression, the output of this
- * copier may not be bitwise identical to its input.  This can happen if you
- * copy an image from a much more (or much *less*) memory-limited system; your
- * compression may use more (or fewer) bits.  The uncompressed rasters should,
- * however, be identical (you can check this with icon2gif -d).
- */
+/******************************************************************************
+ 
+giffiltr.c - skeleton file for generic GIF `filter' program 
+
+Sequentially read GIF records from stdin, process them, send them out.
+Most of the junk above `int main' isn't needed for the skeleton, but
+is likely to be for what you'll do with it.
+
+If you compile this, it will turn into an expensive GIF copying routine;
+stdin to stdout with no changes and minimal validation.  Well, it's a
+decent test of the low-level routines, anyway.
+
+Note: due to the vicissitudes of Lempel-Ziv compression, the output of this
+copier may not be bitwise identical to its input.  This can happen if you
+copy an image from a much more (or much *less*) memory-limited system; your
+compression may use more (or fewer) bits.  The uncompressed rasters should,
+however, be identical (you can check this with icon2gif -d).
+
+******************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>

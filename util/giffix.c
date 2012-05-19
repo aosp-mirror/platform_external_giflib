@@ -1,16 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to attempt and fix broken GIF images. Currently fix the following: *
-* 1. EOF terminates before end of image size (adds black in the end).
-* Options:
-* -v : verbose mode.
-* -h : on-line help
-******************************************************************************
-* History:
-* 5 May 91 - Version 1.0 by Gershon Elber.
+
+giffix - attempt to fix a truncated GIF
+
 *****************************************************************************/
 
 #include <stdlib.h>

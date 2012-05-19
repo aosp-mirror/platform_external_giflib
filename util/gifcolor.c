@@ -1,17 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to generate a test pattern from a given color map
-******************************************************************************
-* Options:
-* -v : verbose mode.
-* -b : set background color.
-* -h : on-line help.
-******************************************************************************
-* History:
-* 21 Sep 92 - Version 1.0 by Eric S. Raymond.
+
+gifcolor - generate color test-pattern GIFs
+
 *****************************************************************************/
 
 #include <stdlib.h>

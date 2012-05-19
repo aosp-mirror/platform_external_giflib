@@ -1,17 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to convert GIF file to RGB 24 bits.
-* Options:
-* -v : verbose mode.
-* -1 : dump as one file using RGBRGB triples.
-* -h : on-line help.
-* -o FileName : specify the output file name(s).
-******************************************************************************
-* History:
-* 5 Jan 90 - Version 1.0 by Gershon Elber.
+
+gif2rgb - convert GIF to 24-bit RGB pixel triples
+
 *****************************************************************************/
 
 #include <stdlib.h>

@@ -1,17 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Aug. 1991
-******************************************************************************
-* Program to rotate a GIF image by an arbitrary angle.
-* Options:
-* -v : verbose mode.
-* -a Angle : angle to rotate with respect to the X axis.
-* -s Width Height : specifies size of output image.
-* -h : on-line help.
-******************************************************************************
-* History:
-*  2 Aug 91 - Version 1.0 by Gershon Elber.
+
+gifrotat - rotate a GIF image by a specified angle
+
 *****************************************************************************/
 
 #include <stdlib.h>

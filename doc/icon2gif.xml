@@ -36,7 +36,7 @@
 named GIF files into a multi-image GIF, usable as a graphic resource file.
 It can also dump existing GIFs in this format.</para>
 
-<para>If no gif-file is given, icon2gif will try to read a text input
+<para>If no GIF file is given, icon2gif will try to read a text input
 from stdin.</para>
 
 </refsect1>

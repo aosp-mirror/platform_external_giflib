@@ -12,7 +12,7 @@
 </refmeta>
 <refnamediv id='name'>
 <refname>gifhisto</refname>
-<refpurpose>make a color histogram from a GIF</refpurpose>
+<refpurpose>make a color histogram from GIF colr frequencies</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>

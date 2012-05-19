@@ -1,19 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to combine 2 GIF images into single one, using optional mask GIF
-* file. Result colormap will be the union of the two images colormaps.
-* Both images should have exactly the same size, although they may be mapped *
-* differently on screen. Only First GIF screen descriptor info. is used.
-* Options:
-* -v : verbose mode.
-* -m mask : optional boolean image, defines where second GIF should be used. *
-* -h : on-line help.
-******************************************************************************
-* History:
-* 12 Jul 89 - Version 1.0 by Gershon Elber.
+
+gifcomb - combine GIF images with mask
+
 *****************************************************************************/
 
 #include <stdlib.h>

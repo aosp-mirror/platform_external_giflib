@@ -1,17 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jun. 1989
-******************************************************************************
-* Module to convert raw image into a GIF file.
-* Options:
-* -v : verbose mode.
-* -s Width Height : specifies size of raw image.
-* -p ColorMapFile : specifies color map for ray image (see gifclrmp).
-* -h : on-line help.
-******************************************************************************
-* History:
-* 15 Oct 89 - Version 1.0 by Gershon Elber.
+
+raw2gif - convert raw pixel data to a GIF
+
 *****************************************************************************/
 
 #include <stdlib.h>

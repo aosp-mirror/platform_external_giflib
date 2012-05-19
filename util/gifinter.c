@@ -1,18 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to flip interlaced and non interlaced images in GIF files.
-* Options:
-* -v : verbose mode.
-* -i : Force all images to be interlaced.
-* -s : Force all images to be sequential (non-interlaced). This is default.
-* -h : on-line help
-******************************************************************************
-* History:
-* 5 Jul 89 - Version 1.0 by Gershon Elber.
-* 21 Dec 89 - Fix problems with -i and -s flags (Version 1.1).
+
+gifinter - convert between interlaced and non-interlaced GIFs
+
 *****************************************************************************/
 
 #include <stdlib.h>

@@ -1,20 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to generate GIF image page from a given text by drawing the chars
-* using 8 by 8 fixed font.
-* Options:
-* -v : verbose mode.
-* -s ColorMapSize : in bits, i.e. 6 bits for 64 colors.
-* -f ForeGroundIndex : by default foreground is 1. Must be in range 0..255.
-* -c R G B : set the foregound color values. By default it is white.
-* -t "Text" : Make a one-line GIF (8 pixels high) from the given Text.
-* -h : on-line help.
-******************************************************************************
-* History:
-* 3 May 90 - Version 1.0 by Gershon Elber.
+
+text2gif - generate a GIF from ASCII text
+
 *****************************************************************************/
 
 #include <stdlib.h>

@@ -1,12 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jun. 1989
-******************************************************************************
-* Module to convert an editable text representation into a GIF file.
-******************************************************************************
-* History:
-* 15 Sep 92 - Version 1.0 by Eric Raymond.
+
+icon2gif - dump GIF data in a textual format, or undump it to a GIF
+
 *****************************************************************************/
 
 #include <stdlib.h>

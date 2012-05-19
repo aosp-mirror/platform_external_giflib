@@ -12,7 +12,7 @@
 </refmeta>
 <refnamediv id='name'>
 <refname>gifbg</refname>
-<refpurpose>generarate a test-pattern GIF</refpurpose>
+<refpurpose>generate a test-pattern GIF</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>

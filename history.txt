@@ -8,8 +8,8 @@ GIF89 standard is included in the doc/ directory.
 This code originated as a linkable library for DOS programs, together
 with command-line tools for generating and viewing and analyzing GIF
 images. The DOS code was written by Gershon Elber using Borland C
-under MS-DOS sometime between the issue of GIF87 and the end of 1989
-(1.0 is dated June 1989).
+under MS-DOS sometime between the issue of GIF87 and mid-1989 (1.0 was
+dated 14 June 1989; one portion, getarg.c, was dated 11 Mar 88).
 
 At some time no later than the end of 1989 Eric S. Raymond (aka "ESR")
 ported this DOS version to System V Unix. Between 1989 and 1992 ESR
@@ -33,7 +33,7 @@ that ESR sought a lead developer outside the U.S. to hand the project off
 to, and passed it to Toshio Kuratomi.  ESR remembers this as happening
 in 1994, but that date could be wrong as files imply 3.0 was issued
 under  ESR's name in 1996.  Other files do date Toshio's first release
-to 1994.
+to 1994.  He shipped 4.0 in December 1998.
 
 Subsequently, the project shipped for some time as "libungif" with
 support for compressed GIFs removed to avoid the LZW patent issues.
@@ -49,6 +49,7 @@ widely popular.
 
 In April 2012 ESR rejoined the project to do some code cleanups 
 and auditing, and Toshio Kuratomi asked him to take back the lead.
+ESR released version 4.2 in May 2012.
 
 This code is very old, very stable, and *everywhere* - browsers
 game consoles, smartphones, pretty much everything that opens an

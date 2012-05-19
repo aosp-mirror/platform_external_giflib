@@ -1,19 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to read stdin, and save it into the specified file iff the
-* result is long enough to be a valid GIF and inspired by the rle utah
-* tool kit I decided to implement and add it.
-* Options:
-* -v : verbose mode.
-* -s minsize : the minimum file size to keep it.
-* -h : on-line help.
-******************************************************************************
-* History:
-* 7 Jul 89 - Version 1.0 by Gershon Elber.
-* 22 Dec 89 - Fix problem with tmpnam (Version 1.1).
+
+gifinto - save GIF on stdin to file if size over set threshold
+
 *****************************************************************************/
 
 #include <unistd.h>

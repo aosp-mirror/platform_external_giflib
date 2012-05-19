@@ -1,14 +1,10 @@
 /*****************************************************************************
- *   "Gif-Lib" - Yet another gif library.
- *
- * Written by:  Gershon Elber            IBM PC Ver 0.1,    Jun. 1989
- ******************************************************************************
- * Module to emulate a printf with a possible quiet (disable mode.)
- * A global variable GifNoisyPrint controls the printing of this routine
- ******************************************************************************
- * History:
- * 12 May 91 - Version 1.0 by Gershon Elber.
- *****************************************************************************/
+
+ qprintf.c - module to emulate a printf with a possible quiet (disable mode.)
+
+ A global variable GifNoisyPrint controls the printing of this routine
+ 
+*****************************************************************************/
 
 
 #include <stdio.h>

@@ -1,18 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jun. 1991
-******************************************************************************
-* Program to convert 24bits RGB files to GIF format.
-* Options:
-* -v : verbose mode.
-* -c #colors : in power of two, i.e. 7 will allow up to 128 colors in output.
-* -1 : one file holding RGBRGB.. triples of bytes
-* -s Width Height : specifies size of raw image.
-* -h : on-line help.
-******************************************************************************
-* History:
-* 15 Jun 91 - Version 1.0 by Gershon Elber.
+
+raw2gif - convert raw pixel data to a GIF
+
 *****************************************************************************/
 
 /***************************************************************************

@@ -1,21 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to resize GIF by given factors horizontally and vertically.
-* Options:
-* -v : verbose mode.
-* -S x y : scale into size as specified by x and y.
-* -s r : resize both x & y direction by factor r.
-* -x r : resize the x direction (horizontally) by factor r.
-* -y r : resize the y direction (vertically) by factor r.
-* -h : on-line help.
-******************************************************************************
-* History:
-* 4 Jul 89 - Version 1.0 by Gershon Elber.
-* 22 Dec 89 - Fix minor bag in discarding last line of input (Version 1.1).
-* 3 Aug 91 - make it scale by an arbitrary size value.
+
+gifrsize - resize and scale GIFs
+
 *****************************************************************************/
 
 #include <stdlib.h>

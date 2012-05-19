@@ -1,21 +1,22 @@
-/*
- * Skeleton file for generic GIF `sponge' program --- slurp a GIF into core,
- * operate on it, spew it out again.  Most of the junk above `int main' isn't
- * needed for the skeleton, but is likely to be for what you'll do with it.
- *
- * If you compile this, it will turn into an expensive GIF copying routine;
- * stdin to stdout with no changes and minimal validation.  Well, it's a
- * decent test of DGifSlurp() and EGifSpew(), anyway.
- *
- * Note: due to the vicissitudes of Lempel-Ziv compression, the output of this
- * copier may not be bitwise identical to its input.  This can happen if you
- * copy an image from a much more (or much *less*) memory-limited system; your
- * compression may use more (or fewer) bits.  The uncompressed rasters should,
- * however, be identical (you can check this with icon2gif -d).
- *
- *					Eric S. Raymond
- *					esr@snark.thyrsus.com
- */
+/****************************************************************************
+
+gofspnge.c - skeleton file for generic GIF `sponge' program
+
+Slurp a GIF into core, operate on it, spew it out again.  Most of the
+junk above `int main' isn't needed for the skeleton, but is likely to
+be for what you'll do with it.
+
+If you compile this, it will turn into an expensive GIF copying routine;
+stdin to stdout with no changes and minimal validation.  Well, it's a
+decent test of DGifSlurp() and EGifSpew(), anyway.
+
+Note: due to the vicissitudes of Lempel-Ziv compression, the output of this
+copier may not be bitwise identical to its input.  This can happen if you
+copy an image from a much more (or much *less*) memory-limited system; your
+compression may use more (or fewer) bits.  The uncompressed rasters should,
+however, be identical (you can check this with icon2gif -d).
+
+****************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>

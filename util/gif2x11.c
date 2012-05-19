@@ -1,20 +1,8 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to display GIF file under X11 window system.
-* Options:
-* -v : verbose mode.
-* -p PosX PosY : defines the position where to put the image.
-* -d Display : what display should go to.
-* -f : force attempt to allocate the exact colors. This usually looks bad...
-* -h : on-line help.
-******************************************************************************
-* History:
-* 28 Dec 89 - Version 1.0 by Gershon Elber, color allocation is based on the
-*		xgif program by John Bradley, bradley@cis.ipenn.edu.
-*****************************************************************************/
+
+gif2x11 - display GIF file under X11 window system
+
+****************************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -65,6 +53,7 @@ static char
 static ColorMapObject
     *ColorMap;
 
+/* Color allocation from xgif program by John Bradley <bradley@cis.ipenn.edu>*/
 /* X specific staff goes here. XColorTable will hold the GIF image colors,   */
 /* while XPixelTable will hold the pixel number so we can redirect through   */
 /* it when forming the image bitmap in X format.			     */

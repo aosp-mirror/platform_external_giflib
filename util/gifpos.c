@@ -1,19 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Program to reposition GIF file, by changing screen size and/or image(s)
-* position. Neither image(s) nor colormap(s) are changedin any way.
-* Options:
-* -v : verbose mode.
-* -s w h : set new screen size - width & height.
-* -i t l : set new image position - top & left (for first image).
-* -n n w h : set new image position - top & left (for image number n).
-* -h : on-line help.
-******************************************************************************
-* History:
-* 6 Jul 89 - Version 1.0 by Gershon Elber.
+
+gifpos - change GIF screen size or reposition images
+
 *****************************************************************************/
 
 #include <stdio.h>

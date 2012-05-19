@@ -12,7 +12,7 @@
 </refmeta>
 <refnamediv id='name'>
 <refname>gif2rgb</refname>
-<refpurpose>convert images saved as GIF to 24-bit RGB</refpurpose>
+<refpurpose>convert images saved as GIF to 24-bit RGB triplets</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>

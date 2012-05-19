@@ -1,12 +1,7 @@
 /*****************************************************************************
-*   "Gif-Lib" - Yet another gif library.
-*
-* Written by:  Gershon Elber				Ver 0.1, Jul. 1989
-******************************************************************************
-* Takes a multi-image GIF and yields the overlay of all the images
-******************************************************************************
-* History:
-* 6 May 94 - Version 1.0 by Eric Raymond.
+
+gifovly - composite images in a multi-image GIF as layers
+
 *****************************************************************************/
 
 #include <stdio.h>
