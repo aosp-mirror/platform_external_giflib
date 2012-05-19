@@ -199,6 +199,12 @@ hotlink to HTML documentation.</para>
 
 <variablelist>
 <varlistentry>
+<term><ulink url="gifinfo.html">gifinfo</ulink></term>
+<listitem>
+<para>export GIF size and comment info in a format string</para>
+</listitem>
+</varlistentry>
+<varlistentry>
 <term><ulink url="giftext.html">giftext</ulink></term>
 <listitem>
 <para>print (text only) general information about a GIF</para>
