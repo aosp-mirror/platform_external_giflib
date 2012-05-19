@@ -226,7 +226,7 @@ ApplyTranslation(SavedImage * Image,
 int
 AddExtensionBlock(SavedImage * New,
 		  int Function,
-                  int Len,
+                  unsigned int Len,
                   unsigned char ExtData[]) {
 
     ExtensionBlock *ep;

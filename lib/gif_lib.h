@@ -226,7 +226,7 @@ typedef struct SavedImage {
 
 extern void ApplyTranslation(SavedImage * Image, GifPixelType Translation[]);
 extern int AddExtensionBlock(SavedImage * New, int Function, 
-				 int Len, unsigned char ExtData[]);
+				 unsigned int Len, unsigned char ExtData[]);
 extern void FreeExtension(SavedImage * Image);
 extern SavedImage *MakeSavedImage(GifFileType * GifFile,
                                   const SavedImage * CopyFrom);
