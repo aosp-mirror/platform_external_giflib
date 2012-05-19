@@ -8,7 +8,7 @@ API
 * GifByteType and VoidPtr are also gone.
 * ExtensionBlock API repaired.  The (undocumented) MakeExtension() entry point
   is gone and the (undocumented) AddExtensionBlock() function now takes a
-  function-code argument.  Required a library-najor-version bump just to
+  function-code argument.  Required a library-major-version bump just to
   be on the safe side.
 
 Retirements
