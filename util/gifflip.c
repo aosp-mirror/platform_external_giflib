@@ -208,7 +208,11 @@ static int LoadImage(GifFileType *GifFile, GifRowType **ImageBufferPtr)
     int Size, i;
     GifRowType *ImageBuffer;
 
-    /* Allocate the image as vector of column of rows */
+    /* 
+     * Allocate the screen as vector of column of rows. Note this
+     * screen is device independent - it's the screen defined by the
+     * GIF file parameters.
+     */
     if ((ImageBuffer = (GifRowType *)
 	malloc(GifFile->Image.Height * sizeof(GifRowType))) == NULL)
 	    GIF_EXIT("Failed to allocate memory required, aborted.");

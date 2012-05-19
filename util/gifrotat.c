@@ -95,9 +95,11 @@ int main(int argc, char **argv)
 	}
     }
 
-    /* Allocate the screen as vector of column of rows.			     */
-    /* Note this screen is device independent - its the screen as defined by */
-    /* the GIF file parameters itself.					     */
+    /* 
+     * Allocate the screen as vector of column of rows. Note this
+     * screen is device independent - it's the screen defined by the
+     * GIF file parameters.
+     */
     if ((ScreenBuffer = (GifRowType *)
 	malloc(GifFile->SHeight * sizeof(GifRowType))) == NULL)
 	    GIF_EXIT("Failed to allocate memory required, aborted.");
