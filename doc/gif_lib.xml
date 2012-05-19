@@ -75,6 +75,14 @@ include it.  Members beginning with S refer to GIF Screen; others hold
 properties of the current image (a GIF file may have more than one image)
 or point to allocated store used by various routines.</para>
 
+<para>The following diagram may make the relationships among these structures
+easier to understand:</para>
+
+<mediaobject>
+<imageobject><imagedata fileref="GifFileType.png"/>
+</imageobject>
+</mediaobject>
+
 <para>The user almost never writes into this structure (exception: it may
 occasionally useful to alter things in the SavedImages array), but can read
 any of these items at any time it is valid (image information is invalid
