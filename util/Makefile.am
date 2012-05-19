@@ -4,7 +4,7 @@ bin_PROGRAMS = gif2rgb gifasm gifbg gifclip gifcomb \
     giffix gifflip gifhisto gifinter gifinto gifovly gifpos gifrsize \
     giftext gifwedge raw2gif rgb2gif text2gif gifspnge giffiltr \
     icon2gif gifcolor gifinfo @COMPILABLE_EXTRAS@
-bin_SCRIPTS = gifcompose gifburst
+bin_SCRIPTS = gifcompose
 EXTRA_PROGRAMS = gif2x11 gifclrmp gifrotat
 
 EXTRA_DIST=Makefile.unx $(bin_SCRIPTS)

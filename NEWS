@@ -1,12 +1,20 @@
 			GIFLIB NEWS
 Repository head
 ===============
+
+API
+---
 * TRUE and FALSE macros are gone.  No more namespace pollution.
 * GifByteType and VoidPtr are also gone.
 * ExtensionBlock API repaired.  The (undocumented) MakeExtension() entry point
   is gone and the (undocumented) AddExtensionBlock() function now takes a
   function-code argument.  Required a library-najor-version bump just to
   be on the safe side.
+
+Retirements
+-----------
+* The gifburst utility is gone.  Everybody has image viewers that
+  can pan now, and removing it gets rid of a dependency on Perl.
 
 Version 4.2.0
 =============
@@ -50,8 +58,6 @@ Retirements
 * The rle2gif, gif2rle, and gif2ps utilities are also gone. There are enough
   multiformat image converters in the world that these weren't adding 
   any value either.  Removing them reduces the codebase's dependencies.
-* The gifburst utility is gone.  Everybody has image viewers that
-  can pan now, and removing it gets rid of a dependency on Perl.
 * The undocumented DumpScreen2Gif() is gone from the library.  The
   only non-obsolete capture mode it supported was through X, and that
   probably hasn't been used in years and is replaceable by any number

@@ -8,7 +8,6 @@
 |gif2x11    | visual-check
 |gifasm     | -
 |gifbg      | visual-check
-|gifburst   | -
 |gifclip    | visual-check
 |gifclrmp   | -
 |gifcolor   | -

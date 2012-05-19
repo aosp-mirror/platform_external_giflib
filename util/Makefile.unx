@@ -89,7 +89,7 @@ BINARIES = gif2rgb gif2x11 gifasm gifbg \
 
 RLE =   gif2rle rle2gif
 
-SCRIPTS = gifcompose gifburst
+SCRIPTS = gifcompose
 
 all: $(BINARIES)
 rle: $(RLE)
