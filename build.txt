@@ -38,6 +38,13 @@ The build procedure is:
 
 As before, install with "make install".
 
+== Portability note ==
+
+This codebase now assumes your compiler is C99-conformant.  If it
+isn't, the most likely trouble spot is "#include <stdint.h>"; your
+compiler may be looking for "inttypes.h" instead.  If your compiler
+has a C99 conformance option, turn it on.
+
 == Release Procedure ==
 
 'make dist' will create a tarball.
