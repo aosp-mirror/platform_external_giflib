@@ -240,23 +240,19 @@ extern void FreeSavedImages(GifFileType * GifFile);
 #define GIF_FONT_HEIGHT 8
 extern const unsigned char AsciiTable[][GIF_FONT_WIDTH];
 
-#ifdef _WIN32
-    extern void DrawGifText(SavedImage * Image,
-#else
-    extern void DrawText(SavedImage * Image,
-#endif
+extern void GifDrawText(SavedImage * Image,
                      const int x, const int y,
                      const char *legend, const int color);
 
-extern void DrawBox(SavedImage * Image,
+extern void GifDrawBox(SavedImage * Image,
                     const int x, const int y,
                     const int w, const int d, const int color);
 
-void DrawRectangle(SavedImage * Image,
+extern void GifDrawRectangle(SavedImage * Image,
                    const int x, const int y,
                    const int w, const int d, const int color);
 
-extern void DrawBoxedText(SavedImage * Image,
+extern void GifDrawBoxedText(SavedImage * Image,
                           const int x, const int y,
                           const char *legend,
                           const int border, const int bg, const int fg);

@@ -151,7 +151,7 @@ const unsigned char AsciiTable[][GIF_FONT_WIDTH] = {
 /*@=charint@*/
 
 void
-DrawText(SavedImage * Image,
+GifDrawText(SavedImage * Image,
          const int x,
          const int y,
          const char *legend,
@@ -174,7 +174,7 @@ DrawText(SavedImage * Image,
 }
 
 void
-DrawBox(SavedImage * Image,
+GifDrawBox(SavedImage * Image,
         const int x,
         const int y,
         const int w,
@@ -193,7 +193,7 @@ DrawBox(SavedImage * Image,
 }
 
 void
-DrawRectangle(SavedImage * Image,
+GifDrawRectangle(SavedImage * Image,
               const int x,
               const int y,
               const int w,
@@ -208,7 +208,7 @@ DrawRectangle(SavedImage * Image,
 }
 
 void
-DrawBoxedText(SavedImage * Image,
+GifDrawBoxedText(SavedImage * Image,
               const int x,
               const int y,
               const char *legend,
@@ -233,7 +233,7 @@ DrawBoxedText(SavedImage * Image,
         TextWidth = j;
 
     /* fill the box */
-    DrawRectangle(Image, x + 1, y + 1,
+    GifDrawRectangle(Image, x + 1, y + 1,
                   border + TextWidth * GIF_FONT_WIDTH + border - 1,
                   border + LineCount * GIF_FONT_HEIGHT + border - 1, bg);
 
@@ -246,12 +246,12 @@ DrawBoxedText(SavedImage * Image,
         if (cp[0] == '\t')
             leadspace = (TextWidth - strlen(++cp)) / 2;
 
-        DrawText(Image, x + border + (leadspace * GIF_FONT_WIDTH),
+        GifDrawText(Image, x + border + (leadspace * GIF_FONT_WIDTH),
                  y + border + (GIF_FONT_HEIGHT * i++), cp, fg);
         cp = strtok((char *)NULL, "\r\n");
     } while (cp);
 
     /* outline the box */
-    DrawBox(Image, x, y, border + TextWidth * GIF_FONT_WIDTH + border,
+    GifDrawBox(Image, x, y, border + TextWidth * GIF_FONT_WIDTH + border,
             border + LineCount * GIF_FONT_HEIGHT + border, fg);
 }

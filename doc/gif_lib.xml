@@ -668,8 +668,8 @@ includes suitable externs and defines.</para>
 on in-core images, drawing boxes and rectangles, and boxing text.
 These entry points are as follows:</para>
 
-<programlisting id="DrawText">
-void DrawText(
+<programlisting id="GifDrawText">
+void GifDrawText(
         SavedImage *Image,
         const int x, const int y,
         const char *legend,
@@ -680,8 +680,8 @@ void DrawText(
 left corner of the text is at image pixel (x, y).  Use the specified
 color index.</para>
 
-<programlisting id="DrawBox">
-void DrawBox(SavedImage *Image,
+<programlisting id="GifDrawBox">
+void GifDrawBox(SavedImage *Image,
         const int x, const int y,
         const int w, const int h,
         const int color)
@@ -691,8 +691,8 @@ void DrawBox(SavedImage *Image,
 image pixels (x, y), width is w, height is h.  Use the specified color
 index.</para>
 
-<programlisting id="DrawRectangle">
-void DrawRectangle(SavedImage *Image,
+<programlisting id="GifDrawRectangle">
+void GifDrawRectangle(SavedImage *Image,
         const int x, const int y,
         const int w, const int h,
         const int color)
@@ -702,8 +702,8 @@ void DrawRectangle(SavedImage *Image,
 the box is at image pixels (x, y), width is w, height is h.  Use the
 specified color index.</para>
 
-<programlisting id="DrawBoxedText">
-void DrawBoxedText(SavedImage *Image,
+<programlisting id="GifDrawBoxedText">
+void GifDrawBoxedText(SavedImage *Image,
         const int x, const int y,
         const char *legend,
         const int border,
