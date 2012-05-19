@@ -133,14 +133,14 @@ DGifOpenFileHandle(int FileHandle) {
     Buf[GIF_STAMP_LEN] = 0;
     if (strncmp(GIF_STAMP, Buf, GIF_VERSION_POS) != 0) {
         _GifError = D_GIF_ERR_NOT_GIF_FILE;
-        fclose(f);
+        (void)fclose(f);
         free((char *)Private);
         free((char *)GifFile);
         return NULL;
     }
 
     if (DGifGetScreenDesc(GifFile) == GIF_ERROR) {
-        fclose(f);
+        (void)fclose(f);
         free((char *)Private);
         free((char *)GifFile);
         return NULL;
@@ -414,7 +414,8 @@ DGifGetImageDesc(GifFileType * GifFile) {
     Private->PixelCount = (long)GifFile->Image.Width *
        (long)GifFile->Image.Height;
 
-    DGifSetupDecompress(GifFile);  /* Reset decompress algorithm parameters. */
+    /* Reset decompress algorithm parameters. */
+    (void)DGifSetupDecompress(GifFile);
 
     return GIF_OK;
 }

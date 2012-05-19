@@ -70,7 +70,7 @@ EGifOpenFileName(const char *FileName,
     }
     GifFile = EGifOpenFileHandle(FileHandle);
     if (GifFile == (GifFileType *) NULL)
-        close(FileHandle);
+        (void)close(FileHandle);
     return GifFile;
 }
 
@@ -115,7 +115,7 @@ EGifOpenFileHandle(int FileHandle) {
     f = fdopen(FileHandle, "wb");    /* Make it into a stream: */
 
     /* MSDOS and Windows32 requires this, no reason not to do it under Unix */
-    setvbuf(f, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE);    /* And inc. stream
+    (void)setvbuf(f, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE);    /* And inc. stream
                                                         * buffer. */
 
     GifFile->Private = (void *)Private;
@@ -271,8 +271,8 @@ EGifPutScreenDesc(GifFileType * GifFile,
      * Put the logical screen descriptor into the file:
      */
     /* Logical Screen Descriptor: Dimensions */
-    EGifPutWord(Width, GifFile);
-    EGifPutWord(Height, GifFile);
+    (void)EGifPutWord(Width, GifFile);
+    (void)EGifPutWord(Height, GifFile);
 
     /* Logical Screen Descriptor: Packed Fields */
     /* Note: We have actual size of the color table default to the largest
@@ -358,10 +358,10 @@ EGifPutImageDesc(GifFileType * GifFile,
     /* Put the image descriptor into the file: */
     Buf[0] = ',';    /* Image seperator character. */
     WRITE(GifFile, Buf, 1);
-    EGifPutWord(Left, GifFile);
-    EGifPutWord(Top, GifFile);
-    EGifPutWord(Width, GifFile);
-    EGifPutWord(Height, GifFile);
+    (void)EGifPutWord(Left, GifFile);
+    (void)EGifPutWord(Top, GifFile);
+    (void)EGifPutWord(Width, GifFile);
+    (void)EGifPutWord(Height, GifFile);
     Buf[0] = (ColorMap ? 0x80 : 0x00) |
        (Interlace ? 0x40 : 0x00) |
        (ColorMap ? ColorMap->BitsPerPixel - 1 : 0);
@@ -390,7 +390,8 @@ EGifPutImageDesc(GifFileType * GifFile,
     Private->FileState |= FILE_STATE_IMAGE;
     Private->PixelCount = (long)Width *(long)Height;
 
-    EGifSetupCompress(GifFile);    /* Reset compress algorithm parameters. */
+    /* Reset compress algorithm parameters. */
+    (void)EGifSetupCompress(GifFile);
 
     return GIF_OK;
 }
@@ -1024,16 +1025,18 @@ EGifSpew(GifFileType * GifFileOut) {
                         return (GIF_ERROR);
                     }
                 } else {
-                    EGifPutExtensionFirst(GifFileOut, ep->Function, ep->ByteCount, ep->Bytes);
+                    (void)EGifPutExtensionFirst(GifFileOut, 
+						ep->Function, 
+						ep->ByteCount, ep->Bytes);
                     for (bOff = j+1; bOff < sp->ExtensionBlockCount; bOff++) {
                         ep = &sp->ExtensionBlocks[bOff];
                         if (ep->Function != 0) {
                             break;
                         }
-                        EGifPutExtensionNext(GifFileOut, 0,
-                                ep->ByteCount, ep->Bytes);
+                        (void)EGifPutExtensionNext(GifFileOut, 0,
+						   ep->ByteCount, ep->Bytes);
                     }
-                    EGifPutExtensionLast(GifFileOut, 0, 0, NULL);
+                    (void)EGifPutExtensionLast(GifFileOut, 0, 0, NULL);
                     j = bOff-1;
                 }
             }
