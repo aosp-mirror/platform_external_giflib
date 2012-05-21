@@ -71,7 +71,7 @@ typedef struct GifFileType {
 
 <para>This structure was copied from gif_lib.h - the header file for the GIF
 library.  Any application program that uses the libgif.a library should
-include it.  Members beginning with S refer to GIF Screen; others hold
+include it.  Members beginning with S refer to the GIF Screen; others hold
 properties of the current image (a GIF file may have more than one image)
 or point to allocated store used by various routines.</para>
 
@@ -778,7 +778,7 @@ void GAPrintHowTo(char *CtrlStr)
 
 </sect2>
 </sect1>
-<sect1><title>Forward and Backward Compatibility</title>
+<sect1 id="compatibility"><title>Forward and Backward Compatibility</title>
 
 <para>The library header contains some version #defines you can useif you
 need to condition your code so it can compile with different library 
@@ -792,7 +792,18 @@ retired.</para>
 and GIFLIB_RELEASE macros for the three components of the version. See the
 NEWS file in the GIFLIB distribution to track API changes.</para>
 
-<para></para>
+<para>A few very minor changes in behavior were introduced in 5.x:</para>
+
+<itemizedlist>
+<listitem><para>As of 5.0, the default GIF version to write is now
+computed at write time from the types of an image's extension blocks,
+but can be overridden with EGifSetGifVersion(). Formerly EGifSpew()
+behaved this way, but the sequential-writing code didn't.
+</para></listitem>
+<listitem><para>As of 5.0, EGifSpew() is thread-safe.</para></listitem>
+<listitem><para>A rare resource leak in the colormap-object maker was found with
+Coverity and fixed.</para></listitem>
+</itemizedlist>
 
 </sect1>
 <sect1><title>Skeletons of GIF filters</title>

@@ -11,7 +11,7 @@ API
   be on the safe side.
 * The library Draw* functions are now named GifDraw*. This fixes a conflict
   with the Windows API.
-* Various rguments have been made constv where possible.
+* Various arguments have been made const where possible.
 
 Retirements
 -----------
