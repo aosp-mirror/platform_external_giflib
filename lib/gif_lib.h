@@ -117,26 +117,26 @@ int EGifPutScreenDesc(GifFileType * GifFile,
                       int GifWidth, int GifHeight, int GifColorRes,
                       int GifBackGround,
                       const ColorMapObject * GifColorMap);
-int EGifPutImageDesc(GifFileType * GifFile, int GifLeft, int GifTop,
+int EGifPutImageDesc(GifFileType *GifFile, int GifLeft, int GifTop,
                      int Width, int GifHeight, bool GifInterlace,
-                     const ColorMapObject * GifColorMap);
-int EGifPutLine(GifFileType * GifFile, GifPixelType * GifLine,
+                     const ColorMapObject *GifColorMap);
+int EGifPutLine(GifFileType *GifFile, GifPixelType *GifLine,
                 int GifLineLen);
-int EGifPutPixel(GifFileType * GifFile, GifPixelType GifPixel);
-int EGifPutComment(GifFileType * GifFile, const char *GifComment);
-int EGifPutExtensionFirst(GifFileType * GifFile, const int GifExtCode,
+int EGifPutPixel(GifFileType *GifFile, GifPixelType GifPixel);
+int EGifPutComment(GifFileType *GifFile, const char *GifComment);
+int EGifPutExtensionFirst(GifFileType *GifFile, const int GifExtCode,
                           const int GifExtLen, const void *GifExtension);
-int EGifPutExtensionNext(GifFileType * GifFile, const int GifExtCode,
+int EGifPutExtensionNext(GifFileType *GifFile, const int GifExtCode,
                          const int GifExtLen, const void *GifExtension);
-int EGifPutExtensionLast(GifFileType * GifFile, const int GifExtCode,
+int EGifPutExtensionLast(GifFileType *GifFile, const int GifExtCode,
                          const int GifExtLen, const void *GifExtension);
-int EGifPutExtension(GifFileType * GifFile, const int GifExtCode, 
+int EGifPutExtension(GifFileType *GifFile, const int GifExtCode, 
 		     const int GifExtLen,
                      const void *GifExtension);
-int EGifPutCode(GifFileType * GifFile, int GifCodeSize,
-                const GifByteType * GifCodeBlock);
-int EGifPutCodeNext(GifFileType * GifFile,
-                    const GifByteType * GifCodeBlock);
+int EGifPutCode(GifFileType *GifFile, int GifCodeSize,
+                const GifByteType *GifCodeBlock);
+int EGifPutCodeNext(GifFileType *GifFile,
+                    const GifByteType *GifCodeBlock);
 
 /******************************************************************************
  * O.K., here are the routines one can access in order to decode GIF file:     
@@ -165,19 +165,19 @@ int DGifCloseFile(GifFileType * GifFile);
 #define D_GIF_ERR_EOF_TOO_SOON   113
 
 /* These are legacy.  You probably do not want to call them directly */
-int DGifGetScreenDesc(GifFileType * GifFile);
-int DGifGetRecordType(GifFileType * GifFile, GifRecordType * GifType);
-int DGifGetImageDesc(GifFileType * GifFile);
-int DGifGetLine(GifFileType * GifFile, GifPixelType * GifLine, int GifLineLen);
-int DGifGetPixel(GifFileType * GifFile, GifPixelType GifPixel);
-int DGifGetComment(GifFileType * GifFile, char *GifComment);
-int DGifGetExtension(GifFileType * GifFile, int *GifExtCode,
-                     GifByteType ** GifExtension);
-int DGifGetExtensionNext(GifFileType * GifFile, GifByteType ** GifExtension);
-int DGifGetCode(GifFileType * GifFile, int *GifCodeSize,
-                GifByteType ** GifCodeBlock);
-int DGifGetCodeNext(GifFileType * GifFile, GifByteType ** GifCodeBlock);
-int DGifGetLZCodes(GifFileType * GifFile, int *GifCode);
+int DGifGetScreenDesc(GifFileType *GifFile);
+int DGifGetRecordType(GifFileType *GifFile, GifRecordType *GifType);
+int DGifGetImageDesc(GifFileType *GifFile);
+int DGifGetLine(GifFileType *GifFile, GifPixelType *GifLine, int GifLineLen);
+int DGifGetPixel(GifFileType *GifFile, GifPixelType GifPixel);
+int DGifGetComment(GifFileType *GifFile, char *GifComment);
+int DGifGetExtension(GifFileType *GifFile, int *GifExtCode,
+                     GifByteType **GifExtension);
+int DGifGetExtensionNext(GifFileType *GifFile, GifByteType **GifExtension);
+int DGifGetCode(GifFileType *GifFile, int *GifCodeSize,
+                GifByteType **GifCodeBlock);
+int DGifGetCodeNext(GifFileType *GifFile, GifByteType **GifCodeBlock);
+int DGifGetLZCodes(GifFileType *GifFile, int *GifCode);
 
 
 /******************************************************************************
@@ -199,10 +199,10 @@ extern int GifLastError(void);
  *****************************************************************************/
 
 extern ColorMapObject *MakeMapObject(int ColorCount,
-                                     const GifColorType * ColorMap);
-extern void FreeMapObject(ColorMapObject * Object);
-extern ColorMapObject *UnionColorMap(const ColorMapObject * ColorIn1,
-                                     const ColorMapObject * ColorIn2,
+                                     const GifColorType *ColorMap);
+extern void FreeMapObject(ColorMapObject *Object);
+extern ColorMapObject *UnionColorMap(const ColorMapObject *ColorIn1,
+                                     const ColorMapObject *ColorIn2,
                                      GifPixelType ColorTransIn2[]);
 extern int BitSize(int n);
 
@@ -210,7 +210,7 @@ extern int BitSize(int n);
  * Support for the in-core structures allocation (slurp mode).              
  *****************************************************************************/
 
-/* This is the in-core version of an extension record */
+/*This is the in-core version of an extension record */
 typedef struct {
     int ByteCount;
     char *Bytes;    /* on malloc(3) heap */
@@ -225,13 +225,13 @@ typedef struct SavedImage {
     ExtensionBlock *ExtensionBlocks;    /* on malloc(3) heap */
 } SavedImage;
 
-extern void ApplyTranslation(SavedImage * Image, GifPixelType Translation[]);
-extern int AddExtensionBlock(SavedImage * New, int Function, 
+extern void ApplyTranslation(SavedImage *Image, GifPixelType Translation[]);
+extern int AddExtensionBlock(SavedImage *New, int Function, 
 				 unsigned int Len, unsigned char ExtData[]);
-extern void FreeExtension(SavedImage * Image);
-extern SavedImage *MakeSavedImage(GifFileType * GifFile,
-                                  const SavedImage * CopyFrom);
-extern void FreeSavedImages(GifFileType * GifFile);
+extern void FreeExtension(SavedImage *Image);
+extern SavedImage *MakeSavedImage(GifFileType *GifFile,
+                                  const SavedImage *CopyFrom);
+extern void FreeSavedImages(GifFileType *GifFile);
 
 /******************************************************************************
  * The library's internal utility font                          
@@ -241,19 +241,19 @@ extern void FreeSavedImages(GifFileType * GifFile);
 #define GIF_FONT_HEIGHT 8
 extern const unsigned char AsciiTable[][GIF_FONT_WIDTH];
 
-extern void GifDrawText(SavedImage * Image,
+extern void GifDrawText(SavedImage *Image,
                      const int x, const int y,
                      const char *legend, const int color);
 
-extern void GifDrawBox(SavedImage * Image,
+extern void GifDrawBox(SavedImage *Image,
                     const int x, const int y,
                     const int w, const int d, const int color);
 
-extern void GifDrawRectangle(SavedImage * Image,
+extern void GifDrawRectangle(SavedImage *Image,
                    const int x, const int y,
                    const int w, const int d, const int color);
 
-extern void GifDrawBoxedText(SavedImage * Image,
+extern void GifDrawBoxedText(SavedImage *Image,
                           const int x, const int y,
                           const char *legend,
                           const int border, const int bg, const int fg);
