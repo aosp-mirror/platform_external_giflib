@@ -52,12 +52,12 @@ static int EGifBufferedOutput(GifFileType * GifFile, GifByteType * Buf,
  *****************************************************************************/
 GifFileType *
 EGifOpenFileName(const char *FileName,
-                 bool TestExistance) {
+                 const bool TestExistence) {
 
     int FileHandle;
     GifFileType *GifFile;
 
-    if (TestExistance)
+    if (TestExistence)
         FileHandle = open(FileName, O_WRONLY | O_CREAT | O_EXCL, 
 			  S_IREAD | S_IWRITE);
     else
@@ -81,7 +81,7 @@ EGifOpenFileName(const char *FileName,
  * info record. _GifError is cleared if succesfull.
  *****************************************************************************/
 GifFileType *
-EGifOpenFileHandle(int FileHandle) {
+EGifOpenFileHandle(const int FileHandle) {
 
     GifFileType *GifFile;
     GifFilePrivateType *Private;
@@ -511,8 +511,8 @@ EGifPutComment(GifFileType * GifFile,
  *****************************************************************************/
 int
 EGifPutExtensionFirst(GifFileType * GifFile,
-                      int ExtCode,
-                      int ExtLen,
+                      const int ExtCode,
+                      const int ExtLen,
                       const void *Extension) {
 
     GifByteType Buf[3];
@@ -543,8 +543,8 @@ EGifPutExtensionFirst(GifFileType * GifFile,
  *****************************************************************************/
 int
 EGifPutExtensionNext(GifFileType * GifFile,
-                     int ExtCode,
-                     int ExtLen,
+                     const int ExtCode,
+                     const int ExtLen,
                      const void *Extension) {
 
     GifByteType Buf;
@@ -568,8 +568,8 @@ EGifPutExtensionNext(GifFileType * GifFile,
  *****************************************************************************/
 int
 EGifPutExtensionLast(GifFileType * GifFile,
-                     int ExtCode,
-                     int ExtLen,
+                     const int ExtCode,
+                     const int ExtLen,
                      const void *Extension) {
 
     GifByteType Buf;
@@ -603,8 +603,8 @@ EGifPutExtensionLast(GifFileType * GifFile,
  *****************************************************************************/
 int
 EGifPutExtension(GifFileType * GifFile,
-                 int ExtCode,
-                 int ExtLen,
+                 const int ExtCode,
+                 const int ExtLen,
                  const void *Extension) {
 
     GifByteType Buf[3];

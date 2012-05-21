@@ -94,8 +94,8 @@ typedef int (*OutputFunc) (GifFileType *, const GifByteType *, int);
 
 /* Main entry points */
 GifFileType *EGifOpenFileName(const char *GifFileName,
-                              bool GifTestExistance);
-GifFileType *EGifOpenFileHandle(int GifFileHandle);
+                              const bool GifTestExistence);
+GifFileType *EGifOpenFileHandle(const int GifFileHandle);
 GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc);
 int EGifSpew(GifFileType * GifFile);
 void EGifSetGifVersion(const char *Version);
@@ -124,13 +124,14 @@ int EGifPutLine(GifFileType * GifFile, GifPixelType * GifLine,
                 int GifLineLen);
 int EGifPutPixel(GifFileType * GifFile, GifPixelType GifPixel);
 int EGifPutComment(GifFileType * GifFile, const char *GifComment);
-int EGifPutExtensionFirst(GifFileType * GifFile, int GifExtCode,
-                          int GifExtLen, const void *GifExtension);
-int EGifPutExtensionNext(GifFileType * GifFile, int GifExtCode,
-                         int GifExtLen, const void *GifExtension);
-int EGifPutExtensionLast(GifFileType * GifFile, int GifExtCode,
-                         int GifExtLen, const void *GifExtension);
-int EGifPutExtension(GifFileType * GifFile, int GifExtCode, int GifExtLen,
+int EGifPutExtensionFirst(GifFileType * GifFile, const int GifExtCode,
+                          const int GifExtLen, const void *GifExtension);
+int EGifPutExtensionNext(GifFileType * GifFile, const int GifExtCode,
+                         const int GifExtLen, const void *GifExtension);
+int EGifPutExtensionLast(GifFileType * GifFile, const int GifExtCode,
+                         const int GifExtLen, const void *GifExtension);
+int EGifPutExtension(GifFileType * GifFile, const int GifExtCode, 
+		     const int GifExtLen,
                      const void *GifExtension);
 int EGifPutCode(GifFileType * GifFile, int GifCodeSize,
                 const GifByteType * GifCodeBlock);
