@@ -136,8 +136,7 @@ EGifOpenFileHandle(const int FileHandle) {
  * Basically just a copy of EGifOpenFileHandle. (MRB)
  *****************************************************************************/
 GifFileType *
-EGifOpen(void *userData,
-         OutputFunc writeFunc) {
+EGifOpen(void *userData, OutputFunc writeFunc) {
 
     GifFileType *GifFile;
     GifFilePrivateType *Private;
@@ -194,10 +193,10 @@ EGifSetGifVersion(const char *Version) {
  *****************************************************************************/
 int
 EGifPutScreenDesc(GifFileType * GifFile,
-                  int Width,
-                  int Height,
-                  int ColorRes,
-                  int BackGround,
+                  const int Width,
+                  const int Height,
+                  const int ColorRes,
+                  const int BackGround,
                   const ColorMapObject * ColorMap) {
 
     GifByteType Buf[3];
@@ -314,11 +313,11 @@ EGifPutScreenDesc(GifFileType * GifFile,
  *****************************************************************************/
 int
 EGifPutImageDesc(GifFileType * GifFile,
-                 int Left,
-                 int Top,
-                 int Width,
-                 int Height,
-                 bool Interlace,
+                 const int Left,
+                 const int Top,
+                 const int Width,
+                 const int Height,
+                 const bool Interlace,
                  const ColorMapObject * ColorMap) {
 
     GifByteType Buf[3];
@@ -813,7 +812,7 @@ EGifSetupCompress(GifFileType * GifFile) {
 static int
 EGifCompressLine(GifFileType * GifFile,
                  GifPixelType * Line,
-                 int LineLen) {
+                 const int LineLen) {
 
     int i = 0, CrntCode, NewCode;
     unsigned long NewKey;
@@ -901,7 +900,7 @@ EGifCompressLine(GifFileType * GifFile,
  *****************************************************************************/
 static int
 EGifCompressOutput(GifFileType * GifFile,
-                   int Code) {
+                   const int Code) {
 
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
     int retval = GIF_OK;

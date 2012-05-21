@@ -428,8 +428,8 @@ the library defaulted to GIF87)</para>
 
 <programlisting>
 int EGifPutScreenDesc(GifFileType *GifFile,
-        int GifWidth, int GifHeight,
-        int GifColorRes, int GifBackGround,
+        const int GifWidth, const GifHeight,
+        const int GifColorRes, const int GifBackGround,
         ColorMapObject *GifColorMap)
 </programlisting>
 
@@ -442,9 +442,9 @@ opened.</para>
 
 <programlisting>
 int EGifPutImageDesc(GifFileType *GifFile,
-        int GifLeft, int GifTop,
-        int Width, int GifHeight,
-        bool GifInterlace,
+        const int GifLeft, const int GifTop,
+        const int GifWidth, const GifHeight,
+        const bool GifInterlace,
         ColorMapObject *GifColorMap)
 </programlisting>
 
@@ -467,7 +467,7 @@ have been sent.</para>
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
 
 <programlisting id="EGifPutPixel">
-int EGifPutPixel(GifFileType *GifFile, PixelType GifPixel)
+int EGifPutPixel(GifFileType *GifFile, const PixelType GifPixel)
 </programlisting>
 
 <para>Dumps one pixel to the GIF file.  This routine may be interleaved with

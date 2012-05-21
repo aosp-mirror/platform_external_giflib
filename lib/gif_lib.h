@@ -113,16 +113,19 @@ int EGifCloseFile(GifFileType * GifFile);
 #define E_GIF_ERR_NOT_WRITEABLE  10
 
 /* These are legacy.  You probably do not want to call them directly */
-int EGifPutScreenDesc(GifFileType * GifFile,
-                      int GifWidth, int GifHeight, int GifColorRes,
-                      int GifBackGround,
-                      const ColorMapObject * GifColorMap);
-int EGifPutImageDesc(GifFileType *GifFile, int GifLeft, int GifTop,
-                     int Width, int GifHeight, bool GifInterlace,
+int EGifPutScreenDesc(GifFileType *GifFile,
+                      const int GifWidth, const int GifHeight, 
+		      const int GifColorRes,
+                      const int GifBackGround,
+                      const ColorMapObject *GifColorMap);
+int EGifPutImageDesc(GifFileType *GifFile, 
+		     const int GifLeft, const int GifTop,
+                     const int GifWidth, const int GifHeight, 
+		     const bool GifInterlace,
                      const ColorMapObject *GifColorMap);
 int EGifPutLine(GifFileType *GifFile, GifPixelType *GifLine,
                 int GifLineLen);
-int EGifPutPixel(GifFileType *GifFile, GifPixelType GifPixel);
+int EGifPutPixel(GifFileType *GifFile, const GifPixelType GifPixel);
 int EGifPutComment(GifFileType *GifFile, const char *GifComment);
 int EGifPutExtensionFirst(GifFileType *GifFile, const int GifExtCode,
                           const int GifExtLen, const void *GifExtension);
