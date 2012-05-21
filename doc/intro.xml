@@ -266,13 +266,11 @@ hotlink to HTML documentation.</para>
 </varlistentry>
 </variablelist>
 
-<para>Under MS-DOS, most filters will print the current input scan line number
-(counting up) whenever they read image input, and will print output image line
-number (counting down) when they dump output.  Utilities that only read or
-write always print in increasing order.  Utilities (like GifPos that only
-change positions) that copy the image as a block of compressed data will print
-nothing --- they cannot identify a scan line number, and are enough faster that
-the feedback to the user doesn't seem necessary.</para>
+<para>Most filters have a -v (verbose) option that will cause them to print
+the current input scan line number (counting up) whenever they read
+image input, and will print output image line number (counting down)
+when they dump output.  Utilities that only read or write always print
+in increasing order.</para>
 
 </sect2>
 </sect1>
