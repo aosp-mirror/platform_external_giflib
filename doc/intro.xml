@@ -301,7 +301,7 @@ Compression</ulink>.</para>
 <sect1><title>Package Status</title>
 
 <para>GIFLIB's current maintainer is Eric S. Raymond.  You can find his home
-page at <ulink url="&homepage;">http://www.ccil.org/esr</ulink>.</para>
+page at <ulink url="&homepage;">&homepage;</ulink>.</para>
 
 <para>GIFLIB is not under active development, but bug fixes are being
 accepted.</para>
