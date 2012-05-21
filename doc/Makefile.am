@@ -36,7 +36,7 @@ EXTRA_DIST = $(SOURCES) $(XMLMAN:.xml=.1)
 # Prepare the website directory to deliver an update
 website: allhtml
 	rm -fr staging; mkdir staging; 
-	cp $(XMLALL:.xml=.html) $(SITEHTML) GifFileType.png staging
+	cp $(XMLALL:.xml=.html) $(SITEHTML) *.txt GifFileType.png staging
 
 clean-local:
 	rm -fr staging $(XMLALL:.xml=.html) $(XMLMAN:.xml=.1)
