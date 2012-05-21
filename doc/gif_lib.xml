@@ -489,8 +489,8 @@ The extension code is 'C' (for Comment).</para>
 <programlisting id="EGifPutExtension">
 int EGifPutExtension(
         GifFileType *GifFile,
-        int GifExtCode,
-        int GifExtLen,
+        const int GifExtCode,
+        const int GifExtLen,
         void *GifExtension)
 </programlisting>
 
@@ -505,8 +505,8 @@ if your extension blocks may fall into this category.</para>
 <programlisting id="EGifPutExtensionFirst">
 int EGifPutExtensionFirst(
         GifFileType * GifFile,
-        int GifExtCode,
-        int GifExtLen,
+        const int GifExtCode,
+        const int GifExtLen,
         const VoidPtr GifExtension)
 </programlisting>
 
@@ -524,8 +524,8 @@ EGifPutExtensionLast should be called to output the block termination.</para>
 <programlisting id="EGifPutExtensionNext">
 int EGifPutExtensionNext(
         GifFileType * GifFile,
-        int GifExtCode,
-        int GifExtLen,
+        const int GifExtCode,
+        const int GifExtLen,
         const VoidPtr GifExtension)
 </programlisting>
 
@@ -545,8 +545,8 @@ output.</para>
 <programlisting id="EGifPutExtensionLast">
 int EGifPutExtensionLast(
         GifFileType * GifFile,
-        int GifExtCode,
-        int GifExtLen,
+        const int GifExtCode,
+        const int GifExtLen,
         const VoidPtr GifExtension)
 </programlisting>
 
