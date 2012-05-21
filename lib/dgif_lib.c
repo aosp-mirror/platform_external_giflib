@@ -247,6 +247,8 @@ DGifGetScreenDesc(GifFileType * GifFile) {
 
     if (READ(GifFile, Buf, 3) != 3) {
         _GifError = D_GIF_ERR_READ_FAILED;
+	FreeMapObject(GifFile->SColorMap);
+	GifFile->SColorMap = NULL;
         return GIF_ERROR;
     }
     GifFile->SColorResolution = (((Buf[0] & 0x70) + 1) >> 4) + 1;
@@ -345,6 +347,8 @@ DGifGetImageDesc(GifFileType * GifFile) {
         return GIF_ERROR;
     if (READ(GifFile, Buf, 1) != 1) {
         _GifError = D_GIF_ERR_READ_FAILED;
+	FreeMapObject(GifFile->Image.ColorMap);
+	GifFile->Image.ColorMap = NULL;
         return GIF_ERROR;
     }
     BitsPerPixel = (Buf[0] & 0x07) + 1;
@@ -974,6 +978,14 @@ DGifBufferedInput(GifFileType * GifFile,
         /* Needs to read the next buffer - this one is empty: */
         if (READ(GifFile, Buf, 1) != 1) {
             _GifError = D_GIF_ERR_READ_FAILED;
+            return GIF_ERROR;
+        }
+        /* There shouldn't be any empty data blocks here as the LZW spec
+         * says the LZW termination code should come first.  Therefore we
+         * shouldn't be inside this routine at that point.
+         */
+        if (Buf[0] == 0) {
+            _GifError = D_GIF_ERR_IMAGE_DEFECT;
             return GIF_ERROR;
         }
         /* There shouldn't be any empty data blocks here as the LZW spec
