@@ -76,6 +76,8 @@ from stdin.</para>
 <para>The image is rotated around its center.  No filtering is performed on the
 output, which has the same color map as the input.</para>
 
+<para>Extension blocks are discarded.  In particular, this means transparency
+is not preserved.</para>
 </refsect1>
 <refsect1><title>Author:</title>
 

@@ -97,7 +97,7 @@ int main(int argc, char **argv)
 		}
 		break;
 	    case EXTENSION_RECORD_TYPE:
-		/* Skip any extension blocks in file: */
+		/* Pass through first extension block: */
 		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
 		if (EGifPutExtension(GifFileOut, ExtCode, Extension[0],
