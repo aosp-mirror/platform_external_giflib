@@ -37,7 +37,7 @@ briefly.</para>
 
 <variablelist>
 <varlistentry>
-<term><errorname>E_GIF_ERR_OpenFailed</errorname></term>
+<term><errorname>E_GIF_ERR_OPEN_FAILED</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Failed to open given file"
    IO error result when attempt to open the given GIF file.</para>
@@ -45,7 +45,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>E_GIF_ERR_WriteFailed</errorname></term>
+<term><errorname>E_GIF_ERR_WRITE_FAILED</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Failed to Write to given file"
    IO error result when attempt to write to the given GIF file.</para>
@@ -53,7 +53,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>E_GIF_ERR_HasScrnDscr</errorname></term>
+<term><errorname>E_GIF_ERR_HAS_SCRN_DSCR</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Screen Descriptor
    already been set" Attempt to write second screen descriptor to same
@@ -63,7 +63,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>E_GIF_ERR_HasImagDscr</errorname></term>
+<term><errorname>E_GIF_ERR_HAS_IMAG_DSCR</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Image Descriptor is still active"
    Image descriptor should be sent before and image dump, and no second
@@ -73,7 +73,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>E_GIF_ERR_NoColorMap</errorname></term>
+<term><errorname>E_GIF_ERR_NO_COLOR_MAP</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Neither Global Nor
    Local color map" An image must have either global (screen) or local
@@ -82,7 +82,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>E_GIF_ERR_DataTooBig</errorname></term>
+<term><errorname>E_GIF_ERR_DATA_TOO_BIG</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "#Pixels bigger than
    Width * Height" The number of pixels dumped for this image is
@@ -91,7 +91,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>E_GIF_ERR_NotEnoughMem</errorname></term>
+<term><errorname>E_GIF_ERR_NOT_ENOUGH_MEM</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Fail to allocate
    required memory" Once an attemp is made to open GIF file, special
@@ -101,7 +101,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>E_GIF_ERR_DiskIsFull</errorname></term>
+<term><errorname>E_GIF_ERR_DISK_IS_FULL</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Write failed (disk full?)"
    Writing encoded data failed.</para>
@@ -109,7 +109,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>E_GIF_ERR_CloseFailed</errorname></term>
+<term><errorname>E_GIF_ERR_CLOSE_FAILED</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Failed to close given file"
    Closing file failed.</para>
@@ -117,7 +117,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname> E_GIF_ERR_NotWriteable</errorname></term>
+<term><errorname> E_GIF_ERR_NOT_WRITEABLE</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Given file was not
    opened for write" GIF files can be opened both for read (DGIF part
@@ -134,7 +134,7 @@ briefly.</para>
 
 <variablelist>
 <varlistentry>
-<term><errorname>D_GIF_ERR_OpenFailed</errorname></term>
+<term><errorname>D_GIF_ERR_OPEN_FAILED</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Failed to open given file"
    IO error result when attempt to open the given GIF file.</para>
@@ -142,7 +142,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_ReadFailed</errorname></term>
+<term><errorname>D_GIF_ERR_READ_FAILED</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Failed to Read from given file"
    IO error result when attempt to write to the given GIF file.</para>
@@ -150,7 +150,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_Notgif-file$</errorname></term>
+<term><errorname>D_GIF_ERR_NOT_GIF_FILE</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Given file is NOT GIF file"
    GIF files should have special stamp identifies them as such, If that stamp
@@ -159,7 +159,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_NoScrnDscr</errorname></term>
+<term><errorname>D_GIF_ERR_NO_SCRN_DSCR</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "No Screen Descriptor detected"
    Each GIF file should have screen descriptor in its header. This error will
@@ -168,7 +168,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_NoImagDscr</errorname></term>
+<term><errorname>D_GIF_ERR_NO_IMAG_DSCR</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "No Image Descriptor detected"
    Each image should have image descriptor in its header. This error will
@@ -177,7 +177,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_NoColorMap</errorname></term>
+<term><errorname>D_GIF_ERR_NO_COLOR_MAP</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Neither Global Nor
    Local color map" An image must have either global (screen) or local
@@ -186,7 +186,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_WrongRecord</errorname></term>
+<term><errorname>D_GIF_ERR_WRONG_RECORD</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Wrong record type detected"
    Each record in GIF file has special identifier, in its header. If the
@@ -195,7 +195,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_DataTooBig</errorname></term>
+  <term><errorname>D_GIF_ERR_DATA_TOO_BIG</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "#Pixels bigger than
    Width * Height" The number of pixels dumped for this image is
@@ -204,7 +204,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_NotEnoughMem</errorname></term>
+<term><errorname>D_GIF_ERR_NOT_ENOUGH_MEM</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Fail to allocate
    required memory" Once an attemp is made to open GIF file, special
@@ -214,7 +214,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_CloseFailed</errorname></term>
+<term><errorname>D_GIF_ERR_CLOSE_FAILED</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Failed to close given file"
    Closing file failed.</para>
@@ -222,7 +222,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_NotReadable</errorname></term>
+<term><errorname>D_GIF_ERR_NOT_READABLE</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Given file was not
    opened for read" GIF files can be opened both for read (DGIF part
@@ -233,7 +233,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_ImageDefect</errorname></term>
+<term><errorname>D_GIF_ERR_IMAGE_DEFECT</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Image is defective,
    decoding aborted" This error is generated, once the decoding failed
@@ -242,7 +242,7 @@ briefly.</para>
 </varlistentry>
 
 <varlistentry>
-<term><errorname>D_GIF_ERR_EOFTooSoon</errorname></term>
+<term><errorname>D_GIF_ERR_EOF_TOO_SOON</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Image EOF detected,
    before image complete" This error is generated once EOF errorname
