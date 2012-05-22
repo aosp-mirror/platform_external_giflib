@@ -128,7 +128,7 @@ int main(int argc, char **argv)
 		if (DGifGetImageDesc(GifFileIn) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
 		if (GifFileIn->Image.Interlace)
-		    GIF_EXIT("Cannt flip interlaced images - use GifInter first.");
+		    GIF_EXIT("Cannot flip interlaced images - use GifInter first.");
 
 		/* Put the image descriptor to out file: */
 		if (RightFlag) {

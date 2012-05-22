@@ -99,7 +99,7 @@ int main(int argc, char **argv)
 		if (DGifGetImageDesc(GifFileIn) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
 		if (GifFileIn->Image.Interlace)
-		    GIF_EXIT("Cannt fix interlaced images.");
+		    GIF_EXIT("Cannot fix interlaced images.");
 
 		Row = GifFileIn->Image.Top; /* Image Position relative to Screen. */
 		Col = GifFileIn->Image.Left;

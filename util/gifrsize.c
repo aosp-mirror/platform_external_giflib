@@ -170,7 +170,7 @@ int main(int argc, char **argv)
 		    QuitGifError(GifFileIn, GifFileOut);
 
 		if (GifFileIn->Image.Interlace) {
-		    GIF_EXIT("Cannt resize interlaced images - use GifInter first.");
+		    GIF_EXIT("Cannot resize interlaced images - use gifinter first.");
 		}
 		else {
 		    GifQprintf("\n%s: Image %d at (%d, %d) [%dx%d]:     ",
