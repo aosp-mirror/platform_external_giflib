@@ -24,6 +24,10 @@ Retirements
 * The gifburst utility is gone.  Everybody has image viewers that
   can pan now, and removing it gets rid of a dependency on Perl.
 
+Utilities
+---------
+* giftext displays the parsed contents of GIF89 graphics control blocks.
+
 Version 4.2.0
 =============
 

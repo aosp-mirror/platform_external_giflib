@@ -251,6 +251,20 @@ int main(int argc, char **argv)
 		    printf(" (Ext Code = %d [%c]):\n",
 			   ExtCode, MAKE_PRINTABLE(ExtCode));
 		    PrintExtBlock(Extension, true);
+
+		    if (ExtCode == GRAPHICS_EXT_FUNC_CODE) {
+			GraphicsControlBlock gcb;
+			if (DGifExtensionToGCB(Extension, &gcb) == GIF_ERROR) {
+			    PrintGifError();
+			    exit(EXIT_FAILURE);
+			}
+			printf("\tDisposal Mode: %d\n", gcb.DisposalMode);
+			printf("\tUser Input Flag: %d\n", gcb.UserInputFlag);
+			printf("\tTransparency on: %s\n",
+			       gcb.TransparentIndex != -1 ? "yes" : "no");
+			printf("\tDelayTime: %d\n", gcb.DelayTime);
+			printf("\tTransparent Index: %d\n", gcb.TransparentIndex);
+		    }
 		}
 		for (;;) {
 		    if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {

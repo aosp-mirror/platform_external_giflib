@@ -631,6 +631,23 @@ EGifPutExtension(GifFileType * GifFile,
 }
 
 /******************************************************************************
+ * Render a Graphics Control Block as raw extension data
+ *****************************************************************************/
+
+void EGifGCBToExtension(const GraphicsControlBlock *GCB,
+		       char *GifExtension)
+{
+    GifExtension[0] = 4;
+    GifExtension[1] = 0;
+    GifExtension[1] |= (GCB->TransparentIndex == -1) ? 0x00 : 0x01;
+    GifExtension[1] |= GCB->UserInputFlag ? 0x02 : 0x00;
+    GifExtension[1] |= ((GCB->DisposalMode & 0x07) << 2);
+    GifExtension[2] = (GCB->DelayTime >> 8) & 0xff;
+    GifExtension[3] = GCB->DelayTime & 0xff;
+    GifExtension[4] = (char)GCB->TransparentIndex;
+}
+
+/******************************************************************************
  * Put the image code in compressed form. This routine can be called if the
  * information needed to be piped out as is. Obviously this is much faster
  * than decoding and encoding again. This routine should be followed by calls

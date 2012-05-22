@@ -79,9 +79,21 @@ typedef int (*InputFunc) (GifFileType *, GifByteType *, int);
 typedef int (*OutputFunc) (GifFileType *, const GifByteType *, int);
 
 /******************************************************************************
- *  GIF89 extension function codes                                             
+ *  GIF89 structures and extension function codes
 ******************************************************************************/
 
+typedef struct {
+    int DisposalMode;
+#define DISPOSAL_UNSPECIFIED      0       /* No disposal specified. */
+#define DISPOSE_DO_NOT            1       /* Leave image in place */
+#define DISPOSE_BACKGROUND        2       /* Set area too background color */
+#define DISPOSE_PREVIOUS          3       /* Restore to previous content */
+    bool UserInputFlag;      /* User confirmation required before disposal */
+    int DelayTime;           /* pre-display delay in 0.01sec units */
+    int TransparentIndex;    /* Palette index for transparency, -1 if none */
+} GraphicsControlBlock;
+
+#define EXTENSION_INTRODUCER      0x21    /* required at extension start */
 #define COMMENT_EXT_FUNC_CODE     0xfe    /* comment */
 #define GRAPHICS_EXT_FUNC_CODE    0xf9    /* graphics control */
 #define PLAINTEXT_EXT_FUNC_CODE   0x01    /* plaintext */
@@ -235,6 +247,15 @@ extern void FreeExtension(SavedImage *Image);
 extern SavedImage *MakeSavedImage(GifFileType *GifFile,
                                   const SavedImage *CopyFrom);
 extern void FreeSavedImages(GifFileType *GifFile);
+
+/******************************************************************************
+ * 5.x functions for GIF89 graphics control blocks
+ *****************************************************************************/
+
+int DGifExtensionToGCB(const GifByteType *GifExtension,
+		       GraphicsControlBlock *GCB);
+void EGifGCBToExtension(const GraphicsControlBlock *GCB,
+		       char *GifExtension);
 
 /******************************************************************************
  * The library's internal utility font                          

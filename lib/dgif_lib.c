@@ -569,6 +569,33 @@ DGifGetExtensionNext(GifFileType * GifFile,
 }
 
 /******************************************************************************
+ * Extract a Graphics Control Block from raw extension data
+ *****************************************************************************/
+
+int DGifExtensionToGCB(const GifByteType *GifExtension,
+		       GraphicsControlBlock *GCB)
+{
+    GCB->DisposalMode = DISPOSAL_UNSPECIFIED;
+    GCB->UserInputFlag = false;
+    GCB->DelayTime = -1;
+    GCB->TransparentIndex = -1;
+
+    if (GifExtension[0] != 4) {
+	_GifError = D_GIF_ERR_WRONG_RECORD;
+	return GIF_ERROR;
+    }
+
+    GCB->DisposalMode = (GifExtension[1] >> 2) & 0x07;
+    GCB->UserInputFlag = (GifExtension[1] & 0x02) != 0;
+    GCB->DelayTime = (GifExtension[2] << 8) | GifExtension[3];
+    if (GifExtension[1] & 0x01) {
+	GCB->TransparentIndex = (int)GifExtension[4];
+    }
+
+    return GIF_OK;
+}
+
+/******************************************************************************
  * This routine should be called last, to close the GIF file.
  *****************************************************************************/
 int
