@@ -304,13 +304,13 @@ DGifGetRecordType(GifFileType * GifFile,
     }
 
     switch (Buf) {
-      case ',':
+      case DESCRIPTOR_INTRODUCER:
           *Type = IMAGE_DESC_RECORD_TYPE;
           break;
-      case '!':
+      case EXTENSION_INTRODUCER:
           *Type = EXTENSION_RECORD_TYPE;
           break;
-      case ';':
+      case TERMINATOR_INTRODUCER:
           *Type = TERMINATE_RECORD_TYPE;
           break;
       default:
@@ -324,7 +324,7 @@ DGifGetRecordType(GifFileType * GifFile,
 
 /******************************************************************************
  * This routine should be called before any attempt to read an image.
- * Note it is assumed the Image desc. header (',') has been read.
+ * Note it is assumed the Image desc. header has been read.
  *****************************************************************************/
 int
 DGifGetImageDesc(GifFileType * GifFile) {
@@ -513,7 +513,7 @@ DGifGetPixel(GifFileType * GifFile,
  * returns the first data block, and DGifGetExtensionNext should be called
  * after this one until NULL extension is returned.
  * The Extension should NOT be freed by the user (not dynamically allocated).
- * Note it is assumed the Extension desc. header ('!') has been read.
+ * Note it is assumed the Extension description header has been read.
  *****************************************************************************/
 int
 DGifGetExtension(GifFileType * GifFile,

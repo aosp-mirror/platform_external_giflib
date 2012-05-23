@@ -4,6 +4,10 @@
 #include "gif_lib.h"
 #include "gif_hash.h"
 
+#define EXTENSION_INTRODUCER      0x21
+#define DESCRIPTOR_INTRODUCER     0x2c
+#define TERMINATOR_INTRODUCER     0x3b
+
 #define LZ_MAX_CODE         4095    /* Biggest code possible in 12 bits. */
 #define LZ_BITS             12
 

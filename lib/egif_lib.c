@@ -355,7 +355,7 @@ EGifPutImageDesc(GifFileType * GifFile,
     }
 
     /* Put the image descriptor into the file: */
-    Buf[0] = ',';    /* Image seperator character. */
+    Buf[0] = DESCRIPTOR_INTRODUCER;    /* Image separator character. */
     WRITE(GifFile, Buf, 1);
     (void)EGifPutWord(Left, GifFile);
     (void)EGifPutWord(Top, GifFile);
@@ -526,7 +526,7 @@ EGifPutExtensionFirst(GifFileType * GifFile,
     if (ExtCode == 0) {
         WRITE(GifFile, (GifByteType *)&ExtLen, 1);
     } else {
-        Buf[0] = '!';
+        Buf[0] = EXTENSION_INTRODUCER;
         Buf[1] = ExtCode;
         Buf[2] = ExtLen;
         WRITE(GifFile, Buf, 3);
@@ -618,7 +618,7 @@ EGifPutExtension(GifFileType * GifFile,
     if (ExtCode == 0)
         WRITE(GifFile, (GifByteType *)&ExtLen, 1);
     else {
-        Buf[0] = '!';       /* Extension Introducer 0x21 */
+        Buf[0] = EXTENSION_INTRODUCER;
         Buf[1] = ExtCode;   /* Extension Label */
         Buf[2] = ExtLen;    /* Extension length */
         WRITE(GifFile, Buf, 3);
@@ -733,7 +733,7 @@ EGifCloseFile(GifFileType * GifFile) {
 
     File = Private->File;
 
-    Buf = ';';
+    Buf = TERMINATOR_INTRODUCER;
     WRITE(GifFile, &Buf, 1);
 
     if (GifFile->Image.ColorMap) {

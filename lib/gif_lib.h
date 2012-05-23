@@ -93,7 +93,6 @@ typedef struct {
     int TransparentIndex;    /* Palette index for transparency, -1 if none */
 } GraphicsControlBlock;
 
-#define EXTENSION_INTRODUCER      0x21    /* required at extension start */
 #define COMMENT_EXT_FUNC_CODE     0xfe    /* comment */
 #define GRAPHICS_EXT_FUNC_CODE    0xf9    /* graphics control */
 #define PLAINTEXT_EXT_FUNC_CODE   0x01    /* plaintext */
