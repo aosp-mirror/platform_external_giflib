@@ -107,7 +107,7 @@ DumpColorMap(ColorMapObject *Object,
  * fit into 256 colors, NULL is returned, the allocated union otherwise.
  * ColorIn1 is copied as is to ColorUnion, while colors from ColorIn2 are
  * copied iff they didn't exist before.  ColorTransIn2 maps the old
- * ColorIn2 into ColorUnion color map table.
+ * ColorIn2 into the ColorUnion color map table.
  */
 ColorMapObject *
 UnionColorMap(const ColorMapObject *ColorIn1,
@@ -126,9 +126,12 @@ UnionColorMap(const ColorMapObject *ColorIn1,
     if (ColorUnion == NULL)
         return (NULL);
 
-    /* Copy ColorIn1 to ColorUnionSize; */
-    /*** FIXME: What if there are duplicate entries into the colormap to begin
-     * with? */
+    /* 
+     * Copy ColorIn1 to ColorUnion.
+     * We don't worry about duplicates in the first color map; if
+     * the caller wants to resolve those, he can perform a union
+     * with an empty color map.
+     */
     for (i = 0; i < ColorIn1->ColorCount; i++)
         ColorUnion->Colors[i] = ColorIn1->Colors[i];
     CrntSlot = ColorIn1->ColorCount;
@@ -145,7 +148,7 @@ UnionColorMap(const ColorMapObject *ColorIn1,
            && ColorIn1->Colors[CrntSlot - 1].Blue == 0)
         CrntSlot--;
 
-    /* Copy ColorIn2 to ColorUnionSize (use old colors if they exist): */
+    /* Copy ColorIn2 to ColorUnion (use old colors if they exist): */
     for (i = 0; i < ColorIn2->ColorCount && CrntSlot <= 256; i++) {
         /* Let's see if this color already exists: */
         /*** FIXME: Will it ever occur that ColorIn2 will contain duplicate
