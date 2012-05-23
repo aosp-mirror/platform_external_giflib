@@ -1,6 +1,6 @@
 /****************************************************************************
 
-gofspnge.c - skeleton file for generic GIF `sponge' program
+gifspnge.c - skeleton file for generic GIF `sponge' program
 
 Slurp a GIF into core, operate on it, spew it out again.  Most of the
 junk above `int main' isn't needed for the skeleton, but is likely to
