@@ -33,23 +33,23 @@ parsed. Each entry in this string must not have any spaces in it. The
 First Entry is the name of the program which is usually ignored except
 when GAPrintHowTo is called. All the other entries (except the last one
 which we will come back to it later) must have the following format:
+
 1. One letter which sets the option letter.
 2. '!' or '%' to determines if this option is really optional ('%') or
-it must exists ('!')...
-3. '-' allways.
-4. Alpha numeric string, usually ignored, but used by GAPrintHowTo to
+it must be given ('!')...
+3. '-' must always be given.
+4. Alphanumeric string, usually ignored, but used by GAPrintHowTo to
 print the meaning of this input.
 5. Sequences starts with '!' or '%'. Again if '!' then this sequence
-must exists (only if its option flag is given of course), and if '%'
+must exist (only if its option flag is given of course), and if '%'
 it is optional. Each sequence will continue with one or two
 characters which defines the kind of the input:
-a. d, x, o, u - integer is expected (decimal, hex, octal base or
-unsigned).
-b. D, X, O, U - long integer is expected (same as above).
-c. f - float number is expected.
-d. F - double number is expected.
-e. s - string is expected.
-f. *? - any number of '?' kind (d, x, o, u, D, X, O, U, f, F, s)
+a: d, x, o, u - integer is expected (decimal, hex, octal base or unsigned).
+b: D, X, O, U - long integer is expected (same as above).
+c: f - float number is expected.
+d: F - double number is expected.
+e: s - string is expected.
+f: *? - any number of '?' kind (d, x, o, u, D, X, O, U, f, F, s)
 will match this one. If '?' is numeric, it scans until
 none numeric input is given. If '?' is 's' then it scans
 up to the next option or end of argv.
@@ -73,14 +73,13 @@ following parameters to pass:
 4. F - pointer to double (double *).
 5. s - pointer to char (char *). NO allocation is needed!
 6. *? - TWO variables are passed for each wild request. the first
-
 one is (address of) integer, and it will return number of
 parameters actually matched this sequence, and the second
 one is a pointer to pointer to ? (? **), and will return an
 address to a block of pointers to ? kind, terminated with
 NULL pointer. NO pre-allocation is needed.
 
-note that these two variables are pretty like the argv/argc
+Note that these two variables are pretty like the argv/argc
 pair...
 
 Examples:
