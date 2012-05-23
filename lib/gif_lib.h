@@ -227,14 +227,14 @@ extern int BitSize(int n);
 /*This is the in-core version of an extension record */
 typedef struct {
     int ByteCount;
-    char *Bytes;    /* on malloc(3) heap */
+    GifByteType *Bytes;    /* on malloc(3) heap */
     int Function;   /* Holds the type of the Extension block. */
 } ExtensionBlock;
 
 /* This holds an image header, its unpacked raster bits, and extensions */
 typedef struct SavedImage {
     GifImageDesc ImageDesc;
-    unsigned char *RasterBits;  /* on malloc(3) heap */
+    GifByteType *RasterBits;  /* on malloc(3) heap */
     int ExtensionBlockCount;
     ExtensionBlock *ExtensionBlocks;    /* on malloc(3) heap */
 } SavedImage;
@@ -254,7 +254,12 @@ extern void FreeSavedImages(GifFileType *GifFile);
 int DGifExtensionToGCB(const GifByteType *GifExtension,
 		       GraphicsControlBlock *GCB);
 void EGifGCBToExtension(const GraphicsControlBlock *GCB,
-		       char *GifExtension);
+		       GifByteType *GifExtension);
+
+int DGifSavedExtensionToGCB(GifFileType *GifFile, int ImageIndex, 
+			    GraphicsControlBlock *GCB);
+int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB, 
+			    GifFileType *GifFile, int ImageIndex);
 
 /******************************************************************************
  * The library's internal utility font                          

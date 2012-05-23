@@ -589,6 +589,27 @@ int DGifExtensionToGCB(const GifByteType *GifExtension,
 }
 
 /******************************************************************************
+ * Extract the Graphics Control Block for a saved image, if it exists.
+ *****************************************************************************/
+
+int DGifSavedExtensionToGCB(GifFileType *GifFile,
+			    int ImageIndex, GraphicsControlBlock *GCB)
+{
+    int i;
+
+    if (ImageIndex < 0 || ImageIndex > GifFile->ImageCount - 1)
+	return GIF_ERROR;
+
+    for (i = 0; i < GifFile->SavedImages[ImageIndex].ExtensionBlockCount; i++) {
+	ExtensionBlock *ep = &GifFile->SavedImages[ImageIndex].ExtensionBlocks[i];
+	if (ep->Function == GRAPHICS_EXT_FUNC_CODE)
+	    return DGifExtensionToGCB(ep->Bytes, GCB);
+    }
+
+    return GIF_ERROR;
+}
+
+/******************************************************************************
  * This routine should be called last, to close the GIF file.
  *****************************************************************************/
 int

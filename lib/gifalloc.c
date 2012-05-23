@@ -237,7 +237,7 @@ AddExtensionBlock(SavedImage *New,
 
     ep->Function = Function;
     ep->ByteCount=Len;
-    ep->Bytes = (char *)malloc(ep->ByteCount);
+    ep->Bytes = (GifByteType *)malloc(ep->ByteCount);
     if (ep->Bytes == NULL)
         return (GIF_ERROR);
 

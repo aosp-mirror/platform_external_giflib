@@ -632,7 +632,7 @@ EGifPutExtension(GifFileType *GifFile,
  *****************************************************************************/
 
 void EGifGCBToExtension(const GraphicsControlBlock *GCB,
-		       char *GifExtension)
+		       GifByteType *GifExtension)
 {
     GifExtension[0] = 4;
     GifExtension[1] = 0;
@@ -642,6 +642,29 @@ void EGifGCBToExtension(const GraphicsControlBlock *GCB,
     GifExtension[2] = (GCB->DelayTime >> 8) & 0xff;
     GifExtension[3] = GCB->DelayTime & 0xff;
     GifExtension[4] = (char)GCB->TransparentIndex;
+}
+
+/******************************************************************************
+ * Replace the Graphics Control Block for a saved image, if it exists.
+ *****************************************************************************/
+
+int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB, 
+			    GifFileType *GifFile, int ImageIndex)
+{
+    int i;
+
+    if (ImageIndex < 0 || ImageIndex > GifFile->ImageCount - 1)
+	return GIF_ERROR;
+
+    for (i = 0; i < GifFile->SavedImages[ImageIndex].ExtensionBlockCount; i++) {
+	ExtensionBlock *ep = &GifFile->SavedImages[ImageIndex].ExtensionBlocks[i];
+	if (ep->Function == GRAPHICS_EXT_FUNC_CODE) {
+	    EGifGCBToExtension(GCB, ep->Bytes);
+	    return GIF_OK;
+	}
+    }
+
+    return GIF_ERROR;
 }
 
 /******************************************************************************
