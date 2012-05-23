@@ -78,12 +78,6 @@ FreeMapObject(ColorMapObject *Object)
     if (Object != NULL) {
         (void)free(Object->Colors);
         (void)free(Object);
-        /*** FIXME:
-         * When we are willing to break API we need to make this function
-         * FreeMapObject(ColorMapObject **Object)
-         * and do this assignment to NULL here:
-         * *Object = NULL;
-         */
     }
 }
 
