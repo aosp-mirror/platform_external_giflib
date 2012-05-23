@@ -117,9 +117,13 @@ UnionColorMap(const ColorMapObject *ColorIn1,
     int i, j, CrntSlot, RoundUpTo, NewBitSize;
     ColorMapObject *ColorUnion;
 
-    /* 
-     * Allocate table which will hold the result for sure.
+    /*
+     * We don't worry about duplicates within either color map; if
+     * the caller wants to resolve those, he can perform unions
+     * with an empty color map.
      */
+
+    /* Allocate table which will hold the result for sure. */
     ColorUnion = MakeMapObject(MAX(ColorIn1->ColorCount,
                                ColorIn2->ColorCount) * 2, NULL);
 
@@ -128,9 +132,6 @@ UnionColorMap(const ColorMapObject *ColorIn1,
 
     /* 
      * Copy ColorIn1 to ColorUnion.
-     * We don't worry about duplicates in the first color map; if
-     * the caller wants to resolve those, he can perform a union
-     * with an empty color map.
      */
     for (i = 0; i < ColorIn1->ColorCount; i++)
         ColorUnion->Colors[i] = ColorIn1->Colors[i];
@@ -151,10 +152,6 @@ UnionColorMap(const ColorMapObject *ColorIn1,
     /* Copy ColorIn2 to ColorUnion (use old colors if they exist): */
     for (i = 0; i < ColorIn2->ColorCount && CrntSlot <= 256; i++) {
         /* Let's see if this color already exists: */
-        /*** FIXME: Will it ever occur that ColorIn2 will contain duplicate
-         * entries?  So we should search from 0 to CrntSlot rather than
-         * ColorIn1->ColorCount?
-         */
         for (j = 0; j < ColorIn1->ColorCount; j++)
             if (memcmp (&ColorIn1->Colors[j], &ColorIn2->Colors[i], 
                         sizeof(GifColorType)) == 0)
