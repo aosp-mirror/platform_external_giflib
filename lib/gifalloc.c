@@ -62,7 +62,7 @@ MakeMapObject(int ColorCount,
     Object->ColorCount = ColorCount;
     Object->BitsPerPixel = BitSize(ColorCount);
 
-    if (ColorMap) {
+    if (ColorMap != NULL) {
         memcpy((char *)Object->Colors,
                (char *)ColorMap, ColorCount * sizeof(GifColorType));
     }
@@ -77,8 +77,8 @@ void
 FreeMapObject(ColorMapObject * Object) {
 
     if (Object != NULL) {
-        free(Object->Colors);
-        free(Object);
+        (void)free(Object->Colors);
+        (void)free(Object);
         /*** FIXME:
          * When we are willing to break API we need to make this function
          * FreeMapObject(ColorMapObject **Object)
@@ -93,17 +93,17 @@ void
 DumpColorMap(ColorMapObject * Object,
              FILE * fp) {
 
-    if (Object) {
+    if (Object != NULL) {
         int i, j, Len = Object->ColorCount;
 
         for (i = 0; i < Len; i += 4) {
             for (j = 0; j < 4 && j < Len; j++) {
-                fprintf(fp, "%3d: %02x %02x %02x   ", i + j,
-                        Object->Colors[i + j].Red,
-                        Object->Colors[i + j].Green,
-                        Object->Colors[i + j].Blue);
+                (void)fprintf(fp, "%3d: %02x %02x %02x   ", i + j,
+			      Object->Colors[i + j].Red,
+			      Object->Colors[i + j].Green,
+			      Object->Colors[i + j].Blue);
             }
-            fprintf(fp, "\n");
+            (void)fprintf(fp, "\n");
         }
     }
 }
@@ -249,7 +249,7 @@ AddExtensionBlock(SavedImage * New,
     if (ep->Bytes == NULL)
         return (GIF_ERROR);
 
-    if (ExtData) {
+    if (ExtData != NULL) {
         memcpy(ep->Bytes, ExtData, Len);
     }
 
@@ -267,7 +267,7 @@ FreeExtension(SavedImage * Image)
     for (ep = Image->ExtensionBlocks;
          ep < (Image->ExtensionBlocks + Image->ExtensionBlockCount); ep++)
         (void)free((char *)ep->Bytes);
-    free((char *)Image->ExtensionBlocks);
+    (void)free((char *)Image->ExtensionBlocks);
     Image->ExtensionBlocks = NULL;
 }
 
@@ -291,17 +291,17 @@ FreeLastSavedImage(GifFileType *GifFile) {
     sp = &GifFile->SavedImages[GifFile->ImageCount];
 
     /* Deallocate its Colormap */
-    if (sp->ImageDesc.ColorMap) {
+    if (sp->ImageDesc.ColorMap != NULL) {
         FreeMapObject(sp->ImageDesc.ColorMap);
         sp->ImageDesc.ColorMap = NULL;
     }
 
     /* Deallocate the image data */
-    if (sp->RasterBits)
+    if (sp->RasterBits != NULL)
         free((char *)sp->RasterBits);
 
     /* Deallocate any extensions */
-    if (sp->ExtensionBlocks)
+    if (sp->ExtensionBlocks != NULL)
         FreeExtension(sp);
 
     /*** FIXME: We could realloc the GifFile->SavedImages structure but is
@@ -333,7 +333,7 @@ MakeSavedImage(GifFileType * GifFile,
         sp = &GifFile->SavedImages[GifFile->ImageCount++];
         memset((char *)sp, '\0', sizeof(SavedImage));
 
-        if (CopyFrom) {
+        if (CopyFrom != NULL) {
             memcpy((char *)sp, CopyFrom, sizeof(SavedImage));
 
             /* 
@@ -343,7 +343,7 @@ MakeSavedImage(GifFileType * GifFile,
              */
 
             /* first, the local color map */
-            if (sp->ImageDesc.ColorMap) {
+            if (sp->ImageDesc.ColorMap != NULL) {
                 sp->ImageDesc.ColorMap = MakeMapObject(
                                          CopyFrom->ImageDesc.ColorMap->ColorCount,
                                          CopyFrom->ImageDesc.ColorMap->Colors);
@@ -366,7 +366,7 @@ MakeSavedImage(GifFileType * GifFile,
                    CopyFrom->ImageDesc.Width);
 
             /* finally, the extension blocks */
-            if (sp->ExtensionBlocks) {
+            if (sp->ExtensionBlocks != NULL) {
                 sp->ExtensionBlocks = (ExtensionBlock *)malloc(
                                       sizeof(ExtensionBlock) *
                                       CopyFrom->ExtensionBlockCount);
@@ -404,17 +404,17 @@ FreeSavedImages(GifFileType * GifFile) {
     }
     for (sp = GifFile->SavedImages;
          sp < GifFile->SavedImages + GifFile->ImageCount; sp++) {
-        if (sp->ImageDesc.ColorMap) {
+        if (sp->ImageDesc.ColorMap != NULL) {
             FreeMapObject(sp->ImageDesc.ColorMap);
             sp->ImageDesc.ColorMap = NULL;
         }
 
-        if (sp->RasterBits)
+        if (sp->RasterBits != NULL)
             free((char *)sp->RasterBits);
 
-        if (sp->ExtensionBlocks)
+        if (sp->ExtensionBlocks != NULL)
             FreeExtension(sp);
     }
     free((char *)GifFile->SavedImages);
-    GifFile->SavedImages=NULL;
+    GifFile->SavedImages = NULL;
 }
