@@ -11,10 +11,14 @@ Code Fixes
 
 API
 ---
+* DGifSlurp() and EGifSpew() now preserve trailing extension blocks with
+  no following image file.
+* New functions support manipulating GIF89 graphics control extensions.
 * TRUE and FALSE macros are gone, also VoidPtr.  No more namespace pollution.
 * ExtensionBlock API repaired.  The (undocumented) MakeExtension() entry point
   is gone and the (undocumented) AddExtensionBlock() function now takes a
-  function-code argument.
+  function-code argument.  ThThe (undocumented) FreeExtension() function is
+  replaced by FreeExtensions().
 * The library Draw* functions are now named GifDraw*. This fixes a conflict
   with the Windows API.
 * Various arguments have been made const where possible.

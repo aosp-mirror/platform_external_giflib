@@ -50,6 +50,17 @@ typedef struct GifImageDesc {
     ColorMapObject *ColorMap;       /* The local color map */
 } GifImageDesc;
 
+typedef struct ExtensionBlock {
+    int ByteCount;
+    GifByteType *Bytes;    /* on malloc(3) heap */
+    int Function;   /* Holds the type of the Extension block. */
+} ExtensionBlock;
+
+typedef struct ExtensionBlockList {
+    int ExtensionBlockCount;         /* # of extensions past last image */
+    ExtensionBlock *ExtensionBlocks; /* Extensions past last image */    
+} ExtensionBlockList;
+
 typedef struct GifFileType {
     GifWord SWidth, SHeight,        /* Screen dimensions. */
       SColorResolution,         /* How many colors can we generate? */
@@ -58,6 +69,7 @@ typedef struct GifFileType {
     int ImageCount;             /* Number of current image */
     GifImageDesc Image;         /* Block describing current image */
     struct SavedImage *SavedImages; /* Use this to accumulate file state */
+    ExtensionBlockList Trailing;    /* Extension blocks past last image */
     void *UserData;            /* hook to attach user data (TVT) */
     void *Private;             /* Don't mess with this! */
 } GifFileType;
@@ -224,25 +236,17 @@ extern int BitSize(int n);
  * Support for the in-core structures allocation (slurp mode).              
  *****************************************************************************/
 
-/*This is the in-core version of an extension record */
-typedef struct {
-    int ByteCount;
-    GifByteType *Bytes;    /* on malloc(3) heap */
-    int Function;   /* Holds the type of the Extension block. */
-} ExtensionBlock;
-
 /* This holds an image header, its unpacked raster bits, and extensions */
 typedef struct SavedImage {
     GifImageDesc ImageDesc;
     GifByteType *RasterBits;  /* on malloc(3) heap */
-    int ExtensionBlockCount;
-    ExtensionBlock *ExtensionBlocks;    /* on malloc(3) heap */
+    ExtensionBlockList Leading;
 } SavedImage;
 
 extern void ApplyTranslation(SavedImage *Image, GifPixelType Translation[]);
-extern int AddExtensionBlock(SavedImage *New, int Function, 
+extern int AddExtensionBlock(ExtensionBlockList *New, int Function, 
 				 unsigned int Len, unsigned char ExtData[]);
-extern void FreeExtension(SavedImage *Image);
+extern void FreeExtensions(ExtensionBlockList *ExtensionList);
 extern SavedImage *MakeSavedImage(GifFileType *GifFile,
                                   const SavedImage *CopyFrom);
 extern void FreeSavedImages(GifFileType *GifFile);

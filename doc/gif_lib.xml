@@ -65,6 +65,7 @@ typedef struct GifFileType {
     int ImageCount;				  /* Number of current image */
     GifImageDesc Image;			   /* Block describing current image */
     struct SavedImage *SavedImages;	/* Use this to accumulate file state */
+    ExtensionBlockList Trailing;    /* Extension blocks past last image */
     VoidPtr Private;	  /* The regular user should not mess with this one! */
 } GifFileType;
 </programlisting>
@@ -75,18 +76,11 @@ include it.  Members beginning with S refer to the GIF Screen; others hold
 properties of the current image (a GIF file may have more than one image)
 or point to allocated store used by various routines.</para>
 
-<para>The following diagram may make the relationships among these structures
-easier to understand:</para>
-
-<mediaobject>
-<imageobject><imagedata fileref="GifFileType.png"/>
-</imageobject>
-</mediaobject>
-
-<para>The user almost never writes into this structure (exception: it may
-occasionally useful to alter things in the SavedImages array), but can read
-any of these items at any time it is valid (image information is invalid
-until first image was read).</para>
+<para>The user almost never writes into this structure (exception: it
+may occasionally useful to alter things in the SavedImages array and
+Trailing member), but can read any of these items at any time it is
+valid (image information is invalid until first image was
+read).</para>
 
 <para>As the library needs to keep its own internal data, a Private pointer
 to hidden data is included. Applications should ignore this item.</para>
@@ -792,9 +786,11 @@ retired.</para>
 and GIFLIB_RELEASE macros for the three components of the version. See the
 NEWS file in the GIFLIB distribution to track API changes.</para>
 
-<para>A few very minor changes in behavior were introduced in 5.x:</para>
+<para>A few changes in behavior were introduced in 5.x:</para>
 
 <itemizedlist>
+<listitem><para>As of 5.0, EGifSlurp() and EGifSpew() read and write
+extension blocks trailing after the last image.</para></listitem>
 <listitem><para>As of 5.0, the default GIF version to write is now
 computed at write time from the types of an image's extension blocks,
 but can be overridden with EGifSetGifVersion(). Formerly EGifSpew()

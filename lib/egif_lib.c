@@ -218,9 +218,9 @@ EGifPutScreenDesc(GifFileType *GifFile,
 
     /* Bulletproofing - always write GIF89 if we need to */
     for (i = 0; i < GifFile->ImageCount; i++) {
-        for (j = 0; j < GifFile->SavedImages[i].ExtensionBlockCount; j++) {
+        for (j = 0; j < GifFile->SavedImages[i].Leading.ExtensionBlockCount; j++) {
             int function =
-               GifFile->SavedImages[i].ExtensionBlocks[j].Function;
+               GifFile->SavedImages[i].Leading.ExtensionBlocks[j].Function;
 
             if (function == COMMENT_EXT_FUNC_CODE
                 || function == GRAPHICS_EXT_FUNC_CODE
@@ -229,7 +229,16 @@ EGifPutScreenDesc(GifFileType *GifFile,
                 Private->gif89 = true;
         }
     }
+    for (i = 0; i < GifFile->Trailing.ExtensionBlockCount; i++) {
+	int function = GifFile->Trailing.ExtensionBlocks[i].Function;
 
+	if (function == COMMENT_EXT_FUNC_CODE
+	    || function == GRAPHICS_EXT_FUNC_CODE
+	    || function == PLAINTEXT_EXT_FUNC_CODE
+	    || function == APPLICATION_EXT_FUNC_CODE)
+	    Private->gif89 = true;
+    }
+ 
     /*
      * Older versions of the library didn't compute which version 
      * the image's extension blocks require here, but rather in EGifSpew(),
@@ -656,8 +665,8 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
     if (ImageIndex < 0 || ImageIndex > GifFile->ImageCount - 1)
 	return GIF_ERROR;
 
-    for (i = 0; i < GifFile->SavedImages[ImageIndex].ExtensionBlockCount; i++) {
-	ExtensionBlock *ep = &GifFile->SavedImages[ImageIndex].ExtensionBlocks[i];
+    for (i = 0; i < GifFile->SavedImages[ImageIndex].Leading.ExtensionBlockCount; i++) {
+	ExtensionBlock *ep = &GifFile->SavedImages[ImageIndex].Leading.ExtensionBlocks[i];
 	if (ep->Function == GRAPHICS_EXT_FUNC_CODE) {
 	    EGifGCBToExtension(GCB, ep->Bytes);
 	    return GIF_OK;
@@ -1016,11 +1025,56 @@ EGifBufferedOutput(GifFileType *GifFile,
  * This routine writes to disk an in-core representation of a GIF previously
  * created by DGifSlurp().
  *****************************************************************************/
+
+static int
+EGifWriteExtensions(GifFileType *GifFileOut, 
+			       ExtensionBlock *ExtensionBlocks, 
+			       int ExtensionBlockCount) 
+{
+    if (ExtensionBlocks) {
+        ExtensionBlock *ep;
+	int bOff;   /* Block Offset for adding sub blocks in Extensions */
+	int j;
+
+	for (j = 0; j < ExtensionBlockCount; j++) {
+	    ep = &ExtensionBlocks[j];
+	    if (j == ExtensionBlockCount - 1 || (ep+1)->Function != 0) {
+		/*** FIXME: Must check whether outputting
+		 * <ExtLen><Extension> is ever valid or if we should just
+		 * drop anything with a 0 for the Function.  (And whether
+		 * we should drop here or in EGifPutExtension)
+		 */
+		if (EGifPutExtension(GifFileOut,
+				     (ep->Function != 0) ? ep->Function : '\0',
+				     ep->ByteCount,
+				     ep->Bytes) == GIF_ERROR) {
+		    return (GIF_ERROR);
+		}
+	    } else {
+		(void)EGifPutExtensionFirst(GifFileOut, 
+					    ep->Function, 
+					    ep->ByteCount, ep->Bytes);
+		for (bOff = j+1; bOff < ExtensionBlockCount; bOff++) {
+		    ep = &ExtensionBlocks[bOff];
+		    if (ep->Function != 0) {
+			break;
+		    }
+		    (void)EGifPutExtensionNext(GifFileOut, 0,
+					       ep->ByteCount, ep->Bytes);
+		}
+		(void)EGifPutExtensionLast(GifFileOut, 0, 0, NULL);
+		j = bOff-1;
+	    }
+	}
+    }
+
+    return (GIF_OK);
+}
+
 int
 EGifSpew(GifFileType *GifFileOut) 
 {
     int i, j; 
-    int bOff;   /* Block Offset for adding sub blocks in Extensions */
 
     if (EGifPutScreenDesc(GifFileOut,
                           GifFileOut->SWidth,
@@ -1035,44 +1089,15 @@ EGifSpew(GifFileType *GifFileOut)
         SavedImage *sp = &GifFileOut->SavedImages[i];
         int SavedHeight = sp->ImageDesc.Height;
         int SavedWidth = sp->ImageDesc.Width;
-        ExtensionBlock *ep;
 
         /* this allows us to delete images by nuking their rasters */
         if (sp->RasterBits == NULL)
             continue;
 
-        if (sp->ExtensionBlocks) {
-            for (j = 0; j < sp->ExtensionBlockCount; j++) {
-                ep = &sp->ExtensionBlocks[j];
-                if (j == sp->ExtensionBlockCount - 1 || (ep+1)->Function != 0) {
-                    /*** FIXME: Must check whether outputting
-                     * <ExtLen><Extension> is ever valid or if we should just
-                     * drop anything with a 0 for the Function.  (And whether
-                     * we should drop here or in EGifPutExtension)
-                     */
-                    if (EGifPutExtension(GifFileOut,
-                                         (ep->Function != 0) ? ep->Function : '\0',
-                                         ep->ByteCount,
-                                         ep->Bytes) == GIF_ERROR) {
-                        return (GIF_ERROR);
-                    }
-                } else {
-                    (void)EGifPutExtensionFirst(GifFileOut, 
-						ep->Function, 
-						ep->ByteCount, ep->Bytes);
-                    for (bOff = j+1; bOff < sp->ExtensionBlockCount; bOff++) {
-                        ep = &sp->ExtensionBlocks[bOff];
-                        if (ep->Function != 0) {
-                            break;
-                        }
-                        (void)EGifPutExtensionNext(GifFileOut, 0,
-						   ep->ByteCount, ep->Bytes);
-                    }
-                    (void)EGifPutExtensionLast(GifFileOut, 0, 0, NULL);
-                    j = bOff-1;
-                }
-            }
-        }
+	if (EGifWriteExtensions(GifFileOut, 
+				sp->Leading.ExtensionBlocks,
+				sp->Leading.ExtensionBlockCount) == GIF_ERROR)
+	    return (GIF_ERROR);
 
         if (EGifPutImageDesc(GifFileOut,
                              sp->ImageDesc.Left,
@@ -1090,6 +1115,11 @@ EGifSpew(GifFileType *GifFileOut)
                 return (GIF_ERROR);
         }
     }
+
+    if (EGifWriteExtensions(GifFileOut,
+			    GifFileOut->Trailing.ExtensionBlocks,
+			    GifFileOut->Trailing.ExtensionBlockCount) == GIF_ERROR)
+	return (GIF_ERROR);
 
     if (EGifCloseFile(GifFileOut) == GIF_ERROR)
         return (GIF_ERROR);

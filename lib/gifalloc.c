@@ -216,7 +216,7 @@ ApplyTranslation(SavedImage *Image, GifPixelType Translation[])
 
 
 int
-AddExtensionBlock(SavedImage *New,
+AddExtensionBlock(ExtensionBlockList *New,
 		  int Function,
                   unsigned int Len,
                   unsigned char ExtData[])
@@ -249,18 +249,20 @@ AddExtensionBlock(SavedImage *New,
 }
 
 void
-FreeExtension(SavedImage *Image)
+FreeExtensions(ExtensionBlockList *ExtensionList)
 {
     ExtensionBlock *ep;
 
-    if ((Image == NULL) || (Image->ExtensionBlocks == NULL)) {
+    if (ExtensionList == NULL)
         return;
-    }
-    for (ep = Image->ExtensionBlocks;
-         ep < (Image->ExtensionBlocks + Image->ExtensionBlockCount); ep++)
+
+    for (ep = ExtensionList->ExtensionBlocks;
+         ep < (ExtensionList->ExtensionBlocks + ExtensionList->ExtensionBlockCount); 
+	 ep++)
         (void)free((char *)ep->Bytes);
-    (void)free((char *)Image->ExtensionBlocks);
-    Image->ExtensionBlocks = NULL;
+    (void)free((char *)ExtensionList->ExtensionBlocks);
+    ExtensionList->ExtensionBlocks = NULL;
+ExtensionList->ExtensionBlockCount = 0;
 }
 
 /******************************************************************************
@@ -293,8 +295,7 @@ FreeLastSavedImage(GifFileType *GifFile)
         free((char *)sp->RasterBits);
 
     /* Deallocate any extensions */
-    if (sp->ExtensionBlocks != NULL)
-        FreeExtension(sp);
+    FreeExtensions(&sp->Leading);
 
     /*** FIXME: We could realloc the GifFile->SavedImages structure but is
      * there a point to it? Saves some memory but we'd have to do it every
@@ -357,16 +358,16 @@ MakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
                    CopyFrom->ImageDesc.Width);
 
             /* finally, the extension blocks */
-            if (sp->ExtensionBlocks != NULL) {
-                sp->ExtensionBlocks = (ExtensionBlock *)malloc(
+            if (sp->Leading.ExtensionBlocks != NULL) {
+                sp->Leading.ExtensionBlocks = (ExtensionBlock *)malloc(
                                       sizeof(ExtensionBlock) *
-                                      CopyFrom->ExtensionBlockCount);
-                if (sp->ExtensionBlocks == NULL) {
+                                      CopyFrom->Leading.ExtensionBlockCount);
+                if (sp->Leading.ExtensionBlocks == NULL) {
                     FreeLastSavedImage(GifFile);
                     return (SavedImage *)(NULL);
                 }
-                memcpy(sp->ExtensionBlocks, CopyFrom->ExtensionBlocks,
-                       sizeof(ExtensionBlock) * CopyFrom->ExtensionBlockCount);
+                memcpy(sp->Leading.ExtensionBlocks, CopyFrom->Leading.ExtensionBlocks,
+                       sizeof(ExtensionBlock) * CopyFrom->Leading.ExtensionBlockCount);
             }
         }
 
@@ -392,8 +393,7 @@ FreeSavedImages(GifFileType *GifFile)
         if (sp->RasterBits != NULL)
             free((char *)sp->RasterBits);
 
-        if (sp->ExtensionBlocks != NULL)
-            FreeExtension(sp);
+	FreeExtensions(&sp->Leading);
     }
     free((char *)GifFile->SavedImages);
     GifFile->SavedImages = NULL;
