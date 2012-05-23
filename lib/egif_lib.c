@@ -51,8 +51,8 @@ static int EGifBufferedOutput(GifFileType * GifFile, GifByteType * Buf,
  * info record. _GifError is cleared if succesfull.
  *****************************************************************************/
 GifFileType *
-EGifOpenFileName(const char *FileName,
-                 const bool TestExistence) {
+EGifOpenFileName(const char *FileName, const bool TestExistence)
+{
 
     int FileHandle;
     GifFileType *GifFile;
@@ -81,8 +81,8 @@ EGifOpenFileName(const char *FileName,
  * info record. _GifError is cleared if succesfull.
  *****************************************************************************/
 GifFileType *
-EGifOpenFileHandle(const int FileHandle) {
-
+EGifOpenFileHandle(const int FileHandle)
+{
     GifFileType *GifFile;
     GifFilePrivateType *Private;
     FILE *f;
@@ -116,7 +116,7 @@ EGifOpenFileHandle(const int FileHandle) {
 
     /* MSDOS and Windows32 requires this, no reason not to do it under Unix */
     (void)setvbuf(f, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE);    /* And inc. stream
-                                                        * buffer. */
+                                                              * buffer. */
 
     GifFile->Private = (void *)Private;
     Private->FileHandle = FileHandle;
@@ -136,8 +136,8 @@ EGifOpenFileHandle(const int FileHandle) {
  * Basically just a copy of EGifOpenFileHandle. (MRB)
  *****************************************************************************/
 GifFileType *
-EGifOpen(void *userData, OutputFunc writeFunc) {
-
+EGifOpen(void *userData, OutputFunc writeFunc)
+{
     GifFileType *GifFile;
     GifFilePrivateType *Private;
 
@@ -183,7 +183,8 @@ EGifOpen(void *userData, OutputFunc writeFunc) {
  * 3 characters as "87a" or "89a". No test is made to validate the version.
  *****************************************************************************/
 void
-EGifSetGifVersion(const char *Version) {
+EGifSetGifVersion(const char *Version)
+{
     strncpy(GifVersionPrefix + GIF_VERSION_POS, Version, 3);
 }
 
@@ -192,13 +193,13 @@ EGifSetGifVersion(const char *Version) {
  * follows the GIF file openning.
  *****************************************************************************/
 int
-EGifPutScreenDesc(GifFileType * GifFile,
+EGifPutScreenDesc(GifFileType *GifFile,
                   const int Width,
                   const int Height,
                   const int ColorRes,
                   const int BackGround,
-                  const ColorMapObject * ColorMap) {
-
+                  const ColorMapObject *ColorMap)
+{
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
     char *write_version;
@@ -312,14 +313,14 @@ EGifPutScreenDesc(GifFileType * GifFile,
  * call to any of the pixel dump routines.
  *****************************************************************************/
 int
-EGifPutImageDesc(GifFileType * GifFile,
+EGifPutImageDesc(GifFileType *GifFile,
                  const int Left,
                  const int Top,
                  const int Width,
                  const int Height,
                  const bool Interlace,
-                 const ColorMapObject * ColorMap) {
-
+                 const ColorMapObject *ColorMap)
+{
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
@@ -399,10 +400,8 @@ EGifPutImageDesc(GifFileType * GifFile,
  * Put one full scanned line (Line) of length LineLen into GIF file.
  *****************************************************************************/
 int
-EGifPutLine(GifFileType * GifFile,
-            GifPixelType * Line,
-            int LineLen) {
-
+EGifPutLine(GifFileType * GifFile, GifPixelType *Line, int LineLen)
+{
     int i;
     GifPixelType Mask;
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
@@ -434,9 +433,8 @@ EGifPutLine(GifFileType * GifFile,
  * Put one pixel (Pixel) into GIF file.
  *****************************************************************************/
 int
-EGifPutPixel(GifFileType * GifFile,
-             GifPixelType Pixel) {
-
+EGifPutPixel(GifFileType *GifFile, GifPixelType Pixel)
+{
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
     if (!IS_WRITEABLE(Private)) {
@@ -462,9 +460,8 @@ EGifPutPixel(GifFileType * GifFile,
  * Put a comment into GIF file using the GIF89 comment extension block.
  *****************************************************************************/
 int
-EGifPutComment(GifFileType * GifFile,
-               const char *Comment) {
-  
+EGifPutComment(GifFileType *GifFile, const char *Comment)
+{
     unsigned int length = strlen(Comment);
     char *buf;
 
@@ -509,11 +506,11 @@ EGifPutComment(GifFileType * GifFile,
  * EGifPutExtensionLast is invoked.
  *****************************************************************************/
 int
-EGifPutExtensionFirst(GifFileType * GifFile,
+EGifPutExtensionFirst(GifFileType *GifFile,
                       const int ExtCode,
                       const int ExtLen,
-                      const void *Extension) {
-
+                      const void *Extension)
+{
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
@@ -541,11 +538,11 @@ EGifPutExtensionFirst(GifFileType * GifFile,
  * Put a middle extension block (see GIF manual) into gif file.
  *****************************************************************************/
 int
-EGifPutExtensionNext(GifFileType * GifFile,
+EGifPutExtensionNext(GifFileType *GifFile,
                      const int ExtCode,
                      const int ExtLen,
-                     const void *Extension) {
-
+                     const void *Extension)
+{
     GifByteType Buf;
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
@@ -566,7 +563,7 @@ EGifPutExtensionNext(GifFileType * GifFile,
  * Put a last extension block (see GIF manual) into gif file.
  *****************************************************************************/
 int
-EGifPutExtensionLast(GifFileType * GifFile,
+EGifPutExtensionLast(GifFileType *GifFile,
                      const int ExtCode,
                      const int ExtLen,
                      const void *Extension) {
@@ -601,7 +598,7 @@ EGifPutExtensionLast(GifFileType * GifFile,
  * EGifPutExtension{First,Next,Last} functions instead.
  *****************************************************************************/
 int
-EGifPutExtension(GifFileType * GifFile,
+EGifPutExtension(GifFileType *GifFile,
                  const int ExtCode,
                  const int ExtLen,
                  const void *Extension) {
@@ -655,10 +652,8 @@ void EGifGCBToExtension(const GraphicsControlBlock *GCB,
  * The block should NOT be freed by the user (not dynamically allocated).
  *****************************************************************************/
 int
-EGifPutCode(GifFileType * GifFile,
-            int CodeSize,
-            const GifByteType * CodeBlock) {
-
+EGifPutCode(GifFileType *GifFile, int CodeSize, const GifByteType *CodeBlock)
+{
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
     if (!IS_WRITEABLE(Private)) {
@@ -685,9 +680,8 @@ EGifPutCode(GifFileType * GifFile,
  * given buffer pointer is NULL, empty block is written to mark end of code.
  *****************************************************************************/
 int
-EGifPutCodeNext(GifFileType * GifFile,
-                const GifByteType * CodeBlock) {
-
+EGifPutCodeNext(GifFileType *GifFile, const GifByteType *CodeBlock)
+{
     GifByteType Buf;
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
@@ -713,8 +707,8 @@ EGifPutCodeNext(GifFileType * GifFile,
  * This routine should be called last, to close GIF file.
  *****************************************************************************/
 int
-EGifCloseFile(GifFileType * GifFile) {
-
+EGifCloseFile(GifFileType *GifFile)
+{
     GifByteType Buf;
     GifFilePrivateType *Private;
     FILE *File;
@@ -763,9 +757,8 @@ EGifCloseFile(GifFileType * GifFile) {
  * Put 2 bytes (word) into the given file:
  *****************************************************************************/
 static int
-EGifPutWord(int Word,
-            GifFileType * GifFile) {
-
+EGifPutWord(int Word, GifFileType *GifFile)
+{
     unsigned char c[2];
 
     c[0] = Word & 0xff;
@@ -780,8 +773,8 @@ EGifPutWord(int Word,
  * Setup the LZ compression for this image:
  *****************************************************************************/
 static int
-EGifSetupCompress(GifFileType * GifFile) {
-
+EGifSetupCompress(GifFileType *GifFile)
+{
     int BitsPerPixel;
     GifByteType Buf;
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
@@ -827,10 +820,10 @@ EGifSetupCompress(GifFileType * GifFile) {
  * order to complete the whole image.
 ******************************************************************************/
 static int
-EGifCompressLine(GifFileType * GifFile,
-                 GifPixelType * Line,
-                 const int LineLen) {
-
+EGifCompressLine(GifFileType *GifFile,
+                 GifPixelType *Line,
+                 const int LineLen)
+{
     int i = 0, CrntCode, NewCode;
     unsigned long NewKey;
     GifPixelType Pixel;
@@ -916,9 +909,9 @@ EGifCompressLine(GifFileType * GifFile,
  * Returns GIF_OK if written succesfully.
  *****************************************************************************/
 static int
-EGifCompressOutput(GifFileType * GifFile,
-                   const int Code) {
-
+EGifCompressOutput(GifFileType *GifFile,
+                   const int Code)
+{
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
     int retval = GIF_OK;
 
@@ -964,10 +957,10 @@ EGifCompressOutput(GifFileType * GifFile,
  * Returns GIF_OK if written succesfully.
  *****************************************************************************/
 static int
-EGifBufferedOutput(GifFileType * GifFile,
-                   GifByteType * Buf,
-                   int c) {
-
+EGifBufferedOutput(GifFileType *GifFile,
+                   GifByteType *Buf,
+                   int c)
+{
     if (c == FLUSH_OUTPUT) {
         /* Flush everything out. */
         if (Buf[0] != 0
@@ -1001,8 +994,8 @@ EGifBufferedOutput(GifFileType * GifFile,
  * created by DGifSlurp().
  *****************************************************************************/
 int
-EGifSpew(GifFileType * GifFileOut) {
-
+EGifSpew(GifFileType *GifFileOut) 
+{
     int i, j; 
     int bOff;   /* Block Offset for adding sub blocks in Extensions */
 
@@ -1080,3 +1073,5 @@ EGifSpew(GifFileType * GifFileOut) {
 
     return (GIF_OK);
 }
+
+/* end */

@@ -151,12 +151,11 @@ const unsigned char AsciiTable[][GIF_FONT_WIDTH] = {
 /*@=charint@*/
 
 void
-GifDrawText(SavedImage * Image,
-         const int x,
-         const int y,
-         const char *legend,
-         const int color) {
-
+GifDrawText(SavedImage *Image, 
+	    const int x, const int y,
+	    const char *legend,
+	    const int color)
+{
     int i, j;
     int base;
     const char *cp;
@@ -174,13 +173,11 @@ GifDrawText(SavedImage * Image,
 }
 
 void
-GifDrawBox(SavedImage * Image,
-        const int x,
-        const int y,
-        const int w,
-        const int d,
-        const int color) {
-
+GifDrawBox(SavedImage *Image,
+	   const int x, const int y,
+	   const int w, const int d,
+	   const int color)
+{
     int j, base = Image->ImageDesc.Width * y + x;
 
     for (j = 0; j < w; j++)
@@ -193,13 +190,11 @@ GifDrawBox(SavedImage * Image,
 }
 
 void
-GifDrawRectangle(SavedImage * Image,
-              const int x,
-              const int y,
-              const int w,
-              const int d,
-              const int color) {
-
+GifDrawRectangle(SavedImage *Image,
+              const int x, const int y,
+              const int w, const int d,
+              const int color)
+{
     unsigned char *bp = Image->RasterBits + Image->ImageDesc.Width * y + x;
     int i;
 
@@ -208,14 +203,12 @@ GifDrawRectangle(SavedImage * Image,
 }
 
 void
-GifDrawBoxedText(SavedImage * Image,
-              const int x,
-              const int y,
+GifDrawBoxedText(SavedImage *Image,
+              const int x, const int y,
               const char *legend,
               const int border,
-              const int bg,
-              const int fg) {
-
+              const int bg, const int fg)
+{
     int i, j = 0, LineCount = 0, TextWidth = 0;
     const char *cp;
 
@@ -255,3 +248,5 @@ GifDrawBoxedText(SavedImage * Image,
     GifDrawBox(Image, x, y, border + TextWidth * GIF_FONT_WIDTH + border,
             border + LineCount * GIF_FONT_HEIGHT + border, fg);
 }
+
+/* end */

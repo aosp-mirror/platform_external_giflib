@@ -18,8 +18,8 @@
 
 /* return smallest bitfield size n will fit in */
 int
-BitSize(int n) {
-    
+BitSize(int n)
+{
     register int i;
 
     for (i = 1; i <= 8; i++)
@@ -37,9 +37,8 @@ BitSize(int n) {
  * ColorMap if that pointer is non-NULL.
  */
 ColorMapObject *
-MakeMapObject(int ColorCount,
-              const GifColorType * ColorMap) {
-    
+MakeMapObject(int ColorCount, const GifColorType *ColorMap)
+{
     ColorMapObject *Object;
 
     /*** FIXME: Our ColorCount has to be a power of two.  Is it necessary to
@@ -74,8 +73,8 @@ MakeMapObject(int ColorCount,
  * Free a color map object
  */
 void
-FreeMapObject(ColorMapObject * Object) {
-
+FreeMapObject(ColorMapObject *Object)
+{
     if (Object != NULL) {
         (void)free(Object->Colors);
         (void)free(Object);
@@ -90,9 +89,9 @@ FreeMapObject(ColorMapObject * Object) {
 
 #ifdef DEBUG
 void
-DumpColorMap(ColorMapObject * Object,
-             FILE * fp) {
-
+DumpColorMap(ColorMapObject *Object,
+             FILE * fp)
+{
     if (Object != NULL) {
         int i, j, Len = Object->ColorCount;
 
@@ -117,10 +116,10 @@ DumpColorMap(ColorMapObject * Object,
  * ColorIn2 into ColorUnion color map table.
  */
 ColorMapObject *
-UnionColorMap(const ColorMapObject * ColorIn1,
-              const ColorMapObject * ColorIn2,
-              GifPixelType ColorTransIn2[]) {
-
+UnionColorMap(const ColorMapObject *ColorIn1,
+              const ColorMapObject *ColorIn2,
+              GifPixelType ColorTransIn2[])
+{
     int i, j, CrntSlot, RoundUpTo, NewBitSize;
     ColorMapObject *ColorUnion;
 
@@ -208,9 +207,8 @@ UnionColorMap(const ColorMapObject * ColorIn1,
  * Apply a given color translation to the raster bits of an image
  */
 void
-ApplyTranslation(SavedImage * Image,
-                 GifPixelType Translation[]) {
-
+ApplyTranslation(SavedImage *Image, GifPixelType Translation[])
+{
     register int i;
     register int RasterSize = Image->ImageDesc.Height * Image->ImageDesc.Width;
 
@@ -224,11 +222,11 @@ ApplyTranslation(SavedImage * Image,
 
 
 int
-AddExtensionBlock(SavedImage * New,
+AddExtensionBlock(SavedImage *New,
 		  int Function,
                   unsigned int Len,
-                  unsigned char ExtData[]) {
-
+                  unsigned char ExtData[])
+{
     ExtensionBlock *ep;
 
     if (New->ExtensionBlocks == NULL)
@@ -257,7 +255,7 @@ AddExtensionBlock(SavedImage * New,
 }
 
 void
-FreeExtension(SavedImage * Image)
+FreeExtension(SavedImage *Image)
 {
     ExtensionBlock *ep;
 
@@ -279,8 +277,8 @@ FreeExtension(SavedImage * Image)
  * Frees the last image in the GifFile->SavedImages array
  */
 void
-FreeLastSavedImage(GifFileType *GifFile) {
-
+FreeLastSavedImage(GifFileType *GifFile)
+{
     SavedImage *sp;
     
     if ((GifFile == NULL) || (GifFile->SavedImages == NULL))
@@ -316,9 +314,8 @@ FreeLastSavedImage(GifFileType *GifFile) {
  * Append an image block to the SavedImages array  
  */
 SavedImage *
-MakeSavedImage(GifFileType * GifFile,
-               const SavedImage * CopyFrom) {
-
+MakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
+{
     SavedImage *sp;
 
     if (GifFile->SavedImages == NULL)
@@ -395,8 +392,8 @@ MakeSavedImage(GifFileType * GifFile,
 }
 
 void
-FreeSavedImages(GifFileType * GifFile) {
-
+FreeSavedImages(GifFileType *GifFile)
+{
     SavedImage *sp;
 
     if ((GifFile == NULL) || (GifFile->SavedImages == NULL)) {
@@ -418,3 +415,5 @@ FreeSavedImages(GifFileType * GifFile) {
     free((char *)GifFile->SavedImages);
     GifFile->SavedImages = NULL;
 }
+
+/* end */

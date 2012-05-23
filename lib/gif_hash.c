@@ -128,3 +128,5 @@ void HashTablePrintHitRatio(void)
 	NumberOfMisses * 100 / NumberOfTests);
 }
 #endif	/* DEBUG_HIT_RATE */
+
+/* end */

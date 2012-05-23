@@ -15,7 +15,8 @@ int _GifError = 0;
  * Return the last GIF error (0 if none) and reset the error.
  ****************************************************************************/
 int
-GifLastError(void) {
+GifLastError(void)
+{
     int i = _GifError;
 
     _GifError = 0;
@@ -27,7 +28,8 @@ GifLastError(void) {
  * Return the last GIF error (0 if none).
  ****************************************************************************/
 int
-GifError(void) {
+GifError(void)
+{
     return _GifError;
 }
 
@@ -35,7 +37,8 @@ GifError(void) {
  * Return a string description of  the last GIF error
  ****************************************************************************/
 char *
-GifErrorString(void) {
+GifErrorString(void)
+{
     char *Err;
 
     switch (_GifError) {
@@ -114,3 +117,5 @@ GifErrorString(void) {
     }
     return Err;
 }
+
+/* end */
