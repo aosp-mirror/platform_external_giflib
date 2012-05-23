@@ -367,17 +367,6 @@ MakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
                 }
                 memcpy(sp->ExtensionBlocks, CopyFrom->ExtensionBlocks,
                        sizeof(ExtensionBlock) * CopyFrom->ExtensionBlockCount);
-
-                /* 
-                 * For the moment, the actual blocks can take their
-                 * chances with free().  We'll fix this later. 
-                 *** FIXME: [Better check this out... Toshio]
-                 * 2004 May 27: Looks like this was an ESR note.
-                 * It means the blocks are shallow copied from InFile to
-                 * OutFile.  However, I don't see that in this code....
-                 * Did ESR fix it but never remove this note (And other notes
-                 * in gifspnge?)
-                 */
             }
         }
 
