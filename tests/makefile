@@ -5,9 +5,10 @@
 # This is what to do by default
 test: render-regress util-regress
 
-GIFS := $(shell ls ../pic/*.gif)
-
 UTILS = ../util
+PICS = ../pic
+
+GIFS := $(shell ls ../pic/*.gif)
 
 # Test decompression and rendering by unpacking images,
 # converting them to RGB, and comparing that result to a check file.
@@ -32,5 +33,8 @@ util-buildregress:
 	$(UTILS)/gifwedge >wedge.gif
 
 util-regress:
-	@echo "No output is good news"
+	@echo "Checking wedge generation."
 	@$(UTILS)/gifwedge | cmp - wedge.gif
+	@echo "Checking that expensive copy is faithful."
+	@$(UTILS)/giftool <$(PICS)/cover.gif | $(UTILS)/gif2rgb | cmp - cover.rgb 
+	@echo "No output is good news"

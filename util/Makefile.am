@@ -3,7 +3,7 @@ noinst_LIBRARIES = libgetarg.a
 bin_PROGRAMS = gif2rgb gifasm gifbg gifclip gifcomb \
     giffix gifflip gifhisto gifinter gifinto gifovly gifpos gifrsize \
     giftext gifwedge raw2gif rgb2gif text2gif gifspnge giffiltr \
-    icon2gif gifcolor gifinfo @COMPILABLE_EXTRAS@
+    icon2gif gifcolor gifinfo giftool @COMPILABLE_EXTRAS@
 bin_SCRIPTS = gifcompose
 EXTRA_PROGRAMS = gif2x11 gifclrmp gifrotat
 
@@ -26,7 +26,6 @@ gifclrmp_LDADD = $(LDADD) @MATH_LIB@
 gifrotat_SOURCES = gifrotat.c
 gifrotat_LDADD = $(LDADD) @MATH_LIB@
 
-gifinfo_SOURCES = gifinfo.c
 gif2rgb_SOURCES = gif2rgb.c
 gifasm_SOURCES = gifasm.c
 gifbg_SOURCES = gifbg.c
@@ -49,3 +48,5 @@ gifspnge_SOURCES = gifspnge.c
 giffiltr_SOURCES = giffiltr.c
 icon2gif_SOURCES = icon2gif.c
 gifcolor_SOURCES = gifcolor.c
+gifinfo_SOURCES = gifinfo.c
+giftool_SOURCES = giftool.c
