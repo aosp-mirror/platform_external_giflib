@@ -845,18 +845,16 @@ DGifDecompressLine(GifFileType *GifFile, GifPixelType *Line, int LineLen)
                 } else
                     CrntPrefix = CrntCode;
 
-                /* Now (if image is O.K.) we should not get an NO_SUCH_CODE
-                 * During the trace. As we might loop forever, in case of
-                 * defective image, we count the number of loops we trace
-                 * and stop if we got LZ_MAX_CODE. obviously we can not
-                 * loop more than that.  */
-                j = 0;
-                while (j++ <= LZ_MAX_CODE &&
+                /* Now (if image is O.K.) we should not get a NO_SUCH_CODE
+                 * during the trace. As we might loop forever, in case of
+                 * defective image, we use StackPtr as loop counter and stop
+                 * before overflowing Stack[]. */
+                while (StackPtr < LZ_MAX_CODE &&
                        CrntPrefix > ClearCode && CrntPrefix <= LZ_MAX_CODE) {
                     Stack[StackPtr++] = Suffix[CrntPrefix];
                     CrntPrefix = Prefix[CrntPrefix];
                 }
-                if (j >= LZ_MAX_CODE || CrntPrefix > LZ_MAX_CODE) {
+                if (StackPtr >= LZ_MAX_CODE || CrntPrefix > LZ_MAX_CODE) {
                     _GifError = D_GIF_ERR_IMAGE_DEFECT;
                     return GIF_ERROR;
                 }
