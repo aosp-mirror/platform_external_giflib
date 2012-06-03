@@ -774,7 +774,7 @@ void GAPrintHowTo(char *CtrlStr)
 </sect1>
 <sect1 id="compatibility"><title>Forward and Backward Compatibility</title>
 
-<para>The library header contains some version #defines you can useif you
+<para>The library header contains some version #defines you can use if you
 need to condition your code so it can compile with different library 
 versions</para>
 
@@ -791,6 +791,12 @@ NEWS file in the GIFLIB distribution to track API changes.</para>
 <itemizedlist>
 <listitem><para>As of 5.0, EGifSlurp() and EGifSpew() read and write
 extension blocks trailing after the last image.</para></listitem>
+<listitem><para>As of 5.0, the ExtensionBlockCount and ExtensionBlockList
+members of the SavedImage structures are no longer top-level in that structure,
+but now live in an ExtensionBlockList substructure named 'Leading'.
+This was done so that the new list of trailing extension blocks in GifFileType
+can use the same list-handler code as the extension blocks leading each saved 
+image.</para></listitem>
 <listitem><para>As of 5.0, the default GIF version to write is now
 computed at write time from the types of an image's extension blocks,
 but can be overridden with EGifSetGifVersion(). Formerly EGifSpew()
