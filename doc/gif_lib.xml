@@ -170,8 +170,8 @@ used to get the exact error (see gif_err.c).</para>
 <para>The file is opened in binary mode, and its buffer size is set to
 FILE_BUFFER_SIZE bytes.</para>
 
-<para>Once you have acquired a handle on a GIF, there are two ways to
-read it in.  The high-level function</para>
+<para>Once you have acquired a handle on a GIF, the high-level
+function</para>
 
 <programlisting id="DGifSlurp">
 int DGifSlurp(GifFileType)
@@ -186,8 +186,225 @@ data in the GIF is accessable in the SavedImages member (see the
 structures in gif_lib.h).  When you have modified the image to taste,
 write it out with EGifSpew().</para>
 
-<para>If you are handling large images on a memory-limited machine, you may need
-to use the following functions for sequential read.</para>
+<para>You can read from a GIF file through a function hook. Initialize
+with </para>
+
+<programlisting id="DGifOpen">
+GifFileType *DGifOpen(void *userPtr, InputFunc readFunc)
+</programlisting>
+
+<para>and see the library header file for the type of InputFunc.</para>
+
+<para>There is also a set of deprecated functions for sequential I/O,
+described in a later section.</para>
+</sect1>
+<sect1><title>Encoding (egif_lib.c)</title>
+
+<para>The high-level function</para>
+
+<programlisting id="EGifSpew">
+int EGifSpew(GifFileType *GifFile, int GifFileHandle)
+</programlisting>
+
+<para>writes a complete (possibly multi-image) GIF file to the indicated file
+handle from in-core allocated structures created by a previous DGifSlurp()
+or equivalent operations.  Its arguments are a GIF file descriptor (as
+above) and an ordinary output file descriptor.</para>
+
+<para>The file is written with a GIF87 stamp unless it contains one of the four
+special extension blocks defined in GIF89, in which case it is written
+with a GIF89 stamp.</para>
+
+<para>You can awrite to a GIF file through a function hook. Initialize
+with </para>
+
+<programlisting id="EGifOpen">
+GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc)
+</programlisting>
+
+<para>and see the library header file for the type of OutputFunc.</para>
+
+<para>There is also a set of deprecated functions for sequential I/O,
+described in a later section.</para>
+</sect1>
+<sect1><title>Color map handling and allocation routines</title>
+
+<programlisting id="MakeMapObject">
+ColorMapObject *MakeMapObject(int ColorCount, GifColorType *ColorMap)
+</programlisting>
+
+<para>Allocate storage for a color map object with the given number of
+RGB triplet slots.  If the second argument is non-NULL, initialize
+the color table portion of the new map from it.  Returns NULL if
+memory is exhausted or if the size is not a power of 2 &lt;= 256.</para>
+
+<programlisting id="FreeMapObject">
+void FreeMapObject(ColorMapObject *Object)
+</programlisting>
+
+<para>Free the storage occupied by a ColorMapObject that is no longer
+needed.</para>
+
+<programlisting id="UnionColorMap">
+ColorMapObject *UnionColorMap(
+        ColorMapObject *ColorIn1, ColorMapObject *ColorIn2,
+        GifPixelType ColorTransIn2[])
+</programlisting>
+
+<para>Create the union of two given color maps and return it.  If the result
+won't fit into 256 colors, NULL is returned, the allocated union
+otherwise.  ColorIn1 is copied as it to ColorUnion, while colors from
+ColorIn2 are copied iff they didn't exist before.  ColorTransIn2 maps
+the old ColorIn2 into ColorUnion color map table.</para>
+
+<programlisting id="GifAttachImage">
+SavedImage *GifAttachImage(GifFileType *GifFile)
+</programlisting>
+
+<para>Add an image block to the SavedImages array.  The image block is
+initially zeroed out.  This image block will be seen by any following
+EGifSpew() calls.</para>
+
+</sect1>
+<sect1><title>Error Handling (gif_err.c)</title>
+
+<programlisting>
+int GifError(void)
+int GifErrorString(void)
+</programlisting>
+
+<para>These functions return the last error reported by a library function,
+as a numeric error code and string explanation respectively.</para>
+
+</sect1>
+<sect1><title>The GIF Utility Font</title>
+
+<para>The 8x8 utility font used in text2gif and gifcolor lives in the library
+module gif_font.c, in a table called AsciiTable.  The library header file
+includes suitable externs and defines.</para>
+
+<para>The GIF utility font support includes entry points for drawing legends
+on in-core images, drawing boxes and rectangles, and boxing text.
+These entry points are as follows:</para>
+
+<programlisting id="GifDrawText">
+void GifDrawText(
+        SavedImage *Image,
+        const int x, const int y,
+        const char *legend,
+        const int color)
+</programlisting>
+
+<para>Draw text using the 8x8 utility font on the saved image.  Upper
+left corner of the text is at image pixel (x, y).  Use the specified
+color index.</para>
+
+<programlisting id="GifDrawBox">
+void GifDrawBox(SavedImage *Image,
+        const int x, const int y,
+        const int w, const int h,
+        const int color)
+</programlisting>
+
+<para>Draw a box on the saved image.  Upper left corner of the box is at
+image pixels (x, y), width is w, height is h.  Use the specified color
+index.</para>
+
+<programlisting id="GifDrawRectangle">
+void GifDrawRectangle(SavedImage *Image,
+        const int x, const int y,
+        const int w, const int h,
+        const int color)
+</programlisting>
+
+<para>Draw a (filled) rectangle on the saved image.  Upper left corner of
+the box is at image pixels (x, y), width is w, height is h.  Use the
+specified color index.</para>
+
+<programlisting id="GifDrawBoxedText">
+void GifDrawBoxedText(SavedImage *Image,
+        const int x, const int y,
+        const char *legend,
+        const int border,
+        const int bg, const int fg)
+</programlisting>
+
+<para>Draw text on a filled rectangle.  The rectangle will be sized to fit
+the text, with upper left hand corner at (x, y) on the saved image.
+The `border' argument specifies a pixel margin around the text.  The
+`bg' argument is the color table index to fill the rectangle with;
+`fg' is the color table index to draw the text with.</para>
+
+<para>This function interprets some characters in the legend string
+specially.  A tab (\t) is interpreted as a command to center the
+following text in the box.  A carriage return (\r) is interpreted
+as a request for a line break.</para>
+
+</sect1>
+<sect1><title>Utility support library</title>
+
+<para>These functions are not part of the core GIF library.  They are part
+of the getarg library that supports the utilities.</para>
+
+<sect2><title>Error Handling</title>
+
+<programlisting id="PrintGifError">
+void PrintGifError(void)
+</programlisting>
+
+<para>Print a one-line diagnostic on the last giflib error to stderr.</para>
+
+<programlisting id="GifLastError">
+int GifLastError(void)
+</programlisting>
+
+<para>Return the number of the last giflib error, and clear the error.
+The error types are defined in gif_lib.h.</para>
+
+<para>Note it is the user's responsibility to call the file closing
+routine, so the file will be closed (if was opened), and allocated
+memory will be released.</para>
+
+</sect2>
+<sect2><title>Command Line Parsing</title>
+
+<programlisting id="GAGetArgs">
+bool GAGetArgs(int argc, char **argv, char *CtrlStr, ...)
+</programlisting>
+
+<para>Main routine of this module.  Given argc &amp; argv as received by
+the main procedure, the command line CtrlStr, and the addresses of
+all parameters, parse the command line, and update the parameters.</para>
+
+<para>The CtrlStr defines what types of variables should follow. Look at the
+beginning of getarg.c for exact usage.</para>
+
+<para>Returns false if successful, returns true on failure.</para>
+
+<programlisting id="GAPrintErrMsg">
+void GAPrintErrMsg(int Error)
+</programlisting>
+
+<para>If an error occurred in GAGetARgs, this routine may be used to print
+one line diagnostic to stderr.</para>
+
+<programlisting id="GAPrintHowTo">
+void GAPrintHowTo(char *CtrlStr)
+</programlisting>
+
+<para>Given the same CtrlStr as for GAGetArgs, can be used to print a one line
+'how to use'. </para>
+
+</sect2>
+</sect1>
+<sect1 id="sequential"><title>Sequential access</title>
+
+<para>If you are handling large images on an extremely memory-limited
+machine, you may need to use the following functions for sequential
+read and write. It's better to avoid them and use the simpler 
+DGifSlurp()/EGifSpew() interface.</para>
+
+<sect2><title>Sequential reading</title>
 
 <programlisting id="DGifGetScreenDesc">
 int DGifGetScreenDesc(GifFileType *GifFile)
@@ -349,32 +566,8 @@ not be used after this routine has been called.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
 
-<para>There is one more way to read from a GIF file: through a
-function hook. Initialize with </para>
-
-<programlisting id="DGifOpen">
-GifFileType *DGifOpen(void *userPtr, InputFunc readFunc)
-</programlisting>
-
-<para>and see the library header file for the type of InputFunc.</para>
-
-</sect1>
-<sect1><title>Encoding (egif_lib.c)</title>
-
-<para>There are two ways to write out a GIF.  The high-level function</para>
-
-<programlisting id="EGifSpew">
-int EGifSpew(GifFileType *GifFile, int GifFileHandle)
-</programlisting>
-
-<para>Writes a complete (possibly multi-image) GIF file to the indicated file
-handle from in-core allocated structures created by a previous DGifSlurp()
-or equivalent operations.  Its arguments are a GIF file descriptor (as
-above) and an ordinary output file descriptor.</para>
-
-<para>The file is written with a GIF87 stamp unless it contains one of the four
-special extension blocks defined in GIF89, in which case it is written
-with a GIF89 stamp.</para>
+</sect2>
+<sect2><title>Sequential writing</title>
 
 <para>If you are handling large images on a memory-limited machine, you may need
 to use the following functions for sequential write.</para>
@@ -591,184 +784,8 @@ should not be used, once this routine has been called.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
 
-<para>There is one more way to write to a GIF file: through a
-function hook. Initialize with </para>
-
-<programlisting id="EGifOpen">
-GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc)
-</programlisting>
-
-<para>and see the library header file for the type of OutputFunc.</para>
-</sect1>
-<sect1><title>Color map handling and allocation routines</title>
-
-<programlisting id="MakeMapObject">
-ColorMapObject *MakeMapObject(int ColorCount, GifColorType *ColorMap)
-</programlisting>
-
-<para>Allocate storage for a color map object with the given number of
-RGB triplet slots.  If the second argument is non-NULL, initialize
-the color table portion of the new map from it.  Returns NULL if
-memory is exhausted or if the size is not a power of 2 &lt;= 256.</para>
-
-<programlisting id="FreeMapObject">
-void FreeMapObject(ColorMapObject *Object)
-</programlisting>
-
-<para>Free the storage occupied by a ColorMapObject that is no longer
-needed.</para>
-
-<programlisting id="UnionColorMap">
-ColorMapObject *UnionColorMap(
-        ColorMapObject *ColorIn1, ColorMapObject *ColorIn2,
-        GifPixelType ColorTransIn2[])
-</programlisting>
-
-<para>Create the union of two given color maps and return it.  If the result
-won't fit into 256 colors, NULL is returned, the allocated union
-otherwise.  ColorIn1 is copied as it to ColorUnion, while colors from
-ColorIn2 are copied iff they didn't exist before.  ColorTransIn2 maps
-the old ColorIn2 into ColorUnion color map table.</para>
-
-<programlisting id="GifAttachImage">
-SavedImage *GifAttachImage(GifFileType *GifFile)
-</programlisting>
-
-<para>Add an image block to the SavedImages array.  The image block is
-initially zeroed out.  This image block will be seen by any following
-EGifSpew() calls.</para>
-
-</sect1>
-<sect1><title>Error Handling (gif_err.c)</title>
-
-<programlisting>
-int GifError(void)
-int GifErrorString(void)
-</programlisting>
-
-<para>These functions return the last error reported by a library function,
-as a numeric error code and string explanation respectively.</para>
-
-</sect1>
-<sect1><title>The GIF Utility Font</title>
-
-<para>The 8x8 utility font used in text2gif and gifcolor lives in the library
-module gif_font.c, in a table called AsciiTable.  The library header file
-includes suitable externs and defines.</para>
-
-<para>The GIF utility font support includes entry points for drawing legends
-on in-core images, drawing boxes and rectangles, and boxing text.
-These entry points are as follows:</para>
-
-<programlisting id="GifDrawText">
-void GifDrawText(
-        SavedImage *Image,
-        const int x, const int y,
-        const char *legend,
-        const int color)
-</programlisting>
-
-<para>Draw text using the 8x8 utility font on the saved image.  Upper
-left corner of the text is at image pixel (x, y).  Use the specified
-color index.</para>
-
-<programlisting id="GifDrawBox">
-void GifDrawBox(SavedImage *Image,
-        const int x, const int y,
-        const int w, const int h,
-        const int color)
-</programlisting>
-
-<para>Draw a box on the saved image.  Upper left corner of the box is at
-image pixels (x, y), width is w, height is h.  Use the specified color
-index.</para>
-
-<programlisting id="GifDrawRectangle">
-void GifDrawRectangle(SavedImage *Image,
-        const int x, const int y,
-        const int w, const int h,
-        const int color)
-</programlisting>
-
-<para>Draw a (filled) rectangle on the saved image.  Upper left corner of
-the box is at image pixels (x, y), width is w, height is h.  Use the
-specified color index.</para>
-
-<programlisting id="GifDrawBoxedText">
-void GifDrawBoxedText(SavedImage *Image,
-        const int x, const int y,
-        const char *legend,
-        const int border,
-        const int bg, const int fg)
-</programlisting>
-
-<para>Draw text on a filled rectangle.  The rectangle will be sized to fit
-the text, with upper left hand corner at (x, y) on the saved image.
-The `border' argument specifies a pixel margin around the text.  The
-`bg' argument is the color table index to fill the rectangle with;
-`fg' is the color table index to draw the text with.</para>
-
-<para>This function interprets some characters in the legend string
-specially.  A tab (\t) is interpreted as a command to center the
-following text in the box.  A carriage return (\r) is interpreted
-as a request for a line break.</para>
-
-</sect1>
-<sect1><title>Utility support library</title>
-
-<para>These functions are not part of the core GIF library.  They are part
-of the getarg library that supports the utilities.</para>
-
-<sect2><title>Error Handling</title>
-
-<programlisting id="PrintGifError">
-void PrintGifError(void)
-</programlisting>
-
-<para>Print a one-line diagnostic on the last giflib error to stderr.</para>
-
-<programlisting id="GifLastError">
-int GifLastError(void)
-</programlisting>
-
-<para>Return the number of the last giflib error, and clear the error.
-The error types are defined in gif_lib.h.</para>
-
-<para>Note it is the user's responsibility to call the file closing
-routine, so the file will be closed (if was opened), and allocated
-memory will be released.</para>
-
 </sect2>
-<sect2><title>Command Line Parsing</title>
 
-<programlisting id="GAGetArgs">
-bool GAGetArgs(int argc, char **argv, char *CtrlStr, ...)
-</programlisting>
-
-<para>Main routine of this module.  Given argc &amp; argv as received by
-the main procedure, the command line CtrlStr, and the addresses of
-all parameters, parse the command line, and update the parameters.</para>
-
-<para>The CtrlStr defines what types of variables should follow. Look at the
-beginning of getarg.c for exact usage.</para>
-
-<para>Returns false if successful, returns true on failure.</para>
-
-<programlisting id="GAPrintErrMsg">
-void GAPrintErrMsg(int Error)
-</programlisting>
-
-<para>If an error occurred in GAGetARgs, this routine may be used to print
-one line diagnostic to stderr.</para>
-
-<programlisting id="GAPrintHowTo">
-void GAPrintHowTo(char *CtrlStr)
-</programlisting>
-
-<para>Given the same CtrlStr as for GAGetArgs, can be used to print a one line
-'how to use'. </para>
-
-</sect2>
 </sect1>
 <sect1 id="compatibility"><title>Forward and Backward Compatibility</title>
 
