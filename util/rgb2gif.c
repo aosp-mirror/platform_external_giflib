@@ -115,7 +115,7 @@ int main(int argc, char **argv)
 					    sizeof(GifByteType))) == NULL)
 	GIF_EXIT("Failed to allocate memory required, aborted.");
 
-    if (QuantizeBuffer(Width, Height, &ColorMapSize,
+    if (GifQuantizeBuffer(Width, Height, &ColorMapSize,
 		       RedBuffer, GreenBuffer, BlueBuffer,
 		       OutputBuffer, OutputColorMap->Colors) == GIF_ERROR)
 	QuitGifError(NULL);

@@ -56,7 +56,7 @@ static int SortCmpRtn(const void *Entry1, const void *Entry2);
  *   This function returns GIF_OK if succesfull, GIF_ERROR otherwise.
  ******************************************************************************/
 int
-QuantizeBuffer(unsigned int Width,
+GifQuantizeBuffer(unsigned int Width,
                unsigned int Height,
                int *ColorMapSize,
                GifByteType * RedInput,
@@ -249,8 +249,8 @@ SubdivColorMap(NewColorMapType * NewColorSubdiv,
         Sum = NewColorSubdiv[Index].Count / 2 - QuantizedColor->Count;
         NumEntries = 1;
         Count = QuantizedColor->Count;
-        while ((Sum -= QuantizedColor->Pnext->Count) >= 0 &&
-               QuantizedColor->Pnext != NULL &&
+        while (QuantizedColor->Pnext != NULL &&
+	       (Sum -= QuantizedColor->Pnext->Count) >= 0 &&
                QuantizedColor->Pnext->Pnext != NULL) {
             QuantizedColor = QuantizedColor->Pnext;
             NumEntries++;
@@ -262,6 +262,7 @@ SubdivColorMap(NewColorMapType * NewColorSubdiv,
          * they need to be rescaled.
          */
         MaxColor = QuantizedColor->RGB[SortRGBAxis]; /* Max. of first half */
+	/* coverity[var_deref_op] */
         MinColor = QuantizedColor->Pnext->RGB[SortRGBAxis]; /* of second */
         MaxColor <<= (8 - BITS_PER_PRIM_COLOR);
         MinColor <<= (8 - BITS_PER_PRIM_COLOR);
