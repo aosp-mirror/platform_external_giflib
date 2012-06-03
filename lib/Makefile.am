@@ -13,7 +13,8 @@ libgif_la_SOURCES = dgif_lib.c  \
 					gif_hash.h	\
                     gifalloc.c  \
                     gif_err.c   \
-					gif_lib_private.h
+					gif_lib_private.h \
+		    quantize.c
 
 libgif_la_LDFLAGS = -version-info @SHLIBVERSION@ $(LT_LDFLAGS)
 libgif_la_LIBADD = @DEVS@
