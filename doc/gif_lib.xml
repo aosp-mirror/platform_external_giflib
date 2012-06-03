@@ -85,10 +85,11 @@ read).</para>
 <para>As the library needs to keep its own internal data, a Private pointer
 to hidden data is included. Applications should ignore this item.</para>
 
-<para>The library has no static data. This means that it is fully reentrant
-and any number of GIF files (up to memory limits) can be opened for
-read/write. Instead of the static data, an internal structure pointed by the
-Private pointer is used.</para>
+<para>The library has no static data other than one error-code cell
+analogoues to errno. This means that it is fully reentrant and any
+number of GIF files (up to memory limits) can be opened for
+read/write. Instead of the static data, an internal structure pointed
+by the Private pointer is used.</para>
 
 <para>The library allocates its own memory dynamically, on opening of files,
 and releases that once closed.  The user is never required to allocate
