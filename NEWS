@@ -25,7 +25,7 @@ API
   now live in an ExtensionBlockList substructure named 'Leading'.
   This was done so that the new list of trailing extension blocks in
   GifFileType can use the same list-handler code as the Leading 
-  exytension-block list in each saved image.
+  extension-block list in each saved image.
 * New functions support manipulating GIF89 graphics control extensions.
 * TRUE and FALSE macros are gone, also VoidPtr.  No more namespace pollution.
 * The library Draw* functions are now named GifDraw*. This fixes a conflict

@@ -87,7 +87,7 @@ to hidden data is included. Applications should ignore this item.</para>
 
 <para>The library has no static data. This means that it is fully reentrant
 and any number of GIF files (up to memory limits) can be opened for
-read/write. Instead of the static data, internal structure pointed by the
+read/write. Instead of the static data, an internal structure pointed by the
 Private pointer is used.</para>
 
 <para>The library allocates its own memory dynamically, on opening of files,
