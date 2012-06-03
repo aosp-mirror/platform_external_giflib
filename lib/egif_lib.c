@@ -114,10 +114,6 @@ EGifOpenFileHandle(const int FileHandle)
 
     f = fdopen(FileHandle, "wb");    /* Make it into a stream: */
 
-    /* MSDOS and Windows32 requires this, no reason not to do it under Unix */
-    (void)setvbuf(f, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE);    /* And inc. stream
-                                                              * buffer. */
-
     GifFile->Private = (void *)Private;
     Private->FileHandle = FileHandle;
     Private->File = f;

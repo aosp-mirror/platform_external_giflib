@@ -26,8 +26,6 @@ extern "C" {
 #define GIF87_STAMP "GIF87a"        /* First chars in file - GIF stamp.  */
 #define GIF89_STAMP "GIF89a"        /* First chars in file - GIF stamp.  */
 
-#define GIF_FILE_BUFFER_SIZE 16384  /* Files uses bigger buffers than usual. */
-
 typedef unsigned char GifPixelType;
 typedef unsigned char *GifRowType;
 typedef unsigned char GifByteType;

@@ -82,11 +82,6 @@ int main(int argc, char **argv)
         GIF_EXIT("Failed to open input.");
     }
 
-    if (setvbuf(Fin, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE)) /* Incr. stream buf.*/
-    {
-        GIF_EXIT("Failed to set buffering on input.");
-    }
-
     /* Isolate the directory where our destination is, and set tmp file name */
     /* in the very same directory. This code is isecure because it creates   */
     /* predictable names, but it's not worth the effort and risk to fix.     */
@@ -112,11 +107,6 @@ int main(int argc, char **argv)
     if (Fout == NULL)
     {
 	GIF_EXIT("Failed to open output.");
-    }
-
-    if (setvbuf(Fout, NULL, _IOFBF, GIF_FILE_BUFFER_SIZE)) /*Incr. stream buf.*/
-    {
-	GIF_EXIT("Failed to set buffering on output.");
     }
 
     while (!feof(Fin)) {

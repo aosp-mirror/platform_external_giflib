@@ -96,9 +96,6 @@ and releases that once closed.  The user is never required to allocate
 any memory for any of the functions of this library nor to free them
 directly.</para>
 
-<para>In order to reduce disk access, the file buffer is increased to
-FILE_BUFFER_SIZE (defined in gif_lib.h).</para>
-
 <para>Here is a module summary:</para>
 
 <variablelist>
