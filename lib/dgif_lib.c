@@ -1080,8 +1080,30 @@ DGifSlurp(GifFileType *GifFile)
                   return GIF_ERROR;
               }
 
-              if (DGifGetLine(GifFile, sp->RasterBits, ImageSize) == GIF_ERROR)
-                  return (GIF_ERROR);
+	      if (sp->ImageDesc.Interlace) {
+		  int i, j;
+		   /* 
+		    * The way an interlaced image should be read - 
+		    * offsets and jumps...
+		    */
+		  int InterlacedOffset[] = { 0, 4, 2, 1 };
+		  int InterlacedJumps[] = { 8, 8, 4, 2 };
+		  /* Need to perform 4 passes on the image */
+		  for (i = 0; i < 4; i++)
+		      for (j = InterlacedOffset[i]; 
+			   j < sp->ImageDesc.Height;
+			   j += InterlacedJumps[i]) {
+			  if (DGifGetLine(GifFile, 
+					  sp->RasterBits+j*sp->ImageDesc.Width, 
+					  sp->ImageDesc.Width) == GIF_ERROR)
+			      return GIF_ERROR;
+		      }
+	      }
+	      else {
+		  if (DGifGetLine(GifFile,sp->RasterBits,ImageSize)==GIF_ERROR)
+		      return (GIF_ERROR);
+	      }
+
               if (GifFile->Trailing.ExtensionBlocks) {
                   sp->Leading.ExtensionBlocks = GifFile->Trailing.ExtensionBlocks;
                   sp->Leading.ExtensionBlockCount = GifFile->Trailing.ExtensionBlockCount;

@@ -27,3 +27,6 @@ tests/coverage.txt.
 
 Need to be tested and documented.
 
+== DGifSlurp() support for interlaced image reads ==
+
+Needs to be tested and documented.
