@@ -26,6 +26,7 @@
 |gifrsize   | visual-check
 |gifspnge   | visual-check
 |giftext    | -
+|giftool    | make util-regress
 |gifwedge   | make util-regress
 |icon2gif   | -
 |raw2gif    | -
