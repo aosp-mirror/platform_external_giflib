@@ -1104,12 +1104,31 @@ EGifSpew(GifFileType *GifFileOut)
                              sp->ImageDesc.ColorMap) == GIF_ERROR)
             return (GIF_ERROR);
 
-        for (j = 0; j < SavedHeight; j++) {
-            if (EGifPutLine(GifFileOut,
-                            sp->RasterBits + j * SavedWidth,
-                            SavedWidth) == GIF_ERROR)
-                return (GIF_ERROR);
-        }
+	if (sp->ImageDesc.Interlace) {
+	     /* 
+	      * The way an interlaced image should be written - 
+	      * offsets and jumps...
+	      */
+	    int InterlacedOffset[] = { 0, 4, 2, 1 };
+	    int InterlacedJumps[] = { 8, 8, 4, 2 };
+	    /* Need to perform 4 passes on the images: */
+	    for (i = 0; i < 4; i++)
+		for (j = InterlacedOffset[i]; 
+		     j < SavedHeight;
+		     j += InterlacedJumps[i]) {
+		    if (EGifPutLine(GifFileOut, 
+				    sp->RasterBits + j * SavedWidth, 
+				    SavedWidth)	== GIF_ERROR)
+			return (GIF_ERROR);
+		}
+	} else {
+	    for (j = 0; j < SavedHeight; j++) {
+		if (EGifPutLine(GifFileOut,
+				sp->RasterBits + j * SavedWidth,
+				SavedWidth) == GIF_ERROR)
+		    return (GIF_ERROR);
+	    }
+	}
     }
 
     if (EGifWriteExtensions(GifFileOut,
