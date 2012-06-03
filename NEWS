@@ -2,7 +2,7 @@
 Repository head
 ===============
 
-Changes to the API require a library major-version bump. Aplication
+Changes to the API require a library major-version bump. Application
 code using the DGifSlurp()/EGifSpew() interface to extension blocks
 will require minor changes.
 

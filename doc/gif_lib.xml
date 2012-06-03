@@ -47,7 +47,7 @@ and its compression ratio too low.  I compromised on the GIF format, but I am
 not sure how long 8 bits per pixel will be enough."</para>
 
 <para>This document explains the GIF library code in directory `lib'.  The
-code is collected into libgif.a which is used in all the utilities in
+code is collected into a service library which is used in all the utilities in
 `util'.  It can be used in any application needs to read/write the GIF
 file format.  This document does <emphasis>not</emphasis> explain the GIF file
 format and assumes you know it, at least to the level of the GIF file
