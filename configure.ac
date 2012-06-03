@@ -25,6 +25,15 @@ if test "x$GCC" = "xyes" ; then
   CFLAGS="$CFLAGS -Wall"
 fi
 
+dnl Checks for additional libtool flags (platform-dependant)
+
+LT_LDFLAGS=""
+case "$host" in
+  *mingw*)
+    LT_LDFLAGS="-no-undefined"
+    ;;
+esac
+
 dnl Checks for libraries.
 
 AC_CHECK_LIB(m, pow, [MATH_LIB="${MATH_LIB} -lm"
@@ -48,6 +57,7 @@ AC_SUBST(X11_LIB)
 AC_SUBST(X_CFLAGS)
 AC_SUBST(MATH_LIB)
 AC_SUBST(SHLIBVERSION)
+AC_SUBST(LT_LDFLAGS)
 
 AC_CHECK_HEADERS(limits.h, ,
                  AC_MSG_ERROR([giflib needs limits.h to compile]))
