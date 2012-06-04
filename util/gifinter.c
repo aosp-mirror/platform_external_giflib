@@ -230,8 +230,9 @@ static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer)
 	}
     }
 
-    /* Free the m emory used for this image: */
-    for (i = 0; i < GifFile->Image.Height; i++) free((char *) ImageBuffer[i]);
+    /* Free the memory used for this image: */
+    for (i = 0; i < GifFile->Image.Height; i++)
+	free((char *) ImageBuffer[i]);
     free((char *) ImageBuffer);
 
     return GIF_OK;
