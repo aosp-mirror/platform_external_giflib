@@ -79,6 +79,10 @@ int main(int argc, char **argv)
     if (SaveFlag + LoadFlag + GammaFlag + TranslateFlag > 1)
 	GIF_EXIT("Can not handle more than one of -s -l, -t, or -g at the same time.");
 
+    /* Default action is to dump colormaps */
+    if (!SaveFlag && !LoadFlag && !GammaFlag && TranslateFlag <= 1)
+	SaveFlag = true;
+
     if (NumFiles == 1) {
 	if ((GifFileIn = DGifOpenFileName(*FileName)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);
