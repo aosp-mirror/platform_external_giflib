@@ -439,7 +439,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    NewImage->RasterBits = (unsigned char *) Raster;
 	}
 #endif /* __COVERITY__ */
-	else if (sscanf(buf, "comment"))
+	else if (strcmp(buf, "comment\n") == 0)
 	{
 	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
 		if (strcmp(buf, "end\n") == 0)
@@ -458,7 +458,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    }
 		}
 	}
-	else if (sscanf(buf, "plaintext"))
+	else if (strcmp(buf, "plaintext\n") == 0)
 	{
 	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
 		if (strcmp(buf, "end\n") == 0)
