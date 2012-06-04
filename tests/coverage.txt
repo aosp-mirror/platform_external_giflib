@@ -24,8 +24,8 @@
 |gifpos     | visual-check
 |gifrotat   | visual-check
 |gifrsize   | visual-check
-|gifspnge   | gifspnge-regress
-|giftext    | -
+|gifspnge   | make gifspnge-regress
+|giftext    | make giftext-regress
 |giftool    | make util-regress
 |gifwedge   | make util-regress
 |icon2gif   | -

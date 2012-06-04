@@ -3,9 +3,11 @@
 .SUFFIXES: .gif .rgb
 
 # This is what to do by default
-test: render-regress gifclrmp-regress util-regress gifspnge-regress
+test: render-regress util-regress gifspnge-regress \
+		gifclrmp-regress giftext-regress
 
-rebuild: render-buildregress util-buildregress gifclrmp-buildregress
+rebuild: render-buildregress util-buildregress \
+		gifclrmp-buildregress giftext-buildregress
 
 UTILS = ../util
 PICS = ../pic
@@ -46,6 +48,23 @@ gifclrmp-buildregress:
 		stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 		echo "Remaking $${stem}.map"; \
 		$(UTILS)/gifclrmp <$${test} >$${stem}.map; \
+	done
+
+giftext-regress:
+	@for test in $(GIFS); \
+	do \
+	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
+	    if echo "Checking text dump of $${test}" >&2; \
+	    $(UTILS)/giftext <$${test} >/tmp/regress 2>&1; \
+	    then cmp $${stem}.dmp /tmp/regress; \
+	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
+	done
+	@rm -f /tmp/regress
+giftext-buildregress:
+	@for test in $(GIFS); do \
+		stem=`basename $${test} | sed -e "s/.gif$$//"`; \
+		echo "Remaking $${stem}.dmp"; \
+		$(UTILS)/giftext <$${test} >$${stem}.dmp; \
 	done
 
 gifspnge-regress:
