@@ -612,6 +612,12 @@ to use by looking at the GIF's extension blocks. (Older versions of
 the library defaulted to GIF87)</para>
 
 <programlisting>
+char *EGifGetGifVersion(GifFileType *GifFile)
+</programlisting>
+
+<para>That version computation is available through this function.</para>
+
+<programlisting>
 int EGifPutScreenDesc(GifFileType *GifFile,
         const int GifWidth, const GifHeight,
         const int GifColorRes, const int GifBackGround,
@@ -815,7 +821,9 @@ image.</para></listitem>
 <listitem><para>As of 5.0, the default GIF version to write is now
 computed at write time from the types of an image's extension blocks,
 but can be overridden with EGifSetGifVersion(). Formerly EGifSpew()
-behaved this way, but the sequential-writing code didn't.
+behaved this way, but the sequential-writing code didn't.  The 
+result of this computation is available through the new function 
+EGifGetGifVersion().
 </para></listitem>
 <listitem><para>As of 5.0, EGifSpew() is thread-safe.</para></listitem>
 <listitem><para>A rare resource leak in the colormap-object maker was found with

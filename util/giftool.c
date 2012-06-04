@@ -23,8 +23,31 @@ static enum mode_t {
 
 int main(int argc, char **argv)
 {
-    int	i;
+    extern char	*optarg;	/* set by getopt */
+    extern int	optind;		/* set by getopt */
+    int	i, status;
     GifFileType *GifFileIn, *GifFileOut = (GifFileType *)NULL;
+
+    while ((status = getopt(argc, argv, "iI")) != EOF)
+    {
+	switch (status)
+	{
+	//case 'b':
+	//    base = atoi(optarg);
+	//    break;
+
+	case 'i':
+	    mode = deinterlace;
+	    break;
+
+	case 'I':
+	    mode = interlace;
+	    break;
+
+	default:
+	    fprintf(stderr, "usage: giftool [-iI]\n");
+	}
+    }	
 
     if ((GifFileIn = DGifOpenFileHandle(0)) == NULL
 	|| DGifSlurp(GifFileIn) == GIF_ERROR

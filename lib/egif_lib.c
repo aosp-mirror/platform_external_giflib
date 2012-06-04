@@ -185,32 +185,13 @@ EGifSetGifVersion(const char *Version)
 }
 
 /******************************************************************************
- * This routine should be called before any other EGif calls, immediately
- * follows the GIF file openning.
+ * Routine to compute the GIF version that will be written on output.
  *****************************************************************************/
-int
-EGifPutScreenDesc(GifFileType *GifFile,
-                  const int Width,
-                  const int Height,
-                  const int ColorRes,
-                  const int BackGround,
-                  const ColorMapObject *ColorMap)
+char *
+EGifGetGifVersion(GifFileType *GifFile)
 {
-    GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
-    char *write_version;
     int i, j;
-
-    if (Private->FileState & FILE_STATE_SCREEN) {
-        /* If already has screen descriptor - something is wrong! */
-        _GifError = E_GIF_ERR_HAS_SCRN_DSCR;
-        return GIF_ERROR;
-    }
-    if (!IS_WRITEABLE(Private)) {
-        /* This file was NOT open for writing: */
-        _GifError = E_GIF_ERR_NOT_WRITEABLE;
-        return GIF_ERROR;
-    }
 
     /* Bulletproofing - always write GIF89 if we need to */
     for (i = 0; i < GifFile->ImageCount; i++) {
@@ -235,6 +216,41 @@ EGifPutScreenDesc(GifFileType *GifFile,
 	    Private->gif89 = true;
     }
  
+    if (GifVersionPrefix[0] != '\0')
+	return GifVersionPrefix;
+    else if (Private->gif89)
+	return GIF89_STAMP;
+    else
+	return GIF87_STAMP;
+}
+
+/******************************************************************************
+ * This routine should be called before any other EGif calls, immediately
+ * follows the GIF file openning.
+ *****************************************************************************/
+int
+EGifPutScreenDesc(GifFileType *GifFile,
+                  const int Width,
+                  const int Height,
+                  const int ColorRes,
+                  const int BackGround,
+                  const ColorMapObject *ColorMap)
+{
+    GifByteType Buf[3];
+    GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
+    char *write_version;
+
+    if (Private->FileState & FILE_STATE_SCREEN) {
+        /* If already has screen descriptor - something is wrong! */
+        _GifError = E_GIF_ERR_HAS_SCRN_DSCR;
+        return GIF_ERROR;
+    }
+    if (!IS_WRITEABLE(Private)) {
+        /* This file was NOT open for writing: */
+        _GifError = E_GIF_ERR_NOT_WRITEABLE;
+        return GIF_ERROR;
+    }
+
     /*
      * Older versions of the library didn't compute which version 
      * the image's extension blocks require here, but rather in EGifSpew(),
@@ -244,12 +260,7 @@ EGifPutScreenDesc(GifFileType *GifFile,
      * want to, but defaults to the oldest version that will carry the
      * extensions.
      */
-    if (GifVersionPrefix[0] != '\0')
-	write_version = GifVersionPrefix;
-    else if (Private->gif89)
-	write_version = GIF89_STAMP;
-    else
-	write_version = GIF87_STAMP;
+    write_version = EGifGetGifVersion(GifFile);
 
     /* First write the version prefix into the file. */
     if (WRITE(GifFile, (unsigned char *)write_version,

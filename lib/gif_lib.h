@@ -120,6 +120,7 @@ GifFileType *EGifOpenFileHandle(const int GifFileHandle);
 GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc);
 int EGifSpew(GifFileType * GifFile);
 void EGifSetGifVersion(const char *Version);
+char *EGifGetGifVersion(GifFileType *GifFile); /* new in 5.x */
 int EGifCloseFile(GifFileType * GifFile);
 
 #define E_GIF_ERR_OPEN_FAILED    1    /* And EGif possible errors. */
