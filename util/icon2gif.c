@@ -399,11 +399,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		exit(EXIT_FAILURE);
 	    }
 
-	    if (!GifNoisyPrint)
-		fprintf(stderr, "%s: Image %d at (%d, %d) [%dx%d]:     ",
-		    PROGRAM_NAME, GifFileOut->ImageCount,
-		    NewImage->ImageDesc.Left, NewImage->ImageDesc.Top,
-		    NewImage->ImageDesc.Width, NewImage->ImageDesc.Height);
+	    GifQprintf("%s: Image %d at (%d, %d) [%dx%d]:     ",
+		       PROGRAM_NAME, GifFileOut->ImageCount,
+		       NewImage->ImageDesc.Left, NewImage->ImageDesc.Top,
+		       NewImage->ImageDesc.Width, NewImage->ImageDesc.Height);
 
 	    cp = Raster;
 	    for (i = 0; i < NewImage->ImageDesc.Height; i++) {
@@ -429,11 +428,11 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 			exit(EXIT_FAILURE);
 		    }
 
-		if (!GifNoisyPrint)
+		if (GifNoisyPrint)
 		    fprintf(stderr, "\b\b\b\b%-4d", i);
 	    }
 
-	    if (!GifNoisyPrint)
+	    if (GifNoisyPrint)
 		putc('\n', stderr);
 
 	    NewImage->RasterBits = (unsigned char *) Raster;
