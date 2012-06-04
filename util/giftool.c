@@ -9,10 +9,17 @@ giftool.c - GIF transformation tool.
 #include <string.h>
 #include <fcntl.h>
 
+#include "getopt.h"
 #include "getarg.h"
 #include "gif_lib.h"
 
 #define PROGRAM_NAME	"giftool"
+
+static enum mode_t {
+    copy,
+    interlace,
+    deinterlace,
+} mode;
 
 int main(int argc, char **argv)
 {
@@ -27,10 +34,26 @@ int main(int argc, char **argv)
 	exit(EXIT_FAILURE);
     }
 
-    /*
-     * Your operations on in-core structures go here.  
-     * This code just copies the header and each image from the incoming file.
-     */
+    switch (mode) {
+    case copy:
+	/* default action: do nothing, copy straight through */
+	break;
+
+    case interlace:
+	for (i = 0; i < GifFileIn->ImageCount; i++)
+	    GifFileIn->SavedImages[i].ImageDesc.Interlace = true;
+	break;
+
+    case deinterlace:
+	for (i = 0; i < GifFileIn->ImageCount; i++)
+	    GifFileIn->SavedImages[i].ImageDesc.Interlace = false;
+	break;
+
+    default:
+	(void)fprintf(stderr, "giftool: unknown operation mode\n");
+	exit(EXIT_FAILURE);
+    }
+
     GifFileOut->SWidth = GifFileIn->SWidth;
     GifFileOut->SHeight = GifFileIn->SHeight;
     GifFileOut->SColorResolution = GifFileIn->SColorResolution;
