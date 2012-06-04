@@ -11,15 +11,16 @@ Code Fixes
 * Fixes applied for CVE-2005-2974 and CVE-2005-3350
   This closes Debian bug #337972.
 
-API
----
+New API Features
+----------------
+* DGifSlurp() and EGifSpew() now preserve trailing extension blocks with
+  no following image file, in an ExtensionBlockList member named 'Trailing'.
+* DGifSlurp() and EGifSpew() now read and write interlaced images.
 * The ExtensionBlock API has been repaired.  The (undocumented)
   MakeExtension() entry point is gone and the (undocumented)
   AddExtensionBlock() function now takes a function-code argument.
   The (undocumented) FreeExtension() function is replaced by
   FreeExtensions().
-* DGifSlurp() and EGifSpew() now preserve trailing extension blocks with
-  no following image file, in an ExtensionBlockList member named 'Trailing'.
 * The ExtensionBlockCount and ExtensionBlockList members of the
   SavedImage structures are no longer top-level in that structure, but
   now live in an ExtensionBlockList substructure named 'Leading'.

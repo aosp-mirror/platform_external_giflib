@@ -35,6 +35,10 @@ util-buildregress:
 util-regress:
 	@echo "Checking wedge generation."
 	@$(UTILS)/gifwedge | cmp - wedge.gif
-	@echo "Checking that expensive copy is faithful."
-	@$(UTILS)/giftool <$(PICS)/cover.gif | $(UTILS)/gif2rgb | cmp - cover.rgb 
+	@echo "Checking that expensive copy via giftool is faithful."
+	@$(UTILS)/giftool <$(PICS)/cover.gif | $(UTILS)/gif2rgb | cmp - cover.rgb
+	@echo "Checking that giftool de-interlaces correctly."
+	@$(UTILS)/giftool -i <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
+	@echo "Checking that giftool interlaces correctly."
+	@$(UTILS)/giftool -I <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
 	@echo "No output is good news"
