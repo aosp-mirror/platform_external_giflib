@@ -3,7 +3,9 @@
 .SUFFIXES: .gif .rgb
 
 # This is what to do by default
-test: render-regress util-regress
+test: render-regress gifclrmp-regress util-regress
+
+rebuild: render-buildregress util-buildregress gifclrmp-buildregress
 
 UTILS = ../util
 PICS = ../pic
@@ -27,6 +29,23 @@ render-buildregress:
 		stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 		echo "Remaking $${stem}.rgb"; \
 		$(UTILS)/gif2rgb -1 -o $${stem}.rgb $${test}; \
+	done
+
+gifclrmp-regress:
+	@for test in $(GIFS); \
+	do \
+	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
+	    if echo "Checking colormap of $${test}" >&2; \
+	    $(UTILS)/gifclrmp <$${test} >/tmp/regress 2>&1; \
+	    then cmp $${stem}.map /tmp/regress; \
+	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
+	done
+	@rm -f /tmp/regress
+gifclrmp-buildregress:
+	@for test in $(GIFS); do \
+		stem=`basename $${test} | sed -e "s/.gif$$//"`; \
+		echo "Remaking $${stem}.map"; \
+		$(UTILS)/gifclrmp <$${test} >$${stem}.map; \
 	done
 
 util-buildregress:

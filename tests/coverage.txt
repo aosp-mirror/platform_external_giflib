@@ -9,7 +9,7 @@
 |gifasm     | -
 |gifbg      | visual-check
 |gifclip    | visual-check
-|gifclrmp   | -
+|gifclrmp   | make map-regress
 |gifcolor   | -
 |gifcomb    | -
 |gifcompose | -
