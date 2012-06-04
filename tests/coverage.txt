@@ -9,7 +9,7 @@
 |gifasm     | -
 |gifbg      | visual-check
 |gifclip    | visual-check
-|gifclrmp   | make map-regress
+|gifclrmp   | make gifclrmp-regress
 |gifcolor   | -
 |gifcomb    | -
 |gifcompose | -
@@ -24,7 +24,7 @@
 |gifpos     | visual-check
 |gifrotat   | visual-check
 |gifrsize   | visual-check
-|gifspnge   | visual-check
+|gifspnge   | gifspnge-regress
 |giftext    | -
 |giftool    | make util-regress
 |gifwedge   | make util-regress

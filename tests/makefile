@@ -3,7 +3,7 @@
 .SUFFIXES: .gif .rgb
 
 # This is what to do by default
-test: render-regress gifclrmp-regress util-regress
+test: render-regress gifclrmp-regress util-regress gifspnge-regress
 
 rebuild: render-buildregress util-buildregress gifclrmp-buildregress
 
@@ -47,6 +47,17 @@ gifclrmp-buildregress:
 		echo "Remaking $${stem}.map"; \
 		$(UTILS)/gifclrmp <$${test} >$${stem}.map; \
 	done
+
+gifspnge-regress:
+	@for test in $(GIFS); \
+	do \
+	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
+	    if echo "Testing gifspnge copy of $${test}" >&2; \
+	    $(UTILS)/gifspnge <$${test} | $(UTILS)/gif2rgb >/tmp/regress 2>&1; \
+	    then cmp $${stem}.rgb /tmp/regress; \
+	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
+	done
+	@rm -f /tmp/regress
 
 util-buildregress:
 	$(UTILS)/gifwedge >wedge.gif

@@ -54,12 +54,3 @@ gifclip -i 222 0 390 134 $GIF_DIR/solid2.gif | gifpos -s 169 135 | gifrsize -s 2
 
 echo "Rotate the cover image by 45 degrees" 
 gifrotat -a 45 $GIF_DIR/cover.gif | $GIF_DISPLAY
-
-echo "Copy the Porsche image (test DGifSlurp and DGifSpew)"
-gifspnge <$GIF_DIR/porsche.gif | $GIF_DISPLAY
-
-echo "Copy a transparent image (test extensions)"
-gifspnge <$GIF_DIR/x-trans.gif |$GIF_DISPLAY
-
-# echo "Copy an animated gif, that has shared colour maps"
-gifspnge <$GIF_DIR/welcome2.gif | $GIF_DISPLAY
