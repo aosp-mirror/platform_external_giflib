@@ -124,10 +124,8 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	*ColorMap = GlobalColorMap;
     char GlobalColorKeys[PRINTABLES], LocalColorKeys[PRINTABLES],
 	*KeyTable = GlobalColorKeys;
-#ifndef __COVERITY__
     unsigned int ExtCode;
     int red, green, blue, n;
-#endif /* __COVERITY__ */
 
     char buf[BUFSIZ * 2], InclusionFile[64];
     GifFileType *GifFileOut;
@@ -142,6 +140,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
     }
 
     /* OK, interpret directives */
+    /* coverity[tainted_data_transitive] */
     while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
     {
 	char	*cp;
@@ -151,12 +150,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	/*
 	 * Skip lines consisting only of whitespace and comments
 	 */
-#ifndef __COVERITY__
 	for (cp = buf; isspace((int)(*cp)); cp++)
 	    continue;
 	if (*cp == '#' || *cp == '\0')
 	    continue;
-#endif /* __COVERITY__ */
 
 	/*
 	 * If there's a trailing comment, nuke it and all preceding whitespace.
@@ -174,7 +171,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	 * Explicit header declarations
 	 */
 
-#ifndef __COVERITY__
 	// cppcheck-suppress invalidscanf 
 	if (sscanf(buf, "screen width %d\n", &GifFileOut->SWidth) == 1)
 	    continue;
@@ -203,7 +199,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 			"screen background %d\n",
 			&GifFileOut->SBackGroundColor) == 1)
 	    continue;
-#endif /* __COVERITY__ */
 
 	/*
 	 * Color table parsing
@@ -237,7 +232,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    memset(LocalColorKeys, '\0', sizeof(LocalColorKeys));
 	}
 
-#ifndef __COVERITY__
 	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "	rgb %d %d %d is %c",
 		   &red, &green, &blue, &KeyTable[ColorMapSize]) == 4)
@@ -247,7 +241,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    ColorMap[ColorMapSize].Blue = blue;
 	    ColorMapSize++;
 	}
-#endif /* __COVERITY__ */
 
 	else if (strcmp(buf, "end\n") == 0)
 	{
@@ -268,7 +261,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	}
 
 	/* GIF inclusion */
-#ifndef __COVERITY__
 	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "include %s", InclusionFile) == 1)
 	{
@@ -333,7 +325,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 	    (void) DGifCloseFile(Inclusion);
 	}
-#endif /* __COVERITY__ */
 
 	/*
 	 * Explicit image declarations 
@@ -366,7 +357,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	/*
 	 * Accept image attributes
 	 */
-#ifndef __COVERITY__
 	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "image top %d\n", &NewImage->ImageDesc.Top) == 1)
 	    continue;
@@ -374,7 +364,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "image left %d\n", &NewImage->ImageDesc.Left)== 1)
 	    continue;
-#endif /* __COVERITY__ */
 
 	else if (strcmp(buf, "image interlaced\n") == 0)
 	{
@@ -382,7 +371,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    continue;
 	}
 
-#ifndef __COVERITY__
 	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf,
 			"image bits %d by %d\n",
@@ -437,7 +425,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 	    NewImage->RasterBits = (unsigned char *) Raster;
 	}
-#endif /* __COVERITY__ */
 	else if (strcmp(buf, "comment\n") == 0)
 	{
 	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
@@ -517,7 +504,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    }
 
 	}
-#ifndef __COVERITY__
 	else if (sscanf(buf, "extension %02x", &ExtCode))
 	{
 	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
@@ -535,7 +521,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    }
 		}
 	}
-#endif /* __COVERITY__ */
 	else
 	{
 	    (void) fputs(buf, stderr);
