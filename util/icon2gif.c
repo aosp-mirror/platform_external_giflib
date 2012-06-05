@@ -126,11 +126,14 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	*KeyTable = GlobalColorKeys;
     unsigned int ExtCode;
     int red, green, blue, n;
-
     char buf[BUFSIZ * 2], InclusionFile[64];
     GifFileType *GifFileOut;
     SavedImage *NewImage = NULL;
+    ExtensionBlockList Leading;
     int LineNum = 0;
+
+    Leading.ExtensionBlockCount = 0;
+    Leading.ExtensionBlocks = NULL;
 
     if ((GifFileOut = EGifOpenFileHandle(fdout)) == NULL) {
 	if (EGifCloseFile(GifFileOut) == GIF_ERROR) {
@@ -341,6 +344,11 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    /* use global table unless user specifies a local one */
 	    ColorMap = GlobalColorMap;
 	    KeyTable = GlobalColorKeys;
+
+	    /* connect leading extension blocks */
+	    NewImage->Leading = Leading;
+	    Leading.ExtensionBlockCount = 0;
+	    Leading.ExtensionBlocks = NULL;
 	}
 
 	/*
@@ -436,9 +444,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (AddExtensionBlock(&NewImage->Leading,
+		    if (AddExtensionBlock(&Leading,
 					  COMMENT_EXT_FUNC_CODE,
-					  Len, (unsigned char *)buf) == GIF_ERROR) {
+					  Len,
+					  (unsigned char *)buf) == GIF_ERROR) {
 			PARSE_ERROR("out of memory while adding comment block.");
 			exit(EXIT_FAILURE);
 		    }
@@ -455,8 +464,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (AddExtensionBlock(&NewImage->Leading, PLAINTEXT_EXT_FUNC_CODE,
-					  Len, (unsigned char *)buf) == GIF_ERROR) {
+		    if (AddExtensionBlock(&Leading, 
+					  PLAINTEXT_EXT_FUNC_CODE,
+					  Len, 
+					  (unsigned char *)buf) == GIF_ERROR) {
 			PARSE_ERROR("out of memory while adding plaintext block.");
 			exit(EXIT_FAILURE);
 		    }
@@ -500,8 +511,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    exit(EXIT_FAILURE);
 		}
 	    Len = EGifGCBToExtension(&gcb, (GifByteType *)buf);
-	    if (AddExtensionBlock(&NewImage->Leading,GRAPHICS_EXT_FUNC_CODE,
-				  Len, (unsigned char *)buf) == GIF_ERROR) {
+	    if (AddExtensionBlock(&Leading,
+				  GRAPHICS_EXT_FUNC_CODE,
+				  Len,
+				  (unsigned char *)buf) == GIF_ERROR) {
 		PARSE_ERROR("out of memory while adding GCB.");
 		exit(EXIT_FAILURE);
 	    }
@@ -518,7 +531,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (AddExtensionBlock(&NewImage->Leading, ExtCode, Len, (unsigned char *)buf) == GIF_ERROR) {
+		    if (AddExtensionBlock(&Leading,
+					  ExtCode, 
+					  Len,
+					  (unsigned char *)buf) == GIF_ERROR) {
 			PARSE_ERROR("out of memory while adding extension block.");
 			exit(EXIT_FAILURE);
 		    }
@@ -532,6 +548,11 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	}
     }
 
+    /* connect trailing extension blocks */
+    GifFileOut->Trailing = Leading;
+    //Leading.ExtensionBlockCount = 0;
+    Leading.ExtensionBlocks = NULL;
+ 
     EGifSpew(GifFileOut);
 }
 
