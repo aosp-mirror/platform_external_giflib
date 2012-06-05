@@ -478,6 +478,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    while (isspace(*tp))
 			tp++;
+		    // cppcheck-suppress invalidscanf 
 		    if (sscanf(tp, "disposal mode %d\n", &gcb.DisposalMode))
 			continue;
 		    if (strcmp(tp, "user input flag on\n") == 0) {
@@ -488,8 +489,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 			gcb.UserInputFlag = false;
 			continue;
 		    }
+		    // cppcheck-suppress invalidscanf 
 		    if (sscanf(tp, "delay %d\n", &gcb.DelayTime))
 			continue;
+		    // cppcheck-suppress invalidscanf 
 		    if (sscanf(tp, "transparent index %d\n",
 			       &gcb.TransparentIndex))
 			continue;
