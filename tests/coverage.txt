@@ -19,7 +19,7 @@
 |gifhisto   | visual-check
 |gifinfo    | -
 |gifinter   | -
-|gifinto    | -
+|gifinto    | make util-regress
 |gifovly    | -
 |gifpos     | visual-check
 |gifrotat   | visual-check

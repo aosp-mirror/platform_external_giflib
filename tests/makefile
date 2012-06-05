@@ -93,3 +93,11 @@ util-regress:
 	@$(UTILS)/giftool -I <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
 	@echo "Checking idempotency of icon2gif"
 	@$(UTILS)/icon2gif <$(PICS)/sample.ico | $(UTILS)/icon2gif -d >/tmp/sample-1.ico; $(UTILS)/icon2gif </tmp/sample-1.ico | $(UTILS)/icon2gif -d >/tmp/sample-2.ico; diff -u /tmp/sample-1.ico /tmp/sample-2.ico; rm /tmp/sample-*.ico
+	@echo "Checking behavior of gifinto"
+	@rm -f /tmp/giflib.tmp
+	@$(UTILS)/gifinto <$(PICS)/porsche.gif /tmp/giflib.tmp
+	@if test ! -f /tmp/giflib.tmp; then echo "gifinto failed to create a file when it should have."; fi
+	@rm -f /tmp/giflib.tmp
+	@echo "0123456789" | $(UTILS)/gifinto /tmp/giflib.tmp
+	@if test -f /tmp/giflib.tmp; then echo "gifinto created a file when it shouldn't have."; fi
+	@rm -f /tmp/giflib.tmp
