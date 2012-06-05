@@ -101,6 +101,7 @@ typedef struct {
     bool UserInputFlag;      /* User confirmation required before disposal */
     int DelayTime;           /* pre-display delay in 0.01sec units */
     int TransparentIndex;    /* Palette index for transparency, -1 if none */
+#define NO_TRANSPARENT_INDEX	-1
 } GraphicsControlBlock;
 
 #define COMMENT_EXT_FUNC_CODE     0xfe    /* comment */
@@ -265,7 +266,7 @@ extern void FreeSavedImages(GifFileType *GifFile);
 
 int DGifExtensionToGCB(const GifByteType *GifExtension,
 		       GraphicsControlBlock *GCB);
-void EGifGCBToExtension(const GraphicsControlBlock *GCB,
+size_t EGifGCBToExtension(const GraphicsControlBlock *GCB,
 		       GifByteType *GifExtension);
 
 int DGifSavedExtensionToGCB(GifFileType *GifFile, int ImageIndex, 

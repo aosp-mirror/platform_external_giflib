@@ -51,8 +51,8 @@ image bits 16 by 16
 ################
 ################
 
-extension fe	# Matches conventions used elsewhere in giflib
-This is a klugey way of embedding a comment in the GIF.
+comment
+This is a klugey way of embedding a comment in a GIF.
 end
 
 #

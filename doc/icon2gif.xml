@@ -75,7 +75,14 @@ required newline.</para>
 
 &lt;extension&gt; := &lt;comment&gt; NL &lt;extension-block&gt; NL end NL
 		| &lt;plaintext&gt; NL &lt;extension-block&gt; NL end NL
+                | graphics control NL &lt;GCB-part&gt; NL end NL
 		| extension &lt;hex-digits&gt; NL &lt;extension-block&gt; NL end NL
+
+&lt;GCB-part&gt; ::= disposal mode &lt;digits&gt; NL
+                | user input flag {on|off} NL
+                | delay &lt;digits&gt; NL
+                | transparent index &lt;digits&gt; NL
+
 </programlisting>
 
 <para>If the semantics of the `screen height', `screen width', `screen
@@ -98,9 +105,13 @@ must be followed by an extension block, which is terminated by the
 keyword `end' on its own line.</para>
 
 <para>An extension block is a series of text lines, each interpreted
-as a string of bytes to fill an argument block (the terminating
+as a string of bytes to fill an extension block (the terminating
 newline is stripped).  Text may include standard C-style octal and hex
 escapes preceded by a backslash.</para>
+
+<para>A graphics control block declaration creates a graphics control
+extension block; for the field semantics see the GIF89 standard, part
+23.</para>
 
 <para>All &lt;digits&gt; tokens are interpreted as decimal numerals;
 &lt;hex-digits&gt; tokens are interpreted as two hex digits (a byte). All

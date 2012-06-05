@@ -475,6 +475,48 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    }
 		}
 	}
+	else if (strcmp(buf, "graphics control\n") == 0)
+	{
+	    GraphicsControlBlock gcb;
+	    size_t Len;
+
+	    memset(&gcb, '\0', sizeof(gcb));
+	    gcb.TransparentIndex = NO_TRANSPARENT_INDEX;
+	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
+		if (strcmp(buf, "end\n") == 0)
+		    break;
+	        else
+		{
+		    char *tp = buf;
+
+		    while (isspace(*tp))
+			tp++;
+		    if (sscanf(tp, "disposal mode %d\n", &gcb.DisposalMode))
+			continue;
+		    if (strcmp(tp, "user input flag on\n") == 0) {
+			gcb.UserInputFlag = true;
+			continue;
+		    }
+		    if (strcmp(tp, "user input flag off\n") == 0) {
+			gcb.UserInputFlag = false;
+			continue;
+		    }
+		    if (sscanf(tp, "delay %d\n", &gcb.DelayTime))
+			continue;
+		    if (sscanf(tp, "transparent index %d\n",
+			       &gcb.TransparentIndex))
+			continue;
+		    PARSE_ERROR("unrecognized directive in GCB block.");
+		    exit(EXIT_FAILURE);
+		}
+	    Len = EGifGCBToExtension(&gcb, (GifByteType *)buf);
+	    if (AddExtensionBlock(&NewImage->Leading,GRAPHICS_EXT_FUNC_CODE,
+				  Len, (unsigned char *)buf) == GIF_ERROR) {
+		PARSE_ERROR("out of memory while adding GCB.");
+		exit(EXIT_FAILURE);
+	    }
+
+	}
 #ifndef __COVERITY__
 	else if (sscanf(buf, "extension %02x", &ExtCode))
 	{
@@ -624,6 +666,19 @@ static void Gif2Icon(char *FileName,
 		printf("comment\n");
 	    else if (ExtCode == PLAINTEXT_EXT_FUNC_CODE)
 		printf("plaintext\n");
+	    else if (ExtCode == GRAPHICS_EXT_FUNC_CODE)
+	    {
+		GraphicsControlBlock gcb;
+		printf("graphics control\n");
+		if (DGifExtensionToGCB(Extension, &gcb) == GIF_ERROR) {
+		    PrintGifError();
+		    exit(EXIT_FAILURE);
+		}
+		printf("\tdisposal mode %d\n", gcb.DisposalMode);
+		printf("\tuser input flag %d\n", gcb.UserInputFlag);
+		printf("\tdelay %d\n", gcb.DelayTime);
+		printf("\ttransparent index %d\n", gcb.TransparentIndex);
+	    }
 	    else if (isalpha(ExtCode))
 		printf("extension %02x    # %c\n", ExtCode, ExtCode);
 	    else

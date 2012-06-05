@@ -566,8 +566,8 @@ int DGifExtensionToGCB(const GifByteType *GifExtension,
 {
     GCB->DisposalMode = DISPOSAL_UNSPECIFIED;
     GCB->UserInputFlag = false;
-    GCB->DelayTime = -1;
-    GCB->TransparentIndex = -1;
+    GCB->DelayTime = 0;
+    GCB->TransparentIndex = NO_TRANSPARENT_INDEX;
 
     if (GifExtension[0] != 4) {
 	_GifError = D_GIF_ERR_WRONG_RECORD;
