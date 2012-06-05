@@ -27,6 +27,8 @@ New API Features
   This was done so that the new list of trailing extension blocks in
   GifFileType can use the same list-handler code as the Leading 
   extension-block list in each saved image.
+* New functions DGifSavedExtensionToGCB() and EGifGCBToSavedExtension()
+  make it easy to read and edit GIF89 graphics control blocks in saved images.
 * There's now an EGifGetGifVersion() that computes the version EGifSpew() 
   will write.
 * QuantizeBuffer() has been returned to the core library as GifQuantizeBuffer 

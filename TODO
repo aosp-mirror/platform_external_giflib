@@ -22,7 +22,3 @@ Maybe we should even drop gif2x11.  It's nice for testing, though.
 Not all the utilities have tests yet.  Idempotency checks on some of the
 conversions that are invertible would be good ideas.  See the file 
 tests/coverage.txt.
-
-== Functions for extracting and replacing GCBs ==
-
-Need to be tested and documented.

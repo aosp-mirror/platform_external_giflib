@@ -215,7 +215,7 @@ above) and an ordinary output file descriptor.</para>
 special extension blocks defined in GIF89, in which case it is written
 with a GIF89 stamp.</para>
 
-<para>You can awrite to a GIF file through a function hook. Initialize
+<para>You can write to a GIF file through a function hook. Initialize
 with </para>
 
 <programlisting id="EGifOpen">
@@ -264,6 +264,41 @@ SavedImage *GifAttachImage(GifFileType *GifFile)
 <para>Add an image block to the SavedImages array.  The image block is
 initially zeroed out.  This image block will be seen by any following
 EGifSpew() calls.</para>
+
+</sect1>
+<sect1><title>Graphics control extension handling</title>
+
+<para>GIF89 added a graphics control extension block, but versions
+of GIFLIB before 5.0 weren't much help in reading or modifying them.  
+This lack has been remedied with the following structure and functions:</para>
+
+<programlisting>
+typedef struct GraphicsControlBlock {
+    int DisposalMode;
+#define DISPOSAL_UNSPECIFIED      0       /* No disposal specified. */
+#define DISPOSE_DO_NOT            1       /* Leave image in place */
+#define DISPOSE_BACKGROUND        2       /* Set area too background color */
+#define DISPOSE_PREVIOUS          3       /* Restore to previous content */
+    bool UserInputFlag;      /* User confirmation required before disposal */
+    int DelayTime;           /* pre-display delay in 0.01sec units */
+    int TransparentIndex;    /* Palette index for transparency, -1 if none */
+#define NO_TRANSPARENT_INDEX	-1
+} GraphicsControlBlock;
+
+int DGifSavedExtensionToGCB(GifFileType *GifFile, 
+			    int ImageIndex, 
+			    GraphicsControlBlock *GCB);
+int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB, 
+			    GifFileType *GifFile, 
+			    int ImageIndex);
+</programlisting>
+
+<para>With these functions you can extract the data from a graphics
+control extension associated with a saved image into a
+GraphicsControlBlock, modify it, and write it back out.  Note that if
+the specified saved image doesn't have a graphics control
+extension, DGifSavedExtensionToGCB() will fill the GCB with default values;
+EGifGCBToSavedExtension() will create a new leading extension block.</para>
 
 </sect1>
 <sect1><title>Error Handling (gif_err.c)</title>
@@ -807,25 +842,29 @@ retired.</para>
 and GIFLIB_RELEASE macros for the three components of the version. See the
 NEWS file in the GIFLIB distribution to track API changes.</para>
 
-<para>A few changes in behavior were introduced in 5.x:</para>
+<para>A few changes in behavior were introduced in 5.0:</para>
 
 <itemizedlist>
-<listitem><para>As of 5.0, EGifSlurp() and EGifSpew() read and write
-extension blocks trailing after the last image.</para></listitem>
-<listitem><para>As of 5.0, the ExtensionBlockCount and ExtensionBlockList
+<listitem><para>New functions DGifSavedExtensionToGCB() and
+EGifGCBToSavedExtension() make it easy to read and edit GIF89 graphics
+control blocks in saved images.</para></listitem>
+<listitem><para>EGifSlurp() and EGifSpew() read and write
+extension blocks trailing after the last image, handle interlaced 
+images properly, and are both thread-safe (formerly EGifSpew() was
+thread-unsafe).</para></listitem>
+<listitem><para>The ExtensionBlockCount and ExtensionBlockList
 members of the SavedImage structures are no longer top-level in that structure,
 but now live in an ExtensionBlockList substructure named 'Leading'.
 This was done so that the new list of trailing extension blocks in GifFileType
 can use the same list-handler code as the extension blocks leading each saved 
 image.</para></listitem>
-<listitem><para>As of 5.0, the default GIF version to write is now
+<listitem><para>The default GIF version to write is now
 computed at write time from the types of an image's extension blocks,
 but can be overridden with EGifSetGifVersion(). Formerly EGifSpew()
 behaved this way, but the sequential-writing code didn't.  The 
 result of this computation is available through the new function 
 EGifGetGifVersion().
 </para></listitem>
-<listitem><para>As of 5.0, EGifSpew() is thread-safe.</para></listitem>
 <listitem><para>A rare resource leak in the colormap-object maker was found with
 Coverity and fixed.</para></listitem>
 </itemizedlist>
