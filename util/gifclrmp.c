@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 	GIF_EXIT("Can not handle more than one of -s -l, -t, or -g at the same time.");
 
     /* Default action is to dump colormaps */
-    if (!SaveFlag && !LoadFlag && !GammaFlag && TranslateFlag <= 1)
+    if (!SaveFlag && !LoadFlag && !GammaFlag && !TranslateFlag)
 	SaveFlag = true;
 
     if (NumFiles == 1) {

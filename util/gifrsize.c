@@ -132,8 +132,8 @@ int main(int argc, char **argv)
     /* all image(s) in file must be less/equal to it, we can allocate the    */
     /* scan lines for the input file, and output file. The number of lines   */
     /* to allocate for each is set by ScaleDown & XScale & YScale:	     */
-    LineOut = (GifRowType) malloc(XSize * sizeof(GifPixelType));
-    LineIn = (GifRowType) malloc(GifFileIn->SWidth * sizeof(GifPixelType));
+    LineOut = (GifRowType) calloc(XSize, sizeof(GifPixelType));
+    LineIn = (GifRowType) calloc(GifFileIn->SWidth, sizeof(GifPixelType));
 
     /* Open stdout for the output file: */
     if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
