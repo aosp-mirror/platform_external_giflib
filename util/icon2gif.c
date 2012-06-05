@@ -584,7 +584,7 @@ static void Gif2Icon(char *FileName,
 	   GifFile->SWidth, GifFile->SHeight);
 
     printf("screen colors %d\nscreen background %d\n\n",
-	   GifFile->SColorResolution,
+	   1 << GifFile->SColorResolution,
 	   GifFile->SBackGroundColor);
 
     if (GifFile->SColorMap)
