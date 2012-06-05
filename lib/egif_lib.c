@@ -650,15 +650,14 @@ EGifPutExtension(GifFileType *GifFile,
 size_t EGifGCBToExtension(const GraphicsControlBlock *GCB,
 		       GifByteType *GifExtension)
 {
-    GifExtension[0] = 4;
-    GifExtension[1] = 0;
-    GifExtension[1] |= (GCB->TransparentIndex == NO_TRANSPARENT_INDEX) ? 0x00 : 0x01;
-    GifExtension[1] |= GCB->UserInputFlag ? 0x02 : 0x00;
-    GifExtension[1] |= ((GCB->DisposalMode & 0x07) << 2);
-    GifExtension[2] = (GCB->DelayTime >> 8) & 0xff;
-    GifExtension[3] = GCB->DelayTime & 0xff;
-    GifExtension[4] = (char)GCB->TransparentIndex;
-    return 5;
+    GifExtension[0] = 0;
+    GifExtension[0] |= (GCB->TransparentIndex == NO_TRANSPARENT_INDEX) ? 0x00 : 0x01;
+    GifExtension[0] |= GCB->UserInputFlag ? 0x02 : 0x00;
+    GifExtension[0] |= ((GCB->DisposalMode & 0x07) << 2);
+    GifExtension[1] = (GCB->DelayTime >> 8) & 0xff;
+    GifExtension[2] = GCB->DelayTime & 0xff;
+    GifExtension[3] = (char)GCB->TransparentIndex;
+    return 4;
 }
 
 /******************************************************************************
@@ -669,6 +668,8 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
 			    GifFileType *GifFile, int ImageIndex)
 {
     int i;
+    size_t Len;
+    GifByteType buf[sizeof(GraphicsControlBlock)]; /* a bit dodgy... */
 
     if (ImageIndex < 0 || ImageIndex > GifFile->ImageCount - 1)
 	return GIF_ERROR;
@@ -681,7 +682,14 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
 	}
     }
 
-    return GIF_ERROR;
+    Len = EGifGCBToExtension(GCB, (GifByteType *)buf);
+    if (AddExtensionBlock(&GifFile->SavedImages[ImageIndex].Leading,
+			  GRAPHICS_EXT_FUNC_CODE,
+			  Len,
+			  (unsigned char *)buf) == GIF_ERROR)
+	return (GIF_ERROR);
+
+    return (GIF_OK);
 }
 
 /******************************************************************************

@@ -92,7 +92,7 @@ typedef int (*OutputFunc) (GifFileType *, const GifByteType *, int);
  *  GIF89 structures and extension function codes
 ******************************************************************************/
 
-typedef struct {
+typedef struct GraphicsControlBlock {
     int DisposalMode;
 #define DISPOSAL_UNSPECIFIED      0       /* No disposal specified. */
 #define DISPOSE_DO_NOT            1       /* Leave image in place */
@@ -269,10 +269,12 @@ int DGifExtensionToGCB(const GifByteType *GifExtension,
 size_t EGifGCBToExtension(const GraphicsControlBlock *GCB,
 		       GifByteType *GifExtension);
 
-int DGifSavedExtensionToGCB(GifFileType *GifFile, int ImageIndex, 
+int DGifSavedExtensionToGCB(GifFileType *GifFile, 
+			    int ImageIndex, 
 			    GraphicsControlBlock *GCB);
 int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB, 
-			    GifFileType *GifFile, int ImageIndex);
+			    GifFileType *GifFile, 
+			    int ImageIndex);
 
 /******************************************************************************
  * The library's internal utility font                          

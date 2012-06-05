@@ -22,7 +22,7 @@
       <arg choice='opt'>-v</arg>
       <arg choice='opt'>-s <replaceable>minsize</replaceable></arg>
       <arg choice='opt'>-h</arg>
-      <replaceable>outfile</replaceable>
+      <group><replaceable>outfile</replaceable></group>
 </cmdsynopsis>
 </refsynopsisdiv>
 

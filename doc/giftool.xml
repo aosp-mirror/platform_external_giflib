@@ -21,6 +21,7 @@
   <command>giftool</command>
       <arg choice='opt'>-i</arg>
       <arg choice='opt'>-I</arg>
+      <arg choice='opt'>-d <replaceable>delaytime</replaceable></arg>
 </cmdsynopsis>
 </refsynopsisdiv>
 
@@ -31,6 +32,8 @@ copy of a GIF in standard input to standard output.</para>
 
 <para>The -I option sets the interlace bit in all images.  The -i option 
 clears it in all images.</para>
+
+<para>The -d option sets a delay time, in hundredths of a second.</para>
 
 <para>This is a work in progress, intended mainly for regression testing
 of GIFLIB. Options are subject to change without notice.</para>

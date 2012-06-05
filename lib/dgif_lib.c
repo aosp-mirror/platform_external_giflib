@@ -564,11 +564,6 @@ DGifGetExtensionNext(GifFileType *GifFile, GifByteType ** Extension)
 int DGifExtensionToGCB(const GifByteType *GifExtension,
 		       GraphicsControlBlock *GCB)
 {
-    GCB->DisposalMode = DISPOSAL_UNSPECIFIED;
-    GCB->UserInputFlag = false;
-    GCB->DelayTime = 0;
-    GCB->TransparentIndex = NO_TRANSPARENT_INDEX;
-
     if (GifExtension[0] != 4) {
 	_GifError = D_GIF_ERR_WRONG_RECORD;
 	return GIF_ERROR;
@@ -577,9 +572,10 @@ int DGifExtensionToGCB(const GifByteType *GifExtension,
     GCB->DisposalMode = (GifExtension[1] >> 2) & 0x07;
     GCB->UserInputFlag = (GifExtension[1] & 0x02) != 0;
     GCB->DelayTime = (GifExtension[2] << 8) | GifExtension[3];
-    if (GifExtension[1] & 0x01) {
+    if (GifExtension[1] & 0x01)
 	GCB->TransparentIndex = (int)GifExtension[4];
-    }
+    else
+	GCB->TransparentIndex = NO_TRANSPARENT_INDEX;
 
     return GIF_OK;
 }
@@ -595,6 +591,11 @@ int DGifSavedExtensionToGCB(GifFileType *GifFile,
 
     if (ImageIndex < 0 || ImageIndex > GifFile->ImageCount - 1)
 	return GIF_ERROR;
+
+    GCB->DisposalMode = DISPOSAL_UNSPECIFIED;
+    GCB->UserInputFlag = false;
+    GCB->DelayTime = 0;
+    GCB->TransparentIndex = NO_TRANSPARENT_INDEX;
 
     for (i = 0; i < GifFile->SavedImages[ImageIndex].Leading.ExtensionBlockCount; i++) {
 	ExtensionBlock *ep = &GifFile->SavedImages[ImageIndex].Leading.ExtensionBlocks[i];

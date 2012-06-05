@@ -22,7 +22,7 @@ GIF_DISPLAY=${1:-"display -"}
 GIF_DISPLAY=${GIF_DISPLAY:-"gif2x11"}
 
 echo "Announce the test"
-text2gif -t "The GIFLIB test sequence begins" | $GIF_DISPLAY
+text2gif -t "The GIFLIB test sequence begins" | giftool -d 250 | $GIF_DISPLAY
 
 echo "The Porsche."
 $GIF_DISPLAY <$GIF_DIR/porsche.gif

@@ -19,22 +19,24 @@ static enum mode_t {
     copy,
     interlace,
     deinterlace,
+    delay,
 } mode;
 
 int main(int argc, char **argv)
 {
     extern char	*optarg;	/* set by getopt */
     extern int	optind;		/* set by getopt */
-    int	i, status;
+    int	i, status, delaytime = -1;
     GifFileType *GifFileIn, *GifFileOut = (GifFileType *)NULL;
 
-    while ((status = getopt(argc, argv, "iI")) != EOF)
+    while ((status = getopt(argc, argv, "d:iI")) != EOF)
     {
 	switch (status)
 	{
-	//case 'b':
-	//    base = atoi(optarg);
-	//    break;
+	case 'd':
+	    mode = delay;
+	    delaytime = atoi(optarg);
+	    break;
 
 	case 'i':
 	    mode = deinterlace;
@@ -70,6 +72,17 @@ int main(int argc, char **argv)
     case deinterlace:
 	for (i = 0; i < GifFileIn->ImageCount; i++)
 	    GifFileIn->SavedImages[i].ImageDesc.Interlace = false;
+	break;
+
+    case delay:
+	for (i = 0; i < GifFileIn->ImageCount; i++)
+	{
+	    GraphicsControlBlock gcb;
+
+	    DGifSavedExtensionToGCB(GifFileIn, i, &gcb);
+	    gcb.DelayTime = delaytime;
+	    EGifGCBToSavedExtension(&gcb, GifFileIn, i);
+	}
 	break;
 
     default:
