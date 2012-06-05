@@ -21,8 +21,11 @@ GIF_DIR=../pic
 GIF_DISPLAY=${1:-"display -"}
 GIF_DISPLAY=${GIF_DISPLAY:-"gif2x11"}
 
+echo "Announce the test"
+text2gif -t "The GIFLIB test sequence begins" | $GIF_DISPLAY
+
 echo "The Porsche."
-echo "$GIF_DISPLAY <$GIF_DIR/porsche.gif"
+$GIF_DISPLAY <$GIF_DIR/porsche.gif
 
 echo "The Porsche composited with a generated background"
 gifbg -d tl -s 320 200 -c 255 255 255 -l 64 > bg1.gif

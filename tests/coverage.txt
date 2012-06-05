@@ -31,5 +31,5 @@
 |icon2gif   | make util-regress
 |raw2gif    | -
 |rgb2gif    | -
-|text2gif   | -
+|text2gif   | visual-check
 |=======================================================================
