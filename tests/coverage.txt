@@ -28,7 +28,7 @@
 |giftext    | make giftext-regress
 |giftool    | make util-regress
 |gifwedge   | make util-regress
-|icon2gif   | -
+|icon2gif   | make util-regress
 |raw2gif    | -
 |rgb2gif    | -
 |text2gif   | -

@@ -5,6 +5,7 @@
 # This is what to do by default
 test: render-regress util-regress gifspnge-regress \
 		gifclrmp-regress giftext-regress
+	@echo "No output is good news"
 
 rebuild: render-buildregress util-buildregress \
 		gifclrmp-buildregress giftext-buildregress
@@ -90,4 +91,5 @@ util-regress:
 	@$(UTILS)/giftool -i <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
 	@echo "Checking that giftool interlaces correctly."
 	@$(UTILS)/giftool -I <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
-	@echo "No output is good news"
+	@echo "Checking idempotency of icon2gif"
+	@$(UTILS)/icon2gif <$(PICS)/sample.ico | $(UTILS)/icon2gif -d >/tmp/sample-1.ico; $(UTILS)/icon2gif </tmp/sample-1.ico | $(UTILS)/icon2gif -d >/tmp/sample-2.ico; diff -u /tmp/sample-1.ico /tmp/sample-2.ico; rm /tmp/sample-*.ico
