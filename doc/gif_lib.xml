@@ -830,6 +830,10 @@ should not be used, once this routine has been called.</para>
 </sect1>
 <sect1 id="compatibility"><title>Forward and Backward Compatibility</title>
 
+<para>Except for some details of extension-block handling and the addition
+of read/write function hooks, the DGifSlurp()/EGifSpew() interface has
+been stable since 1990.  It is expected to remain so.</para>
+
 <para>The library header contains some version #defines you can use if you
 need to condition your code so it can compile with different library 
 versions</para>
@@ -863,10 +867,7 @@ computed at write time from the types of an image's extension blocks,
 but can be overridden with EGifSetGifVersion(). Formerly EGifSpew()
 behaved this way, but the sequential-writing code didn't.  The 
 result of this computation is available through the new function 
-EGifGetGifVersion().
-</para></listitem>
-<listitem><para>A rare resource leak in the colormap-object maker was found with
-Coverity and fixed.</para></listitem>
+EGifGetGifVersion().</para></listitem>
 <listitem><para>Some undocumented functions have been renamed. 
 AddExtensionBlock() is now GifAddExtensionBlock(), and takes an additional
 function code argument.  ApplyTranslation() is now GifApplyTranslation();

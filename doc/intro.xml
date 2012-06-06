@@ -55,7 +55,8 @@ a higher level by slurping an entire GIF into allocated core.</para>
 between GIF87 and GIF89 are minor: in the latter, the interpretation
 of some extension block types is defined.  The library never needs to
 actually interpret these, but <ulink
-url="giftext.html">giftext</ulink> notices them.</para>
+url="giftext.html">giftext</ulink> notices them and there are
+functions in the API to read and modify them.</para>
 
 <sect1><title>Utilities</title>
 

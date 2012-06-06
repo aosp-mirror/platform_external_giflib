@@ -4,10 +4,15 @@ This list is short because GIFLIB is very old, very stable code with
 a very simple interface.  There are no new worlds to conquer here and
 we shouldn't go looking for any, just provide a rock-solid service.
 
-Thus: there used to be items on here about redesigning the API, but
-DGifSlurp()/EGifSpew() is almost all anyone ever uses. The utilities
-are historical relics mainly useful for testing, and I (ESR) don't
-think we need to be competing with the likes of ImageMagick and PIL.
+Thus: there used to be items  here about redesigning the API, but
+DGifSlurp()/EGifSpew() is almost all anyone ever uses. In 5.0 I've
+made only the minimal changes required to fix some known problems with
+extension-block handling and tuck all the entry points into a
+namespace nothing is likely to clash with.
+
+The utilities are historical relics mainly useful for testing, and I
+(ESR) don't think we need to be competing with the likes of
+ImageMagick and PIL.
 
 Accordingly, the top to-do item is...
 

@@ -6,7 +6,6 @@ EXTRA_DIST = Makefile.unx \
 	     TODO \
 	     BUGS \
 	     build.txt \
-	     api.txt \
 	     history.txt \
 	     control \
 	     $(WINDOWS)
