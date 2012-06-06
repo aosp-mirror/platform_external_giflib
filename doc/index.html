@@ -87,9 +87,16 @@ and backward abysm of MS-DOS, but Unix hackers are encouraged to spell it
 href="intro.html">here</a>. People to thank for this code: Gershon
 Elber, Eric S. Raymond, Toshio Kuratomi.</p>
 
+<p>Before October 2006 the GIF format was encumbered by patents on the
+LZW compression it uses.  This first became an issue in 1993 when the
+patent-holders made ambiguous noises about requiring royalties.  For
+some time a subset of this code travelled as "libungif", supporting
+decompression but not compression. You can read <a href="history">a
+more detailed history</a>.</p>
+
 <p>Note: The 5.x versions change the API slightly in a way that isn't
-compatible with older shared libraries.  This was required to fix a
-design bug in the (undocumented) AddExtensionBlock() function.</p>
+compatible with older shared libraries.  This was required to fix 
+some known problems with the extensions API.</p>
 
 <p>If you require shared-library compatibility back to ancient
 versions, build from 4.2. 4.2 and the 5.0 version are behaviorally
