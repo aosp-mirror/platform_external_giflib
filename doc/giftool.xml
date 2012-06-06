@@ -19,24 +19,26 @@
 
 <cmdsynopsis>
   <command>giftool</command>
+      <arg choice='opt'>-b <replaceable>bgcolor</replaceable></arg>
+      <arg choice='opt'>-d <replaceable>delaytime</replaceable></arg>
       <arg choice='opt'>-i</arg>
       <arg choice='opt'>-I</arg>
-      <arg choice='opt'>-d <replaceable>delaytime</replaceable></arg>
 </cmdsynopsis>
 </refsynopsisdiv>
 
 <refsect1><title>Description</title>
 
 <para>A filter for transforming GIFS. With no options, it's an expensive 
-copy of a GIF in standard input to standard output.</para>
+copy of a GIF in standard input to standard output.  Options specify
+filtering operations and are performed in the order specified on the command 
+line.</para>
 
-<para>The -I option sets the interlace bit in all images.  The -i option 
-clears it in all images.</para>
+<para>The -b option sets the screen background color.</para>
 
 <para>The -d option sets a delay time, in hundredths of a second.</para>
 
-<para>This is a work in progress, intended mainly for regression testing
-of GIFLIB. Options are subject to change without notice.</para>
+<para>The -I option sets the interlace bit in all images.  The -i option 
+clears it in all images.</para>
 
 </refsect1>
 <refsect1><title>Author:</title>
