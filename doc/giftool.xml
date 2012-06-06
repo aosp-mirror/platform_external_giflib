@@ -48,6 +48,52 @@ images.</para>
 <para>The -b option takes a decimal integer argument and uses it to
 set the (0-origin) screen background color index.</para>
 
+<para>The -f option accepts a printf-style format string and
+substitutes into it the values of image-descriptor and graphics-control
+fields. The string is formatted and output once for each selected
+image.  Normal C-style escapes \b, \f, \n, \r, \t. \v, and \xNN are
+interpreted; also \e produces ESC (ASCII 0x1b).  The following format
+cookies are substituted:</para>
+
+<variablelist>
+<varlistentry>
+<term>%h</term>
+<listitem><para>Image height (y dimension)</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>%w</term>
+<listitem><para>Image width (x dimension)</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>%d</term>
+<listitem><para>Image delay time</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>%t</term>
+<listitem><para>Image transparent-color index</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>%u</term>
+<listitem><para>Image user-input flag (as 0 or 1)</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>%x</term>
+<listitem><para>Image GIF89 disposal mode</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>%n</term>
+<listitem><para>Image index</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>%v</term>
+<listitem><para>GIF version string</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>%b</term>
+<listitem><para>Screen background color.</para></listitem>
+</varlistentry>
+</variablelist>
+
 <para>The -d option takes a decimal integer argument and uses it to set a delay
 time, in hundredths of a second, on selected images.</para>
 
