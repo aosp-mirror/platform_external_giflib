@@ -133,10 +133,15 @@ int main(int argc, char **argv)
 	exit(EXIT_FAILURE);
     }
 
-    /* if the selection is defaulted, compute it */
-    if (!have_selection)
-	for (i = nselected = 0; i < GifFileIn->ImageCount; i++)
+    /* if the selection is defaulted, compute it; otherwise bounds-check it */
+    for (i = nselected = 0; i < GifFileIn->ImageCount; i++)
+	if (!have_selection)
 	    selected[nselected++] = i;
+	else if (selected[nselected++] >= GifFileIn->ImageCount)
+	{
+	    (void) fprintf(stderr, "giftool: selection index out of bounds.\n");
+	    exit(EXIT_FAILURE);
+	}
 
     /* perform the operations we've gathered */
     for (op = operations; op < top; op++)
