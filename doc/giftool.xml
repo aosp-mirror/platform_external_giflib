@@ -23,6 +23,7 @@
       <arg choice='opt'>-d <replaceable>delaytime</replaceable></arg>
       <arg choice='opt'>-i</arg>
       <arg choice='opt'>-I</arg>
+      <arg choice='opt'>-n <replaceable>imagelist</replaceable></arg>
       <arg choice='opt'>-t <replaceable>transcolor</replaceable></arg>
       <arg choice='opt'>-u</arg>
       <arg choice='opt'>-U</arg>
@@ -36,18 +37,26 @@ copy of a GIF in standard input to standard output.  Options specify
 filtering operations and are performed in the order specified on the command 
 line.</para>
 
-<para>The -b option sets the screen background color.</para>
-
-<para>The -d option sets a delay time, in hundredths of a second.</para>
-
-<para>The -I option sets interlacing in all images.  The -i option
-clears it in all images.</para>
-
-<para>The -t option sets the index of the transparency color in all
+<para>The -n option selects images, allowing the tool to act on a
+subset of images in a multi-image GIF.  This option takes a
+comma-separated list of decimal integers which are interpreted as
+1-origin image indices; these are the images that will be acted on.
+If no -n option is specified, the tool will select and transform all
 images.</para>
 
-<para>The -U option sets the user-input flag in all images.  The -u option 
-clears it in all images.</para>
+<para>The -b option sets the screen background color.</para>
+
+<para>The -d option sets a delay time, in hundredths of a second, on
+selected images.</para>
+
+<para>The -I option sets interlacing in selected images.  The -i option
+clears it in selected images.</para>
+
+<para>The -t option sets the index of the transparency color in selected
+images.</para>
+
+<para>The -U option sets the user-input flag in selected images.  The -u option 
+clears it in selected images.</para>
 
 </refsect1>
 <refsect1><title>Author:</title>

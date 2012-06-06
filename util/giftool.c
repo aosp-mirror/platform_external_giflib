@@ -16,6 +16,7 @@ giftool.c - GIF transformation tool.
 #define PROGRAM_NAME	"giftool"
 
 #define MAX_OPERATIONS	256
+#define MAX_IMAGES	2048
 
 struct operation {
     enum {
@@ -32,13 +33,16 @@ struct operation {
 	int color;
     };
 };
-static struct operation operations[MAX_OPERATIONS];
-static struct operation *top = operations;
 
 int main(int argc, char **argv)
 {
     extern char	*optarg;	/* set by getopt */
     extern int	optind;		/* set by getopt */
+    struct operation operations[MAX_OPERATIONS];
+    struct operation *top = operations;
+    int selected[MAX_IMAGES], nselected = 0;
+    bool have_selection = false;
+    char *cp;
     int	i, status;
     GifFileType *GifFileIn, *GifFileOut = (GifFileType *)NULL;
     struct operation *op;
@@ -48,7 +52,7 @@ int main(int argc, char **argv)
      * getopt(3) here rather than Gershom's argument getter because
      * preserving the order of operations is important.
      */
-    while ((status = getopt(argc, argv, "bd:iItuU")) != EOF)
+    while ((status = getopt(argc, argv, "bd:iIn:tuU")) != EOF)
     {
 	if (top >= operations + MAX_OPERATIONS) {
 	    (void)fprintf(stderr, "giftool: too many operations.");
@@ -72,6 +76,29 @@ int main(int argc, char **argv)
 
 	case 'I':
 	    top->mode = interlace;
+	    break;
+
+	case 'n':
+	    have_selection = true;
+	    nselected = 0;
+	    cp = optarg;
+	    for (;;)
+	    {
+		size_t span = strspn(cp, "0123456789");
+
+		if (span > 0)
+		{
+		    selected[nselected++] = atoi(cp)-1;
+		    cp += span;
+		    if (*cp == '\0')
+			break;
+		    else if (*cp == ',')
+			continue;
+		}
+
+		(void) fprintf(stderr, "giftool: bad selection.\n");
+		exit(EXIT_FAILURE);
+	    }
 	    break;
 
 	case 'u':
@@ -99,6 +126,11 @@ int main(int argc, char **argv)
 	exit(EXIT_FAILURE);
     }
 
+    /* if the selection is defaulted, compute it */
+    if (!have_selection)
+	for (i = nselected = 0; i < GifFileIn->ImageCount; i++)
+	    selected[nselected++] = i;
+
     /* perform the operations we've gathered */
     for (op = operations; op < top; op++)
 	switch (op->mode)
@@ -108,56 +140,56 @@ int main(int argc, char **argv)
 	    break;
 
 	case delaytime:
-	    for (i = 0; i < GifFileIn->ImageCount; i++)
+	    for (i = 0; i < nselected; i++)
 	    {
 		GraphicsControlBlock gcb;
 
-		DGifSavedExtensionToGCB(GifFileIn, i, &gcb);
+		DGifSavedExtensionToGCB(GifFileIn, selected[i], &gcb);
 		gcb.DelayTime = op->delay;
-		EGifGCBToSavedExtension(&gcb, GifFileIn, i);
+		EGifGCBToSavedExtension(&gcb, GifFileIn, selected[i]);
 	    }
 	    break;
 
 	case interlace:
-	    for (i = 0; i < GifFileIn->ImageCount; i++)
-		GifFileIn->SavedImages[i].ImageDesc.Interlace = true;
+	    for (i = 0; i < nselected; i++)
+		GifFileIn->SavedImages[selected[i]].ImageDesc.Interlace = true;
 	    break;
 
 	case deinterlace:
-	    for (i = 0; i < GifFileIn->ImageCount; i++)
-		GifFileIn->SavedImages[i].ImageDesc.Interlace = false;
+	    for (i = 0; i < nselected; i++)
+		GifFileIn->SavedImages[selected[i]].ImageDesc.Interlace = false;
 	    break;
 
 	case transparent:
-	    for (i = 0; i < GifFileIn->ImageCount; i++)
+	    for (i = 0; i < nselected; i++)
 	    {
 		GraphicsControlBlock gcb;
 
-		DGifSavedExtensionToGCB(GifFileIn, i, &gcb);
+		DGifSavedExtensionToGCB(GifFileIn, selected[i], &gcb);
 		gcb.TransparentIndex = op->color;
-		EGifGCBToSavedExtension(&gcb, GifFileIn, i);
+		EGifGCBToSavedExtension(&gcb, GifFileIn, selected[i]);
 	    }
 	    break;
 
 	case userinput_on:
-	    for (i = 0; i < GifFileIn->ImageCount; i++)
+	    for (i = 0; i < nselected; i++)
 	    {
 		GraphicsControlBlock gcb;
 
-		DGifSavedExtensionToGCB(GifFileIn, i, &gcb);
+		DGifSavedExtensionToGCB(GifFileIn, selected[i], &gcb);
 		gcb.UserInputFlag = true;
-		EGifGCBToSavedExtension(&gcb, GifFileIn, i);
+		EGifGCBToSavedExtension(&gcb, GifFileIn, selected[i]);
 	    }
 	    break;
 
 	case userinput_off:
-	    for (i = 0; i < GifFileIn->ImageCount; i++)
+	    for (i = 0; i < nselected; i++)
 	    {
 		GraphicsControlBlock gcb;
 
-		DGifSavedExtensionToGCB(GifFileIn, i, &gcb);
+		DGifSavedExtensionToGCB(GifFileIn, selected[i], &gcb);
 		gcb.UserInputFlag = false;
-		EGifGCBToSavedExtension(&gcb, GifFileIn, i);
+		EGifGCBToSavedExtension(&gcb, GifFileIn, selected[i]);
 	    }
 	    break;
 
