@@ -66,6 +66,7 @@ int main(int argc, char **argv)
 	case 'b':
 	    top->mode = background;
 	    top->color = atoi(optarg);
+	    break;
 
 	case 'd':
 	    top->mode = delaytime;
