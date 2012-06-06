@@ -19,14 +19,15 @@ giftool.c - GIF transformation tool.
 
 struct operation {
     enum {
+	delaytime,
 	background,
 	interlace,
 	deinterlace,
-	delay,
+	transparent,
     } mode;    
     union {
-	int delaytime;
-	int bgcolor;
+	int delay;
+	int color;
     };
 };
 static struct operation operations[MAX_OPERATIONS];
@@ -56,11 +57,11 @@ int main(int argc, char **argv)
 	{
 	case 'b':
 	    top->mode = background;
-	    top->bgcolor = atoi(optarg);
+	    top->color = atoi(optarg);
 
 	case 'd':
-	    top->mode = delay;
-	    top->delaytime = atoi(optarg);
+	    top->mode = delaytime;
+	    top->delay = atoi(optarg);
 	    break;
 
 	case 'i':
@@ -72,7 +73,7 @@ int main(int argc, char **argv)
 	    break;
 
 	default:
-	    fprintf(stderr, "usage: giftool [-b bgcolor] [-d delay] [-iI]\n");
+	    fprintf(stderr, "usage: giftool [-b color] [-d delay] [-iI]\n");
 	    break;
 	}
 
@@ -93,7 +94,18 @@ int main(int argc, char **argv)
 	switch (op->mode)
 	{
 	case background:
-	    GifFileIn->SBackGroundColor = op->bgcolor; 
+	    GifFileIn->SBackGroundColor = op->color; 
+	    break;
+
+	case delaytime:
+	    for (i = 0; i < GifFileIn->ImageCount; i++)
+	    {
+		GraphicsControlBlock gcb;
+
+		DGifSavedExtensionToGCB(GifFileIn, i, &gcb);
+		gcb.DelayTime = op->delay;
+		EGifGCBToSavedExtension(&gcb, GifFileIn, i);
+	    }
 	    break;
 
 	case interlace:
@@ -106,13 +118,13 @@ int main(int argc, char **argv)
 		GifFileIn->SavedImages[i].ImageDesc.Interlace = false;
 	    break;
 
-	case delay:
+	case transparent:
 	    for (i = 0; i < GifFileIn->ImageCount; i++)
 	    {
 		GraphicsControlBlock gcb;
 
 		DGifSavedExtensionToGCB(GifFileIn, i, &gcb);
-		gcb.DelayTime = op->delaytime;
+		gcb.TransparentIndex = op->color;
 		EGifGCBToSavedExtension(&gcb, GifFileIn, i);
 	    }
 	    break;

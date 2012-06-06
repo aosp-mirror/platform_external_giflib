@@ -23,6 +23,7 @@
       <arg choice='opt'>-d <replaceable>delaytime</replaceable></arg>
       <arg choice='opt'>-i</arg>
       <arg choice='opt'>-I</arg>
+      <arg choice='opt'>-t <replaceable>transcolor</replaceable></arg>
 </cmdsynopsis>
 </refsynopsisdiv>
 
@@ -39,6 +40,9 @@ line.</para>
 
 <para>The -I option sets the interlace bit in all images.  The -i option 
 clears it in all images.</para>
+
+<para>The -t option sets the index of the transparency color in all
+images.</para>
 
 </refsect1>
 <refsect1><title>Author:</title>
