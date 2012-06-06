@@ -1120,7 +1120,7 @@ DGifSlurp(GifFileType *GifFile)
               while (ExtData != NULL) {
 
                   /* Create an extension block with our data */
-                  if (AddExtensionBlock(&GifFile->Trailing, ExtFunction, ExtData[0], &ExtData[1])
+                  if (GifAddExtensionBlock(&GifFile->Trailing, ExtFunction, ExtData[0], &ExtData[1])
                       == GIF_ERROR)
                       return (GIF_ERROR);
 

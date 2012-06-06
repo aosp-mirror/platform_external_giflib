@@ -683,7 +683,7 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
     }
 
     Len = EGifGCBToExtension(GCB, (GifByteType *)buf);
-    if (AddExtensionBlock(&GifFile->SavedImages[ImageIndex].Leading,
+    if (GifAddExtensionBlock(&GifFile->SavedImages[ImageIndex].Leading,
 			  GRAPHICS_EXT_FUNC_CODE,
 			  Len,
 			  (unsigned char *)buf) == GIF_ERROR)

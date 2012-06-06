@@ -17,8 +17,9 @@ New API Features
   no following image file, in an ExtensionBlockList member named 'Trailing'.
 * DGifSlurp() and EGifSpew() now read and write interlaced images.
 * The ExtensionBlock API has been repaired.  The (undocumented)
-  MakeExtension() entry point is gone and the (undocumented)
-  AddExtensionBlock() function now takes a function-code argument.
+  MakeExtension() entry point is gone; the (undocumented)
+  AddExtensionBlock() function has been renamed GifAddExtensionBlock() 
+  and now takes a function-code argument.
   The (undocumented) FreeExtension() function is replaced by
   FreeExtensions().
 * The ExtensionBlockCount and ExtensionBlockList members of the

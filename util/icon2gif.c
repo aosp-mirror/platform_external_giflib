@@ -444,7 +444,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (AddExtensionBlock(&Leading,
+		    if (GifAddExtensionBlock(&Leading,
 					  COMMENT_EXT_FUNC_CODE,
 					  Len,
 					  (unsigned char *)buf) == GIF_ERROR) {
@@ -464,7 +464,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (AddExtensionBlock(&Leading, 
+		    if (GifAddExtensionBlock(&Leading, 
 					  PLAINTEXT_EXT_FUNC_CODE,
 					  Len, 
 					  (unsigned char *)buf) == GIF_ERROR) {
@@ -511,7 +511,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    exit(EXIT_FAILURE);
 		}
 	    Len = EGifGCBToExtension(&gcb, (GifByteType *)buf);
-	    if (AddExtensionBlock(&Leading,
+	    if (GifAddExtensionBlock(&Leading,
 				  GRAPHICS_EXT_FUNC_CODE,
 				  Len,
 				  (unsigned char *)buf) == GIF_ERROR) {
@@ -531,7 +531,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (AddExtensionBlock(&Leading,
+		    if (GifAddExtensionBlock(&Leading,
 					  ExtCode, 
 					  Len,
 					  (unsigned char *)buf) == GIF_ERROR) {

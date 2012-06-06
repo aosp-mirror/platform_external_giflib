@@ -216,7 +216,7 @@ ApplyTranslation(SavedImage *Image, GifPixelType Translation[])
 
 
 int
-AddExtensionBlock(ExtensionBlockList *New,
+GifAddExtensionBlock(ExtensionBlockList *New,
 		  int Function,
                   unsigned int Len,
                   unsigned char ExtData[])
