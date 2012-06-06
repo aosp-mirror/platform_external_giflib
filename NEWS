@@ -54,6 +54,7 @@ Retirements
 -----------
 * The gifburst utility is gone.  Everybody has image viewers that
   can pan now, and removing it gets rid of a dependency on Perl.
+* The (undocumented) gifinfo utility is gone.  Use giftool -f instead.
 
 Utilities
 ---------

@@ -17,7 +17,6 @@
 |giffix     | -
 |gifflip    | -
 |gifhisto   | visual-check
-|gifinfo    | -
 |gifinter   | -
 |gifinto    | make util-regress
 |gifovly    | -

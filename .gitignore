@@ -45,7 +45,6 @@ util/giffiltr
 util/giffix
 util/gifflip
 util/gifhisto
-util/gifinfo
 util/gifinter
 util/gifinto
 util/gifovly
@@ -89,8 +88,6 @@ doc/gifhisto.1
 doc/gifhisto.html
 doc/gifinter.1
 doc/gifinter.html
-doc/gifinfo.1
-doc/gifinfo.html
 doc/gifinto.1
 doc/gifinto.html
 doc/gifovly.1
