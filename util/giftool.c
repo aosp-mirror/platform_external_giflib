@@ -24,6 +24,8 @@ struct operation {
 	interlace,
 	deinterlace,
 	transparent,
+	userinput_on,
+	userinput_off,
     } mode;    
     union {
 	int delay;
@@ -46,7 +48,7 @@ int main(int argc, char **argv)
      * getopt(3) here rather than Gershom's argument getter because
      * preserving the order of operations is important.
      */
-    while ((status = getopt(argc, argv, "bd:iI")) != EOF)
+    while ((status = getopt(argc, argv, "bd:iItuU")) != EOF)
     {
 	if (top >= operations + MAX_OPERATIONS) {
 	    (void)fprintf(stderr, "giftool: too many operations.");
@@ -72,8 +74,16 @@ int main(int argc, char **argv)
 	    top->mode = interlace;
 	    break;
 
+	case 'u':
+	    top->mode = userinput_off;
+	    break;
+
+	case 'U':
+	    top->mode = userinput_on;
+	    break;
+
 	default:
-	    fprintf(stderr, "usage: giftool [-b color] [-d delay] [-iI]\n");
+	    fprintf(stderr, "usage: giftool [-b color] [-d delay] [-iI] [-t color] -[uU]\n");
 	    break;
 	}
 
@@ -125,6 +135,28 @@ int main(int argc, char **argv)
 
 		DGifSavedExtensionToGCB(GifFileIn, i, &gcb);
 		gcb.TransparentIndex = op->color;
+		EGifGCBToSavedExtension(&gcb, GifFileIn, i);
+	    }
+	    break;
+
+	case userinput_on:
+	    for (i = 0; i < GifFileIn->ImageCount; i++)
+	    {
+		GraphicsControlBlock gcb;
+
+		DGifSavedExtensionToGCB(GifFileIn, i, &gcb);
+		gcb.UserInputFlag = true;
+		EGifGCBToSavedExtension(&gcb, GifFileIn, i);
+	    }
+	    break;
+
+	case userinput_off:
+	    for (i = 0; i < GifFileIn->ImageCount; i++)
+	    {
+		GraphicsControlBlock gcb;
+
+		DGifSavedExtensionToGCB(GifFileIn, i, &gcb);
+		gcb.UserInputFlag = false;
 		EGifGCBToSavedExtension(&gcb, GifFileIn, i);
 	    }
 	    break;
