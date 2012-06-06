@@ -10,8 +10,8 @@ Use DGifOpenFileHandle() or DGifOpenFileName() to get a read handle
 on a GIF file. Or use DGifOpen() to set up a read function hook.
 
 Use DGifSlurp() to read a GIF image into code from the handle or via
-the read hook.  look in the image structure members for the RGB
-bits.
+the read hook. Look in the image structure members for the color
+table and raster bits.
 
 Use DGifClose() to free the read handle.
 
@@ -45,32 +45,6 @@ Except for some details of extension-block handling and the addition
 of read/write function hooks, the DGifSlurp()/EGifSpew() interface has
 been stable since 1990.  It is expected to remain so.
 
-== Roadmap and deprecation list ==
+== Roadmap ==
 
-Some features will be removed in giflib 5.0:
-
-* In the SavedImage struct: int Function will be removed.  Use
-  SavedImage.ExtensionBlocks[x].Function instead.
-
-* In gifalloc.c: MakeExtension is deprecated as well.  Use
-  AddExtensionBlock instead, but note that it will change in 5.0 to
-  take an additional function code argument.  (This and the previous
-  int Function were deprecated because they only handle one Extension
-  per image.  The new code handles multiple extensions.)
-
-* Do not use GifBooleanType.  This is legacy from before the C
-  language got booleans. It is still in the .h file, but will be 
-  removed in 5.0.
-
-* Similarly, do not use the VoidPtr macro; it is legacy from when not
-  all C compilers had void *, and will be removed in 5.0
-
-* The bool args to EGifOpenFileName() and EGifPutImageDesc() have become
-  true C99 bools; in 5.0 the TRUE and FALSE macros will go away.
-
-Some API calls will be renamed in 5.0:
-
-* DrawText (and the Windows name for it created to avoid some
-  collision, DrawGifText) will become GifDrawText. The other
-  Draw* functions will also become GifDraw*.
-
+No new features are currently planned.  
