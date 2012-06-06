@@ -16,18 +16,16 @@ New API Features
 * DGifSlurp() and EGifSpew() now preserve trailing extension blocks with
   no following image file, in an ExtensionBlockList member named 'Trailing'.
 * DGifSlurp() and EGifSpew() now read and write interlaced images.
-* The ExtensionBlock API has been repaired.  The (undocumented)
-  MakeExtension() entry point is gone; the (undocumented)
-  AddExtensionBlock() function has been renamed GifAddExtensionBlock() 
-  and now takes a function-code argument.
-  The (undocumented) FreeExtension() function is replaced by
-  FreeExtensions().
-* The ExtensionBlockCount and ExtensionBlockList members of the
-  SavedImage structures are no longer top-level in that structure, but
-  now live in an ExtensionBlockList substructure named 'Leading'.
-  This was done so that the new list of trailing extension blocks in
-  GifFileType can use the same list-handler code as the Leading 
-  extension-block list in each saved image.
+* The ExtensionBlock API has been repaired. The ExtensionBlockCount
+  and ExtensionBlockList members of the SavedImage structures are no
+  longer top-level in that structure, but now live in an
+  ExtensionBlockList substructure named 'Leading'.  This was done so
+  that the new list of trailing extension blocks in GifFileType can
+  use the same list-handler code as the Leading extension-block list
+  in each saved image.
+* Five undocumented functions have been renamed; two of these take additional
+  or slightly different argument types. See the Compatibility section of
+  the library API documentation for details.
 * New functions DGifSavedExtensionToGCB() and EGifGCBToSavedExtension()
   make it easy to read and edit GIF89 graphics control blocks in saved images.
 * There's now an EGifGetGifVersion() that computes the version EGifSpew() 

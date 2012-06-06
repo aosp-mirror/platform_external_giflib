@@ -628,11 +628,11 @@ DGifCloseFile(GifFileType *GifFile)
     }
 
     if (GifFile->SavedImages) {
-        FreeSavedImages(GifFile);
+        GifFreeSavedImages(GifFile);
         GifFile->SavedImages = NULL;
     }
 
-    FreeExtensions(&GifFile->Trailing);
+    GifFreeExtensions(&GifFile->Trailing);
 
     Private = (GifFilePrivateType *) GifFile->Private;
 

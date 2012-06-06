@@ -867,6 +867,12 @@ EGifGetGifVersion().
 </para></listitem>
 <listitem><para>A rare resource leak in the colormap-object maker was found with
 Coverity and fixed.</para></listitem>
+<listitem><para>Some undocumented functions have been renamed. 
+AddExtensionBlock() is now GifAddExtensionBlock(), and takes an additional
+function code argument.  ApplyTranslation() is now GifApplyTranslation();
+FreeExtension() has become GifFreeExtensions() and takes a different argument
+type; MakeSavedImage() is now GifMakeSavedImage(), and FreeSavedImages() is
+now GifFreeSavedImages().</para></listitem>
 </itemizedlist>
 
 </sect1>

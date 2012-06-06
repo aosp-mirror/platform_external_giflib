@@ -252,13 +252,13 @@ typedef struct SavedImage {
     ExtensionBlockList Leading;
 } SavedImage;
 
-extern void ApplyTranslation(SavedImage *Image, GifPixelType Translation[]);
+extern void GifApplyTranslation(SavedImage *Image, GifPixelType Translation[]);
 extern int GifAddExtensionBlock(ExtensionBlockList *New, int Function, 
 				 unsigned int Len, unsigned char ExtData[]);
-extern void FreeExtensions(ExtensionBlockList *ExtensionList);
-extern SavedImage *MakeSavedImage(GifFileType *GifFile,
+extern void GifFreeExtensions(ExtensionBlockList *ExtensionList);
+extern SavedImage *GifMakeSavedImage(GifFileType *GifFile,
                                   const SavedImage *CopyFrom);
-extern void FreeSavedImages(GifFileType *GifFile);
+extern void GifFreeSavedImages(GifFileType *GifFile);
 
 /******************************************************************************
  * 5.x functions for GIF89 graphics control blocks

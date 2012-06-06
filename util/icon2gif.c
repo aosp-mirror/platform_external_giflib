@@ -307,7 +307,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		 CopyFrom < Inclusion->SavedImages + Inclusion->ImageCount;
 		 CopyFrom++)
 	    {
-		if ((NewImage = MakeSavedImage(GifFileOut, CopyFrom)) == NULL)
+		if ((NewImage = GifMakeSavedImage(GifFileOut, CopyFrom)) == NULL)
 		{
 		    PARSE_ERROR("Inclusion failed --- out of memory.");
 		    PrintGifError();
@@ -316,7 +316,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    exit(EXIT_FAILURE);
 		}
 		else if (DoTranslation)
-		    ApplyTranslation(NewImage, Translation);
+		    GifApplyTranslation(NewImage, Translation);
 
 		GifQprintf(
 		        "%s: Image %d at (%d, %d) [%dx%d]: from %s\n",
@@ -335,7 +335,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 	else if (strcmp(buf, "image\n") == 0)
 	{
-	    if ((NewImage = MakeSavedImage(GifFileOut, NULL)) == (SavedImage *)NULL)
+	    if ((NewImage = GifMakeSavedImage(GifFileOut, NULL)) == (SavedImage *)NULL)
 	    {
 		PARSE_ERROR("Out of memory while allocating image block.");
 		exit(EXIT_FAILURE);

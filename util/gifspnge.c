@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 				 GifFileIn->SColorMap->Colors);
 
     for (i = 0; i < GifFileIn->ImageCount; i++)
-	(void) MakeSavedImage(GifFileOut, &GifFileIn->SavedImages[i]);
+	(void) GifMakeSavedImage(GifFileOut, &GifFileIn->SavedImages[i]);
 
     /*
      * Note: don't do DGifCloseFile early, as this will

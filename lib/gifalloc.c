@@ -201,7 +201,7 @@ UnionColorMap(const ColorMapObject *ColorIn1,
  * Apply a given color translation to the raster bits of an image
  */
 void
-ApplyTranslation(SavedImage *Image, GifPixelType Translation[])
+GifApplyTranslation(SavedImage *Image, GifPixelType Translation[])
 {
     register int i;
     register int RasterSize = Image->ImageDesc.Height * Image->ImageDesc.Width;
@@ -249,7 +249,7 @@ GifAddExtensionBlock(ExtensionBlockList *New,
 }
 
 void
-FreeExtensions(ExtensionBlockList *ExtensionList)
+GifFreeExtensions(ExtensionBlockList *ExtensionList)
 {
     ExtensionBlock *ep;
 
@@ -295,11 +295,11 @@ FreeLastSavedImage(GifFileType *GifFile)
         free((char *)sp->RasterBits);
 
     /* Deallocate any extensions */
-    FreeExtensions(&sp->Leading);
+    GifFreeExtensions(&sp->Leading);
 
     /*** FIXME: We could realloc the GifFile->SavedImages structure but is
      * there a point to it? Saves some memory but we'd have to do it every
-     * time.  If this is used in FreeSavedImages then it would be inefficient
+     * time.  If this is used in GifFreeSavedImages then it would be inefficient
      * (The whole array is going to be deallocated.)  If we just use it when
      * we want to free the last Image it's convenient to do it here.
      */
@@ -309,7 +309,7 @@ FreeLastSavedImage(GifFileType *GifFile)
  * Append an image block to the SavedImages array  
  */
 SavedImage *
-MakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
+GifMakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
 {
     SavedImage *sp;
 
@@ -376,7 +376,7 @@ MakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
 }
 
 void
-FreeSavedImages(GifFileType *GifFile)
+GifFreeSavedImages(GifFileType *GifFile)
 {
     SavedImage *sp;
 
@@ -393,7 +393,7 @@ FreeSavedImages(GifFileType *GifFile)
         if (sp->RasterBits != NULL)
             free((char *)sp->RasterBits);
 
-	FreeExtensions(&sp->Leading);
+	GifFreeExtensions(&sp->Leading);
     }
     free((char *)GifFile->SavedImages);
     GifFile->SavedImages = NULL;

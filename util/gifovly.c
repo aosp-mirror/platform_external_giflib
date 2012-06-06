@@ -67,7 +67,7 @@ int main(int argc, char **argv)
 
 
     /* The output file will have exactly one image */
-    MakeSavedImage(GifFileOut, &GifFileIn->SavedImages[0]);
+    GifMakeSavedImage(GifFileOut, &GifFileIn->SavedImages[0]);
     bp = &GifFileOut->SavedImages[0];
     for (k = 1; k < GifFileIn->ImageCount; k++)
     {
