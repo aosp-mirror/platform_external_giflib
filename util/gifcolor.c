@@ -85,12 +85,12 @@ int main(int argc, char **argv)
 	    ColorMapSize++;
 	}
 
-    if ((ColorMap = MakeMapObject(1 << BitSize(ColorMapSize), ScratchMap)) == NULL)
+    if ((ColorMap = GifMakeMapObject(1 << GifBitSize(ColorMapSize), ScratchMap)) == NULL)
 	GIF_EXIT("Failed to allocate memory required, aborted.");
 
     if (EGifPutScreenDesc(GifFile,
 			  IMAGEWIDTH, ColorMapSize * GIF_FONT_HEIGHT,
-			  BitSize(ColorMapSize),
+			  GifBitSize(ColorMapSize),
 			  BackGround, ColorMap) == GIF_ERROR)
 	QuitGifError(GifFile);
 

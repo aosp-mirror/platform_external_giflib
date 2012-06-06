@@ -298,7 +298,7 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
 	    }
 	}
 
-	if ((NewMap = MakeMapObject(1 << BitSize(Max+1), NULL)) == NULL)
+	if ((NewMap = GifMakeMapObject(1 << GifBitSize(Max+1), NULL)) == NULL)
 	    GIF_EXIT("Out of memory while allocating color map!");
 
 	/* Apply the translation; we'll do it to the pixels, too */

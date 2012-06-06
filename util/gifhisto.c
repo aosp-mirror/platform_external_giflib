@@ -183,7 +183,7 @@ int main(int argc, char **argv)
 	/* Dump out screen descriptor to fit histogram dimensions: */
 	if (EGifPutScreenDesc(GifFileOut,
 	    ImageWidth, ImageHeight, HISTO_BITS_PER_PIXEL, 0,
-	    MakeMapObject(4, HistoColorMap)) == GIF_ERROR)
+	    GifMakeMapObject(4, HistoColorMap)) == GIF_ERROR)
 		QuitGifError(GifFileIn, GifFileOut);
 
 	/* Dump out image descriptor to fit histogram dimensions: */

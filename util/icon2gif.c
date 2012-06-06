@@ -185,7 +185,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "screen colors %d\n", &n) == 1)
 	{
-	    int	ResBits = BitSize(n);
+	    int	ResBits = GifBitSize(n);
 
 	    if (n > 256 || n < 0 || n != (1 << ResBits))
 	    {
@@ -250,7 +250,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    ColorMapObject	*NewMap;
 
 
-	    NewMap = MakeMapObject(1 << BitSize(ColorMapSize), ColorMap);
+	    NewMap = GifMakeMapObject(1 << GifBitSize(ColorMapSize), ColorMap);
 	    if (NewMap == (ColorMapObject *)NULL)
 	    {
 		PARSE_ERROR("Out of memory while allocating new color map.");
@@ -287,7 +287,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    {
 		ColorMapObject	*UnionMap;
 
-		UnionMap = UnionColorMap(GifFileOut->SColorMap,
+		UnionMap = GifUnionColorMap(GifFileOut->SColorMap,
 					 Inclusion->SColorMap, Translation);
 
 		if (UnionMap == NULL)
@@ -299,7 +299,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    exit(EXIT_FAILURE);
 		}
 
-		FreeMapObject(GifFileOut->SColorMap);
+		GifFreeMapObject(GifFileOut->SColorMap);
 		GifFileOut->SColorMap = UnionMap;
 	    }
 

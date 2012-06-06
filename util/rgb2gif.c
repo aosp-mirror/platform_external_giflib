@@ -110,7 +110,7 @@ int main(int argc, char **argv)
 		&RedBuffer, &GreenBuffer, &BlueBuffer, Width, Height);
     }
 
-    if ((OutputColorMap = MakeMapObject(ColorMapSize, NULL)) == NULL ||
+    if ((OutputColorMap = GifMakeMapObject(ColorMapSize, NULL)) == NULL ||
 	(OutputBuffer = (GifByteType *) malloc(Width * Height *
 					    sizeof(GifByteType))) == NULL)
 	GIF_EXIT("Failed to allocate memory required, aborted.");

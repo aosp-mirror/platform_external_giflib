@@ -124,7 +124,7 @@ int main(int argc, char **argv)
 	LogNumLevels = ColorMapSize;
     }
 
-    if ((ColorMap = MakeMapObject(NumLevels, NULL)) == NULL)
+    if ((ColorMap = GifMakeMapObject(NumLevels, NULL)) == NULL)
 	GIF_EXIT("Failed to allocate memory required, aborted.");
 
     for (i = 0; i < NumLevels; i++)

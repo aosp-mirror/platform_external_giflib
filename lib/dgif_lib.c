@@ -243,7 +243,7 @@ DGifGetScreenDesc(GifFileType *GifFile)
 
     if (READ(GifFile, Buf, 3) != 3) {
         _GifError = D_GIF_ERR_READ_FAILED;
-	FreeMapObject(GifFile->SColorMap);
+	GifFreeMapObject(GifFile->SColorMap);
 	GifFile->SColorMap = NULL;
         return GIF_ERROR;
     }
@@ -253,7 +253,7 @@ DGifGetScreenDesc(GifFileType *GifFile)
     if (Buf[0] & 0x80) {    /* Do we have global color map? */
 	int i;
 
-        GifFile->SColorMap = MakeMapObject(1 << BitsPerPixel, NULL);
+        GifFile->SColorMap = GifMakeMapObject(1 << BitsPerPixel, NULL);
         if (GifFile->SColorMap == NULL) {
             _GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
             return GIF_ERROR;
@@ -262,7 +262,7 @@ DGifGetScreenDesc(GifFileType *GifFile)
         /* Get the global color map: */
         for (i = 0; i < GifFile->SColorMap->ColorCount; i++) {
             if (READ(GifFile, Buf, 3) != 3) {
-                FreeMapObject(GifFile->SColorMap);
+                GifFreeMapObject(GifFile->SColorMap);
                 GifFile->SColorMap = NULL;
                 _GifError = D_GIF_ERR_READ_FAILED;
                 return GIF_ERROR;
@@ -342,7 +342,7 @@ DGifGetImageDesc(GifFileType *GifFile)
         return GIF_ERROR;
     if (READ(GifFile, Buf, 1) != 1) {
         _GifError = D_GIF_ERR_READ_FAILED;
-	FreeMapObject(GifFile->Image.ColorMap);
+	GifFreeMapObject(GifFile->Image.ColorMap);
 	GifFile->Image.ColorMap = NULL;
         return GIF_ERROR;
     }
@@ -351,14 +351,14 @@ DGifGetImageDesc(GifFileType *GifFile)
 
     /* Setup the colormap */
     if (GifFile->Image.ColorMap) {
-        FreeMapObject(GifFile->Image.ColorMap);
+        GifFreeMapObject(GifFile->Image.ColorMap);
         GifFile->Image.ColorMap = NULL;
     }
     /* Does this image have local color map? */
     if (Buf[0] & 0x80) {
 	unsigned int i;
 
-        GifFile->Image.ColorMap = MakeMapObject(1 << BitsPerPixel, NULL);
+        GifFile->Image.ColorMap = GifMakeMapObject(1 << BitsPerPixel, NULL);
         if (GifFile->Image.ColorMap == NULL) {
             _GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
             return GIF_ERROR;
@@ -367,7 +367,7 @@ DGifGetImageDesc(GifFileType *GifFile)
         /* Get the image local color map: */
         for (i = 0; i < GifFile->Image.ColorMap->ColorCount; i++) {
             if (READ(GifFile, Buf, 3) != 3) {
-                FreeMapObject(GifFile->Image.ColorMap);
+                GifFreeMapObject(GifFile->Image.ColorMap);
                 _GifError = D_GIF_ERR_READ_FAILED;
                 GifFile->Image.ColorMap = NULL;
                 return GIF_ERROR;
@@ -396,7 +396,7 @@ DGifGetImageDesc(GifFileType *GifFile)
     sp = &GifFile->SavedImages[GifFile->ImageCount];
     memcpy(&sp->ImageDesc, &GifFile->Image, sizeof(GifImageDesc));
     if (GifFile->Image.ColorMap != NULL) {
-        sp->ImageDesc.ColorMap = MakeMapObject(
+        sp->ImageDesc.ColorMap = GifMakeMapObject(
                                  GifFile->Image.ColorMap->ColorCount,
                                  GifFile->Image.ColorMap->Colors);
         if (sp->ImageDesc.ColorMap == NULL) {
@@ -571,7 +571,7 @@ int DGifExtensionToGCB(const GifByteType *GifExtension,
 
     GCB->DisposalMode = (GifExtension[1] >> 2) & 0x07;
     GCB->UserInputFlag = (GifExtension[1] & 0x02) != 0;
-    GCB->DelayTime = (GifExtension[2] << 8) | GifExtension[3];
+    GCB->DelayTime = GifExtension[2] | (GifExtension[3] << 8);
     if (GifExtension[1] & 0x01)
 	GCB->TransparentIndex = (int)GifExtension[4];
     else
@@ -618,12 +618,12 @@ DGifCloseFile(GifFileType *GifFile)
         return GIF_ERROR;
 
     if (GifFile->Image.ColorMap) {
-        FreeMapObject(GifFile->Image.ColorMap);
+        GifFreeMapObject(GifFile->Image.ColorMap);
         GifFile->Image.ColorMap = NULL;
     }
 
     if (GifFile->SColorMap) {
-        FreeMapObject(GifFile->SColorMap);
+        GifFreeMapObject(GifFile->SColorMap);
         GifFile->SColorMap = NULL;
     }
 

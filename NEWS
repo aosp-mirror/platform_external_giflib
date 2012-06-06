@@ -23,14 +23,19 @@ New API Features
   that the new list of trailing extension blocks in GifFileType can
   use the same list-handler code as the Leading extension-block list
   in each saved image.
-* Five undocumented functions have been renamed; two of these take additional
+* Six undocumented functions have been renamed; two of these take additional
   or slightly different argument types. See the Compatibility section of
   the library API documentation for details.
+* Three documented functions - MakeMapObject(), FreeMapObject(), and
+  UnionColorMap() - have been renamed to GifMakeMapObject(),
+  GifFreeMapObject(), and GifUnionColorMap() respectively.  All
+  functions exported by this library now have DGif, EGif, or Gif
+  as a name prefix.
 * New functions DGifSavedExtensionToGCB() and EGifGCBToSavedExtension()
   make it easy to read and edit GIF89 graphics control blocks in saved images.
 * There's now an EGifGetGifVersion() that computes the version EGifSpew() 
   will write.
-* QuantizeBuffer() has been returned to the core library as GifQuantizeBuffer 
+* QuantizeBuffer() has been returned to the core library as GifQuantizeBuffer() 
   - turns out some important applications (notably mplayer) were using it.
 * New functions support manipulating GIF89 graphics control extensions.
 * TRUE and FALSE macros are gone, also VoidPtr.  No more namespace pollution.

@@ -18,7 +18,7 @@
 
 /* return smallest bitfield size n will fit in */
 int
-BitSize(int n)
+GifBitSize(int n)
 {
     register int i;
 
@@ -37,13 +37,13 @@ BitSize(int n)
  * ColorMap if that pointer is non-NULL.
  */
 ColorMapObject *
-MakeMapObject(int ColorCount, const GifColorType *ColorMap)
+GifMakeMapObject(int ColorCount, const GifColorType *ColorMap)
 {
     ColorMapObject *Object;
 
     /*** FIXME: Our ColorCount has to be a power of two.  Is it necessary to
      * make the user know that or should we automatically round up instead? */
-    if (ColorCount != (1 << BitSize(ColorCount))) {
+    if (ColorCount != (1 << GifBitSize(ColorCount))) {
         return ((ColorMapObject *) NULL);
     }
     
@@ -59,7 +59,7 @@ MakeMapObject(int ColorCount, const GifColorType *ColorMap)
     }
 
     Object->ColorCount = ColorCount;
-    Object->BitsPerPixel = BitSize(ColorCount);
+    Object->BitsPerPixel = GifBitSize(ColorCount);
 
     if (ColorMap != NULL) {
         memcpy((char *)Object->Colors,
@@ -73,7 +73,7 @@ MakeMapObject(int ColorCount, const GifColorType *ColorMap)
  * Free a color map object
  */
 void
-FreeMapObject(ColorMapObject *Object)
+GifFreeMapObject(ColorMapObject *Object)
 {
     if (Object != NULL) {
         (void)free(Object->Colors);
@@ -110,11 +110,11 @@ DumpColorMap(ColorMapObject *Object,
  * ColorIn2 into the ColorUnion color map table.
  */
 ColorMapObject *
-UnionColorMap(const ColorMapObject *ColorIn1,
+GifUnionColorMap(const ColorMapObject *ColorIn1,
               const ColorMapObject *ColorIn2,
               GifPixelType ColorTransIn2[])
 {
-    int i, j, CrntSlot, RoundUpTo, NewBitSize;
+    int i, j, CrntSlot, RoundUpTo, NewGifBitSize;
     ColorMapObject *ColorUnion;
 
     /*
@@ -124,7 +124,7 @@ UnionColorMap(const ColorMapObject *ColorIn1,
      */
 
     /* Allocate table which will hold the result for sure. */
-    ColorUnion = MakeMapObject(MAX(ColorIn1->ColorCount,
+    ColorUnion = GifMakeMapObject(MAX(ColorIn1->ColorCount,
                                ColorIn2->ColorCount) * 2, NULL);
 
     if (ColorUnion == NULL)
@@ -167,12 +167,12 @@ UnionColorMap(const ColorMapObject *ColorIn1,
     }
 
     if (CrntSlot > 256) {
-        FreeMapObject(ColorUnion);
+        GifFreeMapObject(ColorUnion);
         return ((ColorMapObject *) NULL);
     }
 
-    NewBitSize = BitSize(CrntSlot);
-    RoundUpTo = (1 << NewBitSize);
+    NewGifBitSize = GifBitSize(CrntSlot);
+    RoundUpTo = (1 << NewGifBitSize);
 
     if (RoundUpTo != ColorUnion->ColorCount) {
         register GifColorType *Map = ColorUnion->Colors;
@@ -192,7 +192,7 @@ UnionColorMap(const ColorMapObject *ColorIn1,
     }
 
     ColorUnion->ColorCount = RoundUpTo;
-    ColorUnion->BitsPerPixel = NewBitSize;
+    ColorUnion->BitsPerPixel = NewGifBitSize;
 
     return (ColorUnion);
 }
@@ -286,7 +286,7 @@ FreeLastSavedImage(GifFileType *GifFile)
 
     /* Deallocate its Colormap */
     if (sp->ImageDesc.ColorMap != NULL) {
-        FreeMapObject(sp->ImageDesc.ColorMap);
+        GifFreeMapObject(sp->ImageDesc.ColorMap);
         sp->ImageDesc.ColorMap = NULL;
     }
 
@@ -336,7 +336,7 @@ GifMakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
 
             /* first, the local color map */
             if (sp->ImageDesc.ColorMap != NULL) {
-                sp->ImageDesc.ColorMap = MakeMapObject(
+                sp->ImageDesc.ColorMap = GifMakeMapObject(
                                          CopyFrom->ImageDesc.ColorMap->ColorCount,
                                          CopyFrom->ImageDesc.ColorMap->Colors);
                 if (sp->ImageDesc.ColorMap == NULL) {
@@ -386,7 +386,7 @@ GifFreeSavedImages(GifFileType *GifFile)
     for (sp = GifFile->SavedImages;
          sp < GifFile->SavedImages + GifFile->ImageCount; sp++) {
         if (sp->ImageDesc.ColorMap != NULL) {
-            FreeMapObject(sp->ImageDesc.ColorMap);
+            GifFreeMapObject(sp->ImageDesc.ColorMap);
             sp->ImageDesc.ColorMap = NULL;
         }
 

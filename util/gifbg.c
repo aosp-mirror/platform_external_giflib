@@ -201,7 +201,7 @@ int main(int argc, char **argv)
 	QuitGifError(GifFile);
 
     /* Dump out screen description with given size and generated color map:  */
-    if ((ColorMap = MakeMapObject(NumLevels, NULL)) == NULL)
+    if ((ColorMap = GifMakeMapObject(NumLevels, NULL)) == NULL)
 	GIF_EXIT("Failed to allocate memory required, aborted.");
 
     for (i = 1; i <= NumLevels; i++) {

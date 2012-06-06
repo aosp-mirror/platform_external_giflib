@@ -229,8 +229,8 @@ described in a later section.</para>
 </sect1>
 <sect1><title>Color map handling and allocation routines</title>
 
-<programlisting id="MakeMapObject">
-ColorMapObject *MakeMapObject(int ColorCount, GifColorType *ColorMap)
+<programlisting id="GifMakeMapObject">
+ColorMapObject *GifMakeMapObject(int ColorCount, GifColorType *ColorMap)
 </programlisting>
 
 <para>Allocate storage for a color map object with the given number of
@@ -238,15 +238,15 @@ RGB triplet slots.  If the second argument is non-NULL, initialize
 the color table portion of the new map from it.  Returns NULL if
 memory is exhausted or if the size is not a power of 2 &lt;= 256.</para>
 
-<programlisting id="FreeMapObject">
-void FreeMapObject(ColorMapObject *Object)
+<programlisting id="GifFreeMapObject">
+void GifFreeMapObject(ColorMapObject *Object)
 </programlisting>
 
 <para>Free the storage occupied by a ColorMapObject that is no longer
 needed.</para>
 
-<programlisting id="UnionColorMap">
-ColorMapObject *UnionColorMap(
+<programlisting id="GifUnionColorMap">
+ColorMapObject *GifUnionColorMap(
         ColorMapObject *ColorIn1, ColorMapObject *ColorIn2,
         GifPixelType ColorTransIn2[])
 </programlisting>
@@ -871,8 +871,13 @@ Coverity and fixed.</para></listitem>
 AddExtensionBlock() is now GifAddExtensionBlock(), and takes an additional
 function code argument.  ApplyTranslation() is now GifApplyTranslation();
 FreeExtension() has become GifFreeExtensions() and takes a different argument
-type; MakeSavedImage() is now GifMakeSavedImage(), and FreeSavedImages() is
-now GifFreeSavedImages().</para></listitem>
+type; MakeSavedImage() is now GifMakeSavedImage(), FreeSavedImages() is
+now GifFreeSavedImages(), and BitSize() is now GifBitSize().</para></listitem>
+<listitem><para>Three documented functions - MakeMapObject(),
+FreeMapObject(), and UnionColorMap() - have been renamed to
+GifMakeMapObject(), GifFreeMapObject(), and GifUnionColorMap()
+respectively.  All functions exported by this library now have DGif,
+EGif, or Gif as a name prefix.</para></listitem>
 </itemizedlist>
 
 </sect1>

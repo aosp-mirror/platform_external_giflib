@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     /* Dump out screen description with given size and generated color map:  */
     /* The color map has 7 NumLevels colors for White, Red, Green and then   */
     /* The secondary colors Yellow Cyan and magenta.			     */
-    if ((ColorMap = MakeMapObject(8 * NumLevels, NULL)) == NULL)
+    if ((ColorMap = GifMakeMapObject(8 * NumLevels, NULL)) == NULL)
 	GIF_EXIT("Failed to allocate memory required, aborted.");
 
     for (i = 0; i < 8; i++)				   /* Set color map. */

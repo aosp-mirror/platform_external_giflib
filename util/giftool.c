@@ -94,7 +94,7 @@ int main(int argc, char **argv)
     GifFileOut->SHeight = GifFileIn->SHeight;
     GifFileOut->SColorResolution = GifFileIn->SColorResolution;
     GifFileOut->SBackGroundColor = GifFileIn->SBackGroundColor;
-    GifFileOut->SColorMap = MakeMapObject(
+    GifFileOut->SColorMap = GifMakeMapObject(
 				 GifFileIn->SColorMap->ColorCount,
 				 GifFileIn->SColorMap->Colors);
 

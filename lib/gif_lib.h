@@ -233,13 +233,13 @@ extern int GifLastError(void);
  * Color Map handling from ALLOCGIF.C                          
  *****************************************************************************/
 
-extern ColorMapObject *MakeMapObject(int ColorCount,
+extern ColorMapObject *GifMakeMapObject(int ColorCount,
                                      const GifColorType *ColorMap);
-extern void FreeMapObject(ColorMapObject *Object);
-extern ColorMapObject *UnionColorMap(const ColorMapObject *ColorIn1,
+extern void GifFreeMapObject(ColorMapObject *Object);
+extern ColorMapObject *GifUnionColorMap(const ColorMapObject *ColorIn1,
                                      const ColorMapObject *ColorIn2,
                                      GifPixelType ColorTransIn2[]);
-extern int BitSize(int n);
+extern int GifBitSize(int n);
 
 /******************************************************************************
  * Support for the in-core structures allocation (slurp mode).              

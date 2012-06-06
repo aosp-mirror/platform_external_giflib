@@ -113,7 +113,7 @@ int main(int argc, char **argv)
     /* Create union of the two given color maps. ColorIn1 will be copied as  */
     /* is while ColorIn2 will be mapped using ColorTransIn2 table.	     */
     /* ColorUnion is allocated by the procedure itself.			     */
-    if ((ColorUnion = UnionColorMap(ColorIn1, ColorIn2, ColorTransIn2))==NULL)
+    if ((ColorUnion = GifUnionColorMap(ColorIn1, ColorIn2, ColorTransIn2))==NULL)
 	GIF_EXIT("Unioned color map is too big (>256 colors).");
 
     /* Dump out new image and screen descriptors: */
@@ -168,7 +168,7 @@ int main(int argc, char **argv)
 	GifQprintf("\b\b\b\b%-4d", i);
     }
 
-    FreeMapObject(ColorUnion);		    /* We dont need this any more... */
+    GifFreeMapObject(ColorUnion);		    /* We dont need this any more... */
     ColorUnion = NULL;
 
     if (DGifCloseFile(GifFileIn1) == GIF_ERROR ||

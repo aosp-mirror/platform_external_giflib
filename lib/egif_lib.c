@@ -274,7 +274,7 @@ EGifPutScreenDesc(GifFileType *GifFile,
     GifFile->SColorResolution = ColorRes;
     GifFile->SBackGroundColor = BackGround;
     if (ColorMap) {
-        GifFile->SColorMap = MakeMapObject(ColorMap->ColorCount,
+        GifFile->SColorMap = GifMakeMapObject(ColorMap->ColorCount,
                                            ColorMap->Colors);
         if (GifFile->SColorMap == NULL) {
             _GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
@@ -361,7 +361,7 @@ EGifPutImageDesc(GifFileType *GifFile,
     GifFile->Image.Height = Height;
     GifFile->Image.Interlace = Interlace;
     if (ColorMap) {
-        GifFile->Image.ColorMap = MakeMapObject(ColorMap->ColorCount,
+        GifFile->Image.ColorMap = GifMakeMapObject(ColorMap->ColorCount,
                                                 ColorMap->Colors);
         if (GifFile->Image.ColorMap == NULL) {
             _GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
@@ -654,8 +654,8 @@ size_t EGifGCBToExtension(const GraphicsControlBlock *GCB,
     GifExtension[0] |= (GCB->TransparentIndex == NO_TRANSPARENT_INDEX) ? 0x00 : 0x01;
     GifExtension[0] |= GCB->UserInputFlag ? 0x02 : 0x00;
     GifExtension[0] |= ((GCB->DisposalMode & 0x07) << 2);
-    GifExtension[1] = (GCB->DelayTime >> 8) & 0xff;
-    GifExtension[2] = GCB->DelayTime & 0xff;
+    GifExtension[1] = GCB->DelayTime & 0xff;
+    GifExtension[2] = (GCB->DelayTime >> 8) & 0xff;
     GifExtension[3] = (char)GCB->TransparentIndex;
     return 4;
 }
@@ -779,11 +779,11 @@ EGifCloseFile(GifFileType *GifFile)
     WRITE(GifFile, &Buf, 1);
 
     if (GifFile->Image.ColorMap) {
-        FreeMapObject(GifFile->Image.ColorMap);
+        GifFreeMapObject(GifFile->Image.ColorMap);
         GifFile->Image.ColorMap = NULL;
     }
     if (GifFile->SColorMap) {
-        FreeMapObject(GifFile->SColorMap);
+        GifFreeMapObject(GifFile->SColorMap);
         GifFile->SColorMap = NULL;
     }
     if (Private) {

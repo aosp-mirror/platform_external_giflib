@@ -98,7 +98,7 @@ int main(int argc, char **argv)
 	    GIF_MESSAGE("Failed to open COLOR MAP file (not exists!?).");
 	    exit(EXIT_FAILURE);
 	}
-	if ((ColorMap = MakeMapObject(256, NULL)) == NULL) {
+	if ((ColorMap = GifMakeMapObject(256, NULL)) == NULL) {
 	    GIF_MESSAGE("Failed to allocate bitmap, aborted.");
 	    exit(EXIT_FAILURE);
 	}
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
 	}
     }
     else {
-	ColorMap = MakeMapObject(16, EGAPalette);
+	ColorMap = GifMakeMapObject(16, EGAPalette);
     }
 
     if (NumFiles == 1) {
