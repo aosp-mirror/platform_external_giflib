@@ -27,10 +27,12 @@ struct operation {
 	transparent,
 	userinput_on,
 	userinput_off,
+	disposal,
     } mode;    
     union {
 	int delay;
 	int color;
+	int dispose;
     };
 };
 
@@ -52,7 +54,7 @@ int main(int argc, char **argv)
      * getopt(3) here rather than Gershom's argument getter because
      * preserving the order of operations is important.
      */
-    while ((status = getopt(argc, argv, "bd:iIn:tuU")) != EOF)
+    while ((status = getopt(argc, argv, "bd:iIn:tuUx:")) != EOF)
     {
 	if (top >= operations + MAX_OPERATIONS) {
 	    (void)fprintf(stderr, "giftool: too many operations.");
@@ -109,8 +111,13 @@ int main(int argc, char **argv)
 	    top->mode = userinput_on;
 	    break;
 
+	case 'x':
+	    top->mode = disposal;
+	    top->dispose = atoi(optarg);
+	    break;
+
 	default:
-	    fprintf(stderr, "usage: giftool [-b color] [-d delay] [-iI] [-t color] -[uU]\n");
+	    fprintf(stderr, "usage: giftool [-b color] [-d delay] [-iI] [-t color] -[uU] [-x disposal]\n");
 	    break;
 	}
 
@@ -189,6 +196,17 @@ int main(int argc, char **argv)
 
 		DGifSavedExtensionToGCB(GifFileIn, selected[i], &gcb);
 		gcb.UserInputFlag = false;
+		EGifGCBToSavedExtension(&gcb, GifFileIn, selected[i]);
+	    }
+	    break;
+
+	case disposal:
+	    for (i = 0; i < nselected; i++)
+	    {
+		GraphicsControlBlock gcb;
+
+		DGifSavedExtensionToGCB(GifFileIn, selected[i], &gcb);
+		gcb.DisposalMode = op->dispose;
 		EGifGCBToSavedExtension(&gcb, GifFileIn, selected[i]);
 	    }
 	    break;
