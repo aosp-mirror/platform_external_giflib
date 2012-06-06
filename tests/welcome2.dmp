@@ -12,7 +12,7 @@ GIF89 graphics control (Ext Code = 249 [ ]):
 	Disposal Mode: 2
 	User Input Flag: 0
 	Transparency on: yes
-	DelayTime: 25600
+	DelayTime: 100
 	Transparent Index: 0
 
 Image #1:
@@ -25,7 +25,7 @@ GIF89 graphics control (Ext Code = 249 [ ]):
 	Disposal Mode: 2
 	User Input Flag: 0
 	Transparency on: yes
-	DelayTime: 25600
+	DelayTime: 100
 	Transparent Index: 210
 
 Image #2:
@@ -38,7 +38,7 @@ GIF89 graphics control (Ext Code = 249 [ ]):
 	Disposal Mode: 2
 	User Input Flag: 0
 	Transparency on: yes
-	DelayTime: 25600
+	DelayTime: 100
 	Transparent Index: 0
 
 Image #3:
@@ -51,7 +51,7 @@ GIF89 graphics control (Ext Code = 249 [ ]):
 	Disposal Mode: 2
 	User Input Flag: 0
 	Transparency on: yes
-	DelayTime: 25600
+	DelayTime: 100
 	Transparent Index: 210
 
 Image #4:
@@ -64,7 +64,7 @@ GIF89 graphics control (Ext Code = 249 [ ]):
 	Disposal Mode: 2
 	User Input Flag: 0
 	Transparency on: yes
-	DelayTime: 25600
+	DelayTime: 100
 	Transparent Index: 0
 
 Image #5:
@@ -77,7 +77,7 @@ GIF89 graphics control (Ext Code = 249 [ ]):
 	Disposal Mode: 2
 	User Input Flag: 0
 	Transparency on: yes
-	DelayTime: 25600
+	DelayTime: 100
 	Transparent Index: 210
 
 Image #6:

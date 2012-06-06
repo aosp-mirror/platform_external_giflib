@@ -12,7 +12,7 @@ GIF89 graphics control (Ext Code = 249 [ ]):
 	Disposal Mode: 0
 	User Input Flag: 0
 	Transparency on: yes
-	DelayTime: 2560
+	DelayTime: 10
 	Transparent Index: 0
 
 Image #1:
