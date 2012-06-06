@@ -1,6 +1,12 @@
 			GIFLIB NEWS
-Repository head
-===============
+
+Short-form news summary for shipper
+ DGifSlurp()/EGifSpew() handle interlaced images and trailing extension blocks.
+ New functions support reading and editing GIF89 graphics control blocks.
+ All names of exported functions now have a Gif, DGif, or EGif prefix.
+
+Version 5.0.0
+=============
 
 Changes to the API require a library major-version bump. Application
 code using the DGifSlurp()/EGifSpew() interface to extension blocks
@@ -37,7 +43,6 @@ New API Features
   will write.
 * QuantizeBuffer() has been returned to the core library as GifQuantizeBuffer() 
   - turns out some important applications (notably mplayer) were using it.
-* New functions support manipulating GIF89 graphics control extensions.
 * TRUE and FALSE macros are gone, also VoidPtr.  No more namespace pollution.
 * The library Draw* functions are now named GifDraw*. This fixes a conflict
   with the Windows API.
