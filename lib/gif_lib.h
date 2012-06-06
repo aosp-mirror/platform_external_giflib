@@ -284,7 +284,7 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
 #define GIF_FONT_HEIGHT 8
 extern const unsigned char AsciiTable[][GIF_FONT_WIDTH];
 
-extern void GifDrawText(SavedImage *Image,
+extern void GifDrawText8x8(SavedImage *Image,
                      const int x, const int y,
                      const char *legend, const int color);
 
@@ -296,7 +296,7 @@ extern void GifDrawRectangle(SavedImage *Image,
                    const int x, const int y,
                    const int w, const int d, const int color);
 
-extern void GifDrawBoxedText(SavedImage *Image,
+extern void GifDrawBoxedText8x8(SavedImage *Image,
                           const int x, const int y,
                           const char *legend,
                           const int border, const int bg, const int fg);

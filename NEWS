@@ -44,8 +44,10 @@ New API Features
 * QuantizeBuffer() has been returned to the core library as GifQuantizeBuffer() 
   - turns out some important applications (notably mplayer) were using it.
 * TRUE and FALSE macros are gone, also VoidPtr.  No more namespace pollution.
-* The library Draw* functions are now named GifDraw*. This fixes a conflict
-  with the Windows API.
+* The library Draw* functions are now prefixed GifDraw*, and the
+  text-drawing ones are suffixed with "8x8". This fixes a conflict
+  with the Windows API and leaves the door open for more general text-drawing
+  functions with different font sizes.
 * Various arguments have been made const where possible.
 
 Retirements
