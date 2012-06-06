@@ -357,7 +357,7 @@ int main(int argc, char **argv)
 			    DGifSavedExtensionToGCB(GifFileIn, 
 						    selected[i], 
 						    &gcb);
-			    (void)printf("%d", gcb.TransparentIndex);
+			    (void)printf("%d", gcb.TransparentColor);
 			    break;
 			case 'u':
 			    DGifSavedExtensionToGCB(GifFileIn, 
@@ -402,7 +402,7 @@ int main(int argc, char **argv)
 		GraphicsControlBlock gcb;
 
 		DGifSavedExtensionToGCB(GifFileIn, selected[i], &gcb);
-		gcb.TransparentIndex = op->color;
+		gcb.TransparentColor = op->color;
 		EGifGCBToSavedExtension(&gcb, GifFileIn, selected[i]);
 	    }
 	    break;

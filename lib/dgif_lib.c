@@ -573,9 +573,9 @@ int DGifExtensionToGCB(const GifByteType *GifExtension,
     GCB->UserInputFlag = (GifExtension[1] & 0x02) != 0;
     GCB->DelayTime = GifExtension[2] | (GifExtension[3] << 8);
     if (GifExtension[1] & 0x01)
-	GCB->TransparentIndex = (int)GifExtension[4];
+	GCB->TransparentColor = (int)GifExtension[4];
     else
-	GCB->TransparentIndex = NO_TRANSPARENT_INDEX;
+	GCB->TransparentColor = NO_TRANSPARENT_COLOR;
 
     return GIF_OK;
 }
@@ -595,7 +595,7 @@ int DGifSavedExtensionToGCB(GifFileType *GifFile,
     GCB->DisposalMode = DISPOSAL_UNSPECIFIED;
     GCB->UserInputFlag = false;
     GCB->DelayTime = 0;
-    GCB->TransparentIndex = NO_TRANSPARENT_INDEX;
+    GCB->TransparentColor = NO_TRANSPARENT_COLOR;
 
     for (i = 0; i < GifFile->SavedImages[ImageIndex].Leading.ExtensionBlockCount; i++) {
 	ExtensionBlock *ep = &GifFile->SavedImages[ImageIndex].Leading.ExtensionBlocks[i];

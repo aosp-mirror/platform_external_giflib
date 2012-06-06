@@ -100,8 +100,8 @@ typedef struct GraphicsControlBlock {
 #define DISPOSE_PREVIOUS          3       /* Restore to previous content */
     bool UserInputFlag;      /* User confirmation required before disposal */
     int DelayTime;           /* pre-display delay in 0.01sec units */
-    int TransparentIndex;    /* Palette index for transparency, -1 if none */
-#define NO_TRANSPARENT_INDEX	-1
+    int TransparentColor;    /* Palette index for transparency, -1 if none */
+#define NO_TRANSPARENT_COLOR	-1
 } GraphicsControlBlock;
 
 #define COMMENT_EXT_FUNC_CODE     0xfe    /* comment */

@@ -261,9 +261,9 @@ int main(int argc, char **argv)
 			printf("\tDisposal Mode: %d\n", gcb.DisposalMode);
 			printf("\tUser Input Flag: %d\n", gcb.UserInputFlag);
 			printf("\tTransparency on: %s\n",
-			       gcb.TransparentIndex != -1 ? "yes" : "no");
+			       gcb.TransparentColor != -1 ? "yes" : "no");
 			printf("\tDelayTime: %d\n", gcb.DelayTime);
-			printf("\tTransparent Index: %d\n", gcb.TransparentIndex);
+			printf("\tTransparent Index: %d\n", gcb.TransparentColor);
 		    }
 		}
 		for (;;) {

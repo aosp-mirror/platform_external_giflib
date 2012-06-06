@@ -479,7 +479,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    size_t Len;
 
 	    memset(&gcb, '\0', sizeof(gcb));
-	    gcb.TransparentIndex = NO_TRANSPARENT_INDEX;
+	    gcb.TransparentColor = NO_TRANSPARENT_COLOR;
 	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
 		if (strcmp(buf, "end\n") == 0)
 		    break;
@@ -505,7 +505,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 			continue;
 		    // cppcheck-suppress invalidscanf 
 		    if (sscanf(tp, "transparent index %d\n",
-			       &gcb.TransparentIndex))
+			       &gcb.TransparentColor))
 			continue;
 		    PARSE_ERROR("unrecognized directive in GCB block.");
 		    exit(EXIT_FAILURE);
@@ -686,7 +686,7 @@ static void Gif2Icon(char *FileName,
 		printf("\tdisposal mode %d\n", gcb.DisposalMode);
 		printf("\tuser input flag %d\n", gcb.UserInputFlag);
 		printf("\tdelay %d\n", gcb.DelayTime);
-		printf("\ttransparent index %d\n", gcb.TransparentIndex);
+		printf("\ttransparent index %d\n", gcb.TransparentColor);
 	    }
 	    else if (isalpha(ExtCode))
 		printf("extension %02x    # %c\n", ExtCode, ExtCode);
