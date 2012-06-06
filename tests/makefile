@@ -57,7 +57,7 @@ giftext-regress:
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 	    if echo "Checking text dump of $${test}" >&2; \
 	    $(UTILS)/giftext <$${test} >/tmp/regress 2>&1; \
-	    then cmp $${stem}.dmp /tmp/regress; \
+	    then diff -u $${stem}.dmp /tmp/regress; \
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
 	@rm -f /tmp/regress
