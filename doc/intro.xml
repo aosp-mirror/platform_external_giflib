@@ -236,12 +236,6 @@ hotlink to HTML documentation.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><ulink url="gifcompose.html">gifcompose</ulink></term>
-<listitem>
-<para>use giflib tools to compose images</para>
-</listitem>
-</varlistentry>
-<varlistentry>
 <term><ulink url="giftool.html">giftool</ulink></term>
 <listitem>
 <para>GIF transformation tool</para>

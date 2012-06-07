@@ -52,9 +52,13 @@ New API Features
 
 Retirements
 -----------
+* The (undocumented) gifinfo utility is gone.  Use giftool -f instead.
 * The gifburst utility is gone.  Everybody has image viewers that
   can pan now, and removing it gets rid of a dependency on Perl.
-* The (undocumented) gifinfo utility is gone.  Use giftool -f instead.
+* gifcompose is gone.  It was a decent idea when I wrote it in 1989,
+  but I did the same thing better and cleaner a decade later with
+  PILdriver in the PIL package. Removing it gets rid of a dependency
+  on shell.
 
 Utilities
 ---------

@@ -12,7 +12,6 @@
 |gifclrmp   | make gifclrmp-regress
 |gifcolor   | -
 |gifcomb    | -
-|gifcompose | -
 |giffiltr   | -
 |giffix     | -
 |gifflip    | -

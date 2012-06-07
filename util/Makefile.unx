@@ -89,8 +89,6 @@ BINARIES = gif2rgb gif2x11 gifasm gifbg \
 
 RLE =   gif2rle rle2gif
 
-SCRIPTS = gifcompose
-
 all: $(BINARIES)
 rle: $(RLE)
 
@@ -104,7 +102,7 @@ install-rle:
 	$(CC) $(CFLAGS) $< $(GIF_LIB) -lm $(LDFLAGS) -o $*
 
 uninstall-utils:
-	(cd $(DEST); rm -f $(BINARIES) $(RLE) $(SCRIPTS))
+	(cd $(DEST); rm -f $(BINARIES) $(RLE))
 
 gif2x11: gif2x11.c
 	$(CC) gif2x11.c $(CFLAGS) -I$(X_INC_DIR) -L$(X_LIB_DIR) $(LDFLAGS) $(GIF_LIB) $(XLIBS) -o gif2x11

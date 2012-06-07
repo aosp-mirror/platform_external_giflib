@@ -18,7 +18,8 @@ the code's interface.
 
 ESR's 2.1 version was the first to include the DGifSlurp()/EGifSpew()
 function pair for enabling non-sequential operations on GIF images
-(alsp the tools icon2gif, gifovly, and gifcompose.
+(also the tools icon2gif, gifovly, and gifcompose; the last was
+removed in 5.0).
 
 ESR's Unix port was incorporated into the NCSA/Netscape browser in
 1994, which is how GIF became (with JPEG) one of the two most popular
