@@ -11,12 +11,12 @@
 |gifclip    | visual-check
 |gifclrmp   | make gifclrmp-regress
 |gifcolor   | -
-|gifcomb    | -
+|gifcomb    | visual-check
 |giffiltr   | make giffiltr-regress
 |giffix     | -
 |gifflip    | -
 |gifhisto   | visual-check
-|gifinter   | -
+|gifinter   | make util-regress
 |gifinto    | make util-regress
 |gifovly    | -
 |gifpos     | -
