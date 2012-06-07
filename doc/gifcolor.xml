@@ -42,10 +42,6 @@ such line for each color.  Each line will be set in a simple 8x8 font
 in the color it describes; thus, any lines corresponding to the GIF's
 background color will be blank.</para>
 
-<para>As gifcolor can generate huge amounts of data, ^C will kill it,
-but 'q' will stop only the printing (of one of -e, -z, -p), while file
-integrity will still be checked.</para>
-
 </refsect1>
 <refsect1><title>Options</title>
 
