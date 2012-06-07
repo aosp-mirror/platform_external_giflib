@@ -22,6 +22,4 @@ Maybe we should drop gif2x11.  It's nice for testing, though.
 
 == More regression tests ==
 
-Not all the utilities have tests yet.  Idempotency checks on some of the
-conversions that are invertible would be good ideas.  See the file 
-tests/coverage.txt.
+Not all the utilities have tests yet. See the file tests/coverage.asc.
