@@ -79,7 +79,7 @@ output, which has the same color map as the input.</para>
 <para>Extension blocks are discarded.  In particular, this means transparency
 is not preserved.</para>
 </refsect1>
-<refsect1><title>Author:</title>
+<refsect1><title>Author</title>
 
 <para>Gershon Elber.</para>
 
