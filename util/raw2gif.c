@@ -12,8 +12,6 @@ raw2gif - convert raw pixel data to a GIF
 #include <stdbool.h>
 
 #ifdef __MSDOS__
-#include <dos.h>
-#include <graphics.h>
 #include <io.h>
 #endif /* __MSDOS__ */
 
