@@ -16,12 +16,12 @@ RGB bitmaps, and for writing RGB bitmaps as GIF files.
 
 The (permissive) open-source license is in the file COPYING.
 
-You will find build instructions in build.txt
+You will find build instructions in build.asc
 
 You will find full documentation of the API in doc/ and on the 
 project website.
 
-The project has a long and confusing history, described in history.txt
+The project has a long and confusing history, described in history.asc
 
 The project to-do list is in TODO.
 

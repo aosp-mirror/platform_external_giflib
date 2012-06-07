@@ -74,6 +74,13 @@ Utilities
   interlacing, setting image delays, setting the user-input flag.  It can
   sequence multiple operations.
 
+Documentation and polish
+------------------------
+* The history.txt and build.txt and files from 4.2.0 now have .asc extensions
+  to indicate that they use asciidoc markup, contrasting with the txt 
+  standards files from CompuServe.
+* The project now has a logo.
+
 Version 4.2.0
 =============
 
