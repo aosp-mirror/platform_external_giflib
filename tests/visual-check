@@ -35,22 +35,26 @@ rm -f /tmp/bg$$.gif
 echo "Color histogram of the Porsche image"
 gifhisto -b -s 200 512 $GIF_DIR/porsche.gif | gifflip -l | $GIF_DISPLAY
 
-echo "The #2 solid flipped on its side"
-gifflip -r $GIF_DIR/solid2.gif | gifrsize | $GIF_DISPLAY
+echo "The #2 solid"
+$GIF_DISPLAY <$GIF_DIR/solid2.gif
 
-echo "TNHD cover flipped on its side"
-gifflip -x $GIF_DIR/cover.gif | $GIF_DISPLAY
+echo "The #2 solid flipped on its side"
+gifflip -r $GIF_DIR/solid2.gif | $GIF_DISPLAY
 
 echo "Scale the #2 solid by 0.45"
-cp $GIF_DIR/solid2.gif /tmp/sall$$.gif
-gifrsize -s 0.45 /tmp/sall$$.gif | $GIF_DISPLAY
-rm -f /tmp/sall$$.gif
+gifrsize -s 0.45 $GIF_DIR/solid2.gif | $GIF_DISPLAY
 
 echo "Resize the #2 solid image"
 gifrsize -S 800 600 $GIF_DIR/solid2.gif | $GIF_DISPLAY
 
 echo "Clip and resize the #2 solid image"
 gifclip -i 222 0 390 134 $GIF_DIR/solid2.gif | gifrsize -s 2.0 | $GIF_DISPLAY
+
+echo "The TNHD cover"
+$GIF_DISPLAY <$GIF_DIR/cover.gif
+
+echo "TNHD cover flipped on its side"
+gifflip -x $GIF_DIR/cover.gif | 
 
 echo "Rotate the cover image by 45 degrees" 
 gifrotat -a 45 $GIF_DIR/cover.gif | $GIF_DISPLAY
