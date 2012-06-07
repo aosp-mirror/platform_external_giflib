@@ -12,7 +12,7 @@
 |gifclrmp   | make gifclrmp-regress
 |gifcolor   | -
 |gifcomb    | -
-|giffiltr   | -
+|giffiltr   | make giffiltr-regress
 |giffix     | -
 |gifflip    | -
 |gifhisto   | visual-check
