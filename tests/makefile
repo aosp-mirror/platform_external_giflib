@@ -92,6 +92,7 @@ gifspnge-regress:
 
 util-buildregress:
 	$(UTILS)/gifwedge >wedge.gif
+	$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/icon2gif -d >treescap.ico
 
 util-regress:
 	@echo "Checking wedge generation."
@@ -116,3 +117,6 @@ util-regress:
 	@echo "0123456789" | $(UTILS)/gifinto /tmp/giflib.tmp 2>/dev/null
 	@if test -f /tmp/giflib.tmp; then echo "gifinto created a file when it shouldn't have."; fi
 	@rm -f /tmp/giflib.tmp
+	@echo "Checking behavior of gifpos."
+	@$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/icon2gif -d | diff -u treescap.ico -
+

@@ -19,7 +19,7 @@
 |gifinter   | make util-regress
 |gifinto    | make util-regress
 |gifovly    | -
-|gifpos     | -
+|gifpos     | make util-regress
 |gifrotat   | visual-check
 |gifrsize   | visual-check
 |gifspnge   | make gifspnge-regress
