@@ -25,6 +25,8 @@ struct operation {
 	info,
 	interlace,
 	deinterlace,
+	position,
+	screensize,
 	transparent,
 	userinput_on,
 	userinput_off,
@@ -35,6 +37,9 @@ struct operation {
 	int color;
 	int dispose;
 	char *format;
+	struct {
+	    int x, y;
+	} p;
     };
 };
 
@@ -107,6 +112,27 @@ int main(int argc, char **argv)
 		}
 
 		(void) fprintf(stderr, "giftool: bad selection.\n");
+		exit(EXIT_FAILURE);
+	    }
+	    break;
+
+	case 'p':
+	case 's':
+	    if (status == 'p')
+		top->mode = position;
+	    else
+		top->mode = screensize;
+	    cp = strchr(optarg, ',');
+	    if (cp == NULL)
+	    {
+		(void) fprintf(stderr, "giftool: missing comma in coordinate pair.\n");
+		exit(EXIT_FAILURE);
+	    }
+	    top->p.x = atoi(optarg);
+	    top->p.y = atoi(cp+1);
+	    if (top->p.x < 0 || top->p.y < 0)
+	    {
+		(void) fprintf(stderr, "giftool: negative coordinate.\n");
 		exit(EXIT_FAILURE);
 	    }
 	    break;
@@ -350,6 +376,15 @@ int main(int argc, char **argv)
 			case 'n':
 			    (void)printf("%d", selected[i]+1);
 			    break;
+			case 'p':
+			    (void)printf("%d,%d", 
+					 ip->ImageDesc.Left, ip->ImageDesc.Top);
+			    break;
+			case 's':
+			    (void)printf("%d,%d", 
+					 GifFileIn->SWidth, 
+					 GifFileIn->SHeight);
+			    break;
 			case 'w':
 			    (void)printf("%d", ip->ImageDesc.Width);
 			    break;
@@ -394,6 +429,18 @@ int main(int argc, char **argv)
 	case deinterlace:
 	    for (i = 0; i < nselected; i++)
 		GifFileIn->SavedImages[selected[i]].ImageDesc.Interlace = false;
+	    break;
+
+	case position:
+	    for (i = 0; i < nselected; i++) {
+		GifFileIn->SavedImages[selected[i]].ImageDesc.Left = op->p.x;
+		GifFileIn->SavedImages[selected[i]].ImageDesc.Top  = op->p.y;
+	    }
+	    break;
+
+	case screensize:
+	    GifFileIn->SWidth = op->p.x;
+	    GifFileIn->SHeight = op->p.y;
 	    break;
 
 	case transparent:

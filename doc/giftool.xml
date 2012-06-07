@@ -24,6 +24,8 @@
       <arg choice='opt'>-i</arg>
       <arg choice='opt'>-I</arg>
       <arg choice='opt'>-n <replaceable>imagelist</replaceable></arg>
+      <arg choice='opt'>-p <replaceable>x,y</replaceable></arg>
+      <arg choice='opt'>-s <replaceable>x,y</replaceable></arg>
       <arg choice='opt'>-t <replaceable>transcolor</replaceable></arg>
       <arg choice='opt'>-u</arg>
       <arg choice='opt'>-U</arg>
@@ -65,6 +67,10 @@ cookies are substituted:</para>
 <listitem><para>Image width (x dimension)</para></listitem>
 </varlistentry>
 <varlistentry>
+<term>%p</term>
+<listitem><para>Image position (as an x,y pair)</para></listitem>
+</varlistentry>
+<varlistentry>
 <term>%d</term>
 <listitem><para>Image delay time</para></listitem>
 </varlistentry>
@@ -92,6 +98,10 @@ cookies are substituted:</para>
 <term>%b</term>
 <listitem><para>Screen background color.</para></listitem>
 </varlistentry>
+<varlistentry>
+<term>%s</term>
+<listitem><para>Screen size (as ab x,y pair)</para></listitem>
+</varlistentry>
 </variablelist>
 
 <para>The -d option takes a decimal integer argument and uses it to set a delay
@@ -99,6 +109,16 @@ time, in hundredths of a second, on selected images.</para>
 
 <para>The -I option sets interlacing in selected images.  The -i option
 clears it in selected images.</para>
+
+<para>The -p option takes a (0-origin) x,y coordinate-pair and sets it
+as the prefered upper-left-corner coordinates of selected
+images. (This option is included for completeness and should have no
+effect on browsers or modern viewers.)</para>
+
+<para>The -s option takes a (0-origin) x,y coordinate-pair and sets it
+as the expected display screen size. (This option is included for
+completeness and should have no effect on browsers or modern
+viewers.)</para>
 
 <para>The -t option takes a decimal integer argument and uses it to set the 
 (0-origin) index of the transparency color in selected images.</para>
