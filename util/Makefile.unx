@@ -5,11 +5,11 @@
 #
 # To make test versions in the utils directory:
 #
-#	make -f makefile.unx [all] [rle]
+#	make -f makefile.unx [all]
 #
 # To install them in the /usr/bin directory:
 #
-#	make -f makefile.unx [install-all] [install-rle]
+#	make -f makefile.unx [install-all]
 #
 #				Eric Raymond, September 1992
 #
@@ -18,8 +18,6 @@
 # If you have the Utah raster tool kit and wants conversion routines to and
 # from it set the ones below properly.
 #
-# RLE_INC = -I/u/urt/urt3.0/include
-# RLE_LIB = /u/urt/urt3.0/lib/librle.a
 # X_INC_DIR = /server/sun4/usr/new/lib/X11R4
 
 # Declare the include files and libraries for the GIF utils:
@@ -87,26 +85,20 @@ BINARIES = gif2rgb gif2x11 gifasm gifbg \
 	gifwedge raw2gif rgb2gif text2gif gifspnge giffiltr \
 	icon2gif gifcolor
 
-RLE =   gif2rle rle2gif
-
 all: $(BINARIES)
-rle: $(RLE)
 
 install-all:
 	cp $(BINARIES) $(SCRIPTS) $(DEST)
-
-install-rle:
-	cp $(RLE) $(DEST)
 
 .c:
 	$(CC) $(CFLAGS) $< $(GIF_LIB) -lm $(LDFLAGS) -o $*
 
 uninstall-utils:
-	(cd $(DEST); rm -f $(BINARIES) $(RLE))
+	(cd $(DEST); rm -f $(BINARIES))
 
 gif2x11: gif2x11.c
 	$(CC) gif2x11.c $(CFLAGS) -I$(X_INC_DIR) -L$(X_LIB_DIR) $(LDFLAGS) $(GIF_LIB) $(XLIBS) -o gif2x11
 
 
 clean:
-	rm -f $(BINARIES) $(RLE)
+	rm -f $(BINARIES)
