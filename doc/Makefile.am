@@ -20,7 +20,7 @@ XMLMAN = gif2rgb.xml gif2x11.xml gifasm.xml gifbg.xml gifclip.xml	\
 	gifpos.xml gifrotat.xml gifrsize.xml gifspnge.xml giftext.xml	\
 	giftool.xml gifwedge.xml icon2gif.xml raw2gif.xml rgb2gif.xml	\
 	text2gif.xml
-XMLDOC = intro.xml gif_lib.xml liberror.xml
+XMLDOC = intro.xml gif_lib.xml
 XMLALL = $(XMLMAN) $(XMLDOC)
 TXTDOC = 00README gif89.txt lzgif.txt
 SOURCES = $(XMLALL) $(TXTDOC)

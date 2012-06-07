@@ -271,17 +271,16 @@ in increasing order.</para>
 </sect1>
 <sect1><title>Library Functions</title>
 
-<para>The library contains two groups of C functions.  One group does sequential
-I/O on the stream-oriented GIF format.  The other supports grabbing an
-entire GIF into allocated core, operating on it in core, and then writing
-the modified in-core GIF out to disk.</para>
+<para>The library contains two groups of C functions.  One group does
+sequential I/O on the stream-oriented GIF format.  The other supports
+grabbing an entire GIF into allocated core, operating on it in core,
+and then writing the modified in-core GIF out to disk.</para>
 
-<para>Unless you are on extremely memory-limited machine you probably want
+<para>Unless you are on extremely memory-limited machine, you probably want
 to use the second group.</para>
 
 <para>Detailed documentation on the library entry points is in <ulink
-url="gif_lib.html">gif_lib.html</ulink>. Library error codes are
-described in <ulink url="liberror.html">liberror.html</ulink></para>
+url="gif_lib.html">gif_lib.html</ulink>.</para>
 
 </sect1>
 <sect1><title>The GIF Standard</title>
