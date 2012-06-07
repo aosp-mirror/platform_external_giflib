@@ -14,7 +14,7 @@
 |gifcomb    | visual-check
 |giffiltr   | make giffiltr-regress
 |giffix     | -
-|gifflip    | -
+|gifflip    | visual-check
 |gifhisto   | visual-check
 |gifinter   | make util-regress
 |gifinto    | make util-regress

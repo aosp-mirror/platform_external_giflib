@@ -113,7 +113,7 @@ int main(int argc, char **argv)
 	}
     }
     else {
-	ColorMap = GifMakeMapObject(16, EGAPalette);
+	ColorMap = GifMakeMapObject(EGA_PALETTE_SIZE, EGAPalette);
     }
 
     if (NumFiles == 1) {
