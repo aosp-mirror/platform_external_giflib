@@ -98,7 +98,7 @@ util-regress:
 	@echo "Checking wedge generation."
 	@$(UTILS)/gifwedge | cmp - wedge.gif
 	@echo "Checking that expensive copy via giftool is faithful."
-	@$(UTILS)/giftool <$(PICS)/cover.gif | $(UTILS)/gif2rgb | cmp - cover.rgb
+	@$(UTILS)/giftool <$(PICS)/gifgrid.gif | $(UTILS)/gif2rgb | cmp - gifgrid.rgb
 	@echo "Checking that giftool de-interlaces correctly."
 	@$(UTILS)/giftool -i <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
 	@echo "Checking that giftool interlaces correctly."

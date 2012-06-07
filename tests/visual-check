@@ -8,7 +8,7 @@
 # path directories, and that GIF_DIR is set (directly or through command line)
 # to the directory holding these gif files:
 # 1. solid2.gif
-# 2. cover.gif
+# 2. gifgrid.gif
 # 3. porsche.gif
 #   In addition, set GIF_DISPLAY ( directly or through command line) to the
 # program to display gif files in our system.
@@ -50,11 +50,11 @@ gifrsize -S 800 600 $GIF_DIR/solid2.gif | $GIF_DISPLAY
 echo "Clip and resize the #2 solid image"
 gifclip -i 222 0 390 134 $GIF_DIR/solid2.gif | gifrsize -s 2.0 | $GIF_DISPLAY
 
-echo "The TNHD cover"
-$GIF_DISPLAY <$GIF_DIR/cover.gif
+echo "The GIF grid graphic"
+$GIF_DISPLAY <$GIF_DIR/gifgrid.gif
 
-echo "TNHD cover flipped on its side"
-gifflip -x $GIF_DIR/cover.gif | 
+echo "The GIF grid flipped on its side"
+gifflip -x $GIF_DIR/gifgrid.gif | $GIF_DISPLAY
 
-echo "Rotate the cover image by 45 degrees" 
-gifrotat -a 45 $GIF_DIR/cover.gif | $GIF_DISPLAY
+echo "Rotate the GIF grid image by 45 degrees" 
+gifrotat -a 45 $GIF_DIR/gifgrid.gif | $GIF_DISPLAY
