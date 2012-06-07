@@ -59,6 +59,11 @@ Retirements
   but I did the same thing better and cleaner a decade later with
   PILdriver in the PIL package. Removing it gets rid of a dependency
   on shell.
+* Lennie Araki's Windows C++ wrapper is gone. It's eight years old,
+  unmaintained, he has dropped out of sight, and a better one needs to
+  be written to use the high-level GIFLIB API and GIF89 graphics
+  control extension support.  We'll carry such a wrapper when we have
+  a maintainer for it.
 
 Utilities
 ---------
