@@ -28,9 +28,9 @@ echo "The Porsche."
 $GIF_DISPLAY <$GIF_DIR/porsche.gif
 
 echo "The Porsche composited with a generated background"
-gifbg -d tl -s 320 200 -c 255 255 255 -l 64 > bg1.gif
-gifcomb $GIF_DIR/porsche.gif bg1.gif | $GIF_DISPLAY
-rm -f bg1.gif
+gifbg -d tl -s 320 200 -c 255 255 255 -l 64 > /tmp/bg$$.gif
+gifcomb $GIF_DIR/porsche.gif /tmp/bg$$.gif | $GIF_DISPLAY
+rm -f /tmp/bg$$.gif
 
 echo "Color histogram of the Porsche image"
 gifhisto -b -s 200 512 $GIF_DIR/porsche.gif | gifflip -l | $GIF_DISPLAY
@@ -42,14 +42,14 @@ echo "TNHD cover flipped on its side"
 gifflip -x $GIF_DIR/cover.gif | $GIF_DISPLAY
 
 echo "Scale the #2 solid by 0.45"
-cp $GIF_DIR/solid2.gif sall.gif
-gifrsize -s 0.45 sall.gif | $GIF_DISPLAY
-rm -f s?.gif sall.gif
+cp $GIF_DIR/solid2.gif /tmp/sall$$.gif
+gifrsize -s 0.45 /tmp/sall$$.gif | $GIF_DISPLAY
+rm -f /tmp/sall$$.gif
 
 echo "Resize the #2 solid image"
 gifrsize -S 800 600 $GIF_DIR/solid2.gif | $GIF_DISPLAY
 
-echo "Clip, resize the #2 solid image"
+echo "Clip and resize the #2 solid image"
 gifclip -i 222 0 390 134 $GIF_DIR/solid2.gif | gifrsize -s 2.0 | $GIF_DISPLAY
 
 echo "Rotate the cover image by 45 degrees" 
