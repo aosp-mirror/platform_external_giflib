@@ -11,6 +11,7 @@ Description: a library for rendering and generating GIF image files.
  else that throws pixels on a display. Simple, stable, and bulletproof.
 
 XBS-Web-Directory: doc/staging
+XBS-Logo: doc/staging/giflib-logo.gif
 XBS-SourceForge-Folder: giflib-5.x
 
 XBS-Project-Tag-List: GIF, graphics
