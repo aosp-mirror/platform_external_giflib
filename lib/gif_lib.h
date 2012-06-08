@@ -39,6 +39,7 @@ typedef struct GifColorType {
 typedef struct ColorMapObject {
     int ColorCount;
     int BitsPerPixel;
+    bool SortFlag;
     GifColorType *Colors;    /* on malloc(3) heap */
 } ColorMapObject;
 

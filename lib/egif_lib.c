@@ -299,6 +299,8 @@ EGifPutScreenDesc(GifFileType *GifFile,
              ((ColorRes - 1) << 4) | /* Bits allocated to each primary color */
         (ColorMap ? ColorMap->BitsPerPixel - 1 : 0x07 ); /* Actual size of the
                                                             color table. */
+    if (ColorMap != NULL && ColorMap->SortFlag)
+	Buf[0] |= 0x08;
     Buf[1] = BackGround;    /* Index into the ColorTable for background color */
     Buf[2] = 0;             /* Pixel Aspect Ratio */
     WRITE(GifFile, Buf, 3);

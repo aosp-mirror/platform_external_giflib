@@ -1165,8 +1165,9 @@ associated color map are sorted by decreasing importance in case the
 display device can only render a limited number of them.  This feature
 reflected the high cost of dual-port memory at the time the GIF
 specification was written in the late 1980s.  That kind of limit
-disappeared in the mid-1990s.  GIFLIB ignores this flag on input and
-zeroes it on output.</para>
+disappeared in the mid-1990s.  Until 5.0, GIFLIB ignored this flag on
+input and zeroed it on output; now it is read and preserved if
+present.</para>
 
 <para>Finally, the plaintext extension block. This is an extension block 
 that contains instructions for overlaying text captions on a following image.

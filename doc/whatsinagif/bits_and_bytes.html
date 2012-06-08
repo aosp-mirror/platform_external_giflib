@@ -245,7 +245,8 @@ left at 0.</p>
 <p>The sort flag reflected the high cost of dual-port memory at the
 time the GIF specification was written in the late 1980s.  That kind
 of limit disappeared in the mid-1990s, and modern GIF software ignores
-this flag.  GIFLIB ignores it on input and zeroes it on output.</p>
+this flag.  Until version 5.0, GIFLIB ignored it on input and zeroed
+it on output; 5.0 and later versions read and preserve it.</p>
 
 <p>The next byte gives us the <strong>background color
 index</strong>. This byte is only meaningful if the global color table

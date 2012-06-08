@@ -227,6 +227,7 @@ int
 DGifGetScreenDesc(GifFileType *GifFile)
 {
     int BitsPerPixel;
+    bool SortFlag;
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
@@ -248,6 +249,7 @@ DGifGetScreenDesc(GifFileType *GifFile)
         return GIF_ERROR;
     }
     GifFile->SColorResolution = (((Buf[0] & 0x70) + 1) >> 4) + 1;
+    SortFlag = (Buf[0] & 0x08) != 0;
     BitsPerPixel = (Buf[0] & 0x07) + 1;
     GifFile->SBackGroundColor = Buf[1];
     if (Buf[0] & 0x80) {    /* Do we have global color map? */
@@ -260,6 +262,7 @@ DGifGetScreenDesc(GifFileType *GifFile)
         }
 
         /* Get the global color map: */
+	GifFile->SColorMap->SortFlag = SortFlag;
         for (i = 0; i < GifFile->SColorMap->ColorCount; i++) {
             if (READ(GifFile, Buf, 3) != 3) {
                 GifFreeMapObject(GifFile->SColorMap);
