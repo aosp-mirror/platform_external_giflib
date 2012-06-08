@@ -289,6 +289,10 @@ url="gif_lib.html">gif_lib.html</ulink>.</para>
 url="gif89.txt">GIF89 format</ulink> and <ulink url="lzgif.txt">Lempel-Ziv
 Compression</ulink>.</para>
 
+<para>You can also read a <ulink url="whatsinagif/index.html">
+detailed narrative description</ulink> of how GIFs are laid out.  It
+clarifies some points on which the standard is obscure.</para>
+
 </sect1>
 <sect1><title>Package Status</title>
 
