@@ -60,13 +60,13 @@ typedef struct ExtensionBlockList {
 } ExtensionBlockList;
 
 typedef struct GifFileType {
-    GifWord SWidth, SHeight,        /* Screen dimensions. */
-      SColorResolution,         /* How many colors can we generate? */
-      SBackGroundColor;         /* I hope you understand this one... */
-    ColorMapObject *SColorMap;  /* NULL if not exists. */
-    int ImageCount;             /* Number of current image */
-    GifImageDesc Image;         /* Block describing current image */
-    struct SavedImage *SavedImages; /* Use this to accumulate file state */
+    GifWord SWidth, SHeight;    /* Size of virtual canvas */
+    GifWord SColorResolution;   /* How many colors can we generate? */
+    GifWord SBackGroundColor;   /* Background color for virtual canvas */
+    ColorMapObject *SColorMap;  /* Global color map, NULL if nonexistent. */
+    int ImageCount;             /* Number of current image (low-level API) */
+    GifImageDesc Image;         /* Current image (low-level API) */
+    struct SavedImage *SavedImages; /* Image sequence (high-level API) */
     ExtensionBlockList Trailing;    /* Extension blocks past last image */
     void *UserData;            /* hook to attach user data (TVT) */
     void *Private;             /* Don't mess with this! */
