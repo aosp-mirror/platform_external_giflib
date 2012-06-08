@@ -58,15 +58,16 @@ is a pointer to GifFileType structure as follows:</para>
 
 <programlisting>
 typedef struct GifFileType {
-    int SWidth, SHeight,			       /* Screen dimensions. */
-	SColorResolution, 		 /* How many colors can we generate? */
-	SBackGroundColor;		/* I hope you understand this one... */
-    ColorMapObject *SColorMap;			      /* NULL if not exists. */
-    int ImageCount;				  /* Number of current image */
-    GifImageDesc Image;			   /* Block describing current image */
-    struct SavedImage *SavedImages;	/* Use this to accumulate file state */
-    ExtensionBlockList Trailing;    /* Extension blocks past last image */
-    VoidPtr Private;	  /* The regular user should not mess with this one! */
+    GifWord SWidth, SHeight;    /* Size of virtual canvas */
+    GifWord SColorResolution;   /* How many colors can we generate? */
+    GifWord SBackGroundColor;   /* Background color for virtual canvas */
+    ColorMapObject *SColorMap;  /* Global color map, NULL if nonexistent. */
+    int ImageCount;             /* Number of current image (low-level API) */
+    GifImageDesc Image;         /* Current image (low-level API) */
+    SavedImage *SavedImages;    /* Image sequence (high-level API) */
+    ExtensionList Trailing;     /* Extension blocks past last image */
+    void *UserData;             /* hook to attach user data (TVT) */
+    void *Private;              /* Don't mess with this! */
 } GifFileType;
 </programlisting>
 

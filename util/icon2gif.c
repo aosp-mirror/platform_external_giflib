@@ -129,7 +129,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
     char buf[BUFSIZ * 2], InclusionFile[64];
     GifFileType *GifFileOut;
     SavedImage *NewImage = NULL;
-    ExtensionBlockList Leading;
+    ExtensionList Leading;
     int LineNum = 0;
 
     Leading.ExtensionBlockCount = 0;

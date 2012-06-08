@@ -216,7 +216,7 @@ GifApplyTranslation(SavedImage *Image, GifPixelType Translation[])
 
 
 int
-GifAddExtensionBlock(ExtensionBlockList *New,
+GifAddExtensionBlock(ExtensionList *New,
 		  int Function,
                   unsigned int Len,
                   unsigned char ExtData[])
@@ -249,7 +249,7 @@ GifAddExtensionBlock(ExtensionBlockList *New,
 }
 
 void
-GifFreeExtensions(ExtensionBlockList *ExtensionList)
+GifFreeExtensions(ExtensionList *ExtensionList)
 {
     ExtensionBlock *ep;
 
