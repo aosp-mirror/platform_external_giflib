@@ -1,7 +1,7 @@
 			GIFLIB NEWS
 
 Short-form news summary for shipper
- DGifSlurp()/EGifSpew() handle interlaced images and trailing extension blocks.
+ DGifSlurp()/EGifSpew() now handle interlacing and trailing extension blocks.
  New functions support reading and editing GIF89 graphics control blocks.
  All names of exported functions now have a Gif, DGif, or EGif prefix.
 
@@ -10,7 +10,7 @@ Version 5.0.0
 
 Changes to the API require a library major-version bump. Application
 code using the DGifSlurp()/EGifSpew() interface to extension blocks
-will require minor changes.
+will require minor changes. A few functions have been renamed.
 
 Code Fixes
 ----------
@@ -70,7 +70,7 @@ Utilities
 * giftext displays the parsed contents of GIF89 graphics control blocks.
 * icon2gif can both display and update GIF89 graphics control blocks.
 * A new utility, giftool, supports a wide variety of filtering operations
-  on GIFS, including: setting background and transparency colors, changing
+  on GIFs, including: setting background and transparency colors, changing
   interlacing, setting image delays, setting the user-input flag.  It can
   sequence multiple operations.
 
@@ -79,6 +79,8 @@ Documentation and polish
 * The history.txt and build.txt and files from 4.2.0 now have .asc extensions
   to indicate that they use asciidoc markup, contrasting with the txt 
   standards files from CompuServe.
+* The documentation now includes "What's In A GIF", a very detailed narrative
+  description of the file format.
 * The project now has a logo.
 
 Version 4.2.0
