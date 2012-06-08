@@ -1126,4 +1126,50 @@ standards of this package if you want the maintainer to officially add your new
 utility to it.</para>
 
 </sect1>
+<sect1><title>Unimplemented features</title>
+
+<para>Some features of the original GIF specification have not stood the
+test of time.  This library mostly ignores them, but they are described
+here for completeness.</para>
+
+<para>The GIF standard fails to be explicit about a small but crucial detail:
+the unsigned two-byte integer fields in it are little-endian.</para>
+
+<para>The GIF format seems to have been designed with the idea that viewers
+would render multiple images in a GIF on a common canvas, giving an effect like
+a picture wall.  The 'logical screen descriptor block' (LSDB), 6 bytes right
+after the 6-byte GIF stamp and version header at the beginning of a
+GIF file, includes both two-byte canvas width and canvas height
+fields and a canvas background color.  Each image, besides height and
+width, also has 'left' and 'top' cordinates specifying where it is to
+be placed on the canvas.</para>
+
+<para>GIFLIB can read and set these fields; the gifpos and giftool
+utilities will enable you to script such changes.  But browsers and
+modern image viewers ignore them. Nowadays multiple-image GIFs are 
+generally used either as animations in which each sub-image is a frame
+or as image libraries, with the GIF client handling compositing into
+some canvas about which the GIF format holds no information.</para>
+
+<para>Another feature of the LSDB that is generally ignored is the
+pixel aspect ratio byte. GIFLIB ignores this on input and zeroes it on
+output (this corresponds to assuming a square pixel).  The GIF
+standard doesn't give a rationale for it, but it seems likely that the
+designers intended it for representing image captures from the analog
+television of the day, which had rectangular pixel-equivalents.</para>
+
+<para>Yet another ignored feature of both the LSDB and sub-images is
+the sort flag, which is supposed to signal whether the colors in the
+associated color map are sorted by decreasing importance in case the
+display device can only render a limited number of them.  This feature
+reflected the high cost of dual-port memory at the time the GIF
+specification was written in the late 1980s.  That kind of limit
+disappeared in the mid-1990s.  GIFLIB ignores this flag on input and
+zeroes it on output.</para>
+
+<para>Finally, the plaintext extension block. This is an extension block 
+that contains instructions for overlaying text captions on a following image.
+GIFLIB treats these blocks as raw data, not attempting to parse out the 
+location and text data.</para>
+</sect1>
 </article>
