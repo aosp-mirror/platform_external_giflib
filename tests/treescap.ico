@@ -2,6 +2,7 @@ screen width 680
 screen height 480
 screen colors 128
 screen background 0
+pixel aspect byte 0
 
 screen map
 	rgb 046 140 093 is 0

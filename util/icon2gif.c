@@ -124,7 +124,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	*ColorMap = GlobalColorMap;
     char GlobalColorKeys[PRINTABLES], LocalColorKeys[PRINTABLES],
 	*KeyTable = GlobalColorKeys;
-    unsigned int ExtCode;
+    unsigned int ExtCode, intval;
     int red, green, blue, n;
     char buf[BUFSIZ * 2], InclusionFile[64];
     GifFileType *GifFileOut;
@@ -202,6 +202,12 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 			"screen background %d\n",
 			&GifFileOut->SBackGroundColor) == 1)
 	    continue;
+
+	// cppcheck-suppress invalidscanf 
+	else if (sscanf(buf, "pixel aspect byte %u\n", &intval) == 1) {
+	    GifFileOut->AspectByte = (GifByteType)(intval & 0xff);
+	    continue;
+	}
 
 	/*
 	 * Color table parsing
@@ -583,9 +589,10 @@ static void Gif2Icon(char *FileName,
     printf("screen width %d\nscreen height %d\n",
 	   GifFile->SWidth, GifFile->SHeight);
 
-    printf("screen colors %d\nscreen background %d\n\n",
+    printf("screen colors %d\nscreen background %d\npixel aspect byte %u\n\n",
 	   1 << GifFile->SColorResolution,
-	   GifFile->SBackGroundColor);
+	   GifFile->SBackGroundColor,
+	   (unsigned)GifFile->AspectByte);
 
     if (GifFile->SColorMap)
     {

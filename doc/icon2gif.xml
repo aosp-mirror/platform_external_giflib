@@ -55,6 +55,7 @@ required newline.</para>
 		| screen height &lt;digits&gt; NL
 		| screen colors &lt;digits&gt; NL
 		| screen background &lt;digits&gt; NL
+		| pixel aspect byte &lt;digits&gt; NL
 		| screen map &lt;color-table&gt; NL
 
 &lt;color-table&gt; ::= &lt;color-declaration&gt;... end NL
@@ -85,9 +86,15 @@ required newline.</para>
 
 </programlisting>
 
-<para>If the semantics of the `screen height', `screen width', `screen
-background', `image top', `image left' declarations aren't obvious to
-you, what are you doing with this software?</para>
+<para>If the data types of the <quote>screen height</quote>,
+<quote>screen width</quote>, <quote>screen background</quote>,
+<quote>image top</quote>, and <quote>image left</quote> declarations
+aren't obvious to you, what are you doing with this
+software?</para>
+
+<para>The <quote>pixel aspect byte</quote> declaration sets an integer 
+denominator for a fraction expressing the puxel aspect ratio.  See the
+GIF standard for details; this field is actually long obsolete.</para>
 
 <para>A color table declares color indices (in ascending order from 0) and
 assiciates them with key characters.  These characters can later be used in
@@ -95,14 +102,14 @@ raster blocks.  As these must be printable and non-whitespace, you can only
 specify 94 colors per icon.  Life is like that sometimes.</para>
 
 <para>A raster block is just a block of key characters.  It should be
-sized correctly for the `image bits' declaration that leads it.</para>
+sized correctly for the <quote>image bits</quote> declaration that leads it.</para>
 
-<para>The `comment' or `plaintext' keywords lead defined GIF89 extension
+<para>The <quote>comment</quote> or <quote>plaintext</quote> keywords lead defined GIF89 extension
 record data (the other two GIF89 types, graphics control and application
-block, are not yet supported).  You can also say `extension' followed
+block, are not yet supported).  You can also say <quote>extension</quote> followed
 by a hexadecimal record type.  All of these extension declarations
 must be followed by an extension block, which is terminated by the
-keyword `end' on its own line.</para>
+keyword <quote>end</quote> on its own line.</para>
 
 <para>An extension block is a series of text lines, each interpreted
 as a string of bytes to fill an extension block (the terminating
@@ -121,14 +128,14 @@ hacker!</para>
 
 <para>In general, the amount of whitespace and order of declarations within a 
 header or image block is not significant, except that a raster picture
-must immediately follow its `image bits' bits declaration.</para>
+must immediately follow its <quote>image bits</quote> bits declaration.</para>
 
-<para>The `include' declaration includes a named GIF as the next
+<para>The <quote>include</quote> declaration includes a named GIF as the next
 image.  The global color maps of included GIFs are merged with the
-base table defined by any `screen color' declaration.  All images of
+base table defined by any <quote>screen color</quote> declaration.  All images of
 an included multi-image GIF will be included in order.</para>
 
-<para>Comments may be preceded with `#' and will be ignored.</para>
+<para>Comments may be preceded with <quote>#</quote> and will be ignored.</para>
 
 </refsect1>
 <refsect1><title>Options</title>
@@ -179,8 +186,9 @@ fail.</para>
 </refsect1>
 <refsect1><title>Example:</title>
 
-<para>A sample icon file called `sample.ico' is included in the pic
-directory of the GIFLIB source distribution.</para>
+<para>A sample icon file called <filename>sample.ico</filename> is
+included in the pic directory of the GIFLIB source
+distribution.</para>
 
 </refsect1>
 <refsect1><title>Author</title>
