@@ -110,6 +110,8 @@ int main(int argc, char **argv)
 	if (ColorMapFlag && GifFile->SColorMap) {
 	    printf("\tGlobal Color Map:\n");
 	    Len = GifFile->SColorMap->ColorCount;
+	    printf("\tSort Flag: %s\n", 
+		   GifFile->SColorMap->SortFlag ? "on":"off");
 	    for (i = 0; i < Len; i+=4) {
 		for (j = 0; j < 4 && j < Len; j++) {
 		    printf("%3d: %02xh %02xh %02xh   ", i + j,
@@ -150,6 +152,8 @@ int main(int argc, char **argv)
 		    else
 			printf("\tNo Image Color Map.\n");
 		    if (ColorMapFlag && GifFile->Image.ColorMap) {
+			printf("\tSort Flag: %s\n", 
+			       GifFile->Image.ColorMap->SortFlag ? "on":"off");
 			Len = 1 << GifFile->Image.ColorMap->BitsPerPixel;
 			for (i = 0; i < Len; i+=4) {
 			    for (j = 0; j < 4 && j < Len; j++) {
