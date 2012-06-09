@@ -98,10 +98,11 @@ int main(int argc, char **argv)
     else {
 	printf("\n%s:\n\n\tScreen Size - Width = %d, Height = %d.\n",
 	       GifFileName, GifFile->SWidth, GifFile->SHeight);
-	printf("\tColorResolution = %d, BitsPerPixel = %d, BackGround = %d.\n",
+	printf("\tColorResolution = %d, BitsPerPixel = %d, BackGround = %d, Aspect = %d.\n",
 	       GifFile->SColorResolution,
 	       GifFile->SColorMap ? GifFile->SColorMap->BitsPerPixel : 0,
-	       GifFile->SBackGroundColor);
+	       GifFile->SBackGroundColor,
+	       GifFile->AspectByte);
 	if (GifFile->SColorMap)
 	    printf("\tHas Global Color Map.\n\n");
 	else

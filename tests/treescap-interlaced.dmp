@@ -2,7 +2,7 @@
 Stdin:
 
 	Screen Size - Width = 40, Height = 40.
-	ColorResolution = 7, BitsPerPixel = 4, BackGround = 0.
+	ColorResolution = 7, BitsPerPixel = 4, BackGround = 0, Aspect = 0.
 	Has Global Color Map.
 
 

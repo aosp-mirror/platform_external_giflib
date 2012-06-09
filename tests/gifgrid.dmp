@@ -2,7 +2,7 @@
 Stdin:
 
 	Screen Size - Width = 100, Height = 100.
-	ColorResolution = 3, BitsPerPixel = 3, BackGround = 0.
+	ColorResolution = 3, BitsPerPixel = 3, BackGround = 0, Aspect = 0.
 	Has Global Color Map.
 
 
