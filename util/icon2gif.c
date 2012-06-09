@@ -580,6 +580,7 @@ static void Gif2Icon(char *FileName,
     GifRecordType RecordType;
     GifByteType *Extension;
     GifFileType *GifFile;
+    bool DumpExtension = true;
 
     if (fdin == -1) {
 	if ((GifFile = DGifOpenFileName(FileName)) == NULL) {
@@ -702,6 +703,7 @@ static void Gif2Icon(char *FileName,
 		exit(EXIT_FAILURE);
 	    }
 
+	    DumpExtension = true;
 	    if (ExtCode == COMMENT_EXT_FUNC_CODE)
 		printf("comment\n");
 	    else if (ExtCode == PLAINTEXT_EXT_FUNC_CODE)
@@ -718,6 +720,7 @@ static void Gif2Icon(char *FileName,
 		printf("\tuser input flag %d\n", gcb.UserInputFlag);
 		printf("\tdelay %d\n", gcb.DelayTime);
 		printf("\ttransparent index %d\n", gcb.TransparentColor);
+		DumpExtension = false;
 	    }
 	    else if (isalpha(ExtCode))
 		printf("extension %02x    # %c\n", ExtCode, ExtCode);
@@ -725,15 +728,19 @@ static void Gif2Icon(char *FileName,
 		printf("extension %02x\n", ExtCode);
 
 	    while (Extension != NULL) {
-		VisibleDumpBuffer((char *)(Extension + 1), Extension[0]);
-		putchar('\n');
-
+		if (DumpExtension) {
+		    VisibleDumpBuffer((char *)(Extension + 1), Extension[0]);
+		    putchar('\n');
+		}
 		if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
 		    PrintGifError();
 		    exit(EXIT_FAILURE);
 		}
 	    }
-	    printf("end\n\n");
+	    if (DumpExtension)
+		printf("end\n\n");
+	    else
+		putchar('\n');
 
 	    break;
 	case TERMINATE_RECORD_TYPE:
