@@ -302,7 +302,7 @@ EGifPutScreenDesc(GifFileType *GifFile,
     if (ColorMap != NULL && ColorMap->SortFlag)
 	Buf[0] |= 0x08;
     Buf[1] = BackGround;    /* Index into the ColorTable for background color */
-    Buf[2] = 0;             /* Pixel Aspect Ratio */
+    Buf[2] = GifFile->AspectByte;     /* Pixel Aspect Ratio */
     WRITE(GifFile, Buf, 3);
 
     /* If we have Global color map - dump it also: */

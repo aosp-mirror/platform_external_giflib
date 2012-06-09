@@ -16,8 +16,9 @@ Code Fixes
 ----------
 * Fixes applied for CVE-2005-2974 and CVE-2005-3350
   This closes Debian bug #337972.
-* The amazingly obscure colormap sort flag feature of GIF is now read
-  and preserved, for whatever good that may do.
+* The amazingly obscure colormap sort flag and pixel aspect ratio
+  features of GIF are now read and preserved, for whatever good that
+  may do.
 
 New API Features
 ----------------

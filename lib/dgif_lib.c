@@ -252,6 +252,7 @@ DGifGetScreenDesc(GifFileType *GifFile)
     SortFlag = (Buf[0] & 0x08) != 0;
     BitsPerPixel = (Buf[0] & 0x07) + 1;
     GifFile->SBackGroundColor = Buf[1];
+    GifFile->AspectByte = Buf[2]; 
     if (Buf[0] & 0x80) {    /* Do we have global color map? */
 	int i;
 

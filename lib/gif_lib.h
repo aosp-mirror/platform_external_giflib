@@ -70,6 +70,7 @@ typedef struct GifFileType {
     GifWord SWidth, SHeight;    /* Size of virtual canvas */
     GifWord SColorResolution;   /* How many colors can we generate? */
     GifWord SBackGroundColor;   /* Background color for virtual canvas */
+    GifByteType AspectByte;	/* Used to compute pixel aspect ratio */
     ColorMapObject *SColorMap;  /* Global color map, NULL if nonexistent. */
     int ImageCount;             /* Number of current image (low-level API) */
     GifImageDesc Image;         /* Current image (low-level API) */
@@ -78,6 +79,8 @@ typedef struct GifFileType {
     void *UserData;             /* hook to attach user data (TVT) */
     void *Private;              /* Don't mess with this! */
 } GifFileType;
+
+#define GIF_ASPECT_RATIO(n)	((n)+15.0/64.0)
 
 typedef enum {
     UNDEFINED_RECORD_TYPE,

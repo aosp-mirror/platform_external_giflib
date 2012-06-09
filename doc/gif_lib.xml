@@ -1153,11 +1153,11 @@ or as image libraries, with the GIF client handling compositing into
 some canvas about which the GIF format holds no information.</para>
 
 <para>Another feature of the LSDB that is generally ignored is the
-pixel aspect ratio byte. GIFLIB ignores this on input and zeroes it on
-output (this corresponds to assuming a square pixel).  The GIF
-standard doesn't give a rationale for it, but it seems likely that the
-designers intended it for representing image captures from the analog
-television of the day, which had rectangular pixel-equivalents.</para>
+pixel aspect ratio byte.  Until 5.0, GIFLIB ignored this flag on input
+and zeroed it on output; now it is read and preserved if present.  The
+GIF standard doesn't give a rationale for it, but it seems likely that
+the designers intended it for representing image captures from the
+analog television of the day, which had rectangular pixel-equivalents.</para>
 
 <para>Yet another ignored feature of both the LSDB and sub-images is
 the sort flag, which is supposed to signal whether the colors in the

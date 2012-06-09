@@ -259,8 +259,9 @@ by an image. GIFLIB supports reading and setting this byte, but modern
 viewers and browsers generally have no use for it.</p>
 
 <p>The last byte of the logical screen descriptor is the <strong>pixel
-aspect ratio</strong>. Modern viewers don't use this, and GIFLIB
-neither reads it nor sets it. The GIF standard doesn't give a
+aspect ratio</strong>. Modern viewers don't use this.  Until 5.0,
+GIFLIB ignored this flag on input and zeroed it on output; now it is
+read and preserved if present. The GIF standard doesn't give a
 rationale for it, but it seems likely that the designers intended it
 for representing image captures from the analog television of the day,
 which had rectangular pixel-equivalents. The GIF specification says
