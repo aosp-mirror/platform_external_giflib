@@ -19,6 +19,7 @@
 
 <cmdsynopsis>
   <command>giftool</command>
+      <arg choice='opt'>-a <replaceable>aspect</replaceable></arg>
       <arg choice='opt'>-b <replaceable>bgcolor</replaceable></arg>
       <arg choice='opt'>-d <replaceable>delaytime</replaceable></arg>
       <arg choice='opt'>-i</arg>
@@ -102,7 +103,14 @@ cookies are substituted:</para>
 <term>%s</term>
 <listitem><para>Screen size (as ab x,y pair)</para></listitem>
 </varlistentry>
+<varlistentry>
+<term>%a</term>
+<listitem><para>Pixel aspect byte.</para></listitem>
+</varlistentry>
 </variablelist>
+
+<para>The -a option takes an unsigned decimal integer argument and uses it to
+set the aspect-ratio bye in the logical screen descriptor block.</para>
 
 <para>The -d option takes a decimal integer argument and uses it to set a delay
 time, in hundredths of a second, on selected images.</para>
