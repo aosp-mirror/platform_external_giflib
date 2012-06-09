@@ -8,6 +8,7 @@ giftool.c - GIF transformation tool.
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+#include <stdbool.h>
 
 #include "getopt.h"
 #include "getarg.h"
@@ -18,6 +19,53 @@ giftool.c - GIF transformation tool.
 #define MAX_OPERATIONS	256
 #define MAX_IMAGES	2048
 
+enum boolmode {numeric, onoff, tf, yesno};
+
+char *putbool(bool flag, enum boolmode mode)
+{
+    if (flag)
+	switch (mode) {
+	case numeric: return "1"; break;
+	case onoff:   return "on"; break;
+	case tf:      return "true"; break;
+	case yesno:   return "yes"; break;
+	}
+    else
+	switch (mode) {
+	case numeric: return "0"; break;
+	case onoff:   return "off"; break;
+	case tf:      return "false"; break;
+	case yesno:   return "no"; break;
+	}
+
+    return "FAIL";	/* should never happen */
+}
+
+bool getbool(char *from)
+{
+    struct valmap {char *name; bool val;} 
+    boolnames[] = {
+	{"yes", true},
+	{"on",  true},
+	{"1",   true},
+	{"t",   true},
+	{"no",  false},
+	{"off", false},
+	{"0",   false},
+	{"f",   false},
+	{NULL,  false},
+    }, *sp;
+
+    for (sp = boolnames; sp->name; sp++)
+	if (strcmp(sp->name, from) == 0)
+	    return sp->val;
+
+    (void)fprintf(stderr, 
+		  "giftool: %s is bot a valid boolean argument.\n",
+		  sp->name);
+    exit(EXIT_FAILURE);
+}
+
 struct operation {
     enum {
 	aspect,
@@ -25,12 +73,10 @@ struct operation {
 	background,
 	info,
 	interlace,
-	deinterlace,
 	position,
 	screensize,
 	transparent,
-	userinput_on,
-	userinput_off,
+	userinput,
 	disposal,
     } mode;    
     union {
@@ -39,6 +85,7 @@ struct operation {
 	int color;
 	int dispose;
 	char *format;
+	bool flag;
 	struct {
 	    int x, y;
 	} p;
@@ -63,7 +110,7 @@ int main(int argc, char **argv)
      * getopt(3) here rather than Gershom's argument getter because
      * preserving the order of operations is important.
      */
-    while ((status = getopt(argc, argv, "a:b:d:f:iIn:p:s:uUx:")) != EOF)
+    while ((status = getopt(argc, argv, "a:b:d:f:i:n:p:s:u:x:")) != EOF)
     {
 	if (top >= operations + MAX_OPERATIONS) {
 	    (void)fprintf(stderr, "giftool: too many operations.");
@@ -93,11 +140,8 @@ int main(int argc, char **argv)
 	    break;
 
 	case 'i':
-	    top->mode = deinterlace;
-	    break;
-
-	case 'I':
 	    top->mode = interlace;
+	    top->flag = getbool(optarg);
 	    break;
 
 	case 'n':
@@ -145,11 +189,8 @@ int main(int argc, char **argv)
 	    break;
 
 	case 'u':
-	    top->mode = userinput_off;
-	    break;
-
-	case 'U':
-	    top->mode = userinput_on;
+	    top->mode = userinput;
+	    top->flag = getbool(optarg);
 	    break;
 
 	case 'x':
@@ -363,6 +404,24 @@ int main(int argc, char **argv)
 		    }
 	    	    else if (*cp == '%')
 		    {
+			enum boolmode  boolfmt;
+			SavedImage *sp = &GifFileIn->SavedImages[i];
+
+			if (cp[1] == 't') {
+			    boolfmt = tf;
+			    ++cp;
+			} else if (cp[1] == 'o') {
+			    boolfmt = onoff;
+			    ++cp;
+			} else if (cp[1] == 'y') {
+			    boolfmt = yesno;
+			    ++cp;
+			} else if (cp[1] == '1') {
+			    boolfmt = numeric;
+			    ++cp;
+			} else
+			    boolfmt = numeric;
+
 			switch (*++cp) 
 			{
 			case '%':
@@ -408,7 +467,7 @@ int main(int argc, char **argv)
 			    DGifSavedExtensionToGCB(GifFileIn, 
 						    selected[i], 
 						    &gcb);
-			    (void)printf("%d", gcb.UserInputFlag ? 1 : 0);
+			    (void)printf("%s", putbool(gcb.UserInputFlag, boolfmt));
 			    break;
 			case 'v':
 			    fputs(EGifGetGifVersion(GifFileIn), stdout);
@@ -418,6 +477,9 @@ int main(int argc, char **argv)
 						    selected[i], 
 						    &gcb);
 			    (void)printf("%d", gcb.DisposalMode);
+			    break;
+			case 'z':
+			    (void) printf("%s", putbool(sp->ImageDesc.ColorMap && sp->ImageDesc.ColorMap->SortFlag, boolfmt));
 			    break;
 			default:
 			    (void)fprintf(stderr, 
@@ -433,12 +495,7 @@ int main(int argc, char **argv)
 
 	case interlace:
 	    for (i = 0; i < nselected; i++)
-		GifFileIn->SavedImages[selected[i]].ImageDesc.Interlace = true;
-	    break;
-
-	case deinterlace:
-	    for (i = 0; i < nselected; i++)
-		GifFileIn->SavedImages[selected[i]].ImageDesc.Interlace = false;
+		GifFileIn->SavedImages[selected[i]].ImageDesc.Interlace = op->flag;
 	    break;
 
 	case position:
@@ -464,24 +521,13 @@ int main(int argc, char **argv)
 	    }
 	    break;
 
-	case userinput_on:
+	case userinput:
 	    for (i = 0; i < nselected; i++)
 	    {
 		GraphicsControlBlock gcb;
 
 		DGifSavedExtensionToGCB(GifFileIn, selected[i], &gcb);
-		gcb.UserInputFlag = true;
-		EGifGCBToSavedExtension(&gcb, GifFileIn, selected[i]);
-	    }
-	    break;
-
-	case userinput_off:
-	    for (i = 0; i < nselected; i++)
-	    {
-		GraphicsControlBlock gcb;
-
-		DGifSavedExtensionToGCB(GifFileIn, selected[i], &gcb);
-		gcb.UserInputFlag = false;
+		gcb.UserInputFlag = op->flag;
 		EGifGCBToSavedExtension(&gcb, GifFileIn, selected[i]);
 	    }
 	    break;
