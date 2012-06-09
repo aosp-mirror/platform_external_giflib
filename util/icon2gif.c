@@ -575,7 +575,7 @@ static void Gif2Icon(char *FileName,
 		     int fdin, int fdout,
 		     char NameTable[])
 {
-    int i, ExtCode, ImageNum = 1;
+    int i, ExtCode, ColorCount, ImageNum = 1;
     GifPixelType *Line, *cp;
     GifRecordType RecordType;
     GifByteType *Extension;
@@ -605,24 +605,22 @@ static void Gif2Icon(char *FileName,
 
     if (GifFile->SColorMap)
     {
-	if (GifFile->SColorMap->ColorCount >= (int)strlen(NameTable))
-	{
-	    (void) fprintf(stderr,
-			   "%s: global color map has unprintable pixels\n",
-			   FileName);
-	    exit(EXIT_FAILURE);
-	}
-
 	printf("screen map\n");
 
 	printf("\tsort flag %s\n", GifFile->SColorMap->SortFlag ? "on" : "off");
 
 	for (i = 0; i < GifFile->SColorMap->ColorCount; i++)
-	    printf("\trgb %03d %03d %03d is %c\n",
-		   GifFile->SColorMap ->Colors[i].Red,
-		   GifFile->SColorMap ->Colors[i].Green,
-		   GifFile->SColorMap ->Colors[i].Blue,
-		   NameTable[i]);
+	    if (GifFile->SColorMap->ColorCount < PRINTABLES)
+		printf("\trgb %03d %03d %03d is %c\n",
+		       GifFile->SColorMap ->Colors[i].Red,
+		       GifFile->SColorMap ->Colors[i].Green,
+		       GifFile->SColorMap ->Colors[i].Blue,
+		       NameTable[i]);
+	    else
+		printf("\trgb %03d %03d %03d\n",
+		       GifFile->SColorMap ->Colors[i].Red,
+		       GifFile->SColorMap ->Colors[i].Green,
+		       GifFile->SColorMap ->Colors[i].Blue);
 	printf("end\n\n");
     }
 
@@ -667,8 +665,17 @@ static void Gif2Icon(char *FileName,
 		printf("end\n\n");
 	    }
 
-	    printf("image bits %d by %d\n",
-		   GifFile->Image.Width, GifFile->Image.Height);
+	    if (GifFile->Image.ColorMap)
+		ColorCount = GifFile->Image.ColorMap->ColorCount;
+	    else
+		ColorCount = GifFile->SColorMap->ColorCount;
+
+	    if (ColorCount < PRINTABLES)
+		printf("image bits %d by %d\n",
+		       GifFile->Image.Width, GifFile->Image.Height);
+	    else
+		printf("image bits hex %d by %d\n",
+		       GifFile->Image.Width, GifFile->Image.Height);
 
 	    Line = (GifPixelType *) malloc(GifFile->Image.Width *
 					   sizeof(GifPixelType));
@@ -679,7 +686,10 @@ static void Gif2Icon(char *FileName,
 		    exit(EXIT_FAILURE);
 		}
 		for (cp = Line; cp < Line + GifFile->Image.Width; cp++)
-		    putchar(NameTable[*cp]);
+		    if (ColorCount < PRINTABLES)
+			putchar(NameTable[*cp]);
+		    else
+			printf("%02x", *cp);
 		putchar('\n');
 	    }
 	    free((char *) Line);
