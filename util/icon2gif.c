@@ -124,6 +124,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	*ColorMap = GlobalColorMap;
     char GlobalColorKeys[PRINTABLES], LocalColorKeys[PRINTABLES],
 	*KeyTable = GlobalColorKeys;
+    bool SortFlag = false;
     unsigned int ExtCode, intval;
     int red, green, blue, n;
     char buf[BUFSIZ * 2], InclusionFile[64];
@@ -223,6 +224,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 	    ColorMapSize = 0;
 	    ColorMap = GlobalColorMap;
+	    SortFlag = false;
 	    KeyTable = GlobalColorKeys;
 	    memset(GlobalColorKeys, '\0', sizeof(GlobalColorKeys));
 	}
@@ -251,10 +253,15 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    ColorMapSize++;
 	}
 
+	else if (strcmp(buf, "	sort flag on\n") == 0)
+	    SortFlag = true;
+
+	else if (strcmp(buf, "	sort flag off\n") == 0)
+	    SortFlag = false;
+
 	else if (strcmp(buf, "end\n") == 0)
 	{
 	    ColorMapObject	*NewMap;
-
 
 	    NewMap = GifMakeMapObject(1 << GifBitSize(ColorMapSize), ColorMap);
 	    if (NewMap == (ColorMapObject *)NULL)
@@ -262,6 +269,8 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		PARSE_ERROR("Out of memory while allocating new color map.");
 		exit(EXIT_FAILURE);
 	    }
+
+	    NewMap->SortFlag = SortFlag;
 
 	    if (NewImage)
 		NewImage->ImageDesc.ColorMap = NewMap;
@@ -606,6 +615,8 @@ static void Gif2Icon(char *FileName,
 
 	printf("screen map\n");
 
+	printf("\tsort flag %s\n", GifFile->SColorMap->SortFlag ? "on" : "off");
+
 	for (i = 0; i < GifFile->SColorMap->ColorCount; i++)
 	    printf("\trgb %03d %03d %03d is %c\n",
 		   GifFile->SColorMap ->Colors[i].Red,
@@ -643,6 +654,9 @@ static void Gif2Icon(char *FileName,
 		}
 
 		printf("image map\n");
+
+		printf("\tsort flag %s\n", 
+		       GifFile->Image.ColorMap->SortFlag ? "on" : "off");
 
 		for (i = 0; i < GifFile->Image.ColorMap->ColorCount; i++)
 		    printf("\trgb %03d %03d %03d is %c\n",
