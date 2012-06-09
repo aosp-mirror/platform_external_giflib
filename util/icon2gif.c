@@ -737,10 +737,7 @@ static void Gif2Icon(char *FileName,
 		    exit(EXIT_FAILURE);
 		}
 	    }
-	    if (DumpExtension)
-		printf("end\n\n");
-	    else
-		putchar('\n');
+	    printf("end\n\n");
 
 	    break;
 	case TERMINATE_RECORD_TYPE:
