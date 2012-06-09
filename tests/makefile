@@ -100,9 +100,9 @@ util-regress:
 	@echo "Checking that expensive copy via giftool is faithful."
 	@$(UTILS)/giftool <$(PICS)/gifgrid.gif | $(UTILS)/gif2rgb | cmp - gifgrid.rgb
 	@echo "Checking that giftool de-interlaces correctly."
-	@$(UTILS)/giftool -i <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
+	@$(UTILS)/giftool -i on <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
 	@echo "Checking that giftool interlaces correctly."
-	@$(UTILS)/giftool -I <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
+	@$(UTILS)/giftool -i off <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
 	@echo "Checking that gifinter de-interlaces correctly."
 	@$(UTILS)/gifinter -s <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
 	@echo "Checking that gifinter interlaces correctly."

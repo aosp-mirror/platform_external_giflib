@@ -108,7 +108,8 @@ cookies are substituted:</para>
 </varlistentry>
 <varlistentry>
 <term>%z</term>
-<listitem><para>Image's color table sort flag (boolean, false if no local color map)</para></listitem>
+<listitem><para>Image's color table sort flag (boolean, 
+false if no local color map)</para></listitem>
 </varlistentry>
 </variablelist>
 
@@ -137,8 +138,13 @@ displayed:</para>
 <para>Thus, for example, "%oz" displays image sort flags using the
 strings "on" and "off". The default with no prefix is numeric.</para>
 
-<para>The -a option takes an unsigned decimal integer argument and uses it to
-set the aspect-ratio bye in the logical screen descriptor block.</para>
+<para>The -a option takes an unsigned decimal integer argument and
+uses it to set the aspect-ratio bye in the logical screen descriptor
+block.</para>
+
+<para>The -b option takes an unsigned decimal integer argument and
+uses it to set the background color index in the logical screen
+descriptor block.</para>
 
 <para>The -d option takes a decimal integer argument and uses it to set a delay
 time, in hundredths of a second, on selected images.</para>
@@ -146,14 +152,11 @@ time, in hundredths of a second, on selected images.</para>
 <para>The -i option sets or clears interlaccing in selected images. Acceptable arguments are "1", "0", "yes", "no", "on", "off", "t", "f"</para>
 
 <para>The -p option takes a (0-origin) x,y coordinate-pair and sets it
-as the prefered upper-left-corner coordinates of selected
-images. (This option is included for completeness and should have no
-effect on browsers or modern viewers.)</para>
+as the preferred upper-left-corner coordinates of selected
+images.</para>
 
 <para>The -s option takes a (0-origin) x,y coordinate-pair and sets it
-as the expected display screen size. (This option is included for
-completeness and should have no effect on browsers or modern
-viewers.)</para>
+as the expected display screen size.</para>
 
 <para>The -t option takes a decimal integer argument and uses it to set the 
 (0-origin) index of the transparency color in selected images.</para>
@@ -164,6 +167,15 @@ images.  Acceptable arguments are "1", "0", "yes", "no", "on", "off",
 
 <para>The -x option takes a decimal integer argument and uses it to set the
 GIF89 disposal mode in selected images.</para>
+
+<para>The -z option sets or clears the color-table sort flag in
+selected images.  Acceptable arguments are "1", "0", "yes", "no",
+"on", "off", "t", "f".</para>
+
+<para>Note that the -a, -b, -p, -s, and -z options are included to
+complete the ability to modify all fields defined in the GIF standard,
+but should have no effect on how an image renders on browsers or
+modern viewers.</para>
 
 </refsect1>
 <refsect1><title>Author</title>
