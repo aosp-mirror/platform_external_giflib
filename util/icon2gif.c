@@ -681,25 +681,24 @@ static void Gif2Icon(char *FileName,
 
 	    if (GifFile->Image.ColorMap)
 	    {
-		if (GifFile->Image.ColorMap->ColorCount >= (int)strlen(NameTable))
-		{
-		    (void) fprintf(stderr,
-				   "%s: global color map has unprintable pixels\n",
-				   FileName);
-		    exit(EXIT_FAILURE);
-		}
-
 		printf("image map\n");
 
 		printf("\tsort flag %s\n", 
 		       GifFile->Image.ColorMap->SortFlag ? "on" : "off");
 
-		for (i = 0; i < GifFile->Image.ColorMap->ColorCount; i++)
-		    printf("\trgb %03d %03d %03d is %c\n",
-			   GifFile->Image.ColorMap ->Colors[i].Red,
-			   GifFile->Image.ColorMap ->Colors[i].Green,
-			   GifFile->Image.ColorMap ->Colors[i].Blue,
-			   NameTable[i]);
+		if (GifFile->Image.ColorMap->ColorCount < PRINTABLES)
+		    for (i = 0; i < GifFile->Image.ColorMap->ColorCount; i++)
+			printf("\trgb %03d %03d %03d is %c\n",
+			       GifFile->Image.ColorMap ->Colors[i].Red,
+			       GifFile->Image.ColorMap ->Colors[i].Green,
+			       GifFile->Image.ColorMap ->Colors[i].Blue,
+			       NameTable[i]);
+		else
+		    for (i = 0; i < GifFile->Image.ColorMap->ColorCount; i++)
+			printf("\trgb %03d %03d %03d\n",
+			       GifFile->Image.ColorMap ->Colors[i].Red,
+			       GifFile->Image.ColorMap ->Colors[i].Green,
+			       GifFile->Image.ColorMap ->Colors[i].Blue);
 		printf("end\n\n");
 	    }
 
