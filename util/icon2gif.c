@@ -253,6 +253,15 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    ColorMapSize++;
 	}
 
+	// cppcheck-suppress invalidscanf 
+	else if (sscanf(buf, "	rgb %d %d %d", &red, &green, &blue) == 3)
+	{
+	    ColorMap[ColorMapSize].Red = red;
+	    ColorMap[ColorMapSize].Green = green;
+	    ColorMap[ColorMapSize].Blue = blue;
+	    ColorMapSize++;
+	}
+
 	else if (strcmp(buf, "	sort flag on\n") == 0)
 	    SortFlag = true;
 
@@ -342,6 +351,118 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    }
 
 	    (void) DGifCloseFile(Inclusion);
+	}
+
+	/*
+	 * Extension blocks.
+	 */
+	else if (strcmp(buf, "comment\n") == 0)
+	{
+	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
+		if (strcmp(buf, "end\n") == 0)
+		    break;
+	        else
+		{
+		    int Len;
+
+		    buf[strlen(buf) - 1] = '\0';
+		    Len = EscapeString(buf, buf);
+		    if (GifAddExtensionBlock(&Leading,
+					  COMMENT_EXT_FUNC_CODE,
+					  Len,
+					  (unsigned char *)buf) == GIF_ERROR) {
+			PARSE_ERROR("out of memory while adding comment block.");
+			exit(EXIT_FAILURE);
+		    }
+		}
+	}
+	else if (strcmp(buf, "plaintext\n") == 0)
+	{
+	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
+		if (strcmp(buf, "end\n") == 0)
+		    break;
+	        else
+		{
+		    int Len;
+
+		    buf[strlen(buf) - 1] = '\0';
+		    Len = EscapeString(buf, buf);
+		    if (GifAddExtensionBlock(&Leading, 
+					  PLAINTEXT_EXT_FUNC_CODE,
+					  Len, 
+					  (unsigned char *)buf) == GIF_ERROR) {
+			PARSE_ERROR("out of memory while adding plaintext block.");
+			exit(EXIT_FAILURE);
+		    }
+		}
+	}
+	else if (strcmp(buf, "graphics control\n") == 0)
+	{
+	    GraphicsControlBlock gcb;
+	    size_t Len;
+
+	    memset(&gcb, '\0', sizeof(gcb));
+	    gcb.TransparentColor = NO_TRANSPARENT_COLOR;
+	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
+		if (strcmp(buf, "end\n") == 0)
+		    break;
+	        else
+		{
+		    char *tp = buf;
+
+		    while (isspace(*tp))
+			tp++;
+		    // cppcheck-suppress invalidscanf 
+		    if (sscanf(tp, "disposal mode %d\n", &gcb.DisposalMode))
+			continue;
+		    if (strcmp(tp, "user input flag on\n") == 0) {
+			gcb.UserInputFlag = true;
+			continue;
+		    }
+		    if (strcmp(tp, "user input flag off\n") == 0) {
+			gcb.UserInputFlag = false;
+			continue;
+		    }
+		    // cppcheck-suppress invalidscanf 
+		    if (sscanf(tp, "delay %d\n", &gcb.DelayTime))
+			continue;
+		    // cppcheck-suppress invalidscanf 
+		    if (sscanf(tp, "transparent index %d\n",
+			       &gcb.TransparentColor))
+			continue;
+		    (void) fputs(tp, stderr);
+		    PARSE_ERROR("unrecognized directive in GCB block.");
+		    exit(EXIT_FAILURE);
+		}
+	    Len = EGifGCBToExtension(&gcb, (GifByteType *)buf);
+	    if (GifAddExtensionBlock(&Leading,
+				  GRAPHICS_EXT_FUNC_CODE,
+				  Len,
+				  (unsigned char *)buf) == GIF_ERROR) {
+		PARSE_ERROR("out of memory while adding GCB.");
+		exit(EXIT_FAILURE);
+	    }
+
+	}
+	else if (sscanf(buf, "extension %x", &ExtCode))
+	{
+	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
+		if (strcmp(buf, "end\n") == 0)
+		    break;
+	        else
+		{
+		    int Len;
+
+		    buf[strlen(buf) - 1] = '\0';
+		    Len = EscapeString(buf, buf);
+		    if (GifAddExtensionBlock(&Leading,
+					  ExtCode, 
+					  Len,
+					  (unsigned char *)buf) == GIF_ERROR) {
+			PARSE_ERROR("out of memory while adding extension block.");
+			exit(EXIT_FAILURE);
+		    }
+		}
 	}
 
 	/*
@@ -471,113 +592,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 	    NewImage->RasterBits = (unsigned char *) Raster;
 	}
-	else if (strcmp(buf, "comment\n") == 0)
-	{
-	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
-		if (strcmp(buf, "end\n") == 0)
-		    break;
-	        else
-		{
-		    int Len;
-
-		    buf[strlen(buf) - 1] = '\0';
-		    Len = EscapeString(buf, buf);
-		    if (GifAddExtensionBlock(&Leading,
-					  COMMENT_EXT_FUNC_CODE,
-					  Len,
-					  (unsigned char *)buf) == GIF_ERROR) {
-			PARSE_ERROR("out of memory while adding comment block.");
-			exit(EXIT_FAILURE);
-		    }
-		}
-	}
-	else if (strcmp(buf, "plaintext\n") == 0)
-	{
-	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
-		if (strcmp(buf, "end\n") == 0)
-		    break;
-	        else
-		{
-		    int Len;
-
-		    buf[strlen(buf) - 1] = '\0';
-		    Len = EscapeString(buf, buf);
-		    if (GifAddExtensionBlock(&Leading, 
-					  PLAINTEXT_EXT_FUNC_CODE,
-					  Len, 
-					  (unsigned char *)buf) == GIF_ERROR) {
-			PARSE_ERROR("out of memory while adding plaintext block.");
-			exit(EXIT_FAILURE);
-		    }
-		}
-	}
-	else if (strcmp(buf, "graphics control\n") == 0)
-	{
-	    GraphicsControlBlock gcb;
-	    size_t Len;
-
-	    memset(&gcb, '\0', sizeof(gcb));
-	    gcb.TransparentColor = NO_TRANSPARENT_COLOR;
-	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
-		if (strcmp(buf, "end\n") == 0)
-		    break;
-	        else
-		{
-		    char *tp = buf;
-
-		    while (isspace(*tp))
-			tp++;
-		    // cppcheck-suppress invalidscanf 
-		    if (sscanf(tp, "disposal mode %d\n", &gcb.DisposalMode))
-			continue;
-		    if (strcmp(tp, "user input flag on\n") == 0) {
-			gcb.UserInputFlag = true;
-			continue;
-		    }
-		    if (strcmp(tp, "user input flag off\n") == 0) {
-			gcb.UserInputFlag = false;
-			continue;
-		    }
-		    // cppcheck-suppress invalidscanf 
-		    if (sscanf(tp, "delay %d\n", &gcb.DelayTime))
-			continue;
-		    // cppcheck-suppress invalidscanf 
-		    if (sscanf(tp, "transparent index %d\n",
-			       &gcb.TransparentColor))
-			continue;
-		    PARSE_ERROR("unrecognized directive in GCB block.");
-		    exit(EXIT_FAILURE);
-		}
-	    Len = EGifGCBToExtension(&gcb, (GifByteType *)buf);
-	    if (GifAddExtensionBlock(&Leading,
-				  GRAPHICS_EXT_FUNC_CODE,
-				  Len,
-				  (unsigned char *)buf) == GIF_ERROR) {
-		PARSE_ERROR("out of memory while adding GCB.");
-		exit(EXIT_FAILURE);
-	    }
-
-	}
-	else if (sscanf(buf, "extension %02x", &ExtCode))
-	{
-	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
-		if (strcmp(buf, "end\n") == 0)
-		    break;
-	        else
-		{
-		    int Len;
-
-		    buf[strlen(buf) - 1] = '\0';
-		    Len = EscapeString(buf, buf);
-		    if (GifAddExtensionBlock(&Leading,
-					  ExtCode, 
-					  Len,
-					  (unsigned char *)buf) == GIF_ERROR) {
-			PARSE_ERROR("out of memory while adding extension block.");
-			exit(EXIT_FAILURE);
-		    }
-		}
-	}
 	else
 	{
 	    (void) fputs(buf, stderr);
@@ -663,7 +677,7 @@ static void Gif2Icon(char *FileName,
 		   ImageNum++,
 		   GifFile->Image.Left, GifFile->Image.Top);
 	    if (GifFile->Image.Interlace)
-		printf("interlaced\n");
+		printf("image interlaced\n");
 
 	    if (GifFile->Image.ColorMap)
 	    {
@@ -740,15 +754,16 @@ static void Gif2Icon(char *FileName,
 		    exit(EXIT_FAILURE);
 		}
 		printf("\tdisposal mode %d\n", gcb.DisposalMode);
-		printf("\tuser input flag %d\n", gcb.UserInputFlag);
+		printf("\tuser input flag %s\n", 
+		       gcb.UserInputFlag ? "on" : "off");
 		printf("\tdelay %d\n", gcb.DelayTime);
 		printf("\ttransparent index %d\n", gcb.TransparentColor);
 		DumpExtension = false;
 	    }
 	    else if (isalpha(ExtCode))
-		printf("extension %02x    # %c\n", ExtCode, ExtCode);
+		printf("extension 0x%02x    # %c\n", ExtCode, ExtCode);
 	    else
-		printf("extension %02x\n", ExtCode);
+		printf("extension 0x%02x\n", ExtCode);
 
 	    while (Extension != NULL) {
 		if (DumpExtension) {
