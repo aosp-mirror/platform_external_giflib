@@ -1133,11 +1133,12 @@ EGifSpew(GifFileType *GifFileOut)
 	      */
 	    int InterlacedOffset[] = { 0, 4, 2, 1 };
 	    int InterlacedJumps[] = { 8, 8, 4, 2 };
+	    int k;
 	    /* Need to perform 4 passes on the images: */
-	    for (i = 0; i < 4; i++)
-		for (j = InterlacedOffset[i]; 
+	    for (k = 0; k < 4; k++)
+		for (j = InterlacedOffset[k]; 
 		     j < SavedHeight;
-		     j += InterlacedJumps[i]) {
+		     j += InterlacedJumps[k]) {
 		    if (EGifPutLine(GifFileOut, 
 				    sp->RasterBits + j * SavedWidth, 
 				    SavedWidth)	== GIF_ERROR)
