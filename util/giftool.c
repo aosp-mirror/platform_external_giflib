@@ -61,7 +61,7 @@ bool getbool(char *from)
 	    return sp->val;
 
     (void)fprintf(stderr, 
-		  "giftool: %s is bot a valid boolean argument.\n",
+		  "giftool: %s is not a valid boolean argument.\n",
 		  sp->name);
     exit(EXIT_FAILURE);
 }
