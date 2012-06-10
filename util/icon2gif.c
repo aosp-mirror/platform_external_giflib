@@ -396,13 +396,14 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf,
-			"image bits %d by %d\n",
+			"image bits %d by %d",
 			&NewImage->ImageDesc.Width,
 			&NewImage->ImageDesc.Height) == 2)
 	{
 	    int i, j;
 	    static GifPixelType *Raster, *cp;
 	    int c;
+	    bool hex = (strstr(buf, "hex") != NULL);
 
 	    if ((Raster = (GifPixelType *) malloc(sizeof(GifPixelType) * NewImage->ImageDesc.Width * NewImage->ImageDesc.Height))
 		== NULL) {
@@ -432,10 +433,32 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    }
 		    else if (isspace(c))
 			--j;
+		    else if (hex) 
+		    {
+			const static char *hexdigits = "0123456789ABCDEF";
+			unsigned char hi, lo;
+			dp = strchr(hexdigits, toupper(c));
+			if (dp == NULL) {
+			    PARSE_ERROR("Invalid hex high byte.");
+			    exit(EXIT_FAILURE);
+			}
+			hi = (dp - hexdigits);
+			if ((c = fgetc(txtin)) == EOF) {
+			    PARSE_ERROR("input file ended prematurely.");
+			    exit(EXIT_FAILURE);
+			}
+			dp = strchr(hexdigits, toupper(c));
+			if (dp == NULL) {
+			    PARSE_ERROR("Invalid hex low byte.");
+			    exit(EXIT_FAILURE);
+			}
+			lo = (dp - hexdigits);
+			*cp++ = (hi << 4) | lo;
+		    }
 		    else if ((dp = strchr(KeyTable, c)))
 			*cp++ = (dp - KeyTable);
 		    else {
-			PARSE_ERROR("Invalid pixel value.");
+			PARSE_ERROR("Invalid ASCII pixel key.");
 			exit(EXIT_FAILURE);
 		    }
 
@@ -675,7 +698,7 @@ static void Gif2Icon(char *FileName,
 		printf("image bits %d by %d\n",
 		       GifFile->Image.Width, GifFile->Image.Height);
 	    else
-		printf("image bits hex %d by %d\n",
+		printf("image bits %d by %d hex\n",
 		       GifFile->Image.Width, GifFile->Image.Height);
 
 	    Line = (GifPixelType *) malloc(GifFile->Image.Width *
