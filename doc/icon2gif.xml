@@ -111,8 +111,7 @@ characters (used for a color map of 94 or fewer colors).  A
 <quote>hex</quote> raster block uses hex digit pairs instead (used for
 a color map with more than 94 colors). The default is ASCII.  It
 should be sized correctly for the <quote>image bits</quote>
-declaration that leads it. Raster blocks from interlaced GIFs are
-dumped with the lines in non-interlaced order.</para>
+declaration that leads it.</para>
 
 <para>The <quote>comment</quote> or <quote>plaintext</quote> keywords
 lead defined GIF89 extension record data (the other two GIF89 types,

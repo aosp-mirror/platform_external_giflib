@@ -35,6 +35,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout);
 static void Gif2Icon(char *FileName,
 		     int fdin, int fdout,
 		     char NameTable[]);
+static void VisibleDumpBuffer(char *buf, int Len);
 static int EscapeString(char *cp, char *tp);
 
 /******************************************************************************
@@ -607,83 +608,16 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
     EGifSpew(GifFileOut);
 }
 
-static void VisibleDumpBuffer(GifByteType *buf, int len)
-/* Visibilize a given string */
-{
-    GifByteType	*cp;
-
-    for (cp = buf; cp < buf + len; cp++)
-    {
-	if (isprint((int)(*cp)) || *cp == ' ')
-	    putchar(*cp);
-	else if (*cp == '\n')
-	{
-	    putchar('\\'); putchar('n');
-	}
-	else if (*cp == '\r')
-	{
-	    putchar('\\'); putchar('r');
-	}
-	else if (*cp == '\b')
-	{
-	    putchar('\\'); putchar('b');
-	}
-	else if (*cp < ' ')
-	{
-	    putchar('\\'); putchar('^'); putchar('@' + *cp);
-	}
-	else
-	    printf("\\0x%02x", *cp);
-    }
-}
-
-static void DumpExtensions(ExtensionList *Extensions)
-{
-    ExtensionBlock *ep;
-
-    for (ep = Extensions->ExtensionBlocks; 
-	 ep < Extensions->ExtensionBlocks + Extensions->ExtensionBlockCount;
-	 ep++) {
-	if (ep->Function == COMMENT_EXT_FUNC_CODE) {
-	    printf("comment\n");
-	    VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
-	}
-	else if (ep->Function == PLAINTEXT_EXT_FUNC_CODE) {
-	    printf("plaintext\n");
-	    VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
-	}
-	else if (ep->Function == GRAPHICS_EXT_FUNC_CODE)
-	{
-	    GraphicsControlBlock gcb;
-	    printf("graphics control\n");
-	    if (DGifExtensionToGCB(ep->Bytes, &gcb) == GIF_ERROR) {
-		PrintGifError();
-		exit(EXIT_FAILURE);
-	    }
-	    printf("\tdisposal mode %d\n", gcb.DisposalMode);
-	    printf("\tuser input flag %s\n", 
-		   gcb.UserInputFlag ? "on" : "off");
-	    printf("\tdelay %d\n", gcb.DelayTime);
-	    printf("\ttransparent index %d\n", gcb.TransparentColor);
-	}
-	else if (isalpha(ep->Function)) {
-	    printf("extension 0x%02x    # %c\n", ep->Function, ep->Function); 
-	    VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
-	}
-	else {
-	    printf("extension 0x%02x\n", ep->Function);
-	    VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
-	}
-	printf("end\n\n");
-    }
-}
-
 static void Gif2Icon(char *FileName,
 		     int fdin, int fdout,
 		     char NameTable[])
 {
-    int im, i, j, ColorCount;
+    int i, ExtCode, ColorCount, ImageNum = 1;
+    GifPixelType *Line, *cp;
+    GifRecordType RecordType;
+    GifByteType *Extension;
     GifFileType *GifFile;
+    bool DumpExtension = true;
 
     if (fdin == -1) {
 	if ((GifFile = DGifOpenFileName(FileName)) == NULL) {
@@ -697,11 +631,6 @@ static void Gif2Icon(char *FileName,
 	    PrintGifError();
 	    exit(EXIT_FAILURE);
 	}
-    }
-
-    if (DGifSlurp(GifFile) == GIF_ERROR) {
-	PrintGifError();
-	exit(EXIT_FAILURE);
     }
 
     printf("screen width %d\nscreen height %d\n",
@@ -733,64 +662,129 @@ static void Gif2Icon(char *FileName,
 	printf("end\n\n");
     }
 
-    for (im = 0; im < GifFile->ImageCount; im++) {
-	SavedImage *image = &GifFile->SavedImages[im];
-
-	DumpExtensions(&image->Leading);
-
-	printf("image # %d\nimage left %d\nimage top %d\n",
-	       im+1, image->ImageDesc.Left, image->ImageDesc.Top);
-	if (image->ImageDesc.Interlace)
-	    printf("image interlaced\n");
-
-	if (image->ImageDesc.ColorMap)
-	{
-	    printf("image map\n");
-
-	    printf("\tsort flag %s\n", 
-		   image->ImageDesc.ColorMap->SortFlag ? "on" : "off");
-
-	    if (image->ImageDesc.ColorMap->ColorCount < PRINTABLES)
-		for (i = 0; i < image->ImageDesc.ColorMap->ColorCount; i++)
-		    printf("\trgb %03d %03d %03d is %c\n",
-			   image->ImageDesc.ColorMap ->Colors[i].Red,
-			   image->ImageDesc.ColorMap ->Colors[i].Green,
-			   image->ImageDesc.ColorMap ->Colors[i].Blue,
-			   NameTable[i]);
-	    else
-		for (i = 0; i < image->ImageDesc.ColorMap->ColorCount; i++)
-		    printf("\trgb %03d %03d %03d\n",
-			   image->ImageDesc.ColorMap ->Colors[i].Red,
-			   image->ImageDesc.ColorMap ->Colors[i].Green,
-			   image->ImageDesc.ColorMap ->Colors[i].Blue);
-	    printf("end\n\n");
+    do {
+	if (DGifGetRecordType(GifFile, &RecordType) == GIF_ERROR) {
+	    PrintGifError();
+	    exit(EXIT_FAILURE);
 	}
-
-	if (image->ImageDesc.ColorMap)
-	    ColorCount = image->ImageDesc.ColorMap->ColorCount;
-	else
-	    ColorCount = GifFile->SColorMap->ColorCount;
-
-	if (ColorCount < PRINTABLES)
-	    printf("image bits %d by %d\n",
-		   image->ImageDesc.Width, image->ImageDesc.Height);
-	else
-	    printf("image bits %d by %d hex\n",
-		   image->ImageDesc.Width, image->ImageDesc.Height);
-	for (i = 0; i < image->ImageDesc.Height; i++) {
-	    for (j = 0; j < image->ImageDesc.Width; j++) {
-		GifByteType ch = image->RasterBits[i*image->ImageDesc.Width + j];
-		if (ColorCount < PRINTABLES)
-		    putchar(NameTable[ch]);
-		else
-		    printf("%02x", ch);
+	switch (RecordType) {
+	case IMAGE_DESC_RECORD_TYPE:
+	    if (DGifGetImageDesc(GifFile) == GIF_ERROR) {
+		PrintGifError();
+		exit(EXIT_FAILURE);
 	    }
-	    putchar('\n');
-	}
-	putchar('\n');
-    }
+	    printf("image # %d\nimage left %d\nimage top %d\n",
+		   ImageNum++,
+		   GifFile->Image.Left, GifFile->Image.Top);
+	    if (GifFile->Image.Interlace)
+		printf("image interlaced\n");
 
-    DumpExtensions(&GifFile->Trailing);
+	    if (GifFile->Image.ColorMap)
+	    {
+		printf("image map\n");
+
+		printf("\tsort flag %s\n", 
+		       GifFile->Image.ColorMap->SortFlag ? "on" : "off");
+
+		if (GifFile->Image.ColorMap->ColorCount < PRINTABLES)
+		    for (i = 0; i < GifFile->Image.ColorMap->ColorCount; i++)
+			printf("\trgb %03d %03d %03d is %c\n",
+			       GifFile->Image.ColorMap ->Colors[i].Red,
+			       GifFile->Image.ColorMap ->Colors[i].Green,
+			       GifFile->Image.ColorMap ->Colors[i].Blue,
+			       NameTable[i]);
+		else
+		    for (i = 0; i < GifFile->Image.ColorMap->ColorCount; i++)
+			printf("\trgb %03d %03d %03d\n",
+			       GifFile->Image.ColorMap ->Colors[i].Red,
+			       GifFile->Image.ColorMap ->Colors[i].Green,
+			       GifFile->Image.ColorMap ->Colors[i].Blue);
+		printf("end\n\n");
+	    }
+
+	    if (GifFile->Image.ColorMap)
+		ColorCount = GifFile->Image.ColorMap->ColorCount;
+	    else
+		ColorCount = GifFile->SColorMap->ColorCount;
+
+	    if (ColorCount < PRINTABLES)
+		printf("image bits %d by %d\n",
+		       GifFile->Image.Width, GifFile->Image.Height);
+	    else
+		printf("image bits %d by %d hex\n",
+		       GifFile->Image.Width, GifFile->Image.Height);
+
+	    Line = (GifPixelType *) malloc(GifFile->Image.Width *
+					   sizeof(GifPixelType));
+	    for (i = 0; i < GifFile->Image.Height; i++) {
+		if (DGifGetLine(GifFile, Line, GifFile->Image.Width)
+		    == GIF_ERROR) {
+		    PrintGifError();
+		    exit(EXIT_FAILURE);
+		}
+		for (cp = Line; cp < Line + GifFile->Image.Width; cp++)
+		    if (ColorCount < PRINTABLES)
+			putchar(NameTable[*cp]);
+		    else
+			printf("%02x", *cp);
+		putchar('\n');
+	    }
+	    free((char *) Line);
+	    putchar('\n');
+
+	    break;
+	case EXTENSION_RECORD_TYPE:
+	    if (DGifGetExtension(GifFile, &ExtCode, &Extension) == GIF_ERROR) {
+		PrintGifError();
+		exit(EXIT_FAILURE);
+	    }
+
+	    DumpExtension = true;
+	    if (ExtCode == COMMENT_EXT_FUNC_CODE)
+		printf("comment\n");
+	    else if (ExtCode == PLAINTEXT_EXT_FUNC_CODE)
+		printf("plaintext\n");
+	    else if (ExtCode == GRAPHICS_EXT_FUNC_CODE)
+	    {
+		GraphicsControlBlock gcb;
+		printf("graphics control\n");
+		if (DGifExtensionToGCB(Extension, &gcb) == GIF_ERROR) {
+		    PrintGifError();
+		    exit(EXIT_FAILURE);
+		}
+		printf("\tdisposal mode %d\n", gcb.DisposalMode);
+		printf("\tuser input flag %s\n", 
+		       gcb.UserInputFlag ? "on" : "off");
+		printf("\tdelay %d\n", gcb.DelayTime);
+		printf("\ttransparent index %d\n", gcb.TransparentColor);
+		DumpExtension = false;
+	    }
+	    else if (isalpha(ExtCode))
+		printf("extension 0x%02x    # %c\n", ExtCode, ExtCode);
+	    else
+		printf("extension 0x%02x\n", ExtCode);
+
+	    while (Extension != NULL) {
+		if (DumpExtension) {
+		    VisibleDumpBuffer((char *)(Extension + 1), Extension[0]);
+		    putchar('\n');
+		}
+		if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
+		    PrintGifError();
+		    exit(EXIT_FAILURE);
+		}
+	    }
+	    printf("end\n\n");
+
+	    break;
+	case TERMINATE_RECORD_TYPE:
+	    break;
+	default:		/* Should be traps by DGifGetRecordType */
+	    break;
+	}
+    }
+    while
+	(RecordType != TERMINATE_RECORD_TYPE);
 
     /* Tell EMACS this is a picture... */
     printf("# The following sets edit modes for GNU EMACS\n");
@@ -859,5 +853,33 @@ static int EscapeString(char *cp, char *tp)
     return(tp - StartAddr);
 }
 
-/* end */
+static void VisibleDumpBuffer(char *buf, int len)
+/* Visibilize a given string */
+{
+    char	*cp;
+
+    for (cp = buf; cp < buf + len; cp++)
+    {
+	if (isprint((int)(*cp)) || *cp == ' ')
+	    putchar(*cp);
+	else if (*cp == '\n')
+	{
+	    putchar('\\'); putchar('n');
+	}
+	else if (*cp == '\r')
+	{
+	    putchar('\\'); putchar('r');
+	}
+	else if (*cp == '\b')
+	{
+	    putchar('\\'); putchar('b');
+	}
+	else if (*cp < ' ')
+	{
+	    putchar('\\'); putchar('^'); putchar('@' + *cp);
+	}
+	else
+	    printf("\\0x%02x", *cp);
+    }
+}
 
