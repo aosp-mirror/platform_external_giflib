@@ -164,8 +164,7 @@ int EGifPutExtensionFirst(GifFileType *GifFile, const int GifExtCode,
                           const int GifExtLen, const void *GifExtension);
 int EGifPutExtensionNext(GifFileType *GifFile, const int GifExtCode,
                          const int GifExtLen, const void *GifExtension);
-int EGifPutExtensionLast(GifFileType *GifFile, const int GifExtCode,
-                         const int GifExtLen, const void *GifExtension);
+int EGifPutExtensionTerminate(GifFileType *GifFile);
 int EGifPutExtension(GifFileType *GifFile, const int GifExtCode, 
 		     const int GifExtLen,
                      const void *GifExtension);

@@ -506,13 +506,12 @@ EGifPutComment(GifFileType *GifFile, const char *Comment)
         }
         /* Output any partial block and the clear code. */
         if (length > 0) {
-            if (EGifPutExtensionLast(GifFile, 0, length, buf) == GIF_ERROR) {
+            if (EGifPutExtensionNext(GifFile, 0, length, buf) == GIF_ERROR) {
                 return GIF_ERROR;
             }
-        } else {
-            if (EGifPutExtensionLast(GifFile, 0, 0, NULL) == GIF_ERROR) {
-                return GIF_ERROR;
-            }
+        }
+	if (EGifPutExtensionTerminate(GifFile) == GIF_ERROR) {
+	    return GIF_ERROR;
         }
     }
     return GIF_OK;
@@ -521,7 +520,7 @@ EGifPutComment(GifFileType *GifFile, const char *Comment)
 /******************************************************************************
  * Put a first extension block (see GIF manual) into gif file.  Here more
  * extensions can be dumped using EGifPutExtensionNext until
- * EGifPutExtensionLast is invoked.
+ * EGifPutExtensionTerminate is invoked.
  *****************************************************************************/
 int
 EGifPutExtensionFirst(GifFileType *GifFile,
@@ -578,13 +577,10 @@ EGifPutExtensionNext(GifFileType *GifFile,
 }
 
 /******************************************************************************
- * Put a last extension block (see GIF manual) into gif file.
+ * Put a terminating block (see GIF manual) into gif file.
  *****************************************************************************/
 int
-EGifPutExtensionLast(GifFileType *GifFile,
-                     const int ExtCode,
-                     const int ExtLen,
-                     const void *Extension) {
+EGifPutExtensionTerminate(GifFileType *GifFile) {
 
     GifByteType Buf;
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
@@ -593,13 +589,6 @@ EGifPutExtensionLast(GifFileType *GifFile,
         /* This file was NOT open for writing: */
         _GifError = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
-    }
-
-    /* If we are given an extension sub-block output it now. */
-    if (ExtLen > 0) {
-        Buf = ExtLen;
-        WRITE(GifFile, &Buf, 1);
-        WRITE(GifFile, Extension, ExtLen);
     }
 
     /* Write the block terminator */
@@ -1080,7 +1069,7 @@ EGifWriteExtensions(GifFileType *GifFileOut,
 		    (void)EGifPutExtensionNext(GifFileOut, 0,
 					       ep->ByteCount, ep->Bytes);
 		}
-		(void)EGifPutExtensionLast(GifFileOut, 0, 0, NULL);
+		(void)EGifPutExtensionTerminate(GifFileOut);
 		j = bOff-1;
 	    }
 	}

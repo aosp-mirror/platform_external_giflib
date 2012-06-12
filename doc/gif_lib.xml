@@ -952,7 +952,7 @@ int EGifPutExtension(
 <para>Dumps the given extension block into the GIF file. Extension blocks
 are optional in GIF file. Extension blocks of more than 255 bytes or
 more than one block are not supported in this function.  Please use
-EGifPutExtensionFirst, EGifPutExtensionNext, and EGifPutExtensionLast
+EGifPutExtensionFirst, EGifPutExtensionNext, and EGifPutExtensionTerminate
 if your extension blocks may fall into this category.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
@@ -972,7 +972,7 @@ data described in the GifExtension argument.</para>
 
 <para>Further blocks of the GIF Extension should be dumped using
 EGifPutExtensionNext.  When finished with this extension block,
-EGifPutExtensionLast should be called to output the block termination.</para>
+EGifPutExtensionTerminate should be called to output the block termination.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
 
@@ -991,27 +991,20 @@ preceding Extension Block.  Repeat calling of this function until all
 data subblocks have been output.</para>
 
 <para>Note that EGifPutExtensionFirst needs to be called before any
-calls to this function.  EGifPutExtensionLast should be called to
+calls to this function.  EGifPutExtensionTerminate should be called to
 finish the Extension block after all data subblocks have been
 output.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
 
-<programlisting id="EGifPutExtensionLast">
-int EGifPutExtensionLast(
+<programlisting id="EGifPutExtensionTerminate">
+int EGifPutExtensionTerminate(
         GifFileType * GifFile,
-        const int GifExtCode,
-        const int GifExtLen,
         const VoidPtr GifExtension)
 </programlisting>
 
-<para>Dumps an optional GIF extension data subblock and the GIF extension block
-terminator to a GIF File.  Extension blocks are optional in GIF files.  This
-function will write the Extension Data in GifExtension to the file as a
-subblock of the preceding Extension Block.  Then it will output the GIF
-extension block terminator to end the current Extension block.  As a special
-case, if GifExtLen is zero, the function will assume there isn't another
-data block to output and will simply write the block terminator.</para>
+<para>Dumps the GIF extension block terminator to a GIF File to end
+the current Extension block.</para>
 
 <para>Note that a call to EGifPutExtensionFirst is needed to open the GIF
 Extension Block prior to calling this function.</para>
@@ -1078,6 +1071,11 @@ NEWS file in the GIFLIB distribution to track API changes.</para>
 <para>A few changes in behavior were introduced in 5.0:</para>
 
 <itemizedlist>
+<listitem><para>EGifPutExtensionLast() has been replaced by
+EGifPutExtensionTerminate(); alll it does is write the terminator
+block.  Split your old EGifPutExtensionLast() calls into an
+EGifPutExtensionNext() followed by
+EGifPutExtensionTerminate().</para></listitem>
 <listitem><para>New functions DGifSavedExtensionToGCB() and
 EGifGCBToSavedExtension() make it easy to read and edit GIF89 graphics
 control blocks in saved images.</para></listitem>

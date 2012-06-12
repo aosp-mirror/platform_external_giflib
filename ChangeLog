@@ -201,7 +201,7 @@ truth about changes and the reasons for them is the repository.
         Last so that it won't break on unusually long comments.
       - EGifPutExtension{First,Next,Last}: Changed fwrites to WRITE so any
         user defined write function will get called properly.
-      - EGifPutExtensionLast: if the Extension block is empty (Zero length)
+      - EGifPutExtensionTerminate: if the Extension block is empty (Zero length)
         then don't attempt to output a last extension block, just output the 
         block terminator.
       - EGifPutExtension: Comment that this function does not work when there

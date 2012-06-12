@@ -32,7 +32,7 @@ New API Features
   that the new list of trailing extension blocks in GifFileType can
   use the same list-handler code as the Leading extension-block list
   in each saved image.
-* Six undocumented functions have been renamed; two of these take additional
+* Seven undocumented functions have been renamed; three of these take additional
   or slightly different argument types. See the Compatibility section of
   the library API documentation for details.
 * Three documented functions - MakeMapObject(), FreeMapObject(), and
