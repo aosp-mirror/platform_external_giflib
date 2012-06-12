@@ -498,7 +498,7 @@ EGifPutComment(GifFileType *GifFile, const char *Comment)
 
         /* Break the comment into 255 byte sub blocks */
         while (length > 255) {
-            if (EGifPutExtensionNext(GifFile, 0, 255, buf) == GIF_ERROR) {
+            if (EGifPutExtensionNext(GifFile, 255, buf) == GIF_ERROR) {
                 return GIF_ERROR;
             }
             buf = buf + 255;
@@ -506,7 +506,7 @@ EGifPutComment(GifFileType *GifFile, const char *Comment)
         }
         /* Output any partial block and the clear code. */
         if (length > 0) {
-            if (EGifPutExtensionNext(GifFile, 0, length, buf) == GIF_ERROR) {
+            if (EGifPutExtensionNext(GifFile, length, buf) == GIF_ERROR) {
                 return GIF_ERROR;
             }
         }
@@ -555,10 +555,9 @@ EGifPutExtensionFirst(GifFileType *GifFile,
  * Put a middle extension block (see GIF manual) into gif file.
  *****************************************************************************/
 int
-EGifPutExtensionNext(GifFileType *GifFile,
-                     const int ExtCode,
-                     const int ExtLen,
-                     const void *Extension)
+EGifPutExtensionNext(GifFileType *GifFile, 
+		     const int ExtLen,
+		     const void *Extension)
 {
     GifByteType Buf;
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
@@ -1066,7 +1065,7 @@ EGifWriteExtensions(GifFileType *GifFileOut,
 		    if (ep->Function != 0) {
 			break;
 		    }
-		    (void)EGifPutExtensionNext(GifFileOut, 0,
+		    (void)EGifPutExtensionNext(GifFileOut,
 					       ep->ByteCount, ep->Bytes);
 		}
 		(void)EGifPutExtensionTerminate(GifFileOut);

@@ -137,8 +137,7 @@ static void DoAssembly(int NumFiles, char **FileNames)
 		/* Dump application+comment blocks. */
 		EGifPutExtensionFirst(GifFileOut, APPLICATION_EXT_FUNC_CODE,
 				      strlen(GIF_ASM_NAME), GIF_ASM_NAME);
-		EGifPutExtensionNext(GifFileOut, APPLICATION_EXT_FUNC_CODE,
-				     3, ExtStr);
+		EGifPutExtensionNext(GifFileOut, 3, ExtStr);
 		EGifPutExtensionTerminate(GifFileOut);
 		EGifPutExtension(GifFileOut, COMMENT_EXT_FUNC_CODE,
 				 strlen(COMMENT_GIF_ASM), COMMENT_GIF_ASM);
