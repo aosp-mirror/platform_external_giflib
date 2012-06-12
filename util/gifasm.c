@@ -135,10 +135,11 @@ static void DoAssembly(int NumFiles, char **FileNames)
 		ExtStr[2] = 0;
  
 		/* Dump application+comment blocks. */
-		EGifPutExtensionFirst(GifFileOut, APPLICATION_EXT_FUNC_CODE,
+		EGifPutExtensionLeader(GifFileOut, APPLICATION_EXT_FUNC_CODE);
+		EGifPutExtensionBlock(GifFileOut,
 				      strlen(GIF_ASM_NAME), GIF_ASM_NAME);
-		EGifPutExtensionNext(GifFileOut, 3, ExtStr);
-		EGifPutExtensionTerminate(GifFileOut);
+		EGifPutExtensionBlock(GifFileOut, 3, ExtStr);
+		EGifPutExtensionTrailer(GifFileOut);
 		EGifPutExtension(GifFileOut, COMMENT_EXT_FUNC_CODE,
 				 strlen(COMMENT_GIF_ASM), COMMENT_GIF_ASM);
 	    }

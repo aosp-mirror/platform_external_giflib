@@ -489,16 +489,14 @@ EGifPutComment(GifFileType *GifFile, const char *Comment)
                                 length, Comment);
     } else {
         buf = (char *)Comment;
-        if (EGifPutExtensionFirst(GifFile, COMMENT_EXT_FUNC_CODE, 255, buf)
+        if (EGifPutExtensionLeader(GifFile, COMMENT_EXT_FUNC_CODE)
                 == GIF_ERROR) {
             return GIF_ERROR;
         }
-        length -= 255;
-        buf = buf + 255;
 
         /* Break the comment into 255 byte sub blocks */
         while (length > 255) {
-            if (EGifPutExtensionNext(GifFile, 255, buf) == GIF_ERROR) {
+            if (EGifPutExtensionBlock(GifFile, 255, buf) == GIF_ERROR) {
                 return GIF_ERROR;
             }
             buf = buf + 255;
@@ -506,11 +504,11 @@ EGifPutComment(GifFileType *GifFile, const char *Comment)
         }
         /* Output any partial block and the clear code. */
         if (length > 0) {
-            if (EGifPutExtensionNext(GifFile, length, buf) == GIF_ERROR) {
+            if (EGifPutExtensionBlock(GifFile, length, buf) == GIF_ERROR) {
                 return GIF_ERROR;
             }
         }
-	if (EGifPutExtensionTerminate(GifFile) == GIF_ERROR) {
+	if (EGifPutExtensionTrailer(GifFile) == GIF_ERROR) {
 	    return GIF_ERROR;
         }
     }
@@ -518,15 +516,12 @@ EGifPutComment(GifFileType *GifFile, const char *Comment)
 }
 
 /******************************************************************************
- * Put a first extension block (see GIF manual) into gif file.  Here more
- * extensions can be dumped using EGifPutExtensionNext until
- * EGifPutExtensionTerminate is invoked.
+ * Begin an extension block (see GIF manual).  More
+ * extensions can be dumped using EGifPutExtensionBlock until
+ * EGifPutExtensionTrailer is invoked.
  *****************************************************************************/
 int
-EGifPutExtensionFirst(GifFileType *GifFile,
-                      const int ExtCode,
-                      const int ExtLen,
-                      const void *Extension)
+EGifPutExtensionLeader(GifFileType *GifFile, const int ExtCode)
 {
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
@@ -537,25 +532,18 @@ EGifPutExtensionFirst(GifFileType *GifFile,
         return GIF_ERROR;
     }
 
-    if (ExtCode == 0) {
-        WRITE(GifFile, (GifByteType *)&ExtLen, 1);
-    } else {
-        Buf[0] = EXTENSION_INTRODUCER;
-        Buf[1] = ExtCode;
-        Buf[2] = ExtLen;
-        WRITE(GifFile, Buf, 3);
-    }
-
-    WRITE(GifFile, Extension, ExtLen);
+    Buf[0] = EXTENSION_INTRODUCER;
+    Buf[1] = ExtCode;
+    WRITE(GifFile, Buf, 2);
 
     return GIF_OK;
 }
 
 /******************************************************************************
- * Put a middle extension block (see GIF manual) into gif file.
+ * Put extension block data (see GIF manual) into gif file.
  *****************************************************************************/
 int
-EGifPutExtensionNext(GifFileType *GifFile, 
+EGifPutExtensionBlock(GifFileType *GifFile, 
 		     const int ExtLen,
 		     const void *Extension)
 {
@@ -579,7 +567,7 @@ EGifPutExtensionNext(GifFileType *GifFile,
  * Put a terminating block (see GIF manual) into gif file.
  *****************************************************************************/
 int
-EGifPutExtensionTerminate(GifFileType *GifFile) {
+EGifPutExtensionTrailer(GifFileType *GifFile) {
 
     GifByteType Buf;
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
@@ -1057,18 +1045,16 @@ EGifWriteExtensions(GifFileType *GifFileOut,
 		    return (GIF_ERROR);
 		}
 	    } else {
-		(void)EGifPutExtensionFirst(GifFileOut, 
-					    ep->Function, 
-					    ep->ByteCount, ep->Bytes);
-		for (bOff = j+1; bOff < ExtensionBlockCount; bOff++) {
+		(void)EGifPutExtensionLeader(GifFileOut, ep->Function);
+		for (bOff = j; bOff < ExtensionBlockCount; bOff++) {
 		    ep = &ExtensionBlocks[bOff];
 		    if (ep->Function != 0) {
 			break;
 		    }
-		    (void)EGifPutExtensionNext(GifFileOut,
+		    (void)EGifPutExtensionBlock(GifFileOut,
 					       ep->ByteCount, ep->Bytes);
 		}
-		(void)EGifPutExtensionTerminate(GifFileOut);
+		(void)EGifPutExtensionTrailer(GifFileOut);
 		j = bOff-1;
 	    }
 	}

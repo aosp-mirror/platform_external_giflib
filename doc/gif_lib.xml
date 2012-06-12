@@ -718,7 +718,7 @@ record type, and act upon it.  It can return these types in GifType:</para>
 </varlistentry>
 
 <varlistentry>
-<term>5. TerminateRecordType</term>
+<term>5. TrailerRecordType</term>
 <listitem>
 <para>last record reached, can close the file.</para>
 </listitem>
@@ -952,13 +952,13 @@ int EGifPutExtension(
 <para>Dumps the given extension block into the GIF file. Extension blocks
 are optional in GIF file. Extension blocks of more than 255 bytes or
 more than one block are not supported in this function.  Please use
-EGifPutExtensionFirst, EGifPutExtensionNext, and EGifPutExtensionTerminate
+EGifPutExtensionFirst, EGifPutExtensionBlock, and EGifPutExtensionTrailer
 if your extension blocks may fall into this category.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
 
-<programlisting id="EGifPutExtensionFirst">
-int EGifPutExtensionFirst(
+<programlisting id="EGifPutExtensionLeader">
+int EGifPutExtensionLeader(
         GifFileType * GifFile,
         const int GifExtCode,
         const int GifExtLen,
@@ -971,13 +971,13 @@ meta information necessary to a GIF extension block and the extension
 data described in the GifExtension argument.</para>
 
 <para>Further blocks of the GIF Extension should be dumped using
-EGifPutExtensionNext.  When finished with this extension block,
-EGifPutExtensionTerminate should be called to output the block termination.</para>
+EGifPutExtensionBlock.  When finished with this extension block,
+EGifPutExtensionTrailer should be called to output the block termination.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
 
-<programlisting id="EGifPutExtensionNext">
-int EGifPutExtensionNext(
+<programlisting id="EGifPutExtensionBlock">
+int EGifPutExtensionBlock(
         GifFileType * GifFile,
         const int GifExtCode,
         const int GifExtLen,
@@ -990,15 +990,15 @@ Extension Data in GifExtension to the file as a subblock of the
 preceding Extension Block.  Repeat calling of this function until all
 data subblocks have been output.</para>
 
-<para>Note that EGifPutExtensionFirst needs to be called before any
-calls to this function.  EGifPutExtensionTerminate should be called to
+<para>Note that EGifPutExtensionLeader needs to be called before any
+calls to this function.  EGifPutExtensionTrailer should be called to
 finish the Extension block after all data subblocks have been
 output.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
 
-<programlisting id="EGifPutExtensionTerminate">
-int EGifPutExtensionTerminate(
+<programlisting id="EGifPutExtensionTrailer">
+int EGifPutExtensionTrailer(
         GifFileType * GifFile,
         const VoidPtr GifExtension)
 </programlisting>
@@ -1006,7 +1006,7 @@ int EGifPutExtensionTerminate(
 <para>Dumps the GIF extension block terminator to a GIF File to end
 the current Extension block.</para>
 
-<para>Note that a call to EGifPutExtensionFirst is needed to open the GIF
+<para>Note that a call to EGifPutExtensionLeader is needed to open the GIF
 Extension Block prior to calling this function.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
@@ -1071,11 +1071,18 @@ NEWS file in the GIFLIB distribution to track API changes.</para>
 <para>A few changes in behavior were introduced in 5.0:</para>
 
 <itemizedlist>
+<listitem><para>EGifPutExtensionFirst() has been replaced by
+EGifPutExtensionLeader(); the difference is the new function doesn't
+take an optional block, it just writes a block
+leader.</para></listitem>
+<listitem><para>EGifPutExtensionNext() has been replaced by
+EGifPutExtensionBlock(); the difference is that the new function does
+not take and then discard a function code argument.</para></listitem>
 <listitem><para>EGifPutExtensionLast() has been replaced by
-EGifPutExtensionTerminate(); alll it does is write the terminator
-block.  Split your old EGifPutExtensionLast() calls into an
-EGifPutExtensionNext() followed by
-EGifPutExtensionTerminate().</para></listitem>
+EGifPutExtensionTrailer(); all it does is write the terminator
+block.  Split your old EGifPutExtensionLast() calls into
+EGifPutExtensionBlock() followed by
+EGifPutExtensionTrailer().</para></listitem>
 <listitem><para>New functions DGifSavedExtensionToGCB() and
 EGifGCBToSavedExtension() make it easy to read and edit GIF89 graphics
 control blocks in saved images.</para></listitem>

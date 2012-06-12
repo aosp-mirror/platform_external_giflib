@@ -32,13 +32,13 @@ New API Features
   that the new list of trailing extension blocks in GifFileType can
   use the same list-handler code as the Leading extension-block list
   in each saved image.
-* Eight undocumented functions have been renamed; four of these take additional
+* Nine functions have been renamed; five of these take additional
   or slightly different argument types. See the Compatibility section of
   the library API documentation for details.
 * Three documented functions - MakeMapObject(), FreeMapObject(), and
   UnionColorMap() - have been renamed to GifMakeMapObject(),
-  GifFreeMapObject(), and GifUnionColorMap() respectively.  All
-  functions exported by this library now have DGif, EGif, or Gif
+  GifFreeMapObject(), and GifUnionColorMap() respectively.
+* All functions exported by this library now have DGif, EGif, or Gif
   as a name prefix.
 * New functions DGifSavedExtensionToGCB() and EGifGCBToSavedExtension()
   make it easy to read and edit GIF89 graphics control blocks in saved images.
