@@ -444,6 +444,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    }
 
 	}
+	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "extension %x", &ExtCode))
 	{
 	    while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
