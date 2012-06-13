@@ -22,6 +22,7 @@
       <arg choice='opt'>-v</arg>
       <arg choice='opt'>-a</arg>
       <arg choice='opt'>-d <replaceable>outfile</replaceable></arg>
+      <arg choice='opt'>-A <replaceable>loopcount</replaceable></arg>
       <arg choice='opt'>-h</arg>
       <arg choice='opt'><replaceable>gif-file</replaceable></arg>
 </cmdsynopsis>
@@ -55,6 +56,13 @@ command line.</para>
 into several files of the form OutFileNameXX, where XX are two decimal
 digits.  Obviously up to 100 files can be generated this way. Note: in
 this mode nothing is sent to stdout.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>-A loopcount</term>
+<listitem>
+<para>Write a Netscape-2.0-style loop animation control to the file.
+The argument is the loop count; 0 means loop forever.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
