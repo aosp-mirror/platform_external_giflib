@@ -12,19 +12,12 @@ dgif_lib.c - the kernel of the GIF Decoding process can be found here.
 #include <stdio.h>
 #include <string.h>
 
-#if (defined (__MSDOS__) || defined(WINDOWS32))  && !defined(__DJGPP__) && !defined(__GNUC__)
+#ifdef __MSDOS__
 #include <io.h>
-#include <sys\stat.h>
-#else
-#include <sys/types.h>
-#include <sys/stat.h>
 #endif /* __MSDOS__ */
 
 #include "gif_lib.h"
 #include "gif_lib_private.h"
-
-#define COMMENT_EXT_FUNC_CODE 0xfe  /* Extension function code for
-                                       comment. */
 
 /* avoid extra function call in case we use fread (TVT) */
 #define READ(_gif,_buf,_len)                                     \
