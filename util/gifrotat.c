@@ -176,6 +176,11 @@ int main(int argc, char **argv)
 		ColorMap = (GifFileIn->Image.ColorMap 
 			    ? GifFileIn->Image.ColorMap 
 			    : GifFileIn->SColorMap);
+		if (EGifPutScreenDesc(GifFileOut, DstWidth, DstHeight,
+				      ColorMap->BitsPerPixel, 0, ColorMap) == GIF_ERROR) {
+		    PrintGifError();
+		    exit(EXIT_FAILURE);
+		}
 		/* Perform the actual rotation and dump the image: */
 		RotateGifImage(ScreenBuffer, GifFileIn, GifFileOut,
 			       Angle, ColorMap,
@@ -224,9 +229,7 @@ static void RotateGifImage(GifRowType *ScreenBuffer,
     if ((LineBuffer = (GifRowType) malloc(LineSize)) == NULL)
 	GIF_EXIT("Failed to allocate memory required, aborted.");
 
-    if (EGifPutScreenDesc(DstGifFile, DstWidth, DstHeight,
-			  ColorMap->BitsPerPixel, 0, ColorMap) == GIF_ERROR ||
-	EGifPutImageDesc(DstGifFile, 0, 0, DstWidth, DstHeight,
+    if (EGifPutImageDesc(DstGifFile, 0, 0, DstWidth, DstHeight,
 			 false, NULL) == GIF_ERROR)
 	QuitGifError(SrcGifFile, DstGifFile);
 
