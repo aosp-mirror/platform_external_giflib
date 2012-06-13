@@ -72,7 +72,7 @@ typedef struct GifFileType {
     GifWord SBackGroundColor;   /* Background color for virtual canvas */
     GifByteType AspectByte;	/* Used to compute pixel aspect ratio */
     ColorMapObject *SColorMap;  /* Global color map, NULL if nonexistent. */
-    int ImageCount;             /* Number of current image (low-level API) */
+    int ImageCount;             /* Number of current image (both APIs) */
     GifImageDesc Image;         /* Current image (low-level API) */
     SavedImage *SavedImages;    /* Image sequence (high-level API) */
     ExtensionList Trailing;     /* Extension blocks past last image */
