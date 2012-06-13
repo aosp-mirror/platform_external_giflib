@@ -68,6 +68,8 @@ Retirements
   be written to use the high-level GIFLIB API and GIF89 graphics
   control extension support.  We'll carry such a wrapper when we have
   a maintainer for it.
+* EGifSetVersion() is gone. The library always writes GIF87 or GIF89
+  as required by the data. This change helps with thread safety.
 
 Utilities
 ---------

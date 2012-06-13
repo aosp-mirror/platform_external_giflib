@@ -870,19 +870,6 @@ used to get the exact error (see gif_err.c).</para>
 <para>The file is opened in binary mode, and its buffer size is set to
 FILE_BUFFER_SIZE bytes.</para>
 
-<programlisting id="EGifSetGifVersion">
-void EGifSetGifVersion(char *Version)
-</programlisting>
-
-<para>Sets the GIF version of all files opened, until another call to this
-routine is made.  Version is a 3 characters string of the form "87a"
-or "89a".  No test is made to validate this string. </para>
-
-<para>Before this call is made, or after it has been made with a
-zero-length string as argument, the library computes the right version
-to use by looking at the GIF's extension blocks. (Older versions of
-the library defaulted to GIF87)</para>
-
 <programlisting>
 char *EGifGetGifVersion(GifFileType *GifFile)
 </programlisting>
@@ -1104,11 +1091,10 @@ but now live in an ExtensionBlockList substructure named 'Leading'.
 This was done so that the new list of trailing extension blocks in GifFileType
 can use the same list-handler code as the extension blocks leading each saved 
 image.</para></listitem>
-<listitem><para>The default GIF version to write is now
-computed at write time from the types of an image's extension blocks,
-but can be overridden with EGifSetGifVersion(). Formerly EGifSpew()
-behaved this way, but the sequential-writing code didn't.  The 
-result of this computation is available through the new function 
+<listitem><para>The default GIF version to write is now computed at
+write time from the types of an image's extension blocks. Formerly
+EGifSpew() behaved this way, but the sequential-writing code didn't.
+The result of this computation is available through the new function
 EGifGetGifVersion().</para></listitem>
 <listitem><para>Some undocumented functions have been renamed. 
 AddExtensionBlock() is now GifAddExtensionBlock(), and takes an additional

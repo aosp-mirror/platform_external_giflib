@@ -29,8 +29,6 @@ static const GifPixelType CodeMask[] = {
 };
 /*@-charint@*/
 
-static char GifVersionPrefix[GIF_STAMP_LEN + 1];
-
 #define WRITE(_gif,_buf,_len)   \
   (((GifFilePrivateType*)_gif->Private)->Write ?    \
    ((GifFilePrivateType*)_gif->Private)->Write(_gif,_buf,_len) :    \
@@ -174,17 +172,6 @@ EGifOpen(void *userData, OutputFunc writeFunc)
 }
 
 /******************************************************************************
- * Routine to set current GIF version. All files open for write will be
- * using this version until next call to this routine. Version consists of
- * 3 characters as "87a" or "89a". No test is made to validate the version.
- *****************************************************************************/
-void
-EGifSetGifVersion(const char *Version)
-{
-    strncpy(GifVersionPrefix + GIF_VERSION_POS, Version, 3);
-}
-
-/******************************************************************************
  * Routine to compute the GIF version that will be written on output.
  *****************************************************************************/
 char *
@@ -216,9 +203,7 @@ EGifGetGifVersion(GifFileType *GifFile)
 	    Private->gif89 = true;
     }
  
-    if (GifVersionPrefix[0] != '\0')
-	return GifVersionPrefix;
-    else if (Private->gif89)
+    if (Private->gif89)
 	return GIF89_STAMP;
     else
 	return GIF87_STAMP;
@@ -251,15 +236,6 @@ EGifPutScreenDesc(GifFileType *GifFile,
         return GIF_ERROR;
     }
 
-    /*
-     * Older versions of the library didn't compute which version 
-     * the image's extension blocks require here, but rather in EGifSpew(),
-     * and it was done in a non-thread-safe way. The default for sequential 
-     * writes was GIF87 but you could override it with EGifSetGifVersion.
-     * This new code lets you shoot yourself in the foot if you really
-     * want to, but defaults to the oldest version that will carry the
-     * extensions.
-     */
     write_version = EGifGetGifVersion(GifFile);
 
     /* First write the version prefix into the file. */
