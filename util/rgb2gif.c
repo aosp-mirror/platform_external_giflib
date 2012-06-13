@@ -27,9 +27,9 @@ with our utilities mainly interesting as test tools.
 #include <fcntl.h>
 #include <stdbool.h>
 
-#ifdef __MSDOS__
+#ifdef _WIN32
 #include <io.h>
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 
 #include "gif_lib.h"
 #include "getarg.h"
@@ -178,9 +178,9 @@ static void LoadRGB(char *FileName,
     else {
 	OneFileFlag = true;
 
-#ifdef __MSDOS__
+#ifdef _WIN32
 	_setmode(0, O_BINARY);
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 
 	f[0] = stdin;
     }

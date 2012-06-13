@@ -12,9 +12,9 @@ gifinto - save GIF on stdin to file if size over set threshold
 #include <string.h>
 #include <stdbool.h>
 
-#ifdef __MSDOS__
+#ifdef _WIN32
 #include <io.h>
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 
 #include "gif_lib.h"
 #include "getarg.h"
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     }
 
     /* Open the stdin in binary mode and increase its buffer size: */
-#ifdef __MSDOS__
+#ifdef _WIN32
     _setmode(0, O_BINARY);		  /* Make sure it is in binary mode. */
 #endif
 

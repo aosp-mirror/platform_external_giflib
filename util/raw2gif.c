@@ -11,9 +11,9 @@ raw2gif - convert raw pixel data to a GIF
 #include <fcntl.h>
 #include <stdbool.h>
 
-#ifdef __MSDOS__
+#ifdef _WIN32
 #include <io.h>
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 
 #include "getarg.h"
 #include "gif_lib.h"
@@ -118,20 +118,20 @@ int main(int argc, char **argv)
 
     if (NumFiles == 1) {
 	int InFileHandle;
-#ifdef __MSDOS__
+#ifdef _WIN32
 	if ((InFileHandle = open(*FileName, O_RDONLY | O_BINARY)) == -1) {
 #else
 	if ((InFileHandle = open(*FileName, O_RDONLY)) == -1) {
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 	    GIF_MESSAGE("Failed to open RAW image file (not exists!?).");
 	    exit(EXIT_FAILURE);
 	}
 	dup2(InFileHandle, 0);		       /* Make stdin from this file. */
     }
     else {
-#ifdef __MSDOS__
+#ifdef _WIN32
 	_setmode(0, O_BINARY);		  /* Make sure it is in binary mode. */
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
     }
 
     /* Conver Raw image from stdin to Gif file in stdout: */

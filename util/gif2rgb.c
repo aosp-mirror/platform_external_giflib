@@ -11,9 +11,9 @@ gif2rgb - convert GIF to 24-bit RGB pixel triples
 #include <stdbool.h>
 #include <fcntl.h>
 
-#ifdef __MSDOS__
+#ifdef _WIN32
 #include <io.h>
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 
 #include "gif_lib.h"
 #include "getarg.h"
@@ -242,9 +242,9 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
     } else {
         OneFileFlag = true;
 
-#ifdef __MSDOS__
+#ifdef _WIN32
 	_setmode(1, O_BINARY);
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
         
         f[0] = stdout;
     }

@@ -12,9 +12,9 @@ dgif_lib.c - the kernel of the GIF Decoding process can be found here.
 #include <stdio.h>
 #include <string.h>
 
-#ifdef __MSDOS__
+#ifdef _WIN32
 #include <io.h>
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 
 #include "gif_lib.h"
 #include "gif_lib_private.h"
@@ -88,9 +88,9 @@ DGifOpenFileHandle(int FileHandle)
         free((char *)GifFile);
         return NULL;
     }
-#ifdef __MSDOS__
+#ifdef _WIN32
     _setmode(FileHandle, O_BINARY);    /* Make sure it is in binary mode. */
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 
     f = fdopen(FileHandle, "rb");    /* Make it into a stream: */
 

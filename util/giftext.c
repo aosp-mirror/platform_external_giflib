@@ -10,9 +10,9 @@ giftext - dump GIF pixels and metadata as text
 #include <fcntl.h>
 #include <stdbool.h>
 
-#ifdef __MSDOS__
+#ifdef _WIN32
 #include <io.h>
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 
 #include "gif_lib.h"
 #include "getarg.h"
@@ -91,9 +91,9 @@ int main(int argc, char **argv)
     /* Because we write binary data - make sure no text will be written. */
     if (RawFlag) {
 	ColorMapFlag = EncodedFlag = LZCodesFlag = PixelFlag = false;
-#ifdef __MSDOS__
+#ifdef _WIN32
 	_setmode(1, O_BINARY);             /* Make sure it is in binary mode. */
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
     }
     else {
 	printf("\n%s:\n\n\tScreen Size - Width = %d, Height = %d.\n",

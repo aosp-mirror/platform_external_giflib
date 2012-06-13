@@ -274,7 +274,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
     GifByteType *Extension, *CodeBlock;
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
-#ifdef __MSDOS__
+#ifdef _WIN32
     int i;
     char *p;
 
@@ -294,7 +294,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 	/* Only name is given for current directory: */
 	if (strlen(OutFileName) > 6) OutFileName[6] = 0;
     }
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 
     /* Open input file: */
     if (InFileName != NULL) {

@@ -11,13 +11,13 @@ egif_lib.c - the kernel of the GIF Encoding process can be found here.
 #include <string.h>
 #include <fcntl.h>
 
-#if (defined (__MSDOS__) || defined(WINDOWS32))  && !defined(__DJGPP__) && !defined(__GNUC__)
+#ifdef _WIN32
 #include <io.h>
 #include <sys\stat.h>
 #else
 #include <sys/types.h>
 #include <sys/stat.h>
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 
 #include "gif_lib.h"
 #include "gif_lib_private.h"
@@ -108,9 +108,9 @@ EGifOpenFileHandle(const int FileHandle)
         return NULL;
     }
 
-#ifdef __MSDOS__
+#ifdef _WIN32
     _setmode(FileHandle, O_BINARY);    /* Make sure it is in binary mode. */
-#endif /* __MSDOS__ */
+#endif /* _WIN32 */
 
     f = fdopen(FileHandle, "wb");    /* Make it into a stream: */
 
