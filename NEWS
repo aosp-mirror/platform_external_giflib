@@ -72,6 +72,7 @@ Utilities
 ---------
 * giftext displays the parsed contents of GIF89 graphics control blocks.
 * icon2gif can both display and update GIF89 graphics control blocks.
+* gifrotat now preserves transparency and delay time.
 * A new utility, giftool, supports a wide variety of filtering operations
   on GIFs, including: setting background and transparency colors, changing
   interlacing, setting image delays, setting the user-input flag.  It can

@@ -186,17 +186,26 @@ int main(int argc, char **argv)
 		(void)free(ScreenBuffer);
 		break;
 	    case EXTENSION_RECORD_TYPE:
-		/* Skip any extension blocks in file: */
-		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR) {
-		    PrintGifError();
-		    exit(EXIT_FAILURE);
-		}
+		/* pass through extension records */
+		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR)
+		    QuitGifError(GifFileIn, GifFileOut);
+		if (EGifPutExtensionLeader(GifFileOut, ExtCode) == GIF_ERROR)
+		    QuitGifError(GifFileIn, GifFileOut);
+		if (EGifPutExtensionBlock(GifFileOut, 
+					  Extension[0],
+					  Extension + 1) == GIF_ERROR)
+		    QuitGifError(GifFileIn, GifFileOut);
 		while (Extension != NULL) {
-		    if (DGifGetExtensionNext(GifFileIn, &Extension) == GIF_ERROR) {
-			PrintGifError();
-			exit(EXIT_FAILURE);
-		    }
+		    if (DGifGetExtensionNext(GifFileIn, &Extension)==GIF_ERROR)
+			QuitGifError(GifFileIn, GifFileOut);
+		    if (Extension != NULL)
+			if (EGifPutExtensionBlock(GifFileOut, 
+						  Extension[0],
+						  Extension + 1) == GIF_ERROR)
+			    QuitGifError(GifFileIn, GifFileOut);
 		}
+		if (EGifPutExtensionTrailer(GifFileOut) == GIF_ERROR)
+		    QuitGifError(GifFileIn, GifFileOut);
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		if (EGifCloseFile(GifFileOut) == GIF_ERROR)
