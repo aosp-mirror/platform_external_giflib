@@ -1031,12 +1031,12 @@ EGifWriteExtensions(GifFileType *GifFileOut,
 
 	for (j = 0; j < ExtensionBlockCount; j++) {
 	    ep = &ExtensionBlocks[j];
-	    if (ep->Function != 0)
+	    if (ep->Function != CONTINUE_EXT_FUNC_CODE)
 		if (EGifPutExtensionLeader(GifFileOut, ep->Function) == GIF_ERROR)
 		    return (GIF_ERROR);
 	    if (EGifPutExtensionBlock(GifFileOut, ep->ByteCount, ep->Bytes) == GIF_ERROR)
 		return (GIF_ERROR);
-	    if (j == ExtensionBlockCount - 1 || (ep+1)->Function != 0)
+	    if (j == ExtensionBlockCount - 1 || (ep+1)->Function != CONTINUE_EXT_FUNC_CODE)
 		if (EGifPutExtensionTrailer(GifFileOut) == GIF_ERROR)
 		    return (GIF_ERROR);
 	}

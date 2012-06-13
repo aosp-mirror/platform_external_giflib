@@ -51,8 +51,13 @@ typedef struct GifImageDesc {
 
 typedef struct ExtensionBlock {
     int ByteCount;
-    GifByteType *Bytes;    /* on malloc(3) heap */
-    int Function;   /* Holds the type of the Extension block. */
+    GifByteType *Bytes; /* on malloc(3) heap */
+    int Function;       /* The block function code */
+#define CONTINUE_EXT_FUNC_CODE    0x00    /* continuation subblock */
+#define COMMENT_EXT_FUNC_CODE     0xfe    /* comment */
+#define GRAPHICS_EXT_FUNC_CODE    0xf9    /* graphics control (GIF89) */
+#define PLAINTEXT_EXT_FUNC_CODE   0x01    /* plaintext */
+#define APPLICATION_EXT_FUNC_CODE 0xff    /* application block */
 } ExtensionBlock;
 
 typedef struct ExtensionList {
@@ -99,7 +104,7 @@ typedef int (*InputFunc) (GifFileType *, GifByteType *, int);
 typedef int (*OutputFunc) (GifFileType *, const GifByteType *, int);
 
 /******************************************************************************
- *  GIF89 structures and extension function codes
+ *  GIF89 structures
 ******************************************************************************/
 
 typedef struct GraphicsControlBlock {
@@ -113,11 +118,6 @@ typedef struct GraphicsControlBlock {
     int TransparentColor;    /* Palette index for transparency, -1 if none */
 #define NO_TRANSPARENT_COLOR	-1
 } GraphicsControlBlock;
-
-#define COMMENT_EXT_FUNC_CODE     0xfe    /* comment */
-#define GRAPHICS_EXT_FUNC_CODE    0xf9    /* graphics control */
-#define PLAINTEXT_EXT_FUNC_CODE   0x01    /* plaintext */
-#define APPLICATION_EXT_FUNC_CODE 0xff    /* application block */
 
 /******************************************************************************
  * O.K., here are the routines one can access in order to encode GIF file:     

@@ -368,7 +368,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
 		    if (GifAddExtensionBlock(&Leading,
-					     bc++ == 0 ? COMMENT_EXT_FUNC_CODE : 0,
+					     bc++ == CONTINUE_EXT_FUNC_CODE ? COMMENT_EXT_FUNC_CODE : 0,
 					     Len,
 					     (unsigned char *)buf) == GIF_ERROR) {
 			PARSE_ERROR("out of memory while adding comment block.");
@@ -389,7 +389,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
 		    if (GifAddExtensionBlock(&Leading, 
-					     bc++ == 0 ? PLAINTEXT_EXT_FUNC_CODE : 0,
+					     bc++ == CONTINUE_EXT_FUNC_CODE ? PLAINTEXT_EXT_FUNC_CODE : 0,
 					     Len, 
 					     (unsigned char *)buf) == GIF_ERROR) {
 			PARSE_ERROR("out of memory while adding plaintext block.");
@@ -459,7 +459,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
 		    if (GifAddExtensionBlock(&Leading,
-					     bc++ == 0 ? ExtCode : 0, 
+					     bc++ == CONTINUE_EXT_FUNC_CODE ? ExtCode : 0, 
 					     Len,
 					     (unsigned char *)buf) == GIF_ERROR) {
 			PARSE_ERROR("out of memory while adding extension block.");

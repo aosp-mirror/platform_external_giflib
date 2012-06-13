@@ -61,8 +61,9 @@ typedef struct GifFileType {
     GifWord SWidth, SHeight;    /* Size of virtual canvas */
     GifWord SColorResolution;   /* How many colors can we generate? */
     GifWord SBackGroundColor;   /* Background color for virtual canvas */
+    GifByteType AspectByte;	/* Used to compute pixel aspect ratio */
     ColorMapObject *SColorMap;  /* Global color map, NULL if nonexistent. */
-    int ImageCount;             /* Number of current image (low-level API) */
+    int ImageCount;             /* Number of current image (both APIs) */
     GifImageDesc Image;         /* Current image (low-level API) */
     SavedImage *SavedImages;    /* Image sequence (high-level API) */
     ExtensionList Trailing;     /* Extension blocks past last image */
@@ -73,21 +74,21 @@ typedef struct GifFileType {
 
 <para>This structure was copied from gif_lib.h - the header file for the GIF
 library.  Any application program that uses the libgif.a library should
-include it.  Members beginning with S refer to the GIF Screen; others hold
+include it.  Members beginning with S refer to the GIF screen; others hold
 properties of the current image (a GIF file may have more than one image)
 or point to allocated store used by various routines.</para>
 
 <para>The user almost never writes into this structure (exception: it
-may occasionally useful to alter things in the SavedImages array and
+may occasionally be useful to alter things in the SavedImages array and
 Trailing member), but can read any of these items at any time it is
-valid (image information is invalid until first image was
-read).</para>
+valid (Image information is invalid until the first image has been read;
+read; SavedImages information is valid only after a DGifSlurp() call).</para>
 
 <para>As the library needs to keep its own internal data, a Private pointer
 to hidden data is included. Applications should ignore this item.</para>
 
 <para>The library has no static data other than one error-code cell
-analogoues to errno. This means that it is fully reentrant and any
+analogous to errno. This means that it is reentrant and any
 number of GIF files (up to memory limits) can be opened for
 read/write. Instead of the static data, an internal structure pointed
 by the Private pointer is used.</para>
@@ -186,6 +187,13 @@ GIF_OK on success, GIF_ERROR on failure.</para>
 data in the GIF is accessable in the SavedImages member (see the
 structures in gif_lib.h).  When you have modified the image to taste,
 write it out with EGifSpew().</para>
+
+<para>One detail that may not be clear from just looking at the
+structures is how extension blocks and sub-blocks are stored.  Each
+ExtensionBlock structure in an ExtensionList represents an extension
+data block.  Those with a zero function code represent continuation
+data blocks attached to previous blocks with nonzero function
+codes.</para>
 
 <para>You can read from a GIF file through a function hook. Initialize
 with </para>
