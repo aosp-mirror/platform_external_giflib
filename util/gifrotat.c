@@ -96,6 +96,11 @@ int main(int argc, char **argv)
 	}
     }
 
+    if (!DstSizeFlag) {
+	DstWidth = GifFileIn->SWidth;
+	DstHeight = GifFileIn->SHeight;
+    }
+
     /* Open stdout for the output file: */
     if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
 	QuitGifError(GifFileIn, GifFileOut);
@@ -171,10 +176,6 @@ int main(int argc, char **argv)
 		ColorMap = (GifFileIn->Image.ColorMap 
 			    ? GifFileIn->Image.ColorMap 
 			    : GifFileIn->SColorMap);
-		if (!DstSizeFlag) {
-		    DstWidth = GifFileIn->SWidth;
-		    DstHeight = GifFileIn->SHeight;
-		}
 		/* Perform the actual rotation and dump the image: */
 		RotateGifImage(ScreenBuffer, GifFileIn, GifFileOut,
 			       Angle, ColorMap,
