@@ -814,9 +814,10 @@ static void Gif2Icon(char *FileName,
 	    printf("end\n\n");
 	}
 
+	/* one of these conditions has to be true */
 	if (image->ImageDesc.ColorMap)
 	    ColorCount = image->ImageDesc.ColorMap->ColorCount;
-	else
+	else if (GifFile->SColorMap)
 	    ColorCount = GifFile->SColorMap->ColorCount;
 
 	if (ColorCount < PRINTABLES)

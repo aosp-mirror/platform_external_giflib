@@ -135,12 +135,12 @@ static void DoAssembly(int NumFiles, char **FileNames)
 		ExtStr[2] = 0;
  
 		/* Dump application+comment blocks. */
-		EGifPutExtensionLeader(GifFileOut, APPLICATION_EXT_FUNC_CODE);
-		EGifPutExtensionBlock(GifFileOut,
+		(void)EGifPutExtensionLeader(GifFileOut, APPLICATION_EXT_FUNC_CODE);
+		(void)EGifPutExtensionBlock(GifFileOut,
 				      strlen(GIF_ASM_NAME), GIF_ASM_NAME);
-		EGifPutExtensionBlock(GifFileOut, 3, ExtStr);
-		EGifPutExtensionTrailer(GifFileOut);
-		EGifPutExtension(GifFileOut, COMMENT_EXT_FUNC_CODE,
+		(void)EGifPutExtensionBlock(GifFileOut, 3, ExtStr);
+		(void)EGifPutExtensionTrailer(GifFileOut);
+		(void)EGifPutExtension(GifFileOut, COMMENT_EXT_FUNC_CODE,
 				 strlen(COMMENT_GIF_ASM), COMMENT_GIF_ASM);
 	    }
 	    for (j = 0; j < GifFileIn->SColorMap->ColorCount; j++)
