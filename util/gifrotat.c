@@ -58,8 +58,8 @@ int main(int argc, char **argv)
     char **FileName = NULL;
     GifRecordType RecordType;
     GifByteType *Extension;
-    GifFileType *GifFile;
-    GifFileType *DstGifFile;
+    GifFileType *GifFileIn;
+    GifFileType *GifFileOut;
     GifRowType *ScreenBuffer;
     ColorMapObject *ColorMap = NULL;
 
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     }
 
     if (NumFiles == 1) {
-	if ((GifFile = DGifOpenFileName(*FileName)) == NULL) {
+	if ((GifFileIn = DGifOpenFileName(*FileName)) == NULL) {
 	    PrintGifError();
 	    exit(EXIT_FAILURE);
 	}
@@ -91,7 +91,7 @@ int main(int argc, char **argv)
     else {
 	/* Use the stdin instead: */
 
-	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
+	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL) {
 	    PrintGifError();
 	    exit(EXIT_FAILURE);
 	}
@@ -103,16 +103,16 @@ int main(int argc, char **argv)
      * GIF file parameters.
      */
     if ((ScreenBuffer = (GifRowType *)
-	malloc(GifFile->SHeight * sizeof(GifRowType))) == NULL)
+	malloc(GifFileIn->SHeight * sizeof(GifRowType))) == NULL)
 	    GIF_EXIT("Failed to allocate memory required, aborted.");
 
-    Size = GifFile->SWidth * sizeof(GifPixelType);/* Size in bytes one row.*/
+    Size = GifFileIn->SWidth * sizeof(GifPixelType);/* Size in bytes one row.*/
     if ((ScreenBuffer[0] = (GifRowType) malloc(Size)) == NULL) /* First row. */
 	GIF_EXIT("Failed to allocate memory required, aborted.");
 
-    for (i = 0; i < GifFile->SWidth; i++)  /* Set its color to BackGround. */
-	ScreenBuffer[0][i] = GifFile->SBackGroundColor;
-    for (i = 1; i < GifFile->SHeight; i++) {
+    for (i = 0; i < GifFileIn->SWidth; i++)  /* Set its color to BackGround. */
+	ScreenBuffer[0][i] = GifFileIn->SBackGroundColor;
+    for (i = 1; i < GifFileIn->SHeight; i++) {
 	/* Allocate the other rows, and set their color to background too: */
 	if ((ScreenBuffer[i] = (GifRowType) malloc(Size)) == NULL)
 	    GIF_EXIT("Failed to allocate memory required, aborted.");
@@ -122,34 +122,34 @@ int main(int argc, char **argv)
 
     /* Scan the content of the GIF file and load the image(s) in: */
     do {
-	if (DGifGetRecordType(GifFile, &RecordType) == GIF_ERROR) {
+	if (DGifGetRecordType(GifFileIn, &RecordType) == GIF_ERROR) {
 	    PrintGifError();
 	    exit(EXIT_FAILURE);
 	}
 	switch (RecordType) {
 	    case IMAGE_DESC_RECORD_TYPE:
-		if (DGifGetImageDesc(GifFile) == GIF_ERROR) {
+		if (DGifGetImageDesc(GifFileIn) == GIF_ERROR) {
 		    PrintGifError();
 		    exit(EXIT_FAILURE);
 		}
-		Row = GifFile->Image.Top; /* Image Position relative to Screen. */
-		Col = GifFile->Image.Left;
-		Width = GifFile->Image.Width;
-		Height = GifFile->Image.Height;
+		Row = GifFileIn->Image.Top; /* Image Position relative to Screen. */
+		Col = GifFileIn->Image.Left;
+		Width = GifFileIn->Image.Width;
+		Height = GifFileIn->Image.Height;
 		GifQprintf("\n%s: Image %d at (%d, %d) [%dx%d]:     ",
 		    PROGRAM_NAME, ++ImageNum, Col, Row, Width, Height);
-		if (GifFile->Image.Left + GifFile->Image.Width > GifFile->SWidth ||
-		   GifFile->Image.Top + GifFile->Image.Height > GifFile->SHeight) {
+		if (GifFileIn->Image.Left + GifFileIn->Image.Width > GifFileIn->SWidth ||
+		   GifFileIn->Image.Top + GifFileIn->Image.Height > GifFileIn->SHeight) {
 		    fprintf(stderr, "Image %d is not confined to screen dimension, aborted.\n",ImageNum);
 		    exit(EXIT_FAILURE);
 		}
-		if (GifFile->Image.Interlace) {
+		if (GifFileIn->Image.Interlace) {
 		    /* Need to perform 4 passes on the images: */
 		    for (Count = i = 0; i < 4; i++)
 			for (j = Row + InterlacedOffset[i]; j < Row + Height;
 						 j += InterlacedJumps[i]) {
 			    GifQprintf("\b\b\b\b%-4d", Count++);
-			    if (DGifGetLine(GifFile, &ScreenBuffer[j][Col],
+			    if (DGifGetLine(GifFileIn, &ScreenBuffer[j][Col],
 				Width) == GIF_ERROR) {
 				PrintGifError();
 				exit(EXIT_FAILURE);
@@ -159,7 +159,7 @@ int main(int argc, char **argv)
 		else {
 		    for (i = 0; i < Height; i++) {
 			GifQprintf("\b\b\b\b%-4d", i);
-			if (DGifGetLine(GifFile, &ScreenBuffer[Row++][Col],
+			if (DGifGetLine(GifFileIn, &ScreenBuffer[Row++][Col],
 				Width) == GIF_ERROR) {
 			    PrintGifError();
 			    exit(EXIT_FAILURE);
@@ -169,12 +169,12 @@ int main(int argc, char **argv)
 		break;
 	    case EXTENSION_RECORD_TYPE:
 		/* Skip any extension blocks in file: */
-		if (DGifGetExtension(GifFile, &ExtCode, &Extension) == GIF_ERROR) {
+		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR) {
 		    PrintGifError();
 		    exit(EXIT_FAILURE);
 		}
 		while (Extension != NULL) {
-		    if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
+		    if (DGifGetExtensionNext(GifFileIn, &Extension) == GIF_ERROR) {
 			PrintGifError();
 			exit(EXIT_FAILURE);
 		    }
@@ -188,21 +188,21 @@ int main(int argc, char **argv)
     }
     while (RecordType != TERMINATE_RECORD_TYPE);
 
-    ColorMap = (GifFile->Image.ColorMap ? GifFile->Image.ColorMap :
-				       GifFile->SColorMap);
+    ColorMap = (GifFileIn->Image.ColorMap ? GifFileIn->Image.ColorMap :
+				       GifFileIn->SColorMap);
 
     if (!DstSizeFlag) {
-	DstWidth = GifFile->SWidth;
-	DstHeight = GifFile->SHeight;
+	DstWidth = GifFileIn->SWidth;
+	DstHeight = GifFileIn->SHeight;
     }
 
 
     /* Open stdout for the output file: */
-    if ((DstGifFile = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFile, DstGifFile);
+    if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
+	QuitGifError(GifFileIn, GifFileOut);
 
     /* Perform the actual rotation and dump the image: */
-    RotateGifImage(ScreenBuffer, GifFile, DstGifFile,
+    RotateGifImage(ScreenBuffer, GifFileIn, GifFileOut,
 		   Angle, ColorMap,
 		   DstWidth, DstHeight);
 
