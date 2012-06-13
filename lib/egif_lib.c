@@ -211,7 +211,7 @@ EGifGetGifVersion(GifFileType *GifFile)
 
 /******************************************************************************
  * This routine should be called before any other EGif calls, immediately
- * follows the GIF file openning.
+ * following the GIF file opening.
  *****************************************************************************/
 int
 EGifPutScreenDesc(GifFileType *GifFile,
