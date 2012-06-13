@@ -25,13 +25,6 @@ dgif_lib.c - the kernel of the GIF Decoding process can be found here.
     ((GifFilePrivateType*)_gif->Private)->Read(_gif,_buf,_len) : \
     fread(_buf,1,_len,((GifFilePrivateType*)_gif->Private)->File))
 
-static const unsigned short CodeMasks[] = {
-    0x0000, 0x0001, 0x0003, 0x0007,
-    0x000f, 0x001f, 0x003f, 0x007f,
-    0x00ff, 0x01ff, 0x03ff, 0x07ff,
-    0x0fff
-};
-
 static int DGifGetWord(GifFileType *GifFile, GifWord *Word);
 static int DGifSetupDecompress(GifFileType *GifFile);
 static int DGifDecompressLine(GifFileType *GifFile, GifPixelType *Line,
@@ -942,6 +935,13 @@ DGifGetLZCodes(GifFileType *GifFile, int *Code)
 static int
 DGifDecompressInput(GifFileType *GifFile, int *Code)
 {
+    static const unsigned short CodeMasks[] = {
+	0x0000, 0x0001, 0x0003, 0x0007,
+	0x000f, 0x001f, 0x003f, 0x007f,
+	0x00ff, 0x01ff, 0x03ff, 0x07ff,
+	0x0fff
+    };
+
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
     GifByteType NextByte;
@@ -958,7 +958,7 @@ DGifDecompressInput(GifFileType *GifFile, int *Code)
             return GIF_ERROR;
         }
         Private->CrntShiftDWord |=
-           ((unsigned long)NextByte) << Private->CrntShiftState;
+	    ((unsigned long)NextByte) << Private->CrntShiftState;
         Private->CrntShiftState += 8;
     }
     *Code = Private->CrntShiftDWord & CodeMasks[Private->RunningBits];
@@ -972,8 +972,8 @@ DGifDecompressInput(GifFileType *GifFile, int *Code)
      * keep using the table as it is, don't increment Private->RunningCode.
      */
     if (Private->RunningCode < LZ_MAX_CODE + 2 &&
-            ++Private->RunningCode > Private->MaxCode1 &&
-            Private->RunningBits < LZ_BITS) {
+	++Private->RunningCode > Private->MaxCode1 &&
+	Private->RunningBits < LZ_BITS) {
         Private->MaxCode1 <<= 1;
         Private->RunningBits++;
     }
