@@ -343,11 +343,7 @@ EGifPutImageDesc(GifFileType *GifFile,
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
     if (Private->FileState & FILE_STATE_IMAGE &&
-#if defined(__MSDOS__) || defined(WINDOWS32) || defined(__GNUC__)
         Private->PixelCount > 0xffff0000UL) {
-#else
-        Private->PixelCount > 0xffff0000) {
-#endif /* __MSDOS__ */
         /* If already has active image descriptor - something is wrong! */
         _GifError = E_GIF_ERR_HAS_IMAG_DSCR;
         return GIF_ERROR;

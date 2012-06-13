@@ -441,11 +441,7 @@ DGifGetLine(GifFileType *GifFile, GifPixelType *Line, int LineLen)
     if (!LineLen)
         LineLen = GifFile->Image.Width;
 
-#if defined(__MSDOS__) || defined(WINDOWS32) || defined(__GNUC__)
     if ((Private->PixelCount -= LineLen) > 0xffff0000UL) {
-#else
-    if ((Private->PixelCount -= LineLen) > 0xffff0000) {
-#endif /* __MSDOS__ */
         _GifError = D_GIF_ERR_DATA_TOO_BIG;
         return GIF_ERROR;
     }
@@ -479,11 +475,7 @@ DGifGetPixel(GifFileType *GifFile, GifPixelType Pixel)
         _GifError = D_GIF_ERR_NOT_READABLE;
         return GIF_ERROR;
     }
-#if defined(__MSDOS__) || defined(WINDOWS32) || defined(__GNUC__)
     if (--Private->PixelCount > 0xffff0000UL)
-#else
-    if (--Private->PixelCount > 0xffff0000)
-#endif /* __MSDOS__ */
     {
         _GifError = D_GIF_ERR_DATA_TOO_BIG;
         return GIF_ERROR;
