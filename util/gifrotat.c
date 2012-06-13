@@ -89,35 +89,11 @@ int main(int argc, char **argv)
 	}
     }
     else {
-	/* Use the stdin instead: */
-
+	/* Use stdin instead */
 	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL) {
 	    PrintGifError();
 	    exit(EXIT_FAILURE);
 	}
-    }
-
-    /* 
-     * Allocate the screen as vector of column of rows. Note this
-     * screen is device independent - it's the screen defined by the
-     * GIF file parameters.
-     */
-    if ((ScreenBuffer = (GifRowType *)
-	malloc(GifFileIn->SHeight * sizeof(GifRowType))) == NULL)
-	    GIF_EXIT("Failed to allocate memory required, aborted.");
-
-    Size = GifFileIn->SWidth * sizeof(GifPixelType);/* Size in bytes one row.*/
-    if ((ScreenBuffer[0] = (GifRowType) malloc(Size)) == NULL) /* First row. */
-	GIF_EXIT("Failed to allocate memory required, aborted.");
-
-    for (i = 0; i < GifFileIn->SWidth; i++)  /* Set its color to BackGround. */
-	ScreenBuffer[0][i] = GifFileIn->SBackGroundColor;
-    for (i = 1; i < GifFileIn->SHeight; i++) {
-	/* Allocate the other rows, and set their color to background too: */
-	if ((ScreenBuffer[i] = (GifRowType) malloc(Size)) == NULL)
-	    GIF_EXIT("Failed to allocate memory required, aborted.");
-
-	memcpy(ScreenBuffer[i], ScreenBuffer[0], Size);
     }
 
     /* Open stdout for the output file: */
@@ -132,6 +108,28 @@ int main(int argc, char **argv)
 	}
 	switch (RecordType) {
 	    case IMAGE_DESC_RECORD_TYPE:
+		/* 
+		 * Allocate the screen as vector of column of rows. Note this
+		 * screen is device independent - it's the screen defined by the
+		 * GIF file parameters.
+		 */
+		if ((ScreenBuffer = (GifRowType *)
+		    malloc(GifFileIn->SHeight * sizeof(GifRowType))) == NULL)
+			GIF_EXIT("Failed to alloc memory required, aborted.");
+		/* Size in bytes of one row.*/
+		Size = GifFileIn->SWidth * sizeof(GifPixelType);
+		 /* First row. */
+		if ((ScreenBuffer[0] = (GifRowType) malloc(Size)) == NULL)
+		    GIF_EXIT("Failed to allocate memory required, aborted.");
+		  /* Set its color to BackGround. */
+		for (i = 0; i < GifFileIn->SWidth; i++)
+		    ScreenBuffer[0][i] = GifFileIn->SBackGroundColor;
+		/* Allocate other rows, and set their color to background too */
+		for (i = 1; i < GifFileIn->SHeight; i++) {
+		    if ((ScreenBuffer[i] = (GifRowType) malloc(Size)) == NULL)
+			GIF_EXIT("Failed to alloc memory required, aborted.");
+		    memcpy(ScreenBuffer[i], ScreenBuffer[0], Size);
+		}
 		if (DGifGetImageDesc(GifFileIn) == GIF_ERROR) {
 		    PrintGifError();
 		    exit(EXIT_FAILURE);
@@ -170,6 +168,18 @@ int main(int argc, char **argv)
 			}
 		    }
 		}
+		ColorMap = (GifFileIn->Image.ColorMap 
+			    ? GifFileIn->Image.ColorMap 
+			    : GifFileIn->SColorMap);
+		if (!DstSizeFlag) {
+		    DstWidth = GifFileIn->SWidth;
+		    DstHeight = GifFileIn->SHeight;
+		}
+		/* Perform the actual rotation and dump the image: */
+		RotateGifImage(ScreenBuffer, GifFileIn, GifFileOut,
+			       Angle, ColorMap,
+			       DstWidth, DstHeight);
+		(void)free(ScreenBuffer);
 		break;
 	    case EXTENSION_RECORD_TYPE:
 		/* Skip any extension blocks in file: */
@@ -185,25 +195,14 @@ int main(int argc, char **argv)
 		}
 		break;
 	    case TERMINATE_RECORD_TYPE:
+		if (EGifCloseFile(GifFileOut) == GIF_ERROR)
+		    QuitGifError(GifFileIn, GifFileOut);
 		break;
 	    default:		    /* Should be traps by DGifGetRecordType. */
 		break;
 	}
     }
     while (RecordType != TERMINATE_RECORD_TYPE);
-
-    ColorMap = (GifFileIn->Image.ColorMap ? GifFileIn->Image.ColorMap :
-				       GifFileIn->SColorMap);
-
-    if (!DstSizeFlag) {
-	DstWidth = GifFileIn->SWidth;
-	DstHeight = GifFileIn->SHeight;
-    }
-
-    /* Perform the actual rotation and dump the image: */
-    RotateGifImage(ScreenBuffer, GifFileIn, GifFileOut,
-		   Angle, ColorMap,
-		   DstWidth, DstHeight);
 
     return 0;
 }
@@ -238,9 +237,6 @@ static void RotateGifImage(GifRowType *ScreenBuffer,
 	    QuitGifError(SrcGifFile, DstGifFile);
 	GifQprintf("\b\b\b\b%-4d", DstHeight - i - 1);
     }
-
-    if (EGifCloseFile(DstGifFile) == GIF_ERROR)
-	QuitGifError(SrcGifFile, DstGifFile);
 }
 
 
