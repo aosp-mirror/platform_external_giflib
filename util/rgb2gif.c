@@ -179,7 +179,7 @@ static void LoadRGB(char *FileName,
 	OneFileFlag = true;
 
 #ifdef __MSDOS__
-	setmode(0, O_BINARY);
+	_setmode(0, O_BINARY);
 #endif /* __MSDOS__ */
 
 	f[0] = stdin;

@@ -243,7 +243,7 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
         OneFileFlag = true;
 
 #ifdef __MSDOS__
-	setmode(1, O_BINARY);
+	_setmode(1, O_BINARY);
 #endif /* __MSDOS__ */
         
         f[0] = stdout;

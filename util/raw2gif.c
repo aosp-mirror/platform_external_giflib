@@ -130,7 +130,7 @@ int main(int argc, char **argv)
     }
     else {
 #ifdef __MSDOS__
-	setmode(0, O_BINARY);		  /* Make sure it is in binary mode. */
+	_setmode(0, O_BINARY);		  /* Make sure it is in binary mode. */
 #endif /* __MSDOS__ */
     }
 

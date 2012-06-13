@@ -103,7 +103,7 @@ DGifOpenFileHandle(int FileHandle)
         return NULL;
     }
 #if defined(__MSDOS__) || defined(WINDOWS32) || defined(_OPEN_BINARY)
-    setmode(FileHandle, O_BINARY);    /* Make sure it is in binary mode. */
+    _setmode(FileHandle, O_BINARY);    /* Make sure it is in binary mode. */
 #endif /* __MSDOS__ */
 
     f = fdopen(FileHandle, "rb");    /* Make it into a stream: */

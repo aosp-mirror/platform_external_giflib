@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 
     /* Open the stdin in binary mode and increase its buffer size: */
 #ifdef __MSDOS__
-    setmode(0, O_BINARY);		  /* Make sure it is in binary mode. */
+    _setmode(0, O_BINARY);		  /* Make sure it is in binary mode. */
 #endif
 
     Fin = fdopen(0, "rb");   /* Make it into a stream: */

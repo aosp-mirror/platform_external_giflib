@@ -92,7 +92,7 @@ int main(int argc, char **argv)
     if (RawFlag) {
 	ColorMapFlag = EncodedFlag = LZCodesFlag = PixelFlag = false;
 #ifdef __MSDOS__
-	setmode(1, O_BINARY);             /* Make sure it is in binary mode. */
+	_setmode(1, O_BINARY);             /* Make sure it is in binary mode. */
 #endif /* __MSDOS__ */
     }
     else {
