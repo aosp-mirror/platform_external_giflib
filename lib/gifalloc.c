@@ -216,24 +216,24 @@ GifApplyTranslation(SavedImage *Image, GifPixelType Translation[])
 
 
 int
-GifAddExtensionBlock(ExtensionList *New,
+GifAddExtensionBlock(ExtensionList *List,
 		  int Function,
                   unsigned int Len,
                   unsigned char ExtData[])
 {
     ExtensionBlock *ep;
 
-    if (New->ExtensionBlocks == NULL)
-        New->ExtensionBlocks=(ExtensionBlock *)malloc(sizeof(ExtensionBlock));
+    if (List->ExtensionBlocks == NULL)
+        List->ExtensionBlocks=(ExtensionBlock *)malloc(sizeof(ExtensionBlock));
     else
-        New->ExtensionBlocks = (ExtensionBlock *)realloc(New->ExtensionBlocks,
+        List->ExtensionBlocks = (ExtensionBlock *)realloc(List->ExtensionBlocks,
                                       sizeof(ExtensionBlock) *
-                                      (New->ExtensionBlockCount + 1));
+                                      (List->ExtensionBlockCount + 1));
 
-    if (New->ExtensionBlocks == NULL)
+    if (List->ExtensionBlocks == NULL)
         return (GIF_ERROR);
 
-    ep = &New->ExtensionBlocks[New->ExtensionBlockCount++];
+    ep = &List->ExtensionBlocks[List->ExtensionBlockCount++];
 
     ep->Function = Function;
     ep->ByteCount=Len;

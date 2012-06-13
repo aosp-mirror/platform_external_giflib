@@ -254,7 +254,7 @@ extern int GifBitSize(int n);
  *****************************************************************************/
 
 extern void GifApplyTranslation(SavedImage *Image, GifPixelType Translation[]);
-extern int GifAddExtensionBlock(ExtensionList *New, int Function, 
+extern int GifAddExtensionBlock(ExtensionList *List, int Function, 
 				 unsigned int Len, unsigned char ExtData[]);
 extern void GifFreeExtensions(ExtensionList *ExtensionList);
 extern SavedImage *GifMakeSavedImage(GifFileType *GifFile,
