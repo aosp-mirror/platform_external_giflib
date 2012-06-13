@@ -1121,14 +1121,17 @@ DGifSlurp(GifFileType *GifFile)
           case EXTENSION_RECORD_TYPE:
               if (DGifGetExtension(GifFile,&ExtFunction,&ExtData) == GIF_ERROR)
                   return (GIF_ERROR);
+	      /* Create an extension block with our data */
+	      if (GifAddExtensionBlock(&GifFile->Trailing, ExtFunction, ExtData[0], &ExtData[1])
+		  == GIF_ERROR)
+		  return (GIF_ERROR);
               while (ExtData != NULL) {
-
-                  /* Create an extension block with our data */
-                  if (GifAddExtensionBlock(&GifFile->Trailing, ExtFunction, ExtData[0], &ExtData[1])
-                      == GIF_ERROR)
-                      return (GIF_ERROR);
-
                   if (DGifGetExtensionNext(GifFile, &ExtData) == GIF_ERROR)
+                      return (GIF_ERROR);
+                  /* Continue the extension block */
+		  if (ExtData != NULL)
+		      if (GifAddExtensionBlock(&GifFile->Trailing, 
+					       0, ExtData[0], &ExtData[1]) == GIF_ERROR)
                       return (GIF_ERROR);
               }
               break;
