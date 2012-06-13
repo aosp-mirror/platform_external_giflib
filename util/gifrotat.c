@@ -33,14 +33,15 @@ static int
     InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
     InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
 
-static void RotateGifImage(GifRowType *ScreenBuffer, GifFileType *SrcGifFile,
+static void RotateGifImage(GifRowType *ScreenBuffer, 
+			   GifFileType *SrcGifFile, GifFileType *DstGifFile,
 			   int Angle, ColorMapObject *ColorMap,
 			   int DstWidth, int DstHeight);
 static void RotateGifLine(GifRowType *ScreenBuffer, int BackGroundColor,
 			  int SrcWidth, int SrcHeight,
 			  int Angle, GifRowType DstLine,
 			  int DstWidth, int DstHeight, int y);
-static void QuitGifError(GifFileType *DstGifFile);
+static void QuitGifError(GifFileType *SrcGifFile, GifFileType *DstGifFile);
 
 /******************************************************************************
 * Interpret the command line and scan the given GIF file.
@@ -58,6 +59,7 @@ int main(int argc, char **argv)
     GifRecordType RecordType;
     GifByteType *Extension;
     GifFileType *GifFile;
+    GifFileType *DstGifFile;
     GifRowType *ScreenBuffer;
     ColorMapObject *ColorMap = NULL;
 
@@ -194,8 +196,14 @@ int main(int argc, char **argv)
 	DstHeight = GifFile->SHeight;
     }
 
+
+    /* Open stdout for the output file: */
+    if ((DstGifFile = EGifOpenFileHandle(1)) == NULL)
+	QuitGifError(GifFile, DstGifFile);
+
     /* Perform the actual rotation and dump the image: */
-    RotateGifImage(ScreenBuffer, GifFile, Angle, ColorMap,
+    RotateGifImage(ScreenBuffer, GifFile, DstGifFile,
+		   Angle, ColorMap,
 		   DstWidth, DstHeight);
 
     return 0;
@@ -204,39 +212,36 @@ int main(int argc, char **argv)
 /******************************************************************************
 * Save the GIF resulting image.
 ******************************************************************************/
-static void RotateGifImage(GifRowType *ScreenBuffer, GifFileType *SrcGifFile,
+static void RotateGifImage(GifRowType *ScreenBuffer, 
+			   GifFileType *SrcGifFile,
+			   GifFileType *DstGifFile,
 			   int Angle, ColorMapObject *ColorMap,
 			   int DstWidth, int DstHeight)
 {
     int i,
 	LineSize = DstWidth * sizeof(GifPixelType);
-    GifFileType *DstGifFile;
     GifRowType LineBuffer;
 
     if ((LineBuffer = (GifRowType) malloc(LineSize)) == NULL)
 	GIF_EXIT("Failed to allocate memory required, aborted.");
 
-    /* Open stdout for the output file: */
-    if ((DstGifFile = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(DstGifFile);
-
     if (EGifPutScreenDesc(DstGifFile, DstWidth, DstHeight,
 			  ColorMap->BitsPerPixel, 0, ColorMap) == GIF_ERROR ||
 	EGifPutImageDesc(DstGifFile, 0, 0, DstWidth, DstHeight,
 			 false, NULL) == GIF_ERROR)
-	QuitGifError(DstGifFile);
+	QuitGifError(SrcGifFile, DstGifFile);
 
     for (i = 0; i < DstHeight; i++) {
 	RotateGifLine(ScreenBuffer, SrcGifFile->SBackGroundColor,
 		      SrcGifFile->SWidth, SrcGifFile->SHeight,
 		      Angle, LineBuffer, DstWidth, DstHeight, i);
 	if (EGifPutLine(DstGifFile, LineBuffer, DstWidth) == GIF_ERROR)
-	    QuitGifError(DstGifFile);
+	    QuitGifError(SrcGifFile, DstGifFile);
 	GifQprintf("\b\b\b\b%-4d", DstHeight - i - 1);
     }
 
     if (EGifCloseFile(DstGifFile) == GIF_ERROR)
-	QuitGifError(DstGifFile);
+	QuitGifError(SrcGifFile, DstGifFile);
 }
 
 
@@ -275,11 +280,13 @@ static void RotateGifLine(GifRowType *ScreenBuffer, int BackGroundColor,
 }
 
 /******************************************************************************
-* Close output file (if open), and exit.
+* Close both input and output file (if open), and exit.
 ******************************************************************************/
-static void QuitGifError(GifFileType *DstGifFile)
+static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
     PrintGifError();
-    if (DstGifFile != NULL) EGifCloseFile(DstGifFile);
+    if (GifFileIn != NULL) DGifCloseFile(GifFileIn);
+    if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
     exit(EXIT_FAILURE);
 }
+
