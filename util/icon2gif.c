@@ -710,7 +710,7 @@ static void DumpExtensions(ExtensionList *Extensions)
 	else if (ep->Function == APPLICATION_EXT_FUNC_CODE 
 		 && memcmp(ep->Bytes, "NETSCAPE2.0", 11) == 0) {
 	    unsigned char *params = (++ep)->Bytes;
-	    unsigned int loopcount = params[1] & (params[2] << 8);
+	    unsigned int loopcount = params[1] | (params[2] << 8);
 	    printf("netscape loop %u\n\n", loopcount);
 	}
 	else {
@@ -730,7 +730,7 @@ static void Gif2Icon(char *FileName,
 		     int fdin, int fdout,
 		     char NameTable[])
 {
-    int im, i, j, ColorCount;
+    int im, i, j, ColorCount = 0;
     GifFileType *GifFile;
 
     if (fdin == -1) {

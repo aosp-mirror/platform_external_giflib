@@ -10,6 +10,7 @@ gifclrmap - extract colormaps from GIF images
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "gif_lib.h"
 #include "getarg.h"
@@ -209,6 +210,7 @@ int main(int argc, char **argv)
 		}
 		break;
 	    case EXTENSION_RECORD_TYPE:
+		assert(GifFileOut != NULL);	/* might pacify Coverity */
 		/* pass through extension records */
 		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
