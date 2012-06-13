@@ -108,7 +108,7 @@ EGifOpenFileHandle(const int FileHandle)
         return NULL;
     }
 
-#if defined(__MSDOS__) || defined(WINDOWS32) || defined(_OPEN_BINARY)
+#ifdef __MSDOS__
     _setmode(FileHandle, O_BINARY);    /* Make sure it is in binary mode. */
 #endif /* __MSDOS__ */
 
