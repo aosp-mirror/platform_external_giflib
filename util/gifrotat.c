@@ -120,6 +120,10 @@ int main(int argc, char **argv)
 	memcpy(ScreenBuffer[i], ScreenBuffer[0], Size);
     }
 
+    /* Open stdout for the output file: */
+    if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
+	QuitGifError(GifFileIn, GifFileOut);
+
     /* Scan the content of the GIF file and load the image(s) in: */
     do {
 	if (DGifGetRecordType(GifFileIn, &RecordType) == GIF_ERROR) {
@@ -195,11 +199,6 @@ int main(int argc, char **argv)
 	DstWidth = GifFileIn->SWidth;
 	DstHeight = GifFileIn->SHeight;
     }
-
-
-    /* Open stdout for the output file: */
-    if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFileIn, GifFileOut);
 
     /* Perform the actual rotation and dump the image: */
     RotateGifImage(ScreenBuffer, GifFileIn, GifFileOut,
