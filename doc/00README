@@ -8,5 +8,11 @@ API documentation lives in gif_lib.xml
 
 gif89.txt and lzgif.txt are the relevant format and compression standards.
 
+For completeness, the original GIF87 specification is also included as
+gif87.txt.  Our copy was found in a state where spurious doublespacing
+had been added, messing up the data diagrams.  This has corrected by hand,
+but the result might have vertical-whitespace differences from the original.
+
+
 
 
