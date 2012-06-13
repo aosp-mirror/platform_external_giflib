@@ -169,18 +169,26 @@ int main(int argc, char **argv)
 		    QuitGifError(GifFileIn, GifFileOut);
 		break;
 	    case EXTENSION_RECORD_TYPE:
-		/* Skip any extension blocks in file: */
+		/* pass through extension records */
 		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
-		if (EGifPutExtension(GifFileOut, ExtCode, Extension[0],
-							Extension) == GIF_ERROR)
+		if (EGifPutExtensionLeader(GifFileOut, ExtCode) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
-
-		/* No support to more than one extension blocks, so discard: */
+		if (EGifPutExtensionBlock(GifFileOut, 
+					  Extension[0],
+					  Extension + 1) == GIF_ERROR)
+		    QuitGifError(GifFileIn, GifFileOut);
 		while (Extension != NULL) {
-		    if (DGifGetExtensionNext(GifFileIn, &Extension) == GIF_ERROR)
+		    if (DGifGetExtensionNext(GifFileIn, &Extension)==GIF_ERROR)
 			QuitGifError(GifFileIn, GifFileOut);
+		    if (Extension != NULL)
+			if (EGifPutExtensionBlock(GifFileOut, 
+						  Extension[0],
+						  Extension + 1) == GIF_ERROR)
+			    QuitGifError(GifFileIn, GifFileOut);
 		}
+		if (EGifPutExtensionTrailer(GifFileOut) == GIF_ERROR)
+		    QuitGifError(GifFileIn, GifFileOut);
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;

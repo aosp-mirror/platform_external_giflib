@@ -225,19 +225,26 @@ static void DoAssembly(int NumFiles, char **FileNames)
 		free(Line);
 		break;
 	    case EXTENSION_RECORD_TYPE:
-		/* Skip any extension blocks in file: */
-		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension)
-		    == GIF_ERROR)
+		/* pass through extension records */
+		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
-		if (EGifPutExtension(GifFileOut, ExtCode, Extension[0],
-				     Extension) == GIF_ERROR)
+		if (EGifPutExtensionLeader(GifFileOut, ExtCode) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
-
-		/* No support to more than one extension blocks, discard.*/
-		while (Extension != NULL)
-		    if (DGifGetExtensionNext(GifFileIn, &Extension)
-			== GIF_ERROR)
+		if (EGifPutExtensionBlock(GifFileOut, 
+					  Extension[0],
+					  Extension + 1) == GIF_ERROR)
+		    QuitGifError(GifFileIn, GifFileOut);
+		while (Extension != NULL) {
+		    if (DGifGetExtensionNext(GifFileIn, &Extension)==GIF_ERROR)
 			QuitGifError(GifFileIn, GifFileOut);
+		    if (Extension != NULL)
+			if (EGifPutExtensionBlock(GifFileOut, 
+						  Extension[0],
+						  Extension + 1) == GIF_ERROR)
+			    QuitGifError(GifFileIn, GifFileOut);
+		}
+		if (EGifPutExtensionTrailer(GifFileOut) == GIF_ERROR)
+		    QuitGifError(GifFileIn, GifFileOut);
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
@@ -344,19 +351,26 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 		    break;
 		case EXTENSION_RECORD_TYPE:
 		    FileEmpty = false;
-		    /* Skip any extension blocks in file: */
-		    if (DGifGetExtension(GifFileIn, &ExtCode, &Extension)
-			== GIF_ERROR)
+		    /* pass through extension records */
+		    if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR)
 			QuitGifError(GifFileIn, GifFileOut);
-		    if (EGifPutExtension(GifFileOut, ExtCode, Extension[0],
-							Extension) == GIF_ERROR)
+		    if (EGifPutExtensionLeader(GifFileOut, ExtCode) == GIF_ERROR)
 			QuitGifError(GifFileIn, GifFileOut);
-
-		    /* No support to more than one extension blocks, discard.*/
-		    while (Extension != NULL)
-			if (DGifGetExtensionNext(GifFileIn, &Extension)
-			    == GIF_ERROR)
+		    if (EGifPutExtensionBlock(GifFileOut, 
+					      Extension[0],
+					      Extension + 1) == GIF_ERROR)
+			QuitGifError(GifFileIn, GifFileOut);
+		    while (Extension != NULL) {
+			if (DGifGetExtensionNext(GifFileIn, &Extension)==GIF_ERROR)
 			    QuitGifError(GifFileIn, GifFileOut);
+			if (Extension != NULL)
+			    if (EGifPutExtensionBlock(GifFileOut, 
+						      Extension[0],
+						      Extension + 1) == GIF_ERROR)
+				QuitGifError(GifFileIn, GifFileOut);
+		    }
+		    if (EGifPutExtensionTrailer(GifFileOut) == GIF_ERROR)
+			QuitGifError(GifFileIn, GifFileOut);
 		    break;
 		case TERMINATE_RECORD_TYPE:
 		    break;
