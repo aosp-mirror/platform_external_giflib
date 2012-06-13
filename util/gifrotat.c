@@ -35,7 +35,7 @@ static int
 
 static void RotateGifImage(GifRowType *ScreenBuffer, 
 			   GifFileType *SrcGifFile, GifFileType *DstGifFile,
-			   int Angle, ColorMapObject *ColorMap,
+			   int Angle,
 			   int DstWidth, int DstHeight);
 static void RotateGifLine(GifRowType *ScreenBuffer, int BackGroundColor,
 			  int SrcWidth, int SrcHeight,
@@ -183,8 +183,7 @@ int main(int argc, char **argv)
 		}
 		/* Perform the actual rotation and dump the image: */
 		RotateGifImage(ScreenBuffer, GifFileIn, GifFileOut,
-			       Angle, ColorMap,
-			       DstWidth, DstHeight);
+			       Angle, DstWidth, DstHeight);
 		(void)free(ScreenBuffer);
 		break;
 	    case EXTENSION_RECORD_TYPE:
@@ -219,7 +218,7 @@ int main(int argc, char **argv)
 static void RotateGifImage(GifRowType *ScreenBuffer, 
 			   GifFileType *SrcGifFile,
 			   GifFileType *DstGifFile,
-			   int Angle, ColorMapObject *ColorMap,
+			   int Angle,
 			   int DstWidth, int DstHeight)
 {
     int i,
