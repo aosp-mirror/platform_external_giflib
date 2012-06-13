@@ -61,7 +61,6 @@ int main(int argc, char **argv)
     GifFileType *GifFileIn;
     GifFileType *GifFileOut;
     GifRowType *ScreenBuffer;
-    ColorMapObject *ColorMap = NULL;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&AngleFlag, &Angle, &GifNoisyPrint,
@@ -104,6 +103,14 @@ int main(int argc, char **argv)
     /* Open stdout for the output file: */
     if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
 	QuitGifError(GifFileIn, GifFileOut);
+
+    if (EGifPutScreenDesc(GifFileOut,
+	GifFileIn->SWidth, GifFileIn->SHeight,
+	GifFileIn->SColorResolution, GifFileIn->SBackGroundColor,
+	GifFileIn->SColorMap) == GIF_ERROR) {
+	PrintGifError();
+	exit(EXIT_FAILURE);
+    }
 
     /* Scan the content of the GIF file and load the image(s) in: */
     do {
@@ -172,14 +179,6 @@ int main(int argc, char **argv)
 			    exit(EXIT_FAILURE);
 			}
 		    }
-		}
-		ColorMap = (GifFileIn->Image.ColorMap 
-			    ? GifFileIn->Image.ColorMap 
-			    : GifFileIn->SColorMap);
-		if (EGifPutScreenDesc(GifFileOut, DstWidth, DstHeight,
-				      ColorMap->BitsPerPixel, 0, ColorMap) == GIF_ERROR) {
-		    PrintGifError();
-		    exit(EXIT_FAILURE);
 		}
 		/* Perform the actual rotation and dump the image: */
 		RotateGifImage(ScreenBuffer, GifFileIn, GifFileOut,
