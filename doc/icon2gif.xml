@@ -78,6 +78,7 @@ required newline.</para>
 &lt;extension&gt; := &lt;comment&gt; NL &lt;extension-block&gt; NL end NL
 		| &lt;plaintext&gt; NL &lt;extension-block&gt; NL end NL
                 | graphics control NL &lt;GCB-part&gt; NL end NL
+                | netscape loop  &lt;digits&gt; NL
 		| extension &lt;hex-digits&gt; NL &lt;extension-block&gt; NL end NL
 
 &lt;GCB-part&gt; ::= disposal mode &lt;digits&gt; NL
@@ -130,6 +131,12 @@ escapes preceded by a backslash.</para>
 <para>A graphics control block declaration creates a graphics control
 extension block; for the field semantics see the GIF89 standard, part
 23.</para>
+
+<para>A netscape loop declaration creates an application extension
+block containing a NETSCAPE 2.0 animation loop control with a
+specified repeat count (repeat count 0 means loop forever). This must
+be immediately after the header declaration. These loop blocks are
+interpreted by the Netscape/Mozilla/Firefox line of browsers.</para> 
 
 <para>All &lt;digits&gt; tokens are interpreted as decimal numerals;
 &lt;hex-digits&gt; tokens are interpreted as two hex digits (a byte). All

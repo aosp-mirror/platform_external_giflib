@@ -446,6 +446,27 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 	}
 	// cppcheck-suppress invalidscanf 
+	else if (sscanf(buf, "netscape loop %u", &intval))
+	{
+	    unsigned char params[3] = {1, 0, 0};
+	    /* Create a Netscape 2.0 loop block */
+	    if (GifAddExtensionBlock(&Leading,
+				  APPLICATION_EXT_FUNC_CODE,
+				  11,
+				  (unsigned char *)"NETSCAPE2.0")==GIF_ERROR) {
+		PARSE_ERROR("out of memory while adding loop block.");
+		exit(EXIT_FAILURE);
+	    }
+	    params[1] = (intval & 0xff);
+	    params[2] = (intval >> 8) & 0xff;
+	    if (GifAddExtensionBlock(&Leading,
+				     0, sizeof(params), params) == GIF_ERROR) {
+		PARSE_ERROR("out of memory while adding loop continuation.");
+		exit(EXIT_FAILURE);
+	    }
+	    
+	}
+	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "extension %x", &ExtCode))
 	{
 	    int bc = 0;
@@ -648,18 +669,28 @@ static void DumpExtensions(ExtensionList *Extensions)
     for (ep = Extensions->ExtensionBlocks; 
 	 ep < Extensions->ExtensionBlocks + Extensions->ExtensionBlockCount;
 	 ep++) {
-	if (ep->Function == 0) {
-	    VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
-	    putchar('\n');
-	} else if (ep->Function == COMMENT_EXT_FUNC_CODE) {
+	bool last = (ep - Extensions->ExtensionBlocks == (Extensions->ExtensionBlockCount - 1));
+	if (ep->Function == COMMENT_EXT_FUNC_CODE) {
 	    printf("comment\n");
 	    VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
 	    putchar('\n');
+	    while (!last && ep[1].Function == CONTINUE_EXT_FUNC_CODE) {
+		++ep;
+		VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
+		putchar('\n');
+	    }
+	    printf("end\n\n");
 	}
 	else if (ep->Function == PLAINTEXT_EXT_FUNC_CODE) {
 	    printf("plaintext\n");
 	    VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
 	    putchar('\n');
+	    while (!last && ep[1].Function == CONTINUE_EXT_FUNC_CODE) {
+		++ep;
+		VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
+		putchar('\n');
+	    }
+	    printf("end\n\n");
 	}
 	else if (ep->Function == GRAPHICS_EXT_FUNC_CODE)
 	{
@@ -674,17 +705,24 @@ static void DumpExtensions(ExtensionList *Extensions)
 		   gcb.UserInputFlag ? "on" : "off");
 	    printf("\tdelay %d\n", gcb.DelayTime);
 	    printf("\ttransparent index %d\n", gcb.TransparentColor);
+	    printf("end\n\n");
 	}
-	else if (isalpha(ep->Function)) {
-	    printf("extension 0x%02x    # %c\n", ep->Function, ep->Function); 
-	    VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
-	    putchar('\n');
+	else if (ep->Function == APPLICATION_EXT_FUNC_CODE 
+		 && memcmp(ep->Bytes, "NETSCAPE2.0", 11) == 0) {
+	    unsigned char *params = (++ep)->Bytes;
+	    unsigned int loopcount = params[1] & (params[2] << 8);
+	    printf("netscape loop %u\n\n", loopcount);
 	}
 	else {
 	    printf("extension 0x%02x\n", ep->Function);
 	    VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
+	    while (!last && ep[1].Function == CONTINUE_EXT_FUNC_CODE) {
+		++ep;
+		VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
+		putchar('\n');
+	    }
+	    printf("end\n\n");
 	}
-	printf("end\n\n");
     }
 }
 

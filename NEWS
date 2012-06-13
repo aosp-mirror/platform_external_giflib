@@ -75,6 +75,7 @@ Utilities
 * icon2gif can both display and update GIF89 graphics control blocks.
 * gifrotat and other filter utilities now preserve extension blocks, 
   including the graphics control information for transparency and delay time.
+* icon2gif can both display and create Netscape animation loop blocks.
 * A new utility, giftool, supports a wide variety of filtering operations
   on GIFs, including: setting background and transparency colors, changing
   interlacing, setting image delays, setting the user-input flag.  It can
