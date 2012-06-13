@@ -1027,36 +1027,15 @@ EGifWriteExtensions(GifFileType *GifFileOut,
 {
     if (ExtensionBlocks) {
         ExtensionBlock *ep;
-	int bOff;   /* Block Offset for adding sub blocks in Extensions */
 	int j;
 
 	for (j = 0; j < ExtensionBlockCount; j++) {
 	    ep = &ExtensionBlocks[j];
-	    if (j == ExtensionBlockCount - 1 || (ep+1)->Function != 0) {
-		/*** FIXME: Must check whether outputting
-		 * <ExtLen><Extension> is ever valid or if we should just
-		 * drop anything with a 0 for the Function.  (And whether
-		 * we should drop here or in EGifPutExtension)
-		 */
-		if (EGifPutExtension(GifFileOut,
-				     (ep->Function != 0) ? ep->Function : '\0',
-				     ep->ByteCount,
-				     ep->Bytes) == GIF_ERROR) {
-		    return (GIF_ERROR);
-		}
-	    } else {
+	    if (ep->Function != 0)
 		(void)EGifPutExtensionLeader(GifFileOut, ep->Function);
-		for (bOff = j; bOff < ExtensionBlockCount; bOff++) {
-		    ep = &ExtensionBlocks[bOff];
-		    if (ep->Function != 0) {
-			break;
-		    }
-		    (void)EGifPutExtensionBlock(GifFileOut,
-					       ep->ByteCount, ep->Bytes);
-		}
+	    (void)EGifPutExtensionBlock(GifFileOut, ep->ByteCount, ep->Bytes);
+	    if (j == ExtensionBlockCount - 1 || (ep+1)->Function != 0)
 		(void)EGifPutExtensionTrailer(GifFileOut);
-		j = bOff-1;
-	    }
 	}
     }
 
