@@ -141,10 +141,11 @@ hacker!</para>
 header or image block is not significant, except that a raster picture
 must immediately follow its <quote>image bits</quote> bits declaration.</para>
 
-<para>The <quote>include</quote> declaration includes a named GIF as the next
-image.  The global color maps of included GIFs are merged with the
-base table defined by any <quote>screen color</quote> declaration.  All images of
-an included multi-image GIF will be included in order.</para>
+<para>The <quote>include</quote> declaration includes a named GIF as
+the next image.  The global color maps of included GIFs are merged
+with the base table defined by any <quote>screen color</quote>
+declaration.  All images of an included multi-image GIF will be
+included in order.</para>
 
 <para>Comments may be preceded with <quote>#</quote> and will be ignored.</para>
 
