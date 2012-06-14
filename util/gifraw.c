@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-raw2gif - convert raw pixel data to a GIF
+gifraw - convert raw pixel data to a GIF
 
 *****************************************************************************/
 
@@ -18,7 +18,7 @@ raw2gif - convert raw pixel data to a GIF
 #include "getarg.h"
 #include "gif_lib.h"
 
-#define PROGRAM_NAME	"raw2gif"
+#define PROGRAM_NAME	"gifraw"
 
 static char
     *VersionStr =

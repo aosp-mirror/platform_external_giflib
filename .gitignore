@@ -56,7 +56,7 @@ util/giftext
 util/giftool
 util/gifwedge
 util/gifbuild
-util/raw2gif
+util/gifraw
 util/gifecho
 doc/gif2rgb.1
 doc/gif2rgb.html
@@ -106,8 +106,8 @@ doc/gifwedge.html
 doc/gifbuild.1
 doc/gifbuild.html
 doc/intro.html
-doc/raw2gif.1
-doc/raw2gif.html
+doc/gifraw.1
+doc/gifraw.html
 doc/gifecho.1
 doc/gifecho.html
 doc/staging/

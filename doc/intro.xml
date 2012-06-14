@@ -86,7 +86,7 @@ hotlink to HTML documentation.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><ulink url="raw2gif.html">raw2gif</ulink></term>
+<term><ulink url="gifraw.html">gifraw</ulink></term>
 <listitem>
 <para>convert raw 8-bit image data into GIF files</para>
 </listitem>
