@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-icon2gif - dump GIF data in a textual format, or undump it to a GIF
+gifbuild - dump GIF data in a textual format, or undump it to a GIF
 
 *****************************************************************************/
 
@@ -14,7 +14,7 @@ icon2gif - dump GIF data in a textual format, or undump it to a GIF
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"icon2gif"
+#define PROGRAM_NAME	"gifbuild"
 
 static char
     *VersionStr =

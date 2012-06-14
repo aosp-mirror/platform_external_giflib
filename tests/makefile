@@ -92,7 +92,7 @@ gifspnge-regress:
 
 util-buildregress:
 	$(UTILS)/gifwedge >wedge.gif
-	$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/icon2gif -d >treescap.ico
+	$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/gifbuild -d >treescap.ico
 
 util-regress:
 	@echo "Checking wedge generation."
@@ -107,12 +107,12 @@ util-regress:
 	@$(UTILS)/gifinter -s <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
 	@echo "Checking that gifinter interlaces correctly."
 	@$(UTILS)/gifinter -i <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
-	@echo "Checking idempotency of icon2gif on an icon file."
-	@$(UTILS)/icon2gif <$(PICS)/sample.ico | $(UTILS)/icon2gif -d >/tmp/sample-1.ico; $(UTILS)/icon2gif </tmp/sample-1.ico | $(UTILS)/icon2gif -d >/tmp/sample-2.ico; diff -u /tmp/sample-1.ico /tmp/sample-2.ico; rm /tmp/sample-*.ico
-	@echo "Checking idempotency of icon2gif on an animation."
-	$(UTILS)/icon2gif -d <$(PICS)/fire.gif >/tmp/fire1.ico
-	$(UTILS)/icon2gif </tmp/fire1.ico >/tmp/fire2.gif
-	$(UTILS)/icon2gif -d </tmp/fire2.gif >/tmp/fire2.ico
+	@echo "Checking idempotency of gifbuild on an icon file."
+	@$(UTILS)/gifbuild <$(PICS)/sample.ico | $(UTILS)/gifbuild -d >/tmp/sample-1.ico; $(UTILS)/gifbuild </tmp/sample-1.ico | $(UTILS)/gifbuild -d >/tmp/sample-2.ico; diff -u /tmp/sample-1.ico /tmp/sample-2.ico; rm /tmp/sample-*.ico
+	@echo "Checking idempotency of gifbuild on an animation."
+	$(UTILS)/gifbuild -d <$(PICS)/fire.gif >/tmp/fire1.ico
+	$(UTILS)/gifbuild </tmp/fire1.ico >/tmp/fire2.gif
+	$(UTILS)/gifbuild -d </tmp/fire2.gif >/tmp/fire2.ico
 	@diff -u /tmp/fire1.ico /tmp/fire2.ico
 	@echo "Checking behavior of gifinto."
 	@rm -f /tmp/giflib.tmp
@@ -123,4 +123,4 @@ util-regress:
 	@if test -f /tmp/giflib.tmp; then echo "gifinto created a file when it shouldn't have."; fi
 	@rm -f /tmp/giflib.tmp
 	@echo "Checking behavior of gifpos."
-	@$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/icon2gif -d | diff -u treescap.ico -
+	@$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/gifbuild -d | diff -u treescap.ico -

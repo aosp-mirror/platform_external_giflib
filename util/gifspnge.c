@@ -14,7 +14,7 @@ Note: due to the vicissitudes of Lempel-Ziv compression, the output of this
 copier may not be bitwise identical to its input.  This can happen if you
 copy an image from a much more (or much *less*) memory-limited system; your
 compression may use more (or fewer) bits.  The uncompressed rasters should,
-however, be identical (you can check this with icon2gif -d).
+however, be identical (you can check this with gifbuild -d).
 
 ****************************************************************************/
 

@@ -55,7 +55,7 @@ util/gifspnge
 util/giftext
 util/giftool
 util/gifwedge
-util/icon2gif
+util/gifbuild
 util/raw2gif
 util/rgb2gif
 util/text2gif
@@ -104,8 +104,8 @@ doc/giftool.1
 doc/giftool.html
 doc/gifwedge.1
 doc/gifwedge.html
-doc/icon2gif.1
-doc/icon2gif.html
+doc/gifbuild.1
+doc/gifbuild.html
 doc/intro.html
 doc/raw2gif.1
 doc/raw2gif.html

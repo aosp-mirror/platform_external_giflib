@@ -18,7 +18,7 @@ XMLMAN = gif2rgb.xml gif2x11.xml gifasm.xml gifbg.xml gifclip.xml	\
 	gifclrmp.xml gifcolor.xml gifcomb.xml giffiltr.xml giffix.xml	\
 	gifflip.xml gifhisto.xml gifinter.xml gifinto.xml gifovly.xml	\
 	gifpos.xml gifrotat.xml gifrsize.xml gifspnge.xml giftext.xml	\
-	giftool.xml gifwedge.xml icon2gif.xml raw2gif.xml rgb2gif.xml	\
+	giftool.xml gifwedge.xml gifbuild.xml raw2gif.xml rgb2gif.xml	\
 	text2gif.xml
 XMLDOC = intro.xml gif_lib.xml
 XMLALL = $(XMLMAN) $(XMLDOC)

@@ -83,7 +83,7 @@ BINARIES = gif2rgb gif2x11 gifasm gifbg \
 	gifclip gifclrmp gifcomb giffix gifflip gifhisto \
 	gifinter gifinto gifovly gifpos gifrotat gifrsize giftext \
 	gifwedge raw2gif rgb2gif text2gif gifspnge giffiltr \
-	icon2gif gifcolor
+	gifbuild gifcolor
 
 all: $(BINARIES)
 

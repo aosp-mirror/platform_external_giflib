@@ -4,23 +4,23 @@
    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 <!ENTITY email         "esr@thyrsus.com">
 ]>
-<refentry id='icon2gif.1'>
+<refentry id='gifbuild.1'>
 <refentryinfo><date>2 May 2012</date></refentryinfo>
 <refmeta>
-<refentrytitle>icon2gif</refentrytitle>
+<refentrytitle>gifbuild</refentrytitle>
 <manvolnum>1</manvolnum>
 <refmiscinfo class="source">GIFLIB</refmiscinfo>
 <refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
 </refmeta>
 <refnamediv id='name'>
-<refname>icon2gif</refname>
+<refname>gifbuild</refname>
 <refpurpose>dump GIF data in a textual format, or undump it to a GIF</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>
 
 <cmdsynopsis>
-  <command>icon2gif</command>
+  <command>gifbuild</command>
       <arg choice='opt'>-v</arg>
       <arg choice='opt'>-a</arg>
       <arg choice='opt'>-d</arg>
@@ -36,7 +36,7 @@
 named GIF files into a multi-image GIF, usable as a graphic resource file.
 It can also dump existing GIFs in this format.</para>
 
-<para>If no GIF file is given, icon2gif will try to read a text input
+<para>If no GIF file is given, gifbuild will try to read a text input
 from stdin.</para>
 
 </refsect1>

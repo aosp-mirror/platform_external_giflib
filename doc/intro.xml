@@ -218,7 +218,7 @@ hotlink to HTML documentation.</para>
 
 <variablelist>
 <varlistentry>
-<term><ulink url="icon2gif.html">icon2gif</ulink></term>
+<term><ulink url="gifbuild.html">gifbuild</ulink></term>
 <listitem>
 <para>converter/deconverter to/from an editable text format</para>
 </listitem>
