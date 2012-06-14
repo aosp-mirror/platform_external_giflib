@@ -49,7 +49,7 @@ util/gifinter
 util/gifinto
 util/gifovly
 util/gifpos
-util/gifrotat
+util/gifrotate
 util/gifresize
 util/gifsponge
 util/giftext
@@ -92,8 +92,8 @@ doc/gifovly.1
 doc/gifovly.html
 doc/gifpos.1
 doc/gifpos.html
-doc/gifrotat.1
-doc/gifrotat.html
+doc/gifrotate.1
+doc/gifrotate.html
 doc/gifresize.1
 doc/gifresize.html
 doc/gifsponge.1

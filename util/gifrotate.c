@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-gifrotat - rotate a GIF image by a specified angle
+gifrotate - rotate a GIF image by a specified angle
 
 *****************************************************************************/
 
@@ -15,7 +15,7 @@ gifrotat - rotate a GIF image by a specified angle
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"gifrotat"
+#define PROGRAM_NAME	"gifrotate"
 
 static char
     *VersionStr =

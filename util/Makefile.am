@@ -4,7 +4,7 @@ bin_PROGRAMS = gif2rgb gifasm gifbg gifclip gifcomb \
     giffix gifflip gifhisto gifinter gifinto gifovly gifpos gifresize \
     giftext gifwedge raw2gif rgb2gif text2gif gifsponge giffilter \
     gifbuild gifcolor giftool @COMPILABLE_EXTRAS@
-EXTRA_PROGRAMS = gif2x11 gifclrmp gifrotat
+EXTRA_PROGRAMS = gif2x11 gifclrmp gifrotate
 
 EXTRA_DIST=Makefile.unx $(bin_SCRIPTS)
 
@@ -22,8 +22,8 @@ gif2x11_CFLAGS = @X_CFLAGS@ $(AM_CFLAGS)
 gifclrmp_SOURCES = gifclrmp.c
 gifclrmp_LDADD = $(LDADD) @MATH_LIB@
 
-gifrotat_SOURCES = gifrotat.c
-gifrotat_LDADD = $(LDADD) @MATH_LIB@
+gifrotate_SOURCES = gifrotate.c
+gifrotate_LDADD = $(LDADD) @MATH_LIB@
 
 gif2rgb_SOURCES = gif2rgb.c
 gifasm_SOURCES = gifasm.c

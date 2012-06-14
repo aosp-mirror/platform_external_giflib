@@ -57,4 +57,4 @@ echo "The GIF grid flipped on its side"
 gifflip -x $GIF_DIR/gifgrid.gif | $GIF_DISPLAY
 
 echo "Rotate the GIF grid image by 45 degrees" 
-gifrotat -a 45 $GIF_DIR/gifgrid.gif | $GIF_DISPLAY
+gifrotate -a 45 $GIF_DIR/gifgrid.gif | $GIF_DISPLAY

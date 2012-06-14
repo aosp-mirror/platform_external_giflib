@@ -17,7 +17,7 @@ all: allhtml manpages
 XMLMAN = gif2rgb.xml gif2x11.xml gifasm.xml gifbg.xml gifclip.xml	\
 	gifclrmp.xml gifcolor.xml gifcomb.xml giffilter.xml giffix.xml	\
 	gifflip.xml gifhisto.xml gifinter.xml gifinto.xml gifovly.xml	\
-	gifpos.xml gifrotat.xml gifresize.xml gifsponge.xml giftext.xml	\
+	gifpos.xml gifrotate.xml gifresize.xml gifsponge.xml giftext.xml	\
 	giftool.xml gifwedge.xml gifbuild.xml raw2gif.xml rgb2gif.xml	\
 	text2gif.xml
 XMLDOC = intro.xml gif_lib.xml

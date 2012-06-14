@@ -2,23 +2,23 @@
 <!DOCTYPE refentry PUBLIC
    "-//OASIS//DTD DocBook XML V4.1.2//EN"
    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
-<refentry id='gifrotat.1'>
+<refentry id='gifrotate.1'>
 <refentryinfo><date>2 May 2012</date></refentryinfo>
 <refmeta>
-<refentrytitle>gifrotat</refentrytitle>
+<refentrytitle>gifrotate</refentrytitle>
 <manvolnum>1</manvolnum>
 <refmiscinfo class="source">GIFLIB</refmiscinfo>
 <refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
 </refmeta>
 <refnamediv id='name'>
-<refname>gifrotat</refname>
+<refname>gifrotate</refname>
 <refpurpose>rotate a GIF image by a specified angle.</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>
 
 <cmdsynopsis>
-  <command>gifrotat</command>
+  <command>gifrotate</command>
       <arg choice='opt'>-v</arg>
       <arg choice='plain'>-a <replaceable>angle</replaceable></arg>
       <arg choice='opt'>-s 
@@ -67,7 +67,7 @@ above.</para>
 </varlistentry>
 </variablelist>
 
-<para>If no GIF file is given, gifrotat will try to read a GIF file
+<para>If no GIF file is given, gifrotate will try to read a GIF file
 from stdin.</para>
 
 </refsect1>

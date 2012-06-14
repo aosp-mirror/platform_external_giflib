@@ -182,7 +182,7 @@ hotlink to HTML documentation.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><ulink url="gifrotat.html">gifrotat</ulink></term>
+<term><ulink url="gifrotate.html">gifrotate</ulink></term>
 <listitem>
 <para>rotate a GIF through any desired angle</para>
 </listitem>
