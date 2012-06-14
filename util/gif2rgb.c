@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-gif2rgb - convert GIF to 24-bit RGB pixel triples
+gif2rgb - convert GIF to 24-bit RGB pixel triples or vice-versa
 
 *****************************************************************************/
 
@@ -203,11 +203,10 @@ static void QuitGifError(GifFileType *GifFile)
 }
 
 static void RGB2GIF(bool OneFileFlag, int NumFiles, char *FileName,
-		    int Width, int Height)
+		    int ExpNumOfColors, int Width, int Height)
 {
-    int
-	ExpNumOfColors = 8,
-	ColorMapSize = 256;
+    int ColorMapSize = 256;
+
     GifByteType *RedBuffer = NULL, *GreenBuffer = NULL, *BlueBuffer = NULL,
 	*OutputBuffer = NULL;
     ColorMapObject *OutputColorMap = NULL;
@@ -472,7 +471,7 @@ static void GIF2RGB(int NumFiles, char *FileName, char *OutFileName)
 int main(int argc, char **argv)
 {
     bool Error, OutFileFlag = false;
-    int NumFiles;
+    int NumFiles, Width = 0, Height = 0, ExpNumOfColors = 8;
     char *OutFileName,
 	**FileName = NULL;
 
@@ -495,7 +494,11 @@ int main(int argc, char **argv)
     }
     if (!OutFileFlag) OutFileName = NULL;
 
-    GIF2RGB(NumFiles, *FileName, OutFileName);
+    if (Width > 0 && Height > 0)
+	RGB2GIF(OneFileFlag, NumFiles, *FileName, 
+		ExpNumOfColors, Width, Height);
+    else
+	GIF2RGB(NumFiles, *FileName, OutFileName);
 
     return 0;
 }
