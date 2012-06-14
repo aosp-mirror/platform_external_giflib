@@ -44,45 +44,110 @@ static bool
     OneFileFlag = false,
     HelpFlag = false;
 
-static void DumpScreen2RGB(char *FileName, int OneFileFlag,
-			   GifRowType *ScreenBuffer,
-			   int ScreenWidth, int ScreenHeight);
-
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+* The real dumping routine.
 ******************************************************************************/
-int main(int argc, char **argv)
+static void DumpScreen2RGB(char *FileName, int OneFileFlag,
+               GifRowType *ScreenBuffer,
+               int ScreenWidth, int ScreenHeight)
 {
-    int	i, j, NumFiles, Size, Row, Col, Width, Height, ExtCode, Count;
-    bool Error, OutFileFlag = false;
+    int i, j;
+    GifRowType GifRow;
+    static GifColorType *ColorMapEntry;
+    FILE *f[3];
+
+    if (FileName != NULL) {
+        char OneFileName[80];
+
+        if (OneFileFlag) {
+            if ((f[0] = fopen(FileName, "wb")) == NULL)
+            GIF_EXIT("Can't open input file name.");
+        } else {
+            static char *Postfixes[] = { ".R", ".G", ".B" };
+
+            for (i = 0; i < 3; i++) {
+                strncpy(OneFileName, FileName, sizeof(OneFileName)-1);
+		/* cppcheck-suppress uninitstring */
+                strncat(OneFileName, Postfixes[i], 
+			sizeof(OneFileName) - 1 - strlen(OneFileName));
+    
+                if ((f[i] = fopen(OneFileName, "wb")) == NULL) {
+                    GIF_EXIT("Can't open input file name.");
+                }
+            }
+        }
+    } else {
+        OneFileFlag = true;
+
+#ifdef _WIN32
+	_setmode(1, O_BINARY);
+#endif /* _WIN32 */
+        
+        f[0] = stdout;
+    }
+
+    if (OneFileFlag) {
+        unsigned char *Buffer, *BufferP;
+
+        if ((Buffer = (unsigned char *) malloc(ScreenWidth * 3)) == NULL)
+            GIF_EXIT("Failed to allocate memory required, aborted.");
+        for (i = 0; i < ScreenHeight; i++) {
+            GifRow = ScreenBuffer[i];
+            GifQprintf("\b\b\b\b%-4d", ScreenHeight - i);
+            for (j = 0, BufferP = Buffer; j < ScreenWidth; j++) {
+                ColorMapEntry = &ColorMap->Colors[GifRow[j]];
+                *BufferP++ = ColorMapEntry->Red;
+                *BufferP++ = ColorMapEntry->Green;
+                *BufferP++ = ColorMapEntry->Blue;
+            }
+            if (fwrite(Buffer, ScreenWidth * 3, 1, f[0]) != 1)
+                GIF_EXIT("Write to file(s) failed.");
+        }
+
+        free((char *) Buffer);
+        fclose(f[0]);
+    } else {
+        unsigned char *Buffers[3];
+
+        if ((Buffers[0] = (unsigned char *) malloc(ScreenWidth)) == NULL ||
+            (Buffers[1] = (unsigned char *) malloc(ScreenWidth)) == NULL ||
+            (Buffers[2] = (unsigned char *) malloc(ScreenWidth)) == NULL)
+            GIF_EXIT("Failed to allocate memory required, aborted.");
+
+        for (i = 0; i < ScreenHeight; i++) {
+            GifRow = ScreenBuffer[i];
+            GifQprintf("\b\b\b\b%-4d", ScreenHeight - i);
+            for (j = 0; j < ScreenWidth; j++) {
+                ColorMapEntry = &ColorMap->Colors[GifRow[j]];
+                Buffers[0][j] = ColorMapEntry->Red;
+                Buffers[1][j] = ColorMapEntry->Green;
+                Buffers[2][j] = ColorMapEntry->Blue;
+            }
+            if (fwrite(Buffers[0], ScreenWidth, 1, f[0]) != 1 ||
+                fwrite(Buffers[1], ScreenWidth, 1, f[1]) != 1 ||
+                fwrite(Buffers[2], ScreenWidth, 1, f[2]) != 1)
+                GIF_EXIT("Write to file(s) failed.");
+        }
+
+        free((char *) Buffers[0]);
+        free((char *) Buffers[1]);
+        free((char *) Buffers[2]);
+        fclose(f[0]);
+        fclose(f[1]);
+        fclose(f[2]);
+    }
+}
+
+static void GIF2RGB(int NumFiles, char *FileName, char *OutFileName)
+{
+    int	i, j, Size, Row, Col, Width, Height, ExtCode, Count;
     GifRecordType RecordType;
     GifByteType *Extension;
-    char *OutFileName,
-	**FileName = NULL;
     GifRowType *ScreenBuffer;
     GifFileType *GifFile;
 
-    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
-		&OneFileFlag, &OutFileFlag, &OutFileName,
-		&HelpFlag, &NumFiles, &FileName)) != false ||
-		(NumFiles > 1 && !HelpFlag)) {
-	if (Error)
-	    GAPrintErrMsg(Error);
-	else if (NumFiles > 1)
-	    GIF_MESSAGE("Error in command line parsing - one GIF file please.");
-	GAPrintHowTo(CtrlStr);
-	exit(EXIT_FAILURE);
-    }
-
-    if (HelpFlag) {
-	(void)fprintf(stderr, VersionStr, GIFLIB_MAJOR, GIFLIB_MINOR);
-	GAPrintHowTo(CtrlStr);
-	exit(EXIT_SUCCESS);
-    }
-    if (!OutFileFlag) OutFileName = NULL;
-
     if (NumFiles == 1) {
-	if ((GifFile = DGifOpenFileName(*FileName)) == NULL) {
+	if ((GifFile = DGifOpenFileName(FileName)) == NULL) {
 	    PrintGifError();
 	    exit(EXIT_FAILURE);
 	}
@@ -204,99 +269,39 @@ int main(int argc, char **argv)
 	exit(EXIT_FAILURE);
     }
 
-    return 0;
 }
 
 /******************************************************************************
-* The real dumping routine.
+* Interpret the command line and scan the given GIF file.
 ******************************************************************************/
-static void DumpScreen2RGB(char *FileName, int OneFileFlag,
-               GifRowType *ScreenBuffer,
-               int ScreenWidth, int ScreenHeight)
+int main(int argc, char **argv)
 {
-    int i, j;
-    GifRowType GifRow;
-    static GifColorType *ColorMapEntry;
-    FILE *f[3];
+    bool Error, OutFileFlag = false;
+    int NumFiles;
+    char *OutFileName,
+	**FileName = NULL;
 
-    if (FileName != NULL) {
-        char OneFileName[80];
-
-        if (OneFileFlag) {
-            if ((f[0] = fopen(FileName, "wb")) == NULL)
-            GIF_EXIT("Can't open input file name.");
-        } else {
-            static char *Postfixes[] = { ".R", ".G", ".B" };
-
-            for (i = 0; i < 3; i++) {
-                strncpy(OneFileName, FileName, sizeof(OneFileName)-1);
-		/* cppcheck-suppress uninitstring */
-                strncat(OneFileName, Postfixes[i], 
-			sizeof(OneFileName) - 1 - strlen(OneFileName));
-    
-                if ((f[i] = fopen(OneFileName, "wb")) == NULL) {
-                    GIF_EXIT("Can't open input file name.");
-                }
-            }
-        }
-    } else {
-        OneFileFlag = true;
-
-#ifdef _WIN32
-	_setmode(1, O_BINARY);
-#endif /* _WIN32 */
-        
-        f[0] = stdout;
+    if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
+		&OneFileFlag, &OutFileFlag, &OutFileName,
+		&HelpFlag, &NumFiles, &FileName)) != false ||
+		(NumFiles > 1 && !HelpFlag)) {
+	if (Error)
+	    GAPrintErrMsg(Error);
+	else if (NumFiles > 1)
+	    GIF_MESSAGE("Error in command line parsing - one GIF file please.");
+	GAPrintHowTo(CtrlStr);
+	exit(EXIT_FAILURE);
     }
 
-    if (OneFileFlag) {
-        unsigned char *Buffer, *BufferP;
-
-        if ((Buffer = (unsigned char *) malloc(ScreenWidth * 3)) == NULL)
-            GIF_EXIT("Failed to allocate memory required, aborted.");
-        for (i = 0; i < ScreenHeight; i++) {
-            GifRow = ScreenBuffer[i];
-            GifQprintf("\b\b\b\b%-4d", ScreenHeight - i);
-            for (j = 0, BufferP = Buffer; j < ScreenWidth; j++) {
-                ColorMapEntry = &ColorMap->Colors[GifRow[j]];
-                *BufferP++ = ColorMapEntry->Red;
-                *BufferP++ = ColorMapEntry->Green;
-                *BufferP++ = ColorMapEntry->Blue;
-            }
-            if (fwrite(Buffer, ScreenWidth * 3, 1, f[0]) != 1)
-                GIF_EXIT("Write to file(s) failed.");
-        }
-
-        free((char *) Buffer);
-        fclose(f[0]);
-    } else {
-        unsigned char *Buffers[3];
-
-        if ((Buffers[0] = (unsigned char *) malloc(ScreenWidth)) == NULL ||
-            (Buffers[1] = (unsigned char *) malloc(ScreenWidth)) == NULL ||
-            (Buffers[2] = (unsigned char *) malloc(ScreenWidth)) == NULL)
-            GIF_EXIT("Failed to allocate memory required, aborted.");
-
-        for (i = 0; i < ScreenHeight; i++) {
-            GifRow = ScreenBuffer[i];
-            GifQprintf("\b\b\b\b%-4d", ScreenHeight - i);
-            for (j = 0; j < ScreenWidth; j++) {
-                ColorMapEntry = &ColorMap->Colors[GifRow[j]];
-                Buffers[0][j] = ColorMapEntry->Red;
-                Buffers[1][j] = ColorMapEntry->Green;
-                Buffers[2][j] = ColorMapEntry->Blue;
-            }
-            if (fwrite(Buffers[0], ScreenWidth, 1, f[0]) != 1 ||
-                fwrite(Buffers[1], ScreenWidth, 1, f[1]) != 1 ||
-                fwrite(Buffers[2], ScreenWidth, 1, f[2]) != 1)
-                GIF_EXIT("Write to file(s) failed.");
-        }
-
-        free((char *) Buffers[0]);
-        free((char *) Buffers[1]);
-        free((char *) Buffers[2]);
-        fclose(f[0]);
-        fclose(f[1]);
-        fclose(f[2]);
+    if (HelpFlag) {
+	(void)fprintf(stderr, VersionStr, GIFLIB_MAJOR, GIFLIB_MINOR);
+	GAPrintHowTo(CtrlStr);
+	exit(EXIT_SUCCESS);
     }
+    if (!OutFileFlag) OutFileName = NULL;
+
+    GIF2RGB(NumFiles, *FileName, OutFileName);
+
+    return 0;
 }
+
