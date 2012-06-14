@@ -3,7 +3,7 @@
 .SUFFIXES: .gif .rgb
 
 # This is what to do by default
-test: render-regress util-regress giffiltr-regress gifspnge-regress \
+test: render-regress util-regress giffilter-regress gifsponge-regress \
 		gifclrmp-regress giftext-regress
 	@echo "No output is good news"
 
@@ -68,23 +68,23 @@ giftext-buildregress:
 		$(UTILS)/giftext <$${test} >$${stem}.dmp; \
 	done
 
-giffiltr-regress:
+giffilter-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if echo "Testing giffiltr copy of $${test}" >&2; \
-	    $(UTILS)/giffiltr <$${test} | $(UTILS)/gif2rgb >/tmp/regress 2>&1; \
+	    if echo "Testing giffilter copy of $${test}" >&2; \
+	    $(UTILS)/giffilter <$${test} | $(UTILS)/gif2rgb >/tmp/regress 2>&1; \
 	    then cmp $${stem}.rgb /tmp/regress; \
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
 	@rm -f /tmp/regress
 
-gifspnge-regress:
+gifsponge-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if echo "Testing gifspnge copy of $${test}" >&2; \
-	    $(UTILS)/gifspnge <$${test} | $(UTILS)/gif2rgb >/tmp/regress 2>&1; \
+	    if echo "Testing gifsponge copy of $${test}" >&2; \
+	    $(UTILS)/gifsponge <$${test} | $(UTILS)/gif2rgb >/tmp/regress 2>&1; \
 	    then cmp $${stem}.rgb /tmp/regress; \
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done

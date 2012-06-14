@@ -1,8 +1,8 @@
 
 noinst_LIBRARIES = libgetarg.a
 bin_PROGRAMS = gif2rgb gifasm gifbg gifclip gifcomb \
-    giffix gifflip gifhisto gifinter gifinto gifovly gifpos gifrsize \
-    giftext gifwedge raw2gif rgb2gif text2gif gifspnge giffiltr \
+    giffix gifflip gifhisto gifinter gifinto gifovly gifpos gifresize \
+    giftext gifwedge raw2gif rgb2gif text2gif gifsponge giffilter \
     gifbuild gifcolor giftool @COMPILABLE_EXTRAS@
 EXTRA_PROGRAMS = gif2x11 gifclrmp gifrotat
 
@@ -37,14 +37,14 @@ gifinter_SOURCES = gifinter.c
 gifinto_SOURCES = gifinto.c
 gifovly_SOURCES =  gifovly.c
 gifpos_SOURCES = gifpos.c
-gifrsize_SOURCES = gifrsize.c
+gifresize_SOURCES = gifresize.c
 giftext_SOURCES = giftext.c
 gifwedge_SOURCES = gifwedge.c
 raw2gif_SOURCES = raw2gif.c
 rgb2gif_SOURCES = rgb2gif.c
 text2gif_SOURCES = text2gif.c
-gifspnge_SOURCES = gifspnge.c
-giffiltr_SOURCES = giffiltr.c
+gifsponge_SOURCES = gifsponge.c
+giffilter_SOURCES = giffilter.c
 gifbuild_SOURCES = gifbuild.c
 gifcolor_SOURCES = gifcolor.c
 giftool_SOURCES = giftool.c

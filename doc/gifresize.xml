@@ -2,23 +2,23 @@
 <!DOCTYPE refentry PUBLIC
    "-//OASIS//DTD DocBook XML V4.1.2//EN"
    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
-<refentry id='gifrsize.1'>
+<refentry id='gifresize.1'>
 <refentryinfo><date>2 May 2012</date></refentryinfo>
 <refmeta>
-<refentrytitle>gifrsize</refentrytitle>
+<refentrytitle>gifresize</refentrytitle>
 <manvolnum>1</manvolnum>
 <refmiscinfo class="source">GIFLIB</refmiscinfo>
 <refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
 </refmeta>
 <refnamediv id='name'>
-<refname>gifrsize</refname>
+<refname>gifresize</refname>
 <refpurpose>resize and scale GIFs</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>
 
 <cmdsynopsis>
-  <command>gifrsize</command>
+  <command>gifresize</command>
       <arg choice='opt'>-v</arg>
       <arg choice='opt'>-S 
       		<replaceable>x</replaceable>
@@ -84,7 +84,7 @@ Enables printout of running scan lines. </para>
 </varlistentry>
 </variablelist>
 
-<para>If no GIF file is given, gifrsize will try to read a GIF file
+<para>If no GIF file is given, gifresize will try to read a GIF file
 from stdin.</para>
 
 </refsect1>

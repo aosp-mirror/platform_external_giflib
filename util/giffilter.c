@@ -1,6 +1,6 @@
 /******************************************************************************
  
-giffiltr.c - skeleton file for generic GIF `filter' program 
+giffilter.c - skeleton file for generic GIF `filter' program 
 
 Sequentially read GIF records from stdin, process them, send them out.
 Most of the junk above `int main' isn't needed for the skeleton, but
@@ -26,7 +26,7 @@ however, be identical (you can check this with gifbuild -d).
 #include "getarg.h"
 #include "gif_lib.h"
 
-#define PROGRAM_NAME	"giffiltr"
+#define PROGRAM_NAME	"giffilter"
 
 /******************************************************************************
 * Close both input and output file (if open), and exit.

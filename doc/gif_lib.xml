@@ -1115,10 +1115,10 @@ EGif, or Gif as a name prefix.</para></listitem>
 <para>If you are developing on a virtual-memory OS such as most flavors of
 UNIX, or are otherwise sure of having enough memory to keep all of GIFs you
 need to operate in core, writing a filter is trivial.   See the file
-gifspnge.c in util.</para>
+gifsponge.c in util.</para>
 
 <para>A sequential filter skeleton will usually look like the example file
-giffiltr.c in util.</para>
+giffilter.c in util.</para>
 
 <para>Please look at the utilities in the util directory for more ideas once
 you feel comfortable with these skeletons.  Also try to follow the coding

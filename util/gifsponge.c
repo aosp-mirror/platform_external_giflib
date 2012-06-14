@@ -1,6 +1,6 @@
 /****************************************************************************
 
-gifspnge.c - skeleton file for generic GIF `sponge' program
+gifsponge.c - skeleton file for generic GIF `sponge' program
 
 Slurp a GIF into core, operate on it, spew it out again.  Most of the
 junk above `int main' isn't needed for the skeleton, but is likely to
@@ -26,7 +26,7 @@ however, be identical (you can check this with gifbuild -d).
 #include "getarg.h"
 #include "gif_lib.h"
 
-#define PROGRAM_NAME	"gifspnge"
+#define PROGRAM_NAME	"gifsponge"
 
 int main(int argc, char **argv)
 {
@@ -72,4 +72,4 @@ int main(int argc, char **argv)
     return 0;
 }
 
-/* gifspnge.c ends here */
+/* gifsponge.c ends here */

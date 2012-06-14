@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-gifrsize - resize and scale GIFs
+gifresize - resize and scale GIFs
 
 *****************************************************************************/
 
@@ -13,7 +13,7 @@ gifrsize - resize and scale GIFs
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"gifrsize"
+#define PROGRAM_NAME	"gifresize"
 
 #define MAX_SCALE	16.0			  /* Maximum scaling factor. */
 

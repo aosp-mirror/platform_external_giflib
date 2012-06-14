@@ -42,13 +42,13 @@ echo "The #2 solid flipped on its side"
 gifflip -r $GIF_DIR/solid2.gif | $GIF_DISPLAY
 
 echo "Scale the #2 solid by 0.45"
-gifrsize -s 0.45 $GIF_DIR/solid2.gif | $GIF_DISPLAY
+gifresize -s 0.45 $GIF_DIR/solid2.gif | $GIF_DISPLAY
 
 echo "Resize the #2 solid image"
-gifrsize -S 800 600 $GIF_DIR/solid2.gif | $GIF_DISPLAY
+gifresize -S 800 600 $GIF_DIR/solid2.gif | $GIF_DISPLAY
 
 echo "Clip and resize the #2 solid image"
-gifclip -i 222 0 390 134 $GIF_DIR/solid2.gif | gifrsize -s 2.0 | $GIF_DISPLAY
+gifclip -i 222 0 390 134 $GIF_DIR/solid2.gif | gifresize -s 2.0 | $GIF_DISPLAY
 
 echo "The GIF grid graphic"
 $GIF_DISPLAY <$GIF_DIR/gifgrid.gif

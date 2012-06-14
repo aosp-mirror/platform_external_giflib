@@ -4,23 +4,23 @@
    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 <!ENTITY email         "esr@thyrsus.com">
 ]>
-<refentry id='giffiltr.1'>
+<refentry id='giffilter.1'>
 <refentryinfo><date>2 May 2012</date></refentryinfo>
 <refmeta>
-<refentrytitle>giffiltr</refentrytitle>
+<refentrytitle>giffilter</refentrytitle>
 <manvolnum>1</manvolnum>
 <refmiscinfo class="source">GIFLIB</refmiscinfo>
 <refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
 </refmeta>
 <refnamediv id='name'>
-<refname>giffiltr</refname>
+<refname>giffilter</refname>
 <refpurpose>expensive GIF copy, a model for filter utilities</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>
 
 <cmdsynopsis>
-  <command>giffiltr</command>
+  <command>giffilter</command>
 </cmdsynopsis>
 </refsynopsisdiv>
 

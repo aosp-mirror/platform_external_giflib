@@ -4,23 +4,23 @@
    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 <!ENTITY email         "esr@thyrsus.com">
 ]>
-<refentry id='gifspnge.1'>
+<refentry id='gifsponge.1'>
 <refentryinfo><date>2 May 2012</date></refentryinfo>
 <refmeta>
-<refentrytitle>gifspnge</refentrytitle>
+<refentrytitle>gifsponge</refentrytitle>
 <manvolnum>1</manvolnum>
 <refmiscinfo class="source">GIFLIB</refmiscinfo>
 <refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
 </refmeta>
 <refnamediv id='name'>
-<refname>gifspnge</refname>
+<refname>gifsponge</refname>
 <refpurpose>expensive GIF copy, whole-image version</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>
 
 <cmdsynopsis>
-  <command>gifspnge</command>
+  <command>gifsponge</command>
 </cmdsynopsis>
 </refsynopsisdiv>
 

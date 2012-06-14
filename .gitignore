@@ -41,7 +41,7 @@ util/gifclip
 util/gifclrmp
 util/gifcolor
 util/gifcomb
-util/giffiltr
+util/giffilter
 util/giffix
 util/gifflip
 util/gifhisto
@@ -50,8 +50,8 @@ util/gifinto
 util/gifovly
 util/gifpos
 util/gifrotat
-util/gifrsize
-util/gifspnge
+util/gifresize
+util/gifsponge
 util/giftext
 util/giftool
 util/gifwedge
@@ -76,8 +76,8 @@ doc/gifcolor.1
 doc/gifcolor.html
 doc/gifcomb.1
 doc/gifcomb.html
-doc/giffiltr.1
-doc/giffiltr.html
+doc/giffilter.1
+doc/giffilter.html
 doc/giffix.1
 doc/giffix.html
 doc/gifflip.1
@@ -94,10 +94,10 @@ doc/gifpos.1
 doc/gifpos.html
 doc/gifrotat.1
 doc/gifrotat.html
-doc/gifrsize.1
-doc/gifrsize.html
-doc/gifspnge.1
-doc/gifspnge.html
+doc/gifresize.1
+doc/gifresize.html
+doc/gifsponge.1
+doc/gifsponge.html
 doc/giftext.1
 doc/giftext.html
 doc/giftool.1

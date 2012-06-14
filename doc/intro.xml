@@ -188,7 +188,7 @@ hotlink to HTML documentation.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><ulink url="gifrsize.html">gifrsize</ulink></term>
+<term><ulink url="gifresize.html">gifresize</ulink></term>
 <listitem>
 <para>resize a GIF by deletion or duplication of bits</para>
 </listitem>
@@ -248,13 +248,13 @@ hotlink to HTML documentation.</para>
 
 <variablelist>
 <varlistentry>
-<term><ulink url="giffiltr.html">giffiltr</ulink></term>
+<term><ulink url="giffilter.html">giffilter</ulink></term>
 <listitem>
 <para>template code for filtering a GIF sequentially</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><ulink url="gifspnge.html">gifspnge</ulink></term>
+<term><ulink url="gifsponge.html">gifsponge</ulink></term>
 <listitem>
 <para>template code for filtering a GIF with in-core operations</para>
 </listitem>

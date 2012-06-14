@@ -15,9 +15,9 @@ SUFFIXES = .xml .html .txt .asc .1
 all: allhtml manpages
 
 XMLMAN = gif2rgb.xml gif2x11.xml gifasm.xml gifbg.xml gifclip.xml	\
-	gifclrmp.xml gifcolor.xml gifcomb.xml giffiltr.xml giffix.xml	\
+	gifclrmp.xml gifcolor.xml gifcomb.xml giffilter.xml giffix.xml	\
 	gifflip.xml gifhisto.xml gifinter.xml gifinto.xml gifovly.xml	\
-	gifpos.xml gifrotat.xml gifrsize.xml gifspnge.xml giftext.xml	\
+	gifpos.xml gifrotat.xml gifresize.xml gifsponge.xml giftext.xml	\
 	giftool.xml gifwedge.xml gifbuild.xml raw2gif.xml rgb2gif.xml	\
 	text2gif.xml
 XMLDOC = intro.xml gif_lib.xml
@@ -39,7 +39,7 @@ EXTRA_DIST = $(SOURCES) $(XMLMAN:.xml=.1)
 website: allhtml
 	rm -fr staging; mkdir staging; 
 	cp -r $(XMLALL:.xml=.html) $(SITEHTML) *.txt whatsinagif staging
-	../util/gifrsize -S 50 50 <../pic/gifgrid.gif >staging/giflib-logo.gif
+	../util/gifresize -S 50 50 <../pic/gifgrid.gif >staging/giflib-logo.gif
 	asciidoc - <../history.asc >staging/history.html
 
 clean-local:
