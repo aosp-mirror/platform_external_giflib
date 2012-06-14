@@ -82,19 +82,13 @@ hotlink to HTML documentation.</para>
 <varlistentry>
 <term><ulink url="gif2rgb.html">gif2rgb</ulink></term>
 <listitem>
-<para>convert images saved as GIF to 24-bit RGB image(s)</para>
+<para>convert images saved as GIF to 24-bit RGB image(s) or vice-versa</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term><ulink url="raw2gif.html">raw2gif</ulink></term>
 <listitem>
 <para>convert raw 8-bit image data into GIF files</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><ulink url="rgb2gif.html">rgb2gif</ulink></term>
-<listitem>
-<para>convert 24 bit images to a GIF image using color quantization</para>
 </listitem>
 </varlistentry>
 </variablelist>
