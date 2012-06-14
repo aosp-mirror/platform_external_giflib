@@ -2,7 +2,7 @@
 noinst_LIBRARIES = libgetarg.a
 bin_PROGRAMS = gif2rgb gifasm gifbg gifclip gifcomb \
     giffix gifflip gifhisto gifinter gifinto gifovly gifpos gifresize \
-    giftext gifwedge raw2gif text2gif gifsponge giffilter \
+    giftext gifwedge raw2gif gifecho gifsponge giffilter \
     gifbuild gifcolor giftool @COMPILABLE_EXTRAS@
 EXTRA_PROGRAMS = gif2x11 gifclrmp gifrotate
 
@@ -41,7 +41,7 @@ gifresize_SOURCES = gifresize.c
 giftext_SOURCES = giftext.c
 gifwedge_SOURCES = gifwedge.c
 raw2gif_SOURCES = raw2gif.c
-text2gif_SOURCES = text2gif.c
+gifecho_SOURCES = gifecho.c
 gifsponge_SOURCES = gifsponge.c
 giffilter_SOURCES = giffilter.c
 gifbuild_SOURCES = gifbuild.c

@@ -323,7 +323,7 @@ as a numeric error code and string explanation respectively.</para>
 </sect1>
 <sect1><title>The GIF Utility Font</title>
 
-<para>The 8x8 utility font used in text2gif and gifcolor lives in the library
+<para>The 8x8 utility font used in gifecho and gifcolor lives in the library
 module gif_font.c, in a table called AsciiTable.  The library header file
 includes suitable externs and defines.</para>
 

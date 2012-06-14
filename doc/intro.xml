@@ -218,7 +218,7 @@ hotlink to HTML documentation.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><ulink url="text2gif.html">text2gif</ulink></term>
+<term><ulink url="gifecho.html">gifecho</ulink></term>
 <listitem>
 <para>generate GIF images out of regular text in 8x8 font</para>
 </listitem>

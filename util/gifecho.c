@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-text2gif - generate a GIF from ASCII text
+gifecho - generate a GIF from ASCII text
 
 *****************************************************************************/
 
@@ -13,7 +13,7 @@ text2gif - generate a GIF from ASCII text
 #include "gif_lib.h"
 #include "getarg.h"
 
-#define PROGRAM_NAME	"text2gif"
+#define PROGRAM_NAME	"gifecho"
 
 #define MAX_NUM_TEXT_LINES	100	 /* Maximum number of lines in file. */
 
