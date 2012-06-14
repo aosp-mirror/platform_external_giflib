@@ -44,8 +44,203 @@ static bool
     OneFileFlag = false,
     HelpFlag = false;
 
+static void LoadRGB(char *FileName,
+		    int OneFileFlag,
+		    GifByteType **RedBuffer,
+		    GifByteType **GreenBuffer,
+		    GifByteType **BlueBuffer,
+		    int Width, int Height);
+static void SaveGif(GifByteType *OutputBuffer,
+		    ColorMapObject *OutputColorMap,
+		    int ExpColorMapSize, int Width, int Height);
+static void QuitGifError(GifFileType *GifFile);
+
 /******************************************************************************
-* The real dumping routine.
+* Load RGB file into internal frame buffer.
+******************************************************************************/
+static void LoadRGB(char *FileName,
+		    int OneFileFlag,
+		    GifByteType **RedBuffer,
+		    GifByteType **GreenBuffer,
+		    GifByteType **BlueBuffer,
+		    int Width, int Height)
+{
+    int i;
+    unsigned long Size;
+    GifByteType *RedP, *GreenP, *BlueP;
+    FILE *f[3];
+
+    Size = ((long) Width) * Height * sizeof(GifByteType);
+
+    if ((*RedBuffer = (GifByteType *) malloc((unsigned int) Size)) == NULL ||
+	(*GreenBuffer = (GifByteType *) malloc((unsigned int) Size)) == NULL ||
+	(*BlueBuffer = (GifByteType *) malloc((unsigned int) Size)) == NULL)
+	GIF_EXIT("Failed to allocate memory required, aborted.");
+
+    RedP = *RedBuffer;
+    GreenP = *GreenBuffer;
+    BlueP = *BlueBuffer;
+
+    if (FileName != NULL) {
+	char OneFileName[80];
+
+	if (OneFileFlag) {
+	    if ((f[0] = fopen(FileName, "rb")) == NULL)
+		GIF_EXIT("Can't open input file name.");
+	}
+	else {
+	    static char *Postfixes[] = { ".R", ".G", ".B" };
+
+	    for (i = 0; i < 3; i++) {
+		strncpy(OneFileName, FileName, sizeof(OneFileName)-1);
+		/* cppcheck-suppress uninitstring */
+		strncat(OneFileName, Postfixes[i], 
+			sizeof(OneFileName) - 1 - strlen(OneFileName));
+
+		if ((f[i] = fopen(OneFileName, "rb")) == NULL)
+		    GIF_EXIT("Can't open input file name.");
+	    }
+	}
+    }
+    else {
+	OneFileFlag = true;
+
+#ifdef _WIN32
+	_setmode(0, O_BINARY);
+#endif /* _WIN32 */
+
+	f[0] = stdin;
+    }
+
+    GifQprintf("\n%s: RGB image:     ", PROGRAM_NAME);
+
+    if (OneFileFlag) {
+	GifByteType *Buffer, *BufferP;
+
+	if ((Buffer = (GifByteType *) malloc(Width * 3)) == NULL)
+	    GIF_EXIT("Failed to allocate memory required, aborted.");
+
+	for (i = 0; i < Height; i++) {
+	    int j;
+	    GifQprintf("\b\b\b\b%-4d", i);
+	    if (fread(Buffer, Width * 3, 1, f[0]) != 1)
+		GIF_EXIT("Input file(s) terminated prematurly.");
+	    for (j = 0, BufferP = Buffer; j < Width; j++) {
+		*RedP++ = *BufferP++;
+		*GreenP++ = *BufferP++;
+		*BlueP++ = *BufferP++;
+	    }
+	}
+
+	free((char *) Buffer);
+	fclose(f[0]);
+    }
+    else {
+	for (i = 0; i < Height; i++) {
+	    GifQprintf("\b\b\b\b%-4d", i);
+	    if (fread(RedP, Width, 1, f[0]) != 1 ||
+		fread(GreenP, Width, 1, f[1]) != 1 ||
+		fread(BlueP, Width, 1, f[2]) != 1)
+		GIF_EXIT("Input file(s) terminated prematurly.");
+	    RedP += Width;
+	    GreenP += Width;
+	    BlueP += Width;
+	}
+
+	fclose(f[0]);
+	fclose(f[1]);
+	fclose(f[2]);
+    }
+}
+
+/******************************************************************************
+* Save the GIF resulting image.
+******************************************************************************/
+static void SaveGif(GifByteType *OutputBuffer,
+		    ColorMapObject *OutputColorMap,
+		    int ExpColorMapSize, int Width, int Height)
+{
+    int i;
+    GifFileType *GifFile;
+    GifByteType *Ptr = OutputBuffer;
+
+    /* Open stdout for the output file: */
+    if ((GifFile = EGifOpenFileHandle(1)) == NULL)
+	QuitGifError(GifFile);
+
+    if (EGifPutScreenDesc(GifFile,
+			  Width, Height, ExpColorMapSize, 0,
+			  OutputColorMap) == GIF_ERROR ||
+	EGifPutImageDesc(GifFile,
+			 0, 0, Width, Height, false, NULL) ==
+	                                                             GIF_ERROR)
+	QuitGifError(GifFile);
+
+    GifQprintf("\n%s: Image 1 at (%d, %d) [%dx%d]:     ",
+	       PROGRAM_NAME, GifFile->Image.Left, GifFile->Image.Top,
+	       GifFile->Image.Width, GifFile->Image.Height);
+
+    for (i = 0; i < Height; i++) {
+	if (EGifPutLine(GifFile, Ptr, Width) == GIF_ERROR)
+	    QuitGifError(GifFile);
+	GifQprintf("\b\b\b\b%-4d", Height - i - 1);
+
+	Ptr += Width;
+    }
+
+    if (EGifCloseFile(GifFile) == GIF_ERROR)
+	QuitGifError(GifFile);
+}
+
+/******************************************************************************
+* Close output file (if open), and exit.
+******************************************************************************/
+static void QuitGifError(GifFileType *GifFile)
+{
+    PrintGifError();
+    if (GifFile != NULL) EGifCloseFile(GifFile);
+    exit(EXIT_FAILURE);
+}
+
+static void RGB2GIF(bool OneFileFlag, int NumFiles, char *FileName,
+		    int Width, int Height)
+{
+    int
+	ExpNumOfColors = 8,
+	ColorMapSize = 256;
+    GifByteType *RedBuffer = NULL, *GreenBuffer = NULL, *BlueBuffer = NULL,
+	*OutputBuffer = NULL;
+    ColorMapObject *OutputColorMap = NULL;
+
+    ColorMapSize = 1 << ExpNumOfColors;
+
+    if (NumFiles == 1) {
+	LoadRGB(FileName, OneFileFlag,
+		&RedBuffer, &GreenBuffer, &BlueBuffer, Width, Height);
+    }
+    else {
+	LoadRGB(NULL, OneFileFlag,
+		&RedBuffer, &GreenBuffer, &BlueBuffer, Width, Height);
+    }
+
+    if ((OutputColorMap = GifMakeMapObject(ColorMapSize, NULL)) == NULL ||
+	(OutputBuffer = (GifByteType *) malloc(Width * Height *
+					    sizeof(GifByteType))) == NULL)
+	GIF_EXIT("Failed to allocate memory required, aborted.");
+
+    if (GifQuantizeBuffer(Width, Height, &ColorMapSize,
+		       RedBuffer, GreenBuffer, BlueBuffer,
+		       OutputBuffer, OutputColorMap->Colors) == GIF_ERROR)
+	QuitGifError(NULL);
+    free((char *) RedBuffer);
+    free((char *) GreenBuffer);
+    free((char *) BlueBuffer);
+
+    SaveGif(OutputBuffer, OutputColorMap, ExpNumOfColors, Width, Height);
+}
+
+/******************************************************************************
+* The real screen dumping routine.
 ******************************************************************************/
 static void DumpScreen2RGB(char *FileName, int OneFileFlag,
                GifRowType *ScreenBuffer,
@@ -288,7 +483,7 @@ int main(int argc, char **argv)
 	if (Error)
 	    GAPrintErrMsg(Error);
 	else if (NumFiles > 1)
-	    GIF_MESSAGE("Error in command line parsing - one GIF file please.");
+	    GIF_MESSAGE("Error in command line parsing - one input file please.");
 	GAPrintHowTo(CtrlStr);
 	exit(EXIT_FAILURE);
     }
