@@ -21,6 +21,10 @@
   <command>gif2rgb</command>
       <arg choice='opt'>-v</arg>
       <arg choice='opt'>-1</arg>
+      <arg choice='opt'>-c <replaceable>colors</replaceable></arg>
+      <arg choice='opt'>-s 
+      		<replaceable>width</replaceable>
+      		<replaceable>height</replaceable></arg>
       <arg choice='opt'>-o <replaceable>outfile</replaceable></arg>
       <arg choice='opt'>-h</arg>
       <arg choice='opt'><replaceable>gif-file</replaceable></arg>
@@ -41,11 +45,26 @@ Enables printout of running scan lines.</para>
 <term>-1</term>
 <listitem>
 <para>Only one file in the format of RGBRGB... triplets (Each of R,
-G,B is a byte) is being written.  This file size is 3 * Width *
-Height. If stdout is used for output, this option is implicitly
-applied. The default (if not `-1') is 3 files with the names
-OutFileName.R, OutFileName.G, OutFileName.B, each of which is Width *
-Height bytes.</para>
+G,B is a byte) is being read or written.  This file size is 3 * Width
+* Height. If stdin is used for input or stdout for output, this option
+is implicitly applied. The default (if not `-1') is 3 files with the
+names OutFileName.R, OutFileName.G, OutFileName.B, each of which is
+Width * Height bytes.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>-c colors </term>
+<listitem>
+<para> Specifies number of colors to use in RGB-to-GIF conversions, in
+bits per pixels, so '-c 8' actually specifies 256 colors (maximum and
+default).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>-s width height</term>
+<listitem>
+<para> Sets RGB-to-GIF conversion mode and specifies the size of the image 
+to read. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -62,7 +81,10 @@ Height bytes.</para>
 </varlistentry>
 </variablelist>
 
-<para>If no GIF file is given, gif2rgb will try to read a GIF file
+<para>By default, convert a GIF input file to RGB triplets.  If -s is 
+specified, convert RGB input to a GIF.</para>
+
+<para>If no input file is given, gif2rgb will try to read adata
 from stdin.</para>
 
 </refsect1>

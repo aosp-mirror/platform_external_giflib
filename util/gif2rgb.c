@@ -4,6 +4,22 @@ gif2rgb - convert GIF to 24-bit RGB pixel triples or vice-versa
 
 *****************************************************************************/
 
+/***************************************************************************
+
+Toshio Kuratomi had written this in a comment about the rgb2gif code:
+
+  Besides fixing bugs, what's really needed is for someone to work out how to
+  calculate a colormap for writing gifs from rgb sources.  Right now, an rgb
+  source that has only two colors (b/w) is being converted into an 8 bit gif....
+  Which is horrendously wasteful without compression.
+
+I (ESR) took this off the main to-do list in 2012 because I don't think
+the GIFLIB project actually needs to be in the converters-and-tools business.
+Plenty of hackers do that; our jub is to supply stable library capability
+with our utilities mainly interesting as test tools.
+
+***************************************************************************/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -30,7 +46,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" v%- 1%- o%-OutFileName!s h%- GifFile!*s";
+	" v%- c%-#Colors!d s%-Width|Height!d!d 1%- o%-OutFileName!s h%- GifFile!*s";
 
 /* Make some variables global, so we could access them faster: */
 static int
@@ -470,12 +486,13 @@ static void GIF2RGB(int NumFiles, char *FileName, char *OutFileName)
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    bool Error, OutFileFlag = false;
+    bool Error, OutFileFlag = false, ColorFlag = false, SizeFlag = false;
     int NumFiles, Width = 0, Height = 0, ExpNumOfColors = 8;
     char *OutFileName,
 	**FileName = NULL;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
+		&ColorFlag, &ExpNumOfColors, &SizeFlag, &Width, &Height, 
 		&OneFileFlag, &OutFileFlag, &OutFileName,
 		&HelpFlag, &NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
@@ -494,7 +511,7 @@ int main(int argc, char **argv)
     }
     if (!OutFileFlag) OutFileName = NULL;
 
-    if (Width > 0 && Height > 0)
+    if (SizeFlag && Width > 0 && Height > 0)
 	RGB2GIF(OneFileFlag, NumFiles, *FileName, 
 		ExpNumOfColors, Width, Height);
     else
