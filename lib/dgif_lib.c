@@ -543,10 +543,11 @@ DGifGetExtensionNext(GifFileType *GifFile, GifByteType ** Extension)
  * Extract a Graphics Control Block from raw extension data
  *****************************************************************************/
 
-int DGifExtensionToGCB(const GifByteType *GifExtension,
+int DGifExtensionToGCB(const size_t GifExtensionLength,
+		       const GifByteType *GifExtension,
 		       GraphicsControlBlock *GCB)
 {
-    if (GifExtension[0] != 4) {
+    if (GifExtensionLength != 4) {
 	_GifError = D_GIF_ERR_WRONG_RECORD;
 	return GIF_ERROR;
     }
@@ -582,7 +583,7 @@ int DGifSavedExtensionToGCB(GifFileType *GifFile,
     for (i = 0; i < GifFile->SavedImages[ImageIndex].Leading.ExtensionBlockCount; i++) {
 	ExtensionBlock *ep = &GifFile->SavedImages[ImageIndex].Leading.ExtensionBlocks[i];
 	if (ep->Function == GRAPHICS_EXT_FUNC_CODE)
-	    return DGifExtensionToGCB(ep->Bytes, GCB);
+	    return DGifExtensionToGCB(ep->ByteCount, ep->Bytes, GCB);
     }
 
     return GIF_ERROR;

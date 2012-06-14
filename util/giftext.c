@@ -259,7 +259,8 @@ int main(int argc, char **argv)
 
 		    if (ExtCode == GRAPHICS_EXT_FUNC_CODE) {
 			GraphicsControlBlock gcb;
-			if (DGifExtensionToGCB(Extension, &gcb) == GIF_ERROR) {
+			/* FIXME: shouldn't have a magic number here */
+			if (DGifExtensionToGCB(4, Extension, &gcb) == GIF_ERROR) {
 			    PrintGifError();
 			    exit(EXIT_FAILURE);
 			}

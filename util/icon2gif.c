@@ -696,7 +696,7 @@ static void DumpExtensions(ExtensionList *Extensions)
 	{
 	    GraphicsControlBlock gcb;
 	    printf("graphics control\n");
-	    if (DGifExtensionToGCB(ep->Bytes, &gcb) == GIF_ERROR) {
+	    if (DGifExtensionToGCB(ep->ByteCount, ep->Bytes, &gcb) == GIF_ERROR) {
 		PrintGifError();
 		exit(EXIT_FAILURE);
 	    }

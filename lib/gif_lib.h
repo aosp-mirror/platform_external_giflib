@@ -264,7 +264,8 @@ extern void GifFreeSavedImages(GifFileType *GifFile);
  * 5.x functions for GIF89 graphics control blocks
  *****************************************************************************/
 
-int DGifExtensionToGCB(const GifByteType *GifExtension,
+int DGifExtensionToGCB(const size_t GifExtensionLength,
+		       const GifByteType *GifExtension,
 		       GraphicsControlBlock *GCB);
 size_t EGifGCBToExtension(const GraphicsControlBlock *GCB,
 		       GifByteType *GifExtension);
