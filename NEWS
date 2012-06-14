@@ -73,11 +73,25 @@ Retirements
 
 Utilities
 ---------
+* Several utilities have been renamed to (a) fix last-century's habit
+  of arbitarily smashing vowels out of names to make them one or two
+  characters shorter, (b) ensure that every utility in this set has 'gif'
+  as a name prefix. Here's the list:
+
+	giffiltr -> giffilter
+	gifrotat -> gifrotate
+	gifrsize -> gifresize
+	gifspnge -> gifsponge
+	icon2gif -> gifbuild
+	text2gif -> gifecho
+  	raw2gif -> gifraw,
+
+* Standalone rgb2gif is gone; the same capability is now a mode of gif2rgb.
 * giftext displays the parsed contents of GIF89 graphics control blocks.
-* icon2gif can both display and update GIF89 graphics control blocks.
+* gifbuild can both display and update GIF89 graphics control blocks.
 * gifrotat and other filter utilities now preserve extension blocks, 
   including the graphics control information for transparency and delay time.
-* icon2gif can both display and create Netscape animation loop blocks.
+* gifbuild can both display and create Netscape animation loop blocks.
 * A new utility, giftool, supports a wide variety of filtering operations
   on GIFs, including: setting background and transparency colors, changing
   interlacing, setting image delays, setting the user-input flag.  It can
