@@ -110,9 +110,9 @@ util-regress:
 	@echo "Checking idempotency of gifbuild on an icon file."
 	@$(UTILS)/gifbuild <$(PICS)/sample.ico | $(UTILS)/gifbuild -d >/tmp/sample-1.ico; $(UTILS)/gifbuild </tmp/sample-1.ico | $(UTILS)/gifbuild -d >/tmp/sample-2.ico; diff -u /tmp/sample-1.ico /tmp/sample-2.ico; rm /tmp/sample-*.ico
 	@echo "Checking idempotency of gifbuild on an animation."
-	$(UTILS)/gifbuild -d <$(PICS)/fire.gif >/tmp/fire1.ico
-	$(UTILS)/gifbuild </tmp/fire1.ico >/tmp/fire2.gif
-	$(UTILS)/gifbuild -d </tmp/fire2.gif >/tmp/fire2.ico
+	@$(UTILS)/gifbuild -d <$(PICS)/fire.gif >/tmp/fire1.ico
+	@$(UTILS)/gifbuild </tmp/fire1.ico >/tmp/fire2.gif
+	@$(UTILS)/gifbuild -d </tmp/fire2.gif >/tmp/fire2.ico
 	@diff -u /tmp/fire1.ico /tmp/fire2.ico
 	@echo "Checking behavior of gifinto."
 	@rm -f /tmp/giflib.tmp
