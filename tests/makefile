@@ -4,7 +4,8 @@
 
 # This is what to do by default
 test: render-regress giffilter-regress gifsponge-regress \
-		gifclrmp-regress giftext-regress gifbuild-regress misc-regress
+		gifclrmp-regress giftext-regress gifbuild-regress \
+		giftool-regress misc-regress
 	@echo "No output is good news"
 
 rebuild: render-buildregress misc-buildregress \
@@ -99,6 +100,14 @@ gifbuild-regress:
 	@$(UTILS)/gifbuild -d </tmp/fire2.gif >/tmp/fire2.ico
 	@diff -u /tmp/fire1.ico /tmp/fire2.ico
 
+giftool-regress:
+	@echo "Checking that expensive copy via giftool is faithful."
+	@$(UTILS)/giftool <$(PICS)/gifgrid.gif | $(UTILS)/gif2rgb | cmp - gifgrid.rgb
+	@echo "Checking that giftool de-interlaces correctly."
+	@$(UTILS)/giftool -i on <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
+	@echo "Checking that giftool interlaces correctly."
+	@$(UTILS)/giftool -i off <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
+
 misc-buildregress:
 	$(UTILS)/gifwedge >wedge.gif
 	$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/gifbuild -d >treescap.ico
@@ -106,12 +115,6 @@ misc-buildregress:
 misc-regress:
 	@echo "Checking wedge generation."
 	@$(UTILS)/gifwedge | cmp - wedge.gif
-	@echo "Checking that expensive copy via giftool is faithful."
-	@$(UTILS)/giftool <$(PICS)/gifgrid.gif | $(UTILS)/gif2rgb | cmp - gifgrid.rgb
-	@echo "Checking that giftool de-interlaces correctly."
-	@$(UTILS)/giftool -i on <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
-	@echo "Checking that giftool interlaces correctly."
-	@$(UTILS)/giftool -i off <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
 	@echo "Checking that gifinter de-interlaces correctly."
 	@$(UTILS)/gifinter -s <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
 	@echo "Checking that gifinter interlaces correctly."
