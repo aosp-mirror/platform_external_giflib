@@ -40,14 +40,7 @@ static int
     ColorMapSize = 0,
     BackGround = 0,
     XPosX = 0,
-    XPosY = 0,
-    InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
-    InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
-static bool
-    PosFlag = false,
-    HelpFlag = false,
-    DisplayFlag = false,
-    ForceFlag = false;
+    XPosY = 0;
 static char
     *DisplayName = NULL;
 static ColorMapObject
@@ -73,7 +66,8 @@ static Cursor XCursor;
 #define BYTESPERPIXEL 4
 
 static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
-		     int ScreenWidth, int ScreenHeight);
+		     int ScreenWidth, int ScreenHeight, 
+		     bool ForceFlag, bool PosFlag);
 static void AllocateColors1(void);
 static void AllocateColors2(void);
 
@@ -90,6 +84,10 @@ int main(int argc, char **argv)
     char **FileName = NULL;
     GifRowType *ScreenBuffer;
     GifFileType *GifFile;
+    bool PosFlag = false, HelpFlag = false, DisplayFlag = false, ForceFlag = false;
+    int
+	InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
+	InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&GifNoisyPrint, &PosFlag, &XPosX, &XPosY,
@@ -237,7 +235,8 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
     ColorMapSize = ColorMap->ColorCount;
-    Screen2X(argc, argv, ScreenBuffer, GifFile->SWidth, GifFile->SHeight);
+    Screen2X(argc, argv, ScreenBuffer, 
+	     GifFile->SWidth, GifFile->SHeight, ForceFlag, PosFlag);
 
     for (i = GifFile->SHeight - 1 ; i >= 0 ; i--) {
 	free( ScreenBuffer[ i ] );
@@ -262,7 +261,8 @@ int main(int argc, char **argv)
 * The real display routine.
 ******************************************************************************/
 static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
-		     int ScreenWidth, int ScreenHeight)
+		     int ScreenWidth, int ScreenHeight, 
+		     bool ForceFlag, bool PosFlag)
 {
 #define	WM_DELETE_WINDOW	"WM_DELETE_WINDOW"
 
@@ -294,7 +294,7 @@ static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
     }
     AvgIntensity = (MinIntensity + MaxIntensity) / 2;
 
-    /* The big trick here is to select the colors so lets do this first: */
+    /* The big trick here is to select the colors so let's do this first: */
     if (ForceFlag)
 	AllocateColors2();
     else
