@@ -3,11 +3,11 @@
 .SUFFIXES: .gif .rgb
 
 # This is what to do by default
-test: render-regress util-regress giffilter-regress gifsponge-regress \
-		gifclrmp-regress giftext-regress
+test: render-regress giffilter-regress gifsponge-regress \
+		gifclrmp-regress giftext-regress gifbuild-regress misc-regress
 	@echo "No output is good news"
 
-rebuild: render-buildregress util-buildregress \
+rebuild: render-buildregress misc-buildregress \
 		gifclrmp-buildregress giftext-buildregress
 
 UTILS = ../util
@@ -21,7 +21,7 @@ render-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if echo "Testing $${test}" >&2; \
+	    if echo "Testing RGB rendering of $${test}" >&2; \
 	    $(UTILS)/gif2rgb -1 -o /tmp/regress $${test} 2>&1; \
 	    then cmp $${stem}.rgb /tmp/regress; \
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
@@ -90,11 +90,20 @@ gifsponge-regress:
 	done
 	@rm -f /tmp/regress
 
-util-buildregress:
+gifbuild-regress:
+	@echo "Checking idempotency of gifbuild on an icon file."
+	@$(UTILS)/gifbuild <$(PICS)/sample.ico | $(UTILS)/gifbuild -d >/tmp/sample-1.ico; $(UTILS)/gifbuild </tmp/sample-1.ico | $(UTILS)/gifbuild -d >/tmp/sample-2.ico; diff -u /tmp/sample-1.ico /tmp/sample-2.ico; rm /tmp/sample-*.ico
+	@echo "Checking idempotency of gifbuild on an animation."
+	@$(UTILS)/gifbuild -d <$(PICS)/fire.gif >/tmp/fire1.ico
+	@$(UTILS)/gifbuild </tmp/fire1.ico >/tmp/fire2.gif
+	@$(UTILS)/gifbuild -d </tmp/fire2.gif >/tmp/fire2.ico
+	@diff -u /tmp/fire1.ico /tmp/fire2.ico
+
+misc-buildregress:
 	$(UTILS)/gifwedge >wedge.gif
 	$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/gifbuild -d >treescap.ico
 
-util-regress:
+misc-regress:
 	@echo "Checking wedge generation."
 	@$(UTILS)/gifwedge | cmp - wedge.gif
 	@echo "Checking that expensive copy via giftool is faithful."
@@ -107,13 +116,6 @@ util-regress:
 	@$(UTILS)/gifinter -s <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
 	@echo "Checking that gifinter interlaces correctly."
 	@$(UTILS)/gifinter -i <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
-	@echo "Checking idempotency of gifbuild on an icon file."
-	@$(UTILS)/gifbuild <$(PICS)/sample.ico | $(UTILS)/gifbuild -d >/tmp/sample-1.ico; $(UTILS)/gifbuild </tmp/sample-1.ico | $(UTILS)/gifbuild -d >/tmp/sample-2.ico; diff -u /tmp/sample-1.ico /tmp/sample-2.ico; rm /tmp/sample-*.ico
-	@echo "Checking idempotency of gifbuild on an animation."
-	@$(UTILS)/gifbuild -d <$(PICS)/fire.gif >/tmp/fire1.ico
-	@$(UTILS)/gifbuild </tmp/fire1.ico >/tmp/fire2.gif
-	@$(UTILS)/gifbuild -d </tmp/fire2.gif >/tmp/fire2.ico
-	@diff -u /tmp/fire1.ico /tmp/fire2.ico
 	@echo "Checking behavior of gifinto."
 	@rm -f /tmp/giflib.tmp
 	@$(UTILS)/gifinto <$(PICS)/porsche.gif /tmp/giflib.tmp
