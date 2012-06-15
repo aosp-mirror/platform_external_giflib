@@ -36,11 +36,8 @@ static char
 	" v%- p%-PosX|PosY!d!d d%-Display!s f%- h%- GifFile!*s";
 
 /* Make some variables global, so we could access them faster: */
-static int
-    ColorMapSize = 0,
-    BackGround = 0;
-static ColorMapObject
-    *ColorMap;
+static int ColorMapSize = 0;
+static ColorMapObject *ColorMap;
 
 /* Color allocation from xgif program by John Bradley <bradley@cis.ipenn.edu>*/
 /* X specific staff goes here. XColorTable will hold the GIF image colors,   */
@@ -225,7 +222,6 @@ int main(int argc, char **argv)
     while (RecordType != TERMINATE_RECORD_TYPE);
 
     /* Lets display it - set the global variables required and do it: */
-    BackGround = GifFile->SBackGroundColor;
     ColorMap = (GifFile->Image.ColorMap
 		? GifFile->Image.ColorMap
 		: GifFile->SColorMap);
