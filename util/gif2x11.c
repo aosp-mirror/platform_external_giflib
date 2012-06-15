@@ -38,11 +38,7 @@ static char
 /* Make some variables global, so we could access them faster: */
 static int
     ColorMapSize = 0,
-    BackGround = 0,
-    XPosX = 0,
-    XPosY = 0;
-static char
-    *DisplayName = NULL;
+    BackGround = 0;
 static ColorMapObject
     *ColorMap;
 
@@ -66,7 +62,7 @@ static Cursor XCursor;
 #define BYTESPERPIXEL 4
 
 static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
-		     int ScreenWidth, int ScreenHeight, 
+		     int ScreenWidth, int ScreenHeight, int XPosX, int XPosY,
 		     bool ForceFlag, bool PosFlag);
 static void AllocateColors1(void);
 static void AllocateColors2(void);
@@ -84,10 +80,13 @@ int main(int argc, char **argv)
     char **FileName = NULL;
     GifRowType *ScreenBuffer;
     GifFileType *GifFile;
-    bool PosFlag = false, HelpFlag = false, DisplayFlag = false, ForceFlag = false;
+    bool PosFlag = false, HelpFlag = false;
+    bool DisplayFlag = false, ForceFlag = false;
+    int XPosX = 0, XPosY = 0;
     int
 	InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
 	InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
+    char *DisplayName = NULL;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&GifNoisyPrint, &PosFlag, &XPosX, &XPosY,
@@ -236,7 +235,9 @@ int main(int argc, char **argv)
     }
     ColorMapSize = ColorMap->ColorCount;
     Screen2X(argc, argv, ScreenBuffer, 
-	     GifFile->SWidth, GifFile->SHeight, ForceFlag, PosFlag);
+	     GifFile->SWidth, GifFile->SHeight, 
+	     XPosX, XPosY,
+	     ForceFlag, PosFlag);
 
     for (i = GifFile->SHeight - 1 ; i >= 0 ; i--) {
 	free( ScreenBuffer[ i ] );
@@ -261,7 +262,7 @@ int main(int argc, char **argv)
 * The real display routine.
 ******************************************************************************/
 static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
-		     int ScreenWidth, int ScreenHeight, 
+		     int ScreenWidth, int ScreenHeight, int XPosX, int XPosY,
 		     bool ForceFlag, bool PosFlag)
 {
 #define	WM_DELETE_WINDOW	"WM_DELETE_WINDOW"
