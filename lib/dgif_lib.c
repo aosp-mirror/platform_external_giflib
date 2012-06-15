@@ -19,6 +19,9 @@ dgif_lib.c - the kernel of the GIF Decoding process can be found here.
 #include "gif_lib.h"
 #include "gif_lib_private.h"
 
+/* compose unsigned little endian value */
+#define UNSIGNED_LITTLE_ENDIAN(lo, hi)	((lo) | ((hi) << 8))
+
 /* avoid extra function call in case we use fread (TVT) */
 #define READ(_gif,_buf,_len)                                     \
   (((GifFilePrivateType*)_gif->Private)->Read ?                   \
@@ -554,7 +557,7 @@ int DGifExtensionToGCB(const size_t GifExtensionLength,
 
     GCB->DisposalMode = (GifExtension[0] >> 2) & 0x07;
     GCB->UserInputFlag = (GifExtension[0] & 0x02) != 0;
-    GCB->DelayTime = GifExtension[1] | (GifExtension[2] << 8);
+    GCB->DelayTime = UNSIGNED_LITTLE_ENDIAN(GifExtension[1], GifExtension[2]);
     if (GifExtension[0] & 0x01)
 	GCB->TransparentColor = (int)GifExtension[3];
     else
@@ -649,7 +652,7 @@ DGifGetWord(GifFileType *GifFile, GifWord *Word)
         return GIF_ERROR;
     }
 
-    *Word = (((unsigned int)c[1]) << 8) + c[0];
+    *Word = (GifWord)UNSIGNED_LITTLE_ENDIAN(c[0], c[1]);
     return GIF_OK;
 }
 
