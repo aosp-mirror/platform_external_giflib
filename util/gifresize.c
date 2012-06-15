@@ -29,13 +29,7 @@ static char
 	PROGRAM_NAME
 	" v%- S%-X|Y!d!d s%-Scale!F x%-XScale!F y%-YScale!F h%- GifFile!*s";
 
-/* Make some variables global, so we could access them faster: */
-static double
-    XScale = 0.5,
-    YScale = 0.5;
-static int
-    XSize = 0,
-    YSize = 0;
+static double XScale = 0.5, YScale = 0.5;
 
 static void ResizeLine(GifRowType LineIn, GifRowType LineOut,
 		      int InLineLen, int OutLineLen);
@@ -61,6 +55,7 @@ int main(int argc, char **argv)
     GifRowType LineIn, LineOut;
     char **FileName = NULL;
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
+    int XSize = 0, YSize = 0;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&GifNoisyPrint, &SizeFlag, &XSize, &YSize, &ScaleFlag, &Scale,
