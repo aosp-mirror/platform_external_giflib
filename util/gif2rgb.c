@@ -474,6 +474,8 @@ static void GIF2RGB(int NumFiles, char *FileName, char *OutFileName)
     DumpScreen2RGB(OutFileName, OneFileFlag,
 		   ScreenBuffer, GifFile->SWidth, GifFile->SHeight);
 
+    (void)free(ScreenBuffer);
+
     if (DGifCloseFile(GifFile) == GIF_ERROR) {
 	PrintGifError();
 	exit(EXIT_FAILURE);
