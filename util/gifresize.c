@@ -29,10 +29,8 @@ static char
 	PROGRAM_NAME
 	" v%- S%-X|Y!d!d s%-Scale!F x%-XScale!F y%-YScale!F h%- GifFile!*s";
 
-static double XScale = 0.5, YScale = 0.5;
-
 static void ResizeLine(GifRowType LineIn, GifRowType LineOut,
-		      int InLineLen, int OutLineLen);
+		       int InLineLen, int OutLineLen, double XScale);
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
@@ -49,6 +47,7 @@ int main(int argc, char **argv)
 	YScaleFlag = false,
 	HelpFlag = false;
     double Scale, y;
+    double XScale = 0.5, YScale = 0.5;
     GifRecordType RecordType;
     char s[80];
     GifByteType *Extension;
@@ -180,7 +179,9 @@ int main(int argc, char **argv)
 			iy = (int) y;
 			if (last_iy < iy && last_iy < YSize) {
 			    ResizeLine(LineIn, LineOut,
-				       GifFileIn->Image.Width, GifFileOut->Image.Width);
+				       GifFileIn->Image.Width, 
+				       GifFileOut->Image.Width,
+				       XScale);
 
 			    for (;
 				 last_iy < iy && last_iy < GifFileOut->Image.Height - 1;
@@ -249,7 +250,7 @@ int main(int argc, char **argv)
 * Scale (by pixel duplication/elimination) from InLineLen to OutLineLen.
 ******************************************************************************/
 static void ResizeLine(GifRowType LineIn, GifRowType LineOut,
-		      int InLineLen, int OutLineLen)
+		       int InLineLen, int OutLineLen, double XScale)
 {
     int i, ix, last_ix;
     double x;
