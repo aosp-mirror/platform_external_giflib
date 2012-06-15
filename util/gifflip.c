@@ -33,9 +33,8 @@ static char
 	PROGRAM_NAME
 	" v%- r%- l%- x%- y%- h%- GifFile!*s";
 
-/* Make some variables global, so we could access them faster: */
-static int
-    ImageNum = 0;
+/* global imafe counter */
+static int ImageNum = 0;
 
 static int LoadImage(GifFileType *GifFile, GifRowType **ImageBuffer);
 static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer,

@@ -27,10 +27,6 @@ static char
 	PROGRAM_NAME
 	" v%- h%- GifFile!*s";
 
-/* Make some variables global, so we could access them faster: */
-static int
-    ImageNum = 0;
-
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
@@ -47,6 +43,7 @@ int main(int argc, char **argv)
     GifRowType LineBuffer;
     ColorMapObject *ColorMap;
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
+    int ImageNum = 0;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint, &HelpFlag,
 		&NumFiles, &FileName)) != false ||

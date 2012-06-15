@@ -27,15 +27,10 @@ static char
 	PROGRAM_NAME
 	" v%- i%- s%- h%- GifFile!*s";
 
-/* Make some variables global, so we could access them faster: */
 static int
     ImageNum = 0,
     InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
     InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
-static bool
-    SequencialFlag = false,
-    InterlacedFlag = false,
-    HelpFlag = false;
 
 static int LoadImage(GifFileType *GifFile, GifRowType **ImageBuffer);
 static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer);
@@ -47,7 +42,7 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 int main(int argc, char **argv)
 {
     int	NumFiles, ExtCode;
-    bool Error;
+    bool Error, HelpFlag, SequentialFlag, InterlacedFlag = false;
     GifRecordType RecordType;
     GifByteType *Extension;
     char **FileName = NULL;
@@ -55,7 +50,7 @@ int main(int argc, char **argv)
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
-		&InterlacedFlag, &SequencialFlag, &HelpFlag,
+		&InterlacedFlag, &SequentialFlag, &HelpFlag,
 		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
 	if (Error)
