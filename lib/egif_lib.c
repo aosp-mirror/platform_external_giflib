@@ -37,6 +37,10 @@ static int EGifCompressOutput(GifFileType * GifFile, int Code);
 static int EGifBufferedOutput(GifFileType * GifFile, GifByteType * Buf,
                               int c);
 
+/* extract bytes from an unsigned word */
+#define LOBYTE(x)	((x) & 0xff)
+#define HIBYTE(x)	(((x) >> 8) & 0xff)
+
 /******************************************************************************
  * Open a new gif file for write, given by its name. If TestExistance then
  * if the file exists this routines fails (returns NULL).
@@ -612,8 +616,8 @@ size_t EGifGCBToExtension(const GraphicsControlBlock *GCB,
     GifExtension[0] |= (GCB->TransparentColor == NO_TRANSPARENT_COLOR) ? 0x00 : 0x01;
     GifExtension[0] |= GCB->UserInputFlag ? 0x02 : 0x00;
     GifExtension[0] |= ((GCB->DisposalMode & 0x07) << 2);
-    GifExtension[1] = GCB->DelayTime & 0xff;
-    GifExtension[2] = (GCB->DelayTime >> 8) & 0xff;
+    GifExtension[1] = LOBYTE(GCB->DelayTime);
+    GifExtension[2] = HIBYTE(GCB->DelayTime);
     GifExtension[3] = (char)GCB->TransparentColor;
     return 4;
 }
@@ -767,8 +771,8 @@ EGifPutWord(int Word, GifFileType *GifFile)
 {
     unsigned char c[2];
 
-    c[0] = Word & 0xff;
-    c[1] = (Word >> 8) & 0xff;
+    c[0] = LOBYTE(Word);
+    c[1] = HIBYTE(Word);
     if (InternalWrite(GifFile, c, 2) == 2)
         return GIF_OK;
     else
