@@ -48,18 +48,6 @@ static char
 	PROGRAM_NAME
 	" v%- c%-#Colors!d s%-Width|Height!d!d 1%- o%-OutFileName!s h%- GifFile!*s";
 
-/* Make some variables global, so we could access them faster: */
-static int
-    ImageNum = 0,
-    BackGround = 0,
-    InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
-    InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
-static ColorMapObject
-    *ColorMap;
-static bool
-    OneFileFlag = false,
-    HelpFlag = false;
-
 static void LoadRGB(char *FileName,
 		    int OneFileFlag,
 		    GifByteType **RedBuffer,
@@ -67,8 +55,8 @@ static void LoadRGB(char *FileName,
 		    GifByteType **BlueBuffer,
 		    int Width, int Height);
 static void SaveGif(GifByteType *OutputBuffer,
-		    ColorMapObject *OutputColorMap,
-		    int ExpColorMapSize, int Width, int Height);
+		    int Width, int Height, 
+		    int ExpColorMapSize, ColorMapObject *OutputColorMap);
 static void QuitGifError(GifFileType *GifFile);
 
 /******************************************************************************
@@ -173,8 +161,8 @@ static void LoadRGB(char *FileName,
 * Save the GIF resulting image.
 ******************************************************************************/
 static void SaveGif(GifByteType *OutputBuffer,
-		    ColorMapObject *OutputColorMap,
-		    int ExpColorMapSize, int Width, int Height)
+		    int Width, int Height,
+		    int ExpColorMapSize, ColorMapObject *OutputColorMap)
 {
     int i;
     GifFileType *GifFile;
@@ -251,19 +239,20 @@ static void RGB2GIF(bool OneFileFlag, int NumFiles, char *FileName,
     free((char *) GreenBuffer);
     free((char *) BlueBuffer);
 
-    SaveGif(OutputBuffer, OutputColorMap, ExpNumOfColors, Width, Height);
+    SaveGif(OutputBuffer, Width, Height, ExpNumOfColors, OutputColorMap);
 }
 
 /******************************************************************************
 * The real screen dumping routine.
 ******************************************************************************/
 static void DumpScreen2RGB(char *FileName, int OneFileFlag,
-               GifRowType *ScreenBuffer,
-               int ScreenWidth, int ScreenHeight)
+			   ColorMapObject *ColorMap,
+			   GifRowType *ScreenBuffer,
+			   int ScreenWidth, int ScreenHeight)
 {
     int i, j;
     GifRowType GifRow;
-    static GifColorType *ColorMapEntry;
+    GifColorType *ColorMapEntry;
     FILE *f[3];
 
     if (FileName != NULL) {
@@ -348,13 +337,20 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
     }
 }
 
-static void GIF2RGB(int NumFiles, char *FileName, char *OutFileName)
+static void GIF2RGB(int NumFiles, char *FileName, 
+		    bool OneFileFlag, 
+		    char *OutFileName)
 {
     int	i, j, Size, Row, Col, Width, Height, ExtCode, Count;
     GifRecordType RecordType;
     GifByteType *Extension;
     GifRowType *ScreenBuffer;
     GifFileType *GifFile;
+    int
+	InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
+	InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
+    int ImageNum = 0;
+    ColorMapObject *ColorMap;
 
     if (NumFiles == 1) {
 	if ((GifFile = DGifOpenFileName(FileName)) == NULL) {
@@ -462,7 +458,6 @@ static void GIF2RGB(int NumFiles, char *FileName, char *OutFileName)
     } while (RecordType != TERMINATE_RECORD_TYPE);
 
     /* Lets dump it - set the global variables required and do it: */
-    BackGround = GifFile->SBackGroundColor;
     ColorMap = (GifFile->Image.ColorMap
 		? GifFile->Image.ColorMap
 		: GifFile->SColorMap);
@@ -472,7 +467,9 @@ static void GIF2RGB(int NumFiles, char *FileName, char *OutFileName)
     }
 
     DumpScreen2RGB(OutFileName, OneFileFlag,
-		   ScreenBuffer, GifFile->SWidth, GifFile->SHeight);
+		   ColorMap,
+		   ScreenBuffer, 
+		   GifFile->SWidth, GifFile->SHeight);
 
     (void)free(ScreenBuffer);
 
@@ -492,6 +489,9 @@ int main(int argc, char **argv)
     int NumFiles, Width = 0, Height = 0, ExpNumOfColors = 8;
     char *OutFileName,
 	**FileName = NULL;
+    static bool
+	OneFileFlag = false,
+	HelpFlag = false;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&ColorFlag, &ExpNumOfColors, &SizeFlag, &Width, &Height, 
@@ -517,7 +517,7 @@ int main(int argc, char **argv)
 	RGB2GIF(OneFileFlag, NumFiles, *FileName, 
 		ExpNumOfColors, Width, Height);
     else
-	GIF2RGB(NumFiles, *FileName, OutFileName);
+	GIF2RGB(NumFiles, *FileName, OneFileFlag, OutFileName);
 
     return 0;
 }
