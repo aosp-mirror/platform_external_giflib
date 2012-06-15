@@ -30,8 +30,6 @@ static char
 	" v%- S%-X|Y!d!d s%-Scale!F x%-XScale!F y%-YScale!F h%- GifFile!*s";
 
 /* Make some variables global, so we could access them faster: */
-static GifPixelType
-    BackGroundColor = 0;
 static double
     XScale = 0.5,
     YScale = 0.5;
@@ -115,7 +113,6 @@ int main(int argc, char **argv)
 	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
-    BackGroundColor = GifFileIn->SBackGroundColor;
 
     /* If size was specified, it is used to derive the scale: */
     if (SizeFlag) {
