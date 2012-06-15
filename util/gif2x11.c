@@ -35,10 +35,6 @@ static char
 	PROGRAM_NAME
 	" v%- p%-PosX|PosY!d!d d%-Display!s f%- h%- GifFile!*s";
 
-/* Make some variables global, so we could access them faster: */
-static int ColorMapSize = 0;
-static ColorMapObject *ColorMap;
-
 /* Color allocation from xgif program by John Bradley <bradley@cis.ipenn.edu>*/
 /* X specific staff goes here. XColorTable will hold the GIF image colors,   */
 /* while XPixelTable will hold the pixel number so we can redirect through   */
@@ -60,9 +56,10 @@ static Cursor XCursor;
 
 static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
 		     int ScreenWidth, int ScreenHeight, int XPosX, int XPosY,
+		     int ColorMapSize, ColorMapObject *ColorMap,
 		     bool ForceFlag, bool PosFlag);
-static void AllocateColors1(void);
-static void AllocateColors2(void);
+static void AllocateColors1(int ColorMapSize, ColorMapObject *ColorMap);
+static void AllocateColors2(int ColorMapSize, ColorMapObject *ColorMap);
 
 /******************************************************************************
 * Interpret the command line and scan the given GIF file.
@@ -84,6 +81,8 @@ int main(int argc, char **argv)
 	InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
 	InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
     char *DisplayName = NULL;
+    int ColorMapSize = 0;
+    ColorMapObject *ColorMap;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr,
 		&GifNoisyPrint, &PosFlag, &XPosX, &XPosY,
@@ -233,6 +232,7 @@ int main(int argc, char **argv)
     Screen2X(argc, argv, ScreenBuffer, 
 	     GifFile->SWidth, GifFile->SHeight, 
 	     XPosX, XPosY,
+	     ColorMapSize, ColorMap,
 	     ForceFlag, PosFlag);
 
     for (i = GifFile->SHeight - 1 ; i >= 0 ; i--) {
@@ -259,6 +259,7 @@ int main(int argc, char **argv)
 ******************************************************************************/
 static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
 		     int ScreenWidth, int ScreenHeight, int XPosX, int XPosY,
+		     int ColorMapSize, ColorMapObject *ColorMap,
 		     bool ForceFlag, bool PosFlag)
 {
 #define	WM_DELETE_WINDOW	"WM_DELETE_WINDOW"
@@ -293,9 +294,9 @@ static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
 
     /* The big trick here is to select the colors so let's do this first: */
     if (ForceFlag)
-	AllocateColors2();
+	AllocateColors2(ColorMapSize, ColorMap);
     else
-	AllocateColors1();
+	AllocateColors1(ColorMapSize, ColorMap);
 
     SetWinAttr.background_pixel = BlackPixel( XDisplay, XScreen );
     SetWinAttr.border_pixel = WhitePixel( XDisplay, XScreen );
@@ -408,7 +409,7 @@ static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
 * Colors are allocated until success by stripping off the least bits of the
 * colors.
 ******************************************************************************/
-static void AllocateColors1(void)
+static void AllocateColors1(int ColorMapSize, ColorMapObject *ColorMap)
 {
     int Strip, Msk, i;
     char Msg[80];
@@ -455,7 +456,7 @@ static void AllocateColors1(void)
 * closest distance from the unallocated ones under some norm (what is a good
 * norm for the RGB space?). Improve it if you are bored.
 ******************************************************************************/
-static void AllocateColors2(void)
+static void AllocateColors2(int ColorMapSize, ColorMapObject *ColorMap)
 {
     int i, j, Index = 0, Count = 0, XNumOfColors;
     char Msg[80];
