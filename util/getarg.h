@@ -12,8 +12,8 @@ getarg.h - Support routines for the giflib utilities
 #define VERSION_COOKIE " Version %d.%d, "
 
 /***************************************************************************
- * Error numbers as returned by GAGetArg routine:
- **************************************************************************/ 
+ Error numbers as returned by GAGetArg routine:
+***************************************************************************/ 
 #define CMD_ERR_NotAnOpt  1    /* None Option found. */
 #define CMD_ERR_NoSuchOpt 2    /* Undefined Option Found. */
 #define CMD_ERR_WildEmpty 3    /* Empty input for !*? seq. */
@@ -25,16 +25,11 @@ void GAPrintErrMsg(int Error);
 void GAPrintHowTo(char *CtrlStr);
 
 /******************************************************************************
- * O.K., here are the routines from QPRINTF.C.              
+ From qprintf.c
 ******************************************************************************/
 extern bool GifNoisyPrint;
 extern void GifQprintf(char *Format, ...);
-
-/******************************************************************************
- * O.K., here are the routines from GIF_ERR.C.              
-******************************************************************************/
 extern void PrintGifError(void);
-extern int GifLastError(void);
 
 /* These used to live in the library header */
 #define GIF_MESSAGE(Msg) fprintf(stderr, "\n%s: %s\n", PROGRAM_NAME, Msg)
