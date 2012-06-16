@@ -9,39 +9,15 @@ gif_err.c - handle error reporting for the GIF library.
 #include "gif_lib.h"
 #include "gif_lib_private.h"
 
-int _GifError = 0;
-
-/*****************************************************************************
- Return the last GIF error (0 if none) and reset the error.
-*****************************************************************************/
-int
-GifLastError(void)
-{
-    int i = _GifError;
-
-    _GifError = 0;
-
-    return i;
-}
-
-/*****************************************************************************
- Return the last GIF error (0 if none).
-****************************************************************************/
-int
-GifError(void)
-{
-    return _GifError;
-}
-
 /*****************************************************************************
  Return a string description of  the last GIF error
 *****************************************************************************/
 char *
-GifErrorString(void)
+GifErrorString(int ErrorCode)
 {
     char *Err;
 
-    switch (_GifError) {
+    switch (ErrorCode) {
       case E_GIF_ERR_OPEN_FAILED:
         Err = "Failed to open given file";
         break;

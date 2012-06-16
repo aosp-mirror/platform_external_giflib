@@ -137,7 +137,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
     if ((GifFileOut = EGifOpenFileHandle(fdout)) == NULL) {
 	if (EGifCloseFile(GifFileOut) == GIF_ERROR) {
-	    PrintGifError();
+	    PrintGifError(GifFileOut->Error);
 	}
 	exit(EXIT_FAILURE);
     }
@@ -300,7 +300,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		|| DGifSlurp(Inclusion) == GIF_ERROR)
 	    {
 		PARSE_ERROR("Inclusion read failed.");
-		PrintGifError();
+		PrintGifError(GifFileOut->Error);
 		if (Inclusion != NULL) DGifCloseFile(Inclusion);
 		if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
 		exit(EXIT_FAILURE);
@@ -316,7 +316,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		if (UnionMap == NULL)
 		{
 		    PARSE_ERROR("Inclusion failed --- global map conflict.");
-		    PrintGifError();
+		    PrintGifError(GifFileOut->Error);
 		    if (Inclusion != NULL) DGifCloseFile(Inclusion);
 		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
 		    exit(EXIT_FAILURE);
@@ -333,7 +333,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		if ((NewImage = GifMakeSavedImage(GifFileOut, CopyFrom)) == NULL)
 		{
 		    PARSE_ERROR("Inclusion failed --- out of memory.");
-		    PrintGifError();
+		    PrintGifError(GifFileOut->Error);
 		    if (Inclusion != NULL) DGifCloseFile(Inclusion);
 		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
 		    exit(EXIT_FAILURE);
@@ -662,7 +662,7 @@ static void VisibleDumpBuffer(GifByteType *buf, int len)
     }
 }
 
-static void DumpExtensions(ExtensionList *Extensions)
+static void DumpExtensions(GifFileType *GifFileOut, ExtensionList *Extensions)
 {
     ExtensionBlock *ep;
 
@@ -697,7 +697,7 @@ static void DumpExtensions(ExtensionList *Extensions)
 	    GraphicsControlBlock gcb;
 	    printf("graphics control\n");
 	    if (DGifExtensionToGCB(ep->ByteCount, ep->Bytes, &gcb) == GIF_ERROR) {
-		PrintGifError();
+		PrintGifError(GifFileOut->Error);
 		exit(EXIT_FAILURE);
 	    }
 	    printf("\tdisposal mode %d\n", gcb.DisposalMode);
@@ -735,20 +735,20 @@ static void Gif2Icon(char *FileName,
 
     if (fdin == -1) {
 	if ((GifFile = DGifOpenFileName(FileName)) == NULL) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
     }
     else {
 	/* Use stdin instead: */
 	if ((GifFile = DGifOpenFileHandle(fdin)) == NULL) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
     }
 
     if (DGifSlurp(GifFile) == GIF_ERROR) {
-	PrintGifError();
+	PrintGifError(GifFile->Error);
 	exit(EXIT_FAILURE);
     }
 
@@ -784,7 +784,7 @@ static void Gif2Icon(char *FileName,
     for (im = 0; im < GifFile->ImageCount; im++) {
 	SavedImage *image = &GifFile->SavedImages[im];
 
-	DumpExtensions(&image->Leading);
+	DumpExtensions(GifFile, &image->Leading);
 
 	printf("image # %d\nimage left %d\nimage top %d\n",
 	       im+1, image->ImageDesc.Left, image->ImageDesc.Top);
@@ -839,7 +839,7 @@ static void Gif2Icon(char *FileName,
 	putchar('\n');
     }
 
-    DumpExtensions(&GifFile->Trailing);
+    DumpExtensions(GifFile, &GifFile->Trailing);
 
     /* Tell EMACS this is a picture... */
     printf("# The following sets edit modes for GNU EMACS\n");
@@ -853,7 +853,7 @@ static void Gif2Icon(char *FileName,
 	(void) printf("# End of %s dump\n", FileName);
 
     if (DGifCloseFile(GifFile) == GIF_ERROR) {
-	PrintGifError();
+	PrintGifError(GifFile->Error);
 	exit(EXIT_FAILURE);
     }
 }

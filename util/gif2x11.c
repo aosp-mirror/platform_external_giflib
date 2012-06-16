@@ -105,7 +105,7 @@ int main(int argc, char **argv)
 
     if (NumFiles == 1) {
 	if ((GifFile = DGifOpenFileName(*FileName)) == NULL) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
     }
@@ -113,7 +113,7 @@ int main(int argc, char **argv)
 	/* Use stdin instead: */
 
 	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
     }
@@ -155,13 +155,13 @@ int main(int argc, char **argv)
     /* Scan the content of the GIF file and load the image(s) in: */
     do {
 	if (DGifGetRecordType(GifFile, &RecordType) == GIF_ERROR) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
 	switch (RecordType) {
 	    case IMAGE_DESC_RECORD_TYPE:
 		if (DGifGetImageDesc(GifFile) == GIF_ERROR) {
-		    PrintGifError();
+		    PrintGifError(GifFile->Error);
 		    exit(EXIT_FAILURE);
 		}
 		Row = GifFile->Image.Top; /* Image Position relative to Screen. */
@@ -183,7 +183,7 @@ int main(int argc, char **argv)
 			    GifQprintf("\b\b\b\b%-4d", Count++);
 			    if (DGifGetLine(GifFile, &ScreenBuffer[j][Col],
 				Width) == GIF_ERROR) {
-				PrintGifError();
+				PrintGifError(GifFile->Error);
 				exit(EXIT_FAILURE);
 			    }
 			}
@@ -193,7 +193,7 @@ int main(int argc, char **argv)
 			GifQprintf("\b\b\b\b%-4d", i);
 			if (DGifGetLine(GifFile, &ScreenBuffer[Row++][Col],
 				Width) == GIF_ERROR) {
-			    PrintGifError();
+			    PrintGifError(GifFile->Error);
 			    exit(EXIT_FAILURE);
 			}
 		    }
@@ -202,12 +202,12 @@ int main(int argc, char **argv)
 	    case EXTENSION_RECORD_TYPE:
 		/* Skip any extension blocks in file: */
 		if (DGifGetExtension(GifFile, &ExtCode, &Extension) == GIF_ERROR) {
-		    PrintGifError();
+		    PrintGifError(GifFile->Error);
 		    exit(EXIT_FAILURE);
 		}
 		while (Extension != NULL) {
 		    if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
-			PrintGifError();
+			PrintGifError(GifFile->Error);
 			exit(EXIT_FAILURE);
 		    }
 		}
@@ -246,7 +246,7 @@ int main(int argc, char **argv)
 	XFreePixmap( XDisplay , XIcon );
 
     if (DGifCloseFile(GifFile) == GIF_ERROR) {
-	PrintGifError();
+	PrintGifError(GifFile->Error);
 	exit(EXIT_FAILURE);
     }
     GifQprintf("\n");

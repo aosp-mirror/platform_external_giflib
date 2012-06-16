@@ -45,7 +45,7 @@ static int EGifBufferedOutput(GifFileType * GifFile, GifByteType * Buf,
  Open a new gif file for write, given by its name. If TestExistance then
  if the file exists this routines fails (returns NULL).
  Returns GifFileType pointer dynamically allocated which serves as the gif
- info record. _GifError is cleared if successful.
+ info record. The Error member is cleared if successful.
 ******************************************************************************/
 GifFileType *
 EGifOpenFileName(const char *FileName, const bool TestExistence)
@@ -62,7 +62,7 @@ EGifOpenFileName(const char *FileName, const bool TestExistence)
 			  S_IREAD | S_IWRITE);
 
     if (FileHandle == -1) {
-        _GifError = E_GIF_ERR_OPEN_FAILED;
+        //_GifError = E_GIF_ERR_OPEN_FAILED;
         return NULL;
     }
     GifFile = EGifOpenFileHandle(FileHandle);
@@ -75,7 +75,7 @@ EGifOpenFileName(const char *FileName, const bool TestExistence)
  Update a new gif file, given its file handle, which must be opened for
  write in binary mode.
  Returns GifFileType pointer dynamically allocated which serves as the gif
- info record. _GifError is cleared if successful.
+ info record.
 ******************************************************************************/
 GifFileType *
 EGifOpenFileHandle(const int FileHandle)
@@ -86,7 +86,7 @@ EGifOpenFileHandle(const int FileHandle)
 
     GifFile = (GifFileType *) malloc(sizeof(GifFileType));
     if (GifFile == NULL) {
-        _GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
+        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 
@@ -95,13 +95,13 @@ EGifOpenFileHandle(const int FileHandle)
     Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
     if (Private == NULL) {
         free(GifFile);
-        _GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
+        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
     if ((Private->HashTable = _InitHashTable()) == NULL) {
         free(GifFile);
         free(Private);
-        _GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
+        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 
@@ -119,7 +119,7 @@ EGifOpenFileHandle(const int FileHandle)
     Private->Write = (OutputFunc) 0;    /* No user write routine (MRB) */
     GifFile->UserData = (void *)NULL;    /* No user write handle (MRB) */
 
-    _GifError = 0;
+    GifFile->Error = 0;
 
     return GifFile;
 }
@@ -136,7 +136,7 @@ EGifOpen(void *userData, OutputFunc writeFunc)
 
     GifFile = (GifFileType *)malloc(sizeof(GifFileType));
     if (GifFile == NULL) {
-        _GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
+        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 
@@ -145,7 +145,7 @@ EGifOpen(void *userData, OutputFunc writeFunc)
     Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
     if (Private == NULL) {
         free(GifFile);
-        _GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
+        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 
@@ -153,7 +153,7 @@ EGifOpen(void *userData, OutputFunc writeFunc)
     if (Private->HashTable == NULL) {
         free (GifFile);
         free (Private);
-        _GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
+        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 
@@ -165,7 +165,7 @@ EGifOpen(void *userData, OutputFunc writeFunc)
     Private->Write = writeFunc;    /* User write routine (MRB) */
     GifFile->UserData = userData;    /* User write handle (MRB) */
 
-    _GifError = 0;
+    GifFile->Error = 0;
 
     return GifFile;
 }
@@ -239,12 +239,12 @@ EGifPutScreenDesc(GifFileType *GifFile,
 
     if (Private->FileState & FILE_STATE_SCREEN) {
         /* If already has screen descriptor - something is wrong! */
-        _GifError = E_GIF_ERR_HAS_SCRN_DSCR;
+        GifFile->Error = E_GIF_ERR_HAS_SCRN_DSCR;
         return GIF_ERROR;
     }
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        _GifError = E_GIF_ERR_NOT_WRITEABLE;
+        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
     }
 
@@ -253,7 +253,7 @@ EGifPutScreenDesc(GifFileType *GifFile,
     /* First write the version prefix into the file. */
     if (InternalWrite(GifFile, (unsigned char *)write_version,
               strlen(write_version)) != strlen(write_version)) {
-        _GifError = E_GIF_ERR_WRITE_FAILED;
+        GifFile->Error = E_GIF_ERR_WRITE_FAILED;
         return GIF_ERROR;
     }
 
@@ -265,7 +265,7 @@ EGifPutScreenDesc(GifFileType *GifFile,
         GifFile->SColorMap = GifMakeMapObject(ColorMap->ColorCount,
                                            ColorMap->Colors);
         if (GifFile->SColorMap == NULL) {
-            _GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
+            GifFile->Error = E_GIF_ERR_NOT_ENOUGH_MEM;
             return GIF_ERROR;
         }
     } else
@@ -302,7 +302,7 @@ EGifPutScreenDesc(GifFileType *GifFile,
             Buf[1] = ColorMap->Colors[i].Green;
             Buf[2] = ColorMap->Colors[i].Blue;
             if (InternalWrite(GifFile, Buf, 3) != 3) {
-                _GifError = E_GIF_ERR_WRITE_FAILED;
+                GifFile->Error = E_GIF_ERR_WRITE_FAILED;
                 return GIF_ERROR;
             }
         }
@@ -333,12 +333,12 @@ EGifPutImageDesc(GifFileType *GifFile,
     if (Private->FileState & FILE_STATE_IMAGE &&
         Private->PixelCount > 0xffff0000UL) {
         /* If already has active image descriptor - something is wrong! */
-        _GifError = E_GIF_ERR_HAS_IMAG_DSCR;
+        GifFile->Error = E_GIF_ERR_HAS_IMAG_DSCR;
         return GIF_ERROR;
     }
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        _GifError = E_GIF_ERR_NOT_WRITEABLE;
+        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
     }
     GifFile->Image.Left = Left;
@@ -350,7 +350,7 @@ EGifPutImageDesc(GifFileType *GifFile,
         GifFile->Image.ColorMap = GifMakeMapObject(ColorMap->ColorCount,
                                                 ColorMap->Colors);
         if (GifFile->Image.ColorMap == NULL) {
-            _GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
+            GifFile->Error = E_GIF_ERR_NOT_ENOUGH_MEM;
             return GIF_ERROR;
         }
     } else {
@@ -378,13 +378,13 @@ EGifPutImageDesc(GifFileType *GifFile,
             Buf[1] = ColorMap->Colors[i].Green;
             Buf[2] = ColorMap->Colors[i].Blue;
             if (InternalWrite(GifFile, Buf, 3) != 3) {
-                _GifError = E_GIF_ERR_WRITE_FAILED;
+                GifFile->Error = E_GIF_ERR_WRITE_FAILED;
                 return GIF_ERROR;
             }
         }
     }
     if (GifFile->SColorMap == NULL && GifFile->Image.ColorMap == NULL) {
-        _GifError = E_GIF_ERR_NO_COLOR_MAP;
+        GifFile->Error = E_GIF_ERR_NO_COLOR_MAP;
         return GIF_ERROR;
     }
 
@@ -410,14 +410,14 @@ EGifPutLine(GifFileType * GifFile, GifPixelType *Line, int LineLen)
 
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        _GifError = E_GIF_ERR_NOT_WRITEABLE;
+        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
     }
 
     if (!LineLen)
         LineLen = GifFile->Image.Width;
     if (Private->PixelCount < (unsigned)LineLen) {
-        _GifError = E_GIF_ERR_DATA_TOO_BIG;
+        GifFile->Error = E_GIF_ERR_DATA_TOO_BIG;
         return GIF_ERROR;
     }
     Private->PixelCount -= LineLen;
@@ -441,12 +441,12 @@ EGifPutPixel(GifFileType *GifFile, GifPixelType Pixel)
 
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        _GifError = E_GIF_ERR_NOT_WRITEABLE;
+        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
     }
 
     if (Private->PixelCount == 0) {
-        _GifError = E_GIF_ERR_DATA_TOO_BIG;
+        GifFile->Error = E_GIF_ERR_DATA_TOO_BIG;
         return GIF_ERROR;
     }
     --Private->PixelCount;
@@ -512,7 +512,7 @@ EGifPutExtensionLeader(GifFileType *GifFile, const int ExtCode)
 
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        _GifError = E_GIF_ERR_NOT_WRITEABLE;
+        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
     }
 
@@ -536,7 +536,7 @@ EGifPutExtensionBlock(GifFileType *GifFile,
 
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        _GifError = E_GIF_ERR_NOT_WRITEABLE;
+        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
     }
 
@@ -558,7 +558,7 @@ EGifPutExtensionTrailer(GifFileType *GifFile) {
 
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        _GifError = E_GIF_ERR_NOT_WRITEABLE;
+        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
     }
 
@@ -586,7 +586,7 @@ EGifPutExtension(GifFileType *GifFile,
 
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        _GifError = E_GIF_ERR_NOT_WRITEABLE;
+        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
     }
 
@@ -668,7 +668,7 @@ EGifPutCode(GifFileType *GifFile, int CodeSize, const GifByteType *CodeBlock)
 
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        _GifError = E_GIF_ERR_NOT_WRITEABLE;
+        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
     }
 
@@ -676,7 +676,7 @@ EGifPutCode(GifFileType *GifFile, int CodeSize, const GifByteType *CodeBlock)
     /* 
      * Buf = CodeSize;
      * if (InternalWrite(GifFile, &Buf, 1) != 1) {
-     *      _GifError = E_GIF_ERR_WRITE_FAILED;
+     *      GifFile->Error = E_GIF_ERR_WRITE_FAILED;
      *      return GIF_ERROR;
      * }
      */
@@ -698,13 +698,13 @@ EGifPutCodeNext(GifFileType *GifFile, const GifByteType *CodeBlock)
     if (CodeBlock != NULL) {
         if (InternalWrite(GifFile, CodeBlock, CodeBlock[0] + 1)
                != (unsigned)(CodeBlock[0] + 1)) {
-            _GifError = E_GIF_ERR_WRITE_FAILED;
+            GifFile->Error = E_GIF_ERR_WRITE_FAILED;
             return GIF_ERROR;
         }
     } else {
         Buf = 0;
         if (InternalWrite(GifFile, &Buf, 1) != 1) {
-            _GifError = E_GIF_ERR_WRITE_FAILED;
+            GifFile->Error = E_GIF_ERR_WRITE_FAILED;
             return GIF_ERROR;
         }
         Private->PixelCount = 0;    /* And local info. indicate image read. */
@@ -731,7 +731,7 @@ EGifCloseFile(GifFileType *GifFile)
 	return GIF_ERROR;
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        _GifError = E_GIF_ERR_NOT_WRITEABLE;
+        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
         return GIF_ERROR;
     }
 
@@ -757,7 +757,7 @@ EGifCloseFile(GifFileType *GifFile)
     free(GifFile);
 
     if (File && fclose(File) != 0) {
-        _GifError = E_GIF_ERR_CLOSE_FAILED;
+        GifFile->Error = E_GIF_ERR_CLOSE_FAILED;
         return GIF_ERROR;
     }
     return GIF_OK;
@@ -795,7 +795,7 @@ EGifSetupCompress(GifFileType *GifFile)
     else if (GifFile->SColorMap)
         BitsPerPixel = GifFile->SColorMap->BitsPerPixel;
     else {
-        _GifError = E_GIF_ERR_NO_COLOR_MAP;
+        GifFile->Error = E_GIF_ERR_NO_COLOR_MAP;
         return GIF_ERROR;
     }
 
@@ -817,7 +817,7 @@ EGifSetupCompress(GifFileType *GifFile)
     _ClearHashTable(Private->HashTable);
 
     if (EGifCompressOutput(GifFile, Private->ClearCode) == GIF_ERROR) {
-        _GifError = E_GIF_ERR_DISK_IS_FULL;
+        GifFile->Error = E_GIF_ERR_DISK_IS_FULL;
         return GIF_ERROR;
     }
     return GIF_OK;
@@ -863,7 +863,7 @@ EGifCompressLine(GifFileType *GifFile,
              * CrntCode equal to Pixel.
              */
             if (EGifCompressOutput(GifFile, CrntCode) == GIF_ERROR) {
-                _GifError = E_GIF_ERR_DISK_IS_FULL;
+                GifFile->Error = E_GIF_ERR_DISK_IS_FULL;
                 return GIF_ERROR;
             }
             CrntCode = Pixel;
@@ -875,7 +875,7 @@ EGifCompressLine(GifFileType *GifFile,
                 /* Time to do some clearance: */
                 if (EGifCompressOutput(GifFile, Private->ClearCode)
                         == GIF_ERROR) {
-                    _GifError = E_GIF_ERR_DISK_IS_FULL;
+                    GifFile->Error = E_GIF_ERR_DISK_IS_FULL;
                     return GIF_ERROR;
                 }
                 Private->RunningCode = Private->EOFCode + 1;
@@ -896,15 +896,15 @@ EGifCompressLine(GifFileType *GifFile,
     if (Private->PixelCount == 0) {
         /* We are done - output last Code and flush output buffers: */
         if (EGifCompressOutput(GifFile, CrntCode) == GIF_ERROR) {
-            _GifError = E_GIF_ERR_DISK_IS_FULL;
+            GifFile->Error = E_GIF_ERR_DISK_IS_FULL;
             return GIF_ERROR;
         }
         if (EGifCompressOutput(GifFile, Private->EOFCode) == GIF_ERROR) {
-            _GifError = E_GIF_ERR_DISK_IS_FULL;
+            GifFile->Error = E_GIF_ERR_DISK_IS_FULL;
             return GIF_ERROR;
         }
         if (EGifCompressOutput(GifFile, FLUSH_OUTPUT) == GIF_ERROR) {
-            _GifError = E_GIF_ERR_DISK_IS_FULL;
+            GifFile->Error = E_GIF_ERR_DISK_IS_FULL;
             return GIF_ERROR;
         }
     }
@@ -975,20 +975,20 @@ EGifBufferedOutput(GifFileType *GifFile,
         /* Flush everything out. */
         if (Buf[0] != 0
             && InternalWrite(GifFile, Buf, Buf[0] + 1) != (unsigned)(Buf[0] + 1)) {
-            _GifError = E_GIF_ERR_WRITE_FAILED;
+            GifFile->Error = E_GIF_ERR_WRITE_FAILED;
             return GIF_ERROR;
         }
         /* Mark end of compressed data, by an empty block (see GIF doc): */
         Buf[0] = 0;
         if (InternalWrite(GifFile, Buf, 1) != 1) {
-            _GifError = E_GIF_ERR_WRITE_FAILED;
+            GifFile->Error = E_GIF_ERR_WRITE_FAILED;
             return GIF_ERROR;
         }
     } else {
         if (Buf[0] == 255) {
             /* Dump out this buffer - it is full: */
             if (InternalWrite(GifFile, Buf, Buf[0] + 1) != (unsigned)(Buf[0] + 1)) {
-                _GifError = E_GIF_ERR_WRITE_FAILED;
+                GifFile->Error = E_GIF_ERR_WRITE_FAILED;
                 return GIF_ERROR;
             }
             Buf[0] = 0;

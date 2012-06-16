@@ -53,9 +53,8 @@ static GifColorType EGAPalette[] =      /* Default color map is EGA palette. */
 };
 #define EGA_PALETTE_SIZE (sizeof(EGAPalette) / sizeof(GifColorType))
 
-static int Raw2Gif(int ImagwWidth, int ImagwHeight, ColorMapObject *ColorMap);
+static void Raw2Gif(int ImagwWidth, int ImagwHeight, ColorMapObject *ColorMap);
 static void Gif2Raw(GifFileType *GifFile, bool Textify);
-static int HandleGifError(GifFileType *GifFile);
 
 /******************************************************************************
  Interpret the command line, prepar global data and call the Gif routines.
@@ -146,14 +145,14 @@ int main(int argc, char **argv)
 
 	if (NumFiles == 1) {
 	    if ((GifFile = DGifOpenFileName(*FileName)) == NULL) {
-		PrintGifError();
+		PrintGifError(GifFile->Error);
 		exit(EXIT_FAILURE);
 	    }
 	}
 	else {
 	    /* Use stdin instead: */
 	    if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
-		PrintGifError();
+		PrintGifError(GifFile->Error);
 		exit(EXIT_FAILURE);
 	    }
 	}
@@ -165,11 +164,11 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
- Convert Raw image (One byte per pixel) into Gif file. Raw data is read from
- stdin, and Gif is dumped to stdout. ImagwWidth times ImageHeight bytes are
+ Convert raw image (One byte per pixel) into GIF file. Raw data is read from
+ stdin, and GIF is dumped to stdout. ImagwWidth times ImageHeight bytes are
  read. Color map is dumped from ColorMap.
 ******************************************************************************/
-int Raw2Gif(int ImageWidth, int ImageHeight, ColorMapObject *ColorMap)
+void Raw2Gif(int ImageWidth, int ImageHeight, ColorMapObject *ColorMap)
 {
     int i, j;
     static GifPixelType *ScanLine;
@@ -183,19 +182,22 @@ int Raw2Gif(int ImageWidth, int ImageHeight, ColorMapObject *ColorMap)
 
     if ((GifFile = EGifOpenFileHandle(1)) == NULL) {	   /* Gif to stdout. */
 	free((char *) ScanLine);
-	return HandleGifError(GifFile);
+	PrintGifError(GifFile->Error);
+	exit(EXIT_FAILURE);
     }
 
     if (EGifPutScreenDesc(GifFile, ImageWidth, ImageHeight, ColorMap->BitsPerPixel,
 			  0, ColorMap) == GIF_ERROR) {
 	free((char *) ScanLine);
-	return HandleGifError(GifFile);
+	PrintGifError(GifFile->Error);
+	exit(EXIT_FAILURE);
     }
 
     if (EGifPutImageDesc(GifFile, 0, 0, ImageWidth, ImageHeight, false,
 			 NULL) == GIF_ERROR) {
 	free((char *) ScanLine);
-	return HandleGifError(GifFile);
+	PrintGifError(GifFile->Error);
+	exit(EXIT_FAILURE);
     }
 
     /* Here it is - get one raw line from stdin, and dump to stdout Gif: */
@@ -215,31 +217,19 @@ int Raw2Gif(int ImageWidth, int ImageHeight, ColorMapObject *ColorMap)
 
 	if (EGifPutLine(GifFile, ScanLine, ImageWidth) == GIF_ERROR) {
 	    free((char *) ScanLine);
-	    return HandleGifError(GifFile);
+	    PrintGifError(GifFile->Error);
+	    exit(EXIT_FAILURE);
 	}
 	GifQprintf("\b\b\b\b%-4d", i);
     }
 
     if (EGifCloseFile(GifFile) == GIF_ERROR) {
 	free((char *) ScanLine);
-	return HandleGifError(GifFile);
+	PrintGifError(GifFile->Error);
+	exit(EXIT_FAILURE);
     }
 
     free((char *) ScanLine);
-    return 0;
-}
-
-/******************************************************************************
- Handle last GIF error. Try to close the file and free all allocated memory. *
-******************************************************************************/
-static int HandleGifError(GifFileType *GifFile)
-{
-    int i = GifLastError();
-
-    if (EGifCloseFile(GifFile) == GIF_ERROR) {
-	GifLastError();
-    }
-    return i;
 }
 
 static void Gif2Raw(GifFileType *GifFile, bool Textify)
@@ -255,13 +245,13 @@ static void Gif2Raw(GifFileType *GifFile, bool Textify)
  
    do {
 	if (DGifGetRecordType(GifFile, &RecordType) == GIF_ERROR) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
 	switch (RecordType) {
 	    case IMAGE_DESC_RECORD_TYPE:
 		if (DGifGetImageDesc(GifFile) == GIF_ERROR) {
-		    PrintGifError();
+		    PrintGifError(GifFile->Error);
 		    exit(EXIT_FAILURE);
 		}
 
@@ -270,7 +260,7 @@ static void Gif2Raw(GifFileType *GifFile, bool Textify)
 		for (i = 0; i < GifFile->Image.Height; i++) {
 		    if (DGifGetLine(GifFile, Line, GifFile->Image.Width)
 			== GIF_ERROR) {
-			PrintGifError();
+			PrintGifError(GifFile->Error);
 			exit(EXIT_FAILURE);
 		    }
 		    if (Textify)
@@ -284,12 +274,12 @@ static void Gif2Raw(GifFileType *GifFile, bool Textify)
 		break;
 	    case EXTENSION_RECORD_TYPE:
 		if (DGifGetExtension(GifFile, &ExtCode, &Extension) == GIF_ERROR) {
-		    PrintGifError();
+		    PrintGifError(GifFile->Error);
 		    exit(EXIT_FAILURE);
 		}
 		for (;;) {
 		    if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
-			PrintGifError();
+			PrintGifError(GifFile->Error);
 			exit(EXIT_FAILURE);
 		    }
 		    if (Extension == NULL)
@@ -305,7 +295,7 @@ static void Gif2Raw(GifFileType *GifFile, bool Textify)
     while (RecordType != TERMINATE_RECORD_TYPE);
 
     if (DGifCloseFile(GifFile) == GIF_ERROR) {
-	PrintGifError();
+	PrintGifError(GifFile->Error);
 	exit(EXIT_FAILURE);
     }
 }

@@ -83,14 +83,14 @@ int main(int argc, char **argv)
 
     if (NumFiles == 1) {
 	if ((GifFileIn = DGifOpenFileName(*FileName)) == NULL) {
-	    PrintGifError();
+	    PrintGifError(GifFileIn->Error);
 	    exit(EXIT_FAILURE);
 	}
     }
     else {
 	/* Use stdin instead */
 	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL) {
-	    PrintGifError();
+	    PrintGifError(GifFileIn->Error);
 	    exit(EXIT_FAILURE);
 	}
     }
@@ -108,14 +108,14 @@ int main(int argc, char **argv)
 	GifFileIn->SWidth, GifFileIn->SHeight,
 	GifFileIn->SColorResolution, GifFileIn->SBackGroundColor,
 	GifFileIn->SColorMap) == GIF_ERROR) {
-	PrintGifError();
+	PrintGifError(GifFileIn->Error);
 	exit(EXIT_FAILURE);
     }
 
     /* Scan the content of the GIF file and load the image(s) in: */
     do {
 	if (DGifGetRecordType(GifFileIn, &RecordType) == GIF_ERROR) {
-	    PrintGifError();
+	    PrintGifError(GifFileIn->Error);
 	    exit(EXIT_FAILURE);
 	}
 	switch (RecordType) {
@@ -143,7 +143,7 @@ int main(int argc, char **argv)
 		    memcpy(ScreenBuffer[i], ScreenBuffer[0], Size);
 		}
 		if (DGifGetImageDesc(GifFileIn) == GIF_ERROR) {
-		    PrintGifError();
+		    PrintGifError(GifFileIn->Error);
 		    exit(EXIT_FAILURE);
 		}
 		Row = GifFileIn->Image.Top; /* Image Position relative to Screen. */
@@ -165,7 +165,7 @@ int main(int argc, char **argv)
 			    GifQprintf("\b\b\b\b%-4d", Count++);
 			    if (DGifGetLine(GifFileIn, &ScreenBuffer[j][Col],
 				Width) == GIF_ERROR) {
-				PrintGifError();
+				PrintGifError(GifFileIn->Error);
 				exit(EXIT_FAILURE);
 			    }
 			}
@@ -175,7 +175,7 @@ int main(int argc, char **argv)
 			GifQprintf("\b\b\b\b%-4d", i);
 			if (DGifGetLine(GifFileIn, &ScreenBuffer[Row++][Col],
 				Width) == GIF_ERROR) {
-			    PrintGifError();
+			    PrintGifError(GifFileIn->Error);
 			    exit(EXIT_FAILURE);
 			}
 		    }
@@ -290,7 +290,7 @@ static void RotateGifLine(GifRowType *ScreenBuffer, int BackGroundColor,
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
-    PrintGifError();
+    PrintGifError(GifFileOut->Error ? GifFileOut->Error : GifFileIn->Error);
     if (GifFileIn != NULL) DGifCloseFile(GifFileIn);
     if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
     exit(EXIT_FAILURE);

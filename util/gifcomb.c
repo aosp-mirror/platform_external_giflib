@@ -223,7 +223,17 @@ static int ReadUntilImage(GifFileType *GifFile)
 static void QuitGifError(GifFileType *GifFileIn1, GifFileType *GifFileIn2,
 			 GifFileType *GifMaskFile, GifFileType *GifFileOut)
 {
-    PrintGifError();
+    int Err = 0;
+    if (GifFileIn1->Error)
+	Err = GifFileIn1->Error;
+    else if (GifFileIn2->Error)
+	Err = GifFileIn2->Error;
+    else if (GifMaskFile->Error)
+	Err = GifMaskFile->Error;
+    else if (GifFileOut->Error)
+	Err = GifFileOut->Error;
+
+    PrintGifError(Err);
     if (GifFileIn1 != NULL) DGifCloseFile(GifFileIn1);
     if (GifFileIn2 != NULL) DGifCloseFile(GifFileIn2);
     if (GifMaskFile != NULL) DGifCloseFile(GifMaskFile);

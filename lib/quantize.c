@@ -75,7 +75,6 @@ GifQuantizeBuffer(unsigned int Width,
     ColorArrayEntries = (QuantizedColorType *)malloc(
                            sizeof(QuantizedColorType) * COLOR_ARRAY_SIZE);
     if (ColorArrayEntries == NULL) {
-        _GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
         return GIF_ERROR;
     }
 

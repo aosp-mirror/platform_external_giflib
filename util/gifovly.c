@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 	|| DGifSlurp(GifFileIn) == GIF_ERROR
 	|| ((GifFileOut = EGifOpenFileHandle(1)) == (GifFileType *)NULL))
     {
-	PrintGifError();
+	PrintGifError(GifFileOut->Error ? GifFileOut->Error : GifFileIn->Error);
 	exit(EXIT_FAILURE);
     }
 
@@ -88,9 +88,9 @@ int main(int argc, char **argv)
     }
 
     if (EGifSpew(GifFileOut) == GIF_ERROR)
-	PrintGifError();
+	PrintGifError(GifFileOut->Error);
     else if (DGifCloseFile(GifFileIn) == GIF_ERROR)
-	PrintGifError();
+	PrintGifError(GifFileOut->Error);
 
     return 0;
 }

@@ -192,7 +192,7 @@ static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {
-    PrintGifError();
+    PrintGifError(GifFile->Error);
     if (GifFile != NULL) EGifCloseFile(GifFile);
     exit(EXIT_FAILURE);
 }

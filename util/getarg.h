@@ -29,7 +29,7 @@ void GAPrintHowTo(char *CtrlStr);
 ******************************************************************************/
 extern bool GifNoisyPrint;
 extern void GifQprintf(char *Format, ...);
-extern void PrintGifError(void);
+extern void PrintGifError(int ErrorCode);
 
 /* These used to live in the library header */
 #define GIF_MESSAGE(Msg) fprintf(stderr, "\n%s: %s\n", PROGRAM_NAME, Msg)

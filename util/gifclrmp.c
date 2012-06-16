@@ -329,7 +329,7 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
-    PrintGifError();
+    PrintGifError(GifFileOut->Error ? GifFileOut->Error : GifFileIn->Error);
     if (GifFileIn != NULL) DGifCloseFile(GifFileIn);
     if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
     exit(EXIT_FAILURE);

@@ -201,7 +201,7 @@ static void SaveGif(GifByteType *OutputBuffer,
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {
-    PrintGifError();
+    PrintGifError(GifFile->Error);
     if (GifFile != NULL) EGifCloseFile(GifFile);
     exit(EXIT_FAILURE);
 }
@@ -354,7 +354,7 @@ static void GIF2RGB(int NumFiles, char *FileName,
 
     if (NumFiles == 1) {
 	if ((GifFile = DGifOpenFileName(FileName)) == NULL) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
     }
@@ -362,7 +362,7 @@ static void GIF2RGB(int NumFiles, char *FileName,
 	/* Use stdin instead: */
 
 	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
     }
@@ -393,13 +393,13 @@ static void GIF2RGB(int NumFiles, char *FileName,
     /* Scan the content of the GIF file and load the image(s) in: */
     do {
 	if (DGifGetRecordType(GifFile, &RecordType) == GIF_ERROR) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
 	switch (RecordType) {
 	    case IMAGE_DESC_RECORD_TYPE:
 		if (DGifGetImageDesc(GifFile) == GIF_ERROR) {
-		    PrintGifError();
+		    PrintGifError(GifFile->Error);
 		    exit(EXIT_FAILURE);
 		}
 		Row = GifFile->Image.Top; /* Image Position relative to Screen. */
@@ -421,7 +421,7 @@ static void GIF2RGB(int NumFiles, char *FileName,
 			    GifQprintf("\b\b\b\b%-4d", Count++);
 			    if (DGifGetLine(GifFile, &ScreenBuffer[j][Col],
 				Width) == GIF_ERROR) {
-				PrintGifError();
+				PrintGifError(GifFile->Error);
 				exit(EXIT_FAILURE);
 			    }
 			}
@@ -431,7 +431,7 @@ static void GIF2RGB(int NumFiles, char *FileName,
 			GifQprintf("\b\b\b\b%-4d", i);
 			if (DGifGetLine(GifFile, &ScreenBuffer[Row++][Col],
 				Width) == GIF_ERROR) {
-			    PrintGifError();
+			    PrintGifError(GifFile->Error);
 			    exit(EXIT_FAILURE);
 			}
 		    }
@@ -440,12 +440,12 @@ static void GIF2RGB(int NumFiles, char *FileName,
 	    case EXTENSION_RECORD_TYPE:
 		/* Skip any extension blocks in file: */
 		if (DGifGetExtension(GifFile, &ExtCode, &Extension) == GIF_ERROR) {
-		    PrintGifError();
+		    PrintGifError(GifFile->Error);
 		    exit(EXIT_FAILURE);
 		}
 		while (Extension != NULL) {
 		    if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
-			PrintGifError();
+			PrintGifError(GifFile->Error);
 			exit(EXIT_FAILURE);
 		    }
 		}
@@ -474,7 +474,7 @@ static void GIF2RGB(int NumFiles, char *FileName,
     (void)free(ScreenBuffer);
 
     if (DGifCloseFile(GifFile) == GIF_ERROR) {
-	PrintGifError();
+	PrintGifError(GifFile->Error);
 	exit(EXIT_FAILURE);
     }
 

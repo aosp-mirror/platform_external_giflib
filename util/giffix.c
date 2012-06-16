@@ -134,7 +134,7 @@ int main(int argc, char **argv)
 
 		if (i < Height) {
 		    fprintf(stderr,"\nFollowing error occurred (and ignored):");
-		    PrintGifError();
+		    PrintGifError(GifFileIn->Error);
 
 		    /* Fill in with the darkest color in color map. */
 		    for (j = 0; j < Width; j++)
@@ -188,7 +188,7 @@ int main(int argc, char **argv)
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
     fprintf(stderr, "\nFollowing unrecoverable error occured:");
-    PrintGifError();
+    PrintGifError(GifFileOut->Error ? GifFileOut : GifFileIn);
     if (GifFileIn != NULL) DGifCloseFile(GifFileIn);
     if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
     exit(EXIT_FAILURE);

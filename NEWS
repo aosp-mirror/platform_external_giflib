@@ -50,6 +50,13 @@ New API Features
   make it easy to read and edit GIF89 graphics control blocks in saved images.
 * There's now an EGifGetGifVersion() that computes the version EGifSpew() 
   will write.
+* Library error handling no longer uses a static cell to store the last
+  error code registered; that made the library thread-unsafe.  For functions 
+  other than GIF file openers, the code is now put in an Error member of
+  the GifFileType structure.  The GifError() amd GifLastError() functions
+  that referenced that static cell are gone, and the GifErrorString()
+  function introduced in the 4.2 release now takes an explicit error code
+  argument.
 * QuantizeBuffer() has been returned to the core library as GifQuantizeBuffer() 
   - turns out some important applications (notably mplayer) were using it.
 * TRUE and FALSE macros are gone, also VoidPtr.  No more namespace pollution.

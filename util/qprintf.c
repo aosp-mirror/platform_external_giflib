@@ -34,13 +34,13 @@ GifQprintf(char *Format, ...) {
 }
 
 void
-PrintGifError(void) {
-    char *Err = GifErrorString();
+PrintGifError(int ErrorCode) {
+    char *Err = GifErrorString(ErrorCode);
 
     if (Err != NULL)
         fprintf(stderr, "\nGIF-LIB error: %s.\n", Err);
     else
-        fprintf(stderr, "\nGIF-LIB undefined error %d.\n", GifError());
+        fprintf(stderr, "\nGIF-LIB undefined error %d.\n", ErrorCode);
 }
 
 /* end */

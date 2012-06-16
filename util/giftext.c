@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     if (NumFiles == 1) {
 	GifFileName = *FileName;
 	if ((GifFile = DGifOpenFileName(*FileName)) == NULL) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
     }
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
 	/* Use stdin instead: */
 	GifFileName = "Stdin";
 	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
     }
@@ -126,13 +126,13 @@ int main(int argc, char **argv)
 
     do {
 	if (DGifGetRecordType(GifFile, &RecordType) == GIF_ERROR) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
 	switch (RecordType) {
 	    case IMAGE_DESC_RECORD_TYPE:
 		if (DGifGetImageDesc(GifFile) == GIF_ERROR) {
-		    PrintGifError();
+		    PrintGifError(GifFile->Error);
 		    exit(EXIT_FAILURE);
 		}
 		if (!RawFlag) {
@@ -169,7 +169,7 @@ int main(int argc, char **argv)
 
 		if (EncodedFlag) {
 		    if (DGifGetCode(GifFile, &CodeSize, &CodeBlock) == GIF_ERROR) {
-			PrintGifError();
+			PrintGifError(GifFile->Error);
 			exit(EXIT_FAILURE);
 		    }
 		    printf("\nImage LZ compressed Codes (Code Size = %d):\n",
@@ -177,7 +177,7 @@ int main(int argc, char **argv)
 		    PrintCodeBlock(GifFile, CodeBlock, true);
 		    while (CodeBlock != NULL) {
 			if (DGifGetCodeNext(GifFile, &CodeBlock) == GIF_ERROR) {
-			    PrintGifError();
+			    PrintGifError(GifFile->Error);
 			    exit(EXIT_FAILURE);
 			}
 			PrintCodeBlock(GifFile, CodeBlock, false);
@@ -192,7 +192,7 @@ int main(int argc, char **argv)
 		    for (i = 0; i < GifFile->Image.Height; i++) {
 			if (DGifGetLine(GifFile, Line, GifFile->Image.Width)
 			    == GIF_ERROR) {
-			    PrintGifError();
+			    PrintGifError(GifFile->Error);
 			    exit(EXIT_FAILURE);
 			}
 			PrintPixelBlock(Line, GifFile->Image.Width, i == 0);
@@ -206,7 +206,7 @@ int main(int argc, char **argv)
 		    for (i = 0; i < GifFile->Image.Height; i++) {
 			if (DGifGetLine(GifFile, Line, GifFile->Image.Width)
 			    == GIF_ERROR) {
-			    PrintGifError();
+			    PrintGifError(GifFile->Error);
 			    exit(EXIT_FAILURE);
 			}
 			fwrite(Line, 1, GifFile->Image.Width, stdout);
@@ -216,12 +216,12 @@ int main(int argc, char **argv)
 		else {
 		    /* Skip the image: */
 		    if (DGifGetCode(GifFile, &CodeSize, &CodeBlock) == GIF_ERROR) {
-			PrintGifError();
+			PrintGifError(GifFile->Error);
 			exit(EXIT_FAILURE);
 		    }
 		    while (CodeBlock != NULL) {
 			if (DGifGetCodeNext(GifFile, &CodeBlock) == GIF_ERROR) {
-			    PrintGifError();
+			    PrintGifError(GifFile->Error);
 			    exit(EXIT_FAILURE);
 			}
 		    }
@@ -230,7 +230,7 @@ int main(int argc, char **argv)
 		break;
 	    case EXTENSION_RECORD_TYPE:
 		if (DGifGetExtension(GifFile, &ExtCode, &Extension) == GIF_ERROR) {
-		    PrintGifError();
+		    PrintGifError(GifFile->Error);
 		    exit(EXIT_FAILURE);
 		}
 		if (!RawFlag) {
@@ -260,7 +260,7 @@ int main(int argc, char **argv)
 		    if (ExtCode == GRAPHICS_EXT_FUNC_CODE) {
 			GraphicsControlBlock gcb;
 			if (DGifExtensionToGCB(Extension[0], Extension+1, &gcb) == GIF_ERROR) {
-			    PrintGifError();
+			    PrintGifError(GifFile->Error);
 			    exit(EXIT_FAILURE);
 			}
 			printf("\tDisposal Mode: %d\n", gcb.DisposalMode);
@@ -273,7 +273,7 @@ int main(int argc, char **argv)
 		}
 		for (;;) {
 		    if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
-			PrintGifError();
+			PrintGifError(GifFile->Error);
 			exit(EXIT_FAILURE);
 		    }
 		    if (Extension == NULL)
@@ -290,7 +290,7 @@ int main(int argc, char **argv)
     while (RecordType != TERMINATE_RECORD_TYPE);
 
     if (DGifCloseFile(GifFile) == GIF_ERROR) {
-	PrintGifError();
+	PrintGifError(GifFile->Error);
 	exit(EXIT_FAILURE);
     }
 
@@ -441,7 +441,7 @@ static void PrintLZCodes(GifFileType *GifFile)
     do {
 	if (CrntPlace == 0) printf("\n%05lx:", CodeCount);
 	if (DGifGetLZCodes(GifFile, &Code) == GIF_ERROR) {
-	    PrintGifError();
+	    PrintGifError(GifFile->Error);
 	    exit(EXIT_FAILURE);
 	}
 	if (Code >= 0)

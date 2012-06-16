@@ -81,6 +81,7 @@ typedef struct GifFileType {
     GifImageDesc Image;         /* Current image (low-level API) */
     SavedImage *SavedImages;    /* Image sequence (high-level API) */
     ExtensionList Trailing;     /* Extension blocks past last image */
+    int Error;			/* Last error condition reported */
     void *UserData;             /* hook to attach user data (TVT) */
     void *Private;              /* Don't mess with this! */
 } GifFileType;
@@ -223,9 +224,7 @@ int GifQuantizeBuffer(unsigned int Width, unsigned int Height,
 /******************************************************************************
  Error handling and reporting.
 ******************************************************************************/
-extern int GifError(void);             /* new in 2012 - ESR */
-extern char *GifErrorString(void);     /* new in 2012 - ESR */
-extern int GifLastError(void);
+extern char *GifErrorString(int ErrorCode);     /* new in 2012 - ESR */
 
 /*****************************************************************************
  Everything below this point is new after version 1.2, supporting `slurp

@@ -54,8 +54,6 @@ typedef struct GifFilePrivateType {
     bool gif89;
 } GifFilePrivateType;
 
-extern int _GifError;
-
 #endif /* _GIF_LIB_PRIVATE_H */
 
 /* end */

@@ -136,7 +136,7 @@ int main(int argc, char **argv)
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {
-    PrintGifError();
+    PrintGifError(GifFile->Error);
     if (GifFile != NULL) DGifCloseFile(GifFile);
     exit(EXIT_FAILURE);
 }

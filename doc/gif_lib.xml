@@ -67,6 +67,7 @@ typedef struct GifFileType {
     GifImageDesc Image;         /* Current image (low-level API) */
     SavedImage *SavedImages;    /* Image sequence (high-level API) */
     ExtensionList Trailing;     /* Extension blocks past last image */
+    int Error;			/* Last error condition reported */
     void *UserData;             /* hook to attach user data (TVT) */
     void *Private;              /* Don't mess with this! */
 } GifFileType;
@@ -1120,6 +1121,16 @@ GifMakeMapObject(), GifFreeMapObject(), and GifUnionColorMap()
 respectively.  All functions exported by this library now have DGif,
 EGif, or Gif as a name prefix.</para></listitem>
 </itemizedlist>
+
+<para>Error handling:</para>
+
+<para>Library error handling no longer uses a static cell to store the
+last error code registered; that made the library thread-unsafe.  For
+functions other than GIF file openers, the code is now put in an Error
+member of the GifFileType structure.  The GifError() amd
+GifLastError() functions that referenced that static cell are gone,
+and the GifErrorString() function introduced in the 4.2 release now
+takes an explicit error code argument.</para>
 
 </sect1>
 <sect1><title>Skeletons of GIF filters</title>
