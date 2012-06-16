@@ -29,6 +29,8 @@ missing
 pic/Makefile
 pic/Makefile.in
 stamp-h1
+doc/gif2raw.1
+doc/gif2raw.html
 doc/gif2rgb.1
 doc/gif2rgb.html
 doc/gif2x11.1
@@ -66,8 +68,6 @@ doc/gifovly.1
 doc/gifovly.html
 doc/gifpos.1
 doc/gifpos.html
-doc/gifraw.1
-doc/gifraw.html
 doc/gifresize.1
 doc/gifresize.html
 doc/gifrotate.1
@@ -86,6 +86,7 @@ util/.deps/
 util/.libs/
 util/Makefile
 util/Makefile.in
+util/gif2raw
 util/gif2rgb
 util/gif2x11
 util/gifasm
@@ -104,7 +105,6 @@ util/gifinter
 util/gifinto
 util/gifovly
 util/gifpos
-util/gifraw
 util/gifresize
 util/gifrotate
 util/gifsponge

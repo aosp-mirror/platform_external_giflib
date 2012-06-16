@@ -2,23 +2,23 @@
 <!DOCTYPE refentry PUBLIC
    "-//OASIS//DTD DocBook XML V4.1.2//EN"
    "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" []>
-<refentry id='gifraw.1'>
+<refentry id='gif2raw.1'>
 <refentryinfo><date>2 May 2012</date></refentryinfo>
 <refmeta>
-<refentrytitle>gifraw</refentrytitle>
+<refentrytitle>gif2raw</refentrytitle>
 <manvolnum>1</manvolnum>
 <refmiscinfo class="source">GIFLIB</refmiscinfo>
 <refmiscinfo class="manual">GIFLIB Documentation</refmiscinfo>
 </refmeta>
 <refnamediv id='name'>
-<refname>gifraw</refname>
+<refname>gif2raw</refname>
 <refpurpose>convert raw pixel data to a GIF</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id='synopsis'>
 
 <cmdsynopsis>
-  <command>gifraw</command>
+  <command>gif2raw</command>
       <arg choice='opt'>-v</arg>
       <arg choice='plain'>-s 
       		<replaceable>width</replaceable>
@@ -40,7 +40,7 @@ is GIF-to-raw; the -s option inverts this.</para>
 and therefore the size of a raw file on input must be Width times
 Height as specified by the -s option below.</para>
 
-<para>If no input file is given, gifraw will try to read a GIF or raw
+<para>If no input file is given, gif2raw will try to read a GIF or raw
 data data from stdin.  The generated GIF or raw data is dumped to
 stdout.</para>
 

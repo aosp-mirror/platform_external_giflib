@@ -82,7 +82,7 @@ X_LIB_DIR = /usr/X11/lib
 BINARIES = gif2rgb gif2x11 gifasm gifbg \
 	gifclip gifclrmp gifcomb giffix gifflip gifhisto \
 	gifinter gifinto gifovly gifpos gifrotate gifresize giftext \
-	gifwedge gifraw gifecho gifsponge giffilter \
+	gifwedge gif2raw gifecho gifsponge giffilter \
 	gifbuild gifcolor
 
 all: $(BINARIES)
