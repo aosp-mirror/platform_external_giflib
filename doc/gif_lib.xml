@@ -1063,24 +1063,19 @@ retired.</para>
 and GIFLIB_RELEASE macros for the three components of the version. See the
 NEWS file in the GIFLIB distribution to track API changes.</para>
 
-<para>A few changes in behavior were introduced in 5.0:</para>
+<para>The following functions are entirely new:</para>
 
 <itemizedlist>
-<listitem><para>EGifPutExtensionFirst() has been replaced by
-EGifPutExtensionLeader(); the difference is the new function doesn't
-take an optional block, it just writes a block
-leader.</para></listitem>
-<listitem><para>EGifPutExtensionNext() has been replaced by
-EGifPutExtensionBlock(); the difference is that the new function does
-not take and then discard a function code argument.</para></listitem>
-<listitem><para>EGifPutExtensionLast() has been replaced by
-EGifPutExtensionTrailer(); all it does is write the terminator
-block.  Split your old EGifPutExtensionLast() calls into
-EGifPutExtensionBlock() followed by
-EGifPutExtensionTrailer().</para></listitem>
 <listitem><para>New functions DGifSavedExtensionToGCB() and
 EGifGCBToSavedExtension() make it easy to read and edit GIF89 graphics
 control blocks in saved images.</para></listitem>
+</itemizedlist>
+
+<para>A few changes in behavior were introduced in 5.0:</para>
+
+<para>In documented functions:</para>
+
+<itemizedlist>
 <listitem><para>EGifSlurp() and EGifSpew() read and write
 extension blocks trailing after the last image, handle interlaced 
 images properly, and are both thread-safe (formerly EGifSpew() was
@@ -1096,6 +1091,23 @@ write time from the types of an image's extension blocks. Formerly
 EGifSpew() behaved this way, but the sequential-writing code didn't.
 The result of this computation is available through the new function
 EGifGetGifVersion().</para></listitem>
+<listitem><para>EGifPutExtensionFirst() has been replaced by
+EGifPutExtensionLeader(); the difference is the new function doesn't
+take an optional block, it just writes a block
+leader.</para></listitem>
+<listitem><para>EGifPutExtensionNext() has been replaced by
+EGifPutExtensionBlock(); the difference is that the new function does
+not take and then discard a function code argument.</para></listitem>
+<listitem><para>EGifPutExtensionLast() has been replaced by
+EGifPutExtensionTrailer(); all it does is write the terminator
+block.  Split your old EGifPutExtensionLast() calls into
+EGifPutExtensionBlock() followed by
+EGifPutExtensionTrailer().</para></listitem>
+</itemizedlist>
+
+<para>In undocumented functions:</para>
+
+<itemizedlist>
 <listitem><para>Some undocumented functions have been renamed. 
 AddExtensionBlock() is now GifAddExtensionBlock(), and takes an additional
 function code argument.  ApplyTranslation() is now GifApplyTranslation();
