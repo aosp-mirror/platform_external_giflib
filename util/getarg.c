@@ -135,7 +135,6 @@ static int GAGetParmeters(int *Parameters[], int *ParamCount,
 static int GAGetMultiParmeters(int *Parameters[], int *ParamCount,
                                char *CtrlStrCopy, int *argc, char ***argv);
 static void GASetParamCount(char *CtrlStr, int Max, int *ParamCount);
-static void GAByteCopy(char *Dst, char *Src, unsigned n);
 static bool GAOptionExists(int argc, char **argv);
 
 /***************************************************************************
@@ -225,7 +224,7 @@ GATestAllSatis(char *CtrlStrCopy,
     if (!ISCTRLCHAR(CtrlStr[i + 2])) {
         GASetParamCount(CtrlStr, i, ParamCount); /* Point in correct param. */
         *Parameters[(*ParamCount)++] = *argc;
-        GAByteCopy((char *)Parameters[(*ParamCount)++], (char *)argv,
+        memcpy((char *)Parameters[(*ParamCount)++], (char *)argv,
                    sizeof(char *));
     }
 
@@ -358,7 +357,7 @@ GAGetParmeters(int *Parameters[],
               break;
           case 's':    /* It as a string. */
               ScanRes = 1;    /* Allways O.K. */
-              GAByteCopy((char *)Parameters[(*ParamCount)++],
+              memcpy((char *)Parameters[(*ParamCount)++],
                          (char *)((*argv)++), sizeof(char *));
               break;
           case '*':    /* Get few parameters into one: */
@@ -507,7 +506,7 @@ GAGetMultiParmeters(int *Parameters[],
     /* That it save the number of parameters read as first parameter to
      * return and the pointer to the block as second, and return: */
     *Parameters[(*ParamCount)++] = NumOfPrm;
-    GAByteCopy((char *)Parameters[(*ParamCount)++], (char *)&Pmain,
+    memcpy((char *)Parameters[(*ParamCount)++], (char *)&Pmain,
                sizeof(char *));
     free(Pmain);
     return NumOfPrm;
@@ -536,19 +535,6 @@ GASetParamCount(char *CtrlStr,
             else
                 (*ParamCount)++;
         }
-}
-
-/***************************************************************************
- Routine to copy exactly n bytes from Src to Dst. Note system library
- routine strncpy should do the same, but it stops on NULL char !
-***************************************************************************/
-static void
-GAByteCopy(char *Dst,
-           char *Src,
-           unsigned n) {
-
-    while (n--)
-        *(Dst++) = *(Src++);
 }
 
 /***************************************************************************
