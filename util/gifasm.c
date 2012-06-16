@@ -307,7 +307,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
 
-    /* Scan the content of GIF file and dump image(s) to seperate file(s): */
+    /* Scan the content of GIF file and dump image(s) to separate file(s): */
     do {
 	snprintf(CrntFileName, sizeof(CrntFileName), 
 		 "%s%02d.gif", OutFileName, FileNum++);

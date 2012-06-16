@@ -65,9 +65,9 @@ int main(int argc, char **argv)
      * Caveat hacker!
      */
     if (EGifSpew(GifFileOut) == GIF_ERROR)
-	PrintGifError(GifFileOut);
+	PrintGifError(GifFileOut->Error);
     else if (DGifCloseFile(GifFileIn) == GIF_ERROR)
-	PrintGifError(GifFileIn);
+	PrintGifError(GifFileIn->Error);
 
     return 0;
 }
