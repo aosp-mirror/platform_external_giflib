@@ -1,15 +1,15 @@
 /*****************************************************************************
- *
- * quantize.c - quantize a high resolution image into lower one
- *
- * Based on: "Color Image Quantization for frame buffer Display", by
- * Paul Heckbert SIGGRAPH 1982 page 297-307.
- *
- * This doesn't really belong in the core library, was undocumented,
- * and was removed in 4.2.  Then it turned out some client apps were
- * actually using it, so it was restored in 5.0.
- *
- *****************************************************************************/
+
+ quantize.c - quantize a high resolution image into lower one
+
+ Based on: "Color Image Quantization for frame buffer Display", by
+ Paul Heckbert SIGGRAPH 1982 page 297-307.
+
+ This doesn't really belong in the core library, was undocumented,
+ and was removed in 4.2.  Then it turned out some client apps were
+ actually using it, so it was restored in 5.0.
+
+******************************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -44,17 +44,17 @@ static int SubdivColorMap(NewColorMapType * NewColorSubdiv,
 static int SortCmpRtn(const void *Entry1, const void *Entry2);
 
 /******************************************************************************
- * Quantize high resolution image into lower one. Input image consists of a
- * 2D array for each of the RGB colors with size Width by Height. There is no
- * Color map for the input. Output is a quantized image with 2D array of
- * indexes into the output color map.
- *   Note input image can be 24 bits at the most (8 for red/green/blue) and
- * the output has 256 colors at the most (256 entries in the color map.).
- * ColorMapSize specifies size of color map up to 256 and will be updated to
- * real size before returning.
- *   Also non of the parameter are allocated by this routine.
- *   This function returns GIF_OK if succesfull, GIF_ERROR otherwise.
- ******************************************************************************/
+ Quantize high resolution image into lower one. Input image consists of a
+ 2D array for each of the RGB colors with size Width by Height. There is no
+ Color map for the input. Output is a quantized image with 2D array of
+ indexes into the output color map.
+   Note input image can be 24 bits at the most (8 for red/green/blue) and
+ the output has 256 colors at the most (256 entries in the color map.).
+ ColorMapSize specifies size of color map up to 256 and will be updated to
+ real size before returning.
+   Also non of the parameter are allocated by this routine.
+   This function returns GIF_OK if successful, GIF_ERROR otherwise.
+******************************************************************************/
 int
 GifQuantizeBuffer(unsigned int Width,
                unsigned int Height,
@@ -189,11 +189,11 @@ GifQuantizeBuffer(unsigned int Width,
 }
 
 /******************************************************************************
- * Routine to subdivide the RGB space recursively using median cut in each
- * axes alternatingly until ColorMapSize different cubes exists.
- * The biggest cube in one dimension is subdivide unless it has only one entry.
- * Returns GIF_ERROR if failed, otherwise GIF_OK.
- ******************************************************************************/
+ Routine to subdivide the RGB space recursively using median cut in each
+ axes alternatingly until ColorMapSize different cubes exists.
+ The biggest cube in one dimension is subdivide unless it has only one entry.
+ Returns GIF_ERROR if failed, otherwise GIF_OK.
+*******************************************************************************/
 static int
 SubdivColorMap(NewColorMapType * NewColorSubdiv,
                unsigned int ColorMapSize,
@@ -297,8 +297,8 @@ SubdivColorMap(NewColorMapType * NewColorSubdiv,
 }
 
 /****************************************************************************
- * Routine called by qsort to compare to entries.
- ****************************************************************************/
+ Routine called by qsort to compare two entries.
+*****************************************************************************/
 static int
 SortCmpRtn(const void *Entry1,
            const void *Entry2) {

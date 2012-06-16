@@ -35,3 +35,5 @@ void _InsertHashTable(GifHashTableType *HashTable, uint32_t Key, int Code);
 int _ExistsHashTable(GifHashTableType *HashTable, uint32_t Key);
 
 #endif /* _GIF_HASH_H_ */
+
+/* end */

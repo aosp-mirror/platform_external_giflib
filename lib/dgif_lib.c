@@ -38,10 +38,10 @@ static int DGifBufferedInput(GifFileType *GifFile, GifByteType *Buf,
                              GifByteType *NextByte);
 
 /******************************************************************************
- * Open a new gif file for read, given by its name.
- * Returns GifFileType pointer dynamically allocated which serves as the gif
- * info record. _GifError is cleared if succesfull.
- *****************************************************************************/
+ Open a new GIF file for read, given by its name.
+ Returns GifFileType pointer dynamically allocated which serves as the gif
+ info record. _GifError is cleared if successful.
+******************************************************************************/
 GifFileType *
 DGifOpenFileName(const char *FileName)
 {
@@ -59,10 +59,10 @@ DGifOpenFileName(const char *FileName)
 }
 
 /******************************************************************************
- * Update a new gif file, given its file handle.
- * Returns GifFileType pointer dynamically allocated which serves as the gif
- * info record. _GifError is cleared if succesful.
- *****************************************************************************/
+ Update a new GIF file, given its file handle.
+ Returns GifFileType pointer dynamically allocated which serves as the gif
+ info record. _GifError is cleared if succesful.
+******************************************************************************/
 GifFileType *
 DGifOpenFileHandle(int FileHandle)
 {
@@ -106,7 +106,7 @@ DGifOpenFileHandle(int FileHandle)
     GifFile->UserData = NULL;    /* TVT */
     /*@=mustfreeonly@*/
 
-    /* Lets see if this is a GIF file: */
+    /* Let's see if this is a GIF file: */
     if (READ(GifFile, (unsigned char *)Buf, GIF_STAMP_LEN) != GIF_STAMP_LEN) {
         _GifError = D_GIF_ERR_READ_FAILED;
         (void)fclose(f);
@@ -141,8 +141,8 @@ DGifOpenFileHandle(int FileHandle)
 }
 
 /******************************************************************************
- * GifFileType constructor with user supplied input function (TVT)
- *****************************************************************************/
+ GifFileType constructor with user supplied input function (TVT)
+******************************************************************************/
 GifFileType *
 DGifOpen(void *userData, InputFunc readFunc)
 {
@@ -209,9 +209,9 @@ DGifOpen(void *userData, InputFunc readFunc)
 }
 
 /******************************************************************************
- * This routine should be called before any other DGif calls. Note that
- * this routine is called automatically from DGif file open routines.
- *****************************************************************************/
+ This routine should be called before any other DGif calls. Note that
+ this routine is called automatically from DGif file open routines.
+******************************************************************************/
 int
 DGifGetScreenDesc(GifFileType *GifFile)
 {
@@ -272,8 +272,8 @@ DGifGetScreenDesc(GifFileType *GifFile)
 }
 
 /******************************************************************************
- * This routine should be called before any attempt to read an image.
- *****************************************************************************/
+ This routine should be called before any attempt to read an image.
+******************************************************************************/
 int
 DGifGetRecordType(GifFileType *GifFile, GifRecordType* Type)
 {
@@ -311,9 +311,9 @@ DGifGetRecordType(GifFileType *GifFile, GifRecordType* Type)
 }
 
 /******************************************************************************
- * This routine should be called before any attempt to read an image.
- * Note it is assumed the Image desc. header has been read.
- *****************************************************************************/
+ This routine should be called before any attempt to read an image.
+ Note it is assumed the Image desc. header has been read.
+******************************************************************************/
 int
 DGifGetImageDesc(GifFileType *GifFile)
 {
@@ -413,8 +413,8 @@ DGifGetImageDesc(GifFileType *GifFile)
 }
 
 /******************************************************************************
- * Get one full scanned line (Line) of length LineLen from GIF file.
- *****************************************************************************/
+ Get one full scanned line (Line) of length LineLen from GIF file.
+******************************************************************************/
 int
 DGifGetLine(GifFileType *GifFile, GifPixelType *Line, int LineLen)
 {
@@ -451,8 +451,8 @@ DGifGetLine(GifFileType *GifFile, GifPixelType *Line, int LineLen)
 }
 
 /******************************************************************************
- * Put one pixel (Pixel) into GIF file.
- *****************************************************************************/
+ Put one pixel (Pixel) into GIF file.
+******************************************************************************/
 int
 DGifGetPixel(GifFileType *GifFile, GifPixelType Pixel)
 {
@@ -486,12 +486,12 @@ DGifGetPixel(GifFileType *GifFile, GifPixelType Pixel)
 }
 
 /******************************************************************************
- * Get an extension block (see GIF manual) from gif file. This routine only
- * returns the first data block, and DGifGetExtensionNext should be called
- * after this one until NULL extension is returned.
- * The Extension should NOT be freed by the user (not dynamically allocated).
- * Note it is assumed the Extension description header has been read.
- *****************************************************************************/
+ Get an extension block (see GIF manual) from GIF file. This routine only
+ returns the first data block, and DGifGetExtensionNext should be called
+ after this one until NULL extension is returned.
+ The Extension should NOT be freed by the user (not dynamically allocated).
+ Note it is assumed the Extension description header has been read.
+******************************************************************************/
 int
 DGifGetExtension(GifFileType *GifFile, int *ExtCode, GifByteType **Extension)
 {
@@ -514,10 +514,10 @@ DGifGetExtension(GifFileType *GifFile, int *ExtCode, GifByteType **Extension)
 }
 
 /******************************************************************************
- * Get a following extension block (see GIF manual) from gif file. This
- * routine should be called until NULL Extension is returned.
- * The Extension should NOT be freed by the user (not dynamically allocated).
- *****************************************************************************/
+ Get a following extension block (see GIF manual) from GIF file. This
+ routine should be called until NULL Extension is returned.
+ The Extension should NOT be freed by the user (not dynamically allocated).
+******************************************************************************/
 int
 DGifGetExtensionNext(GifFileType *GifFile, GifByteType ** Extension)
 {
@@ -543,8 +543,8 @@ DGifGetExtensionNext(GifFileType *GifFile, GifByteType ** Extension)
 }
 
 /******************************************************************************
- * Extract a Graphics Control Block from raw extension data
- *****************************************************************************/
+ Extract a Graphics Control Block from raw extension data
+******************************************************************************/
 
 int DGifExtensionToGCB(const size_t GifExtensionLength,
 		       const GifByteType *GifExtension,
@@ -567,8 +567,8 @@ int DGifExtensionToGCB(const size_t GifExtensionLength,
 }
 
 /******************************************************************************
- * Extract the Graphics Control Block for a saved image, if it exists.
- *****************************************************************************/
+ Extract the Graphics Control Block for a saved image, if it exists.
+******************************************************************************/
 
 int DGifSavedExtensionToGCB(GifFileType *GifFile,
 			    int ImageIndex, GraphicsControlBlock *GCB)
@@ -593,8 +593,8 @@ int DGifSavedExtensionToGCB(GifFileType *GifFile,
 }
 
 /******************************************************************************
- * This routine should be called last, to close the GIF file.
- *****************************************************************************/
+ This routine should be called last, to close the GIF file.
+******************************************************************************/
 int
 DGifCloseFile(GifFileType *GifFile)
 {
@@ -640,8 +640,8 @@ DGifCloseFile(GifFileType *GifFile)
 }
 
 /******************************************************************************
- * Get 2 bytes (word) from the given file:
- *****************************************************************************/
+ Get 2 bytes (word) from the given file:
+******************************************************************************/
 static int
 DGifGetWord(GifFileType *GifFile, GifWord *Word)
 {
@@ -657,12 +657,12 @@ DGifGetWord(GifFileType *GifFile, GifWord *Word)
 }
 
 /******************************************************************************
- * Get the image code in compressed form.  This routine can be called if the
- * information needed to be piped out as is. Obviously this is much faster
- * than decoding and encoding again. This routine should be followed by calls
- * to DGifGetCodeNext, until NULL block is returned.
- * The block should NOT be freed by the user (not dynamically allocated).
- *****************************************************************************/
+ Get the image code in compressed form.  This routine can be called if the
+ information needed to be piped out as is. Obviously this is much faster
+ than decoding and encoding again. This routine should be followed by calls
+ to DGifGetCodeNext, until NULL block is returned.
+ The block should NOT be freed by the user (not dynamically allocated).
+******************************************************************************/
 int
 DGifGetCode(GifFileType *GifFile, int *CodeSize, GifByteType **CodeBlock)
 {
@@ -680,10 +680,10 @@ DGifGetCode(GifFileType *GifFile, int *CodeSize, GifByteType **CodeBlock)
 }
 
 /******************************************************************************
- * Continue to get the image code in compressed form. This routine should be
- * called until NULL block is returned.
- * The block should NOT be freed by the user (not dynamically allocated).
- *****************************************************************************/
+ Continue to get the image code in compressed form. This routine should be
+ called until NULL block is returned.
+ The block should NOT be freed by the user (not dynamically allocated).
+******************************************************************************/
 int
 DGifGetCodeNext(GifFileType *GifFile, GifByteType **CodeBlock)
 {
@@ -715,8 +715,8 @@ DGifGetCodeNext(GifFileType *GifFile, GifByteType **CodeBlock)
 }
 
 /******************************************************************************
- * Setup the LZ decompression for this image:
- *****************************************************************************/
+ Setup the LZ decompression for this image:
+******************************************************************************/
 static int
 DGifSetupDecompress(GifFileType *GifFile)
 {
@@ -748,11 +748,11 @@ DGifSetupDecompress(GifFileType *GifFile)
 }
 
 /******************************************************************************
- * The LZ decompression routine:
- * This version decompress the given gif file into Line of length LineLen.
- * This routine can be called few times (one per scan line, for example), in
- * order the complete the whole image.
- *****************************************************************************/
+ The LZ decompression routine:
+ This version decompress the given GIF file into Line of length LineLen.
+ This routine can be called few times (one per scan line, for example), in
+ order the complete the whole image.
+******************************************************************************/
 static int
 DGifDecompressLine(GifFileType *GifFile, GifPixelType *Line, int LineLen)
 {
@@ -775,7 +775,7 @@ DGifDecompressLine(GifFileType *GifFile, GifPixelType *Line, int LineLen)
     }
 
     if (StackPtr != 0) {
-        /* Let pop the stack off before continueing to read the gif file: */
+        /* Let pop the stack off before continueing to read the GIF file: */
         while (StackPtr != 0 && i < LineLen)
             Line[i++] = Stack[--StackPtr];
     }
@@ -874,11 +874,11 @@ DGifDecompressLine(GifFileType *GifFile, GifPixelType *Line, int LineLen)
 }
 
 /******************************************************************************
- * Routine to trace the Prefixes linked list until we get a prefix which is
- * not code, but a pixel value (less than ClearCode). Returns that pixel value.
- * If image is defective, we might loop here forever, so we limit the loops to
- * the maximum possible if image O.k. - LZ_MAX_CODE times.
- *****************************************************************************/
+ Routine to trace the Prefixes linked list until we get a prefix which is
+ not code, but a pixel value (less than ClearCode). Returns that pixel value.
+ If image is defective, we might loop here forever, so we limit the loops to
+ the maximum possible if image O.k. - LZ_MAX_CODE times.
+******************************************************************************/
 static int
 DGifGetPrefixChar(GifPrefixType *Prefix, int Code, int ClearCode)
 {
@@ -894,9 +894,9 @@ DGifGetPrefixChar(GifPrefixType *Prefix, int Code, int ClearCode)
 }
 
 /******************************************************************************
- * Interface for accessing the LZ codes directly. Set Code to the real code
- * (12bits), or to -1 if EOF code is returned.
- *****************************************************************************/
+ Interface for accessing the LZ codes directly. Set Code to the real code
+ (12bits), or to -1 if EOF code is returned.
+******************************************************************************/
 int
 DGifGetLZCodes(GifFileType *GifFile, int *Code)
 {
@@ -931,11 +931,11 @@ DGifGetLZCodes(GifFileType *GifFile, int *Code)
 }
 
 /******************************************************************************
- * The LZ decompression input routine:
- * This routine is responsable for the decompression of the bit stream from
- * 8 bits (bytes) packets, into the real codes.
- * Returns GIF_OK if read succesfully.
- *****************************************************************************/
+ The LZ decompression input routine:
+ This routine is responsable for the decompression of the bit stream from
+ 8 bits (bytes) packets, into the real codes.
+ Returns GIF_OK if read successfully.
+******************************************************************************/
 static int
 DGifDecompressInput(GifFileType *GifFile, int *Code)
 {
@@ -985,11 +985,11 @@ DGifDecompressInput(GifFileType *GifFile, int *Code)
 }
 
 /******************************************************************************
- * This routines read one gif data block at a time and buffers it internally
- * so that the decompression routine could access it.
- * The routine returns the next byte from its internal buffer (or read next
- * block in if buffer empty) and returns GIF_OK if succesful.
- *****************************************************************************/
+ This routines read one gif data block at a time and buffers it internally
+ so that the decompression routine could access it.
+ The routine returns the next byte from its internal buffer (or read next
+ block in if buffer empty) and returns GIF_OK if succesful.
+******************************************************************************/
 static int
 DGifBufferedInput(GifFileType *GifFile, GifByteType *Buf, GifByteType *NextByte)
 {
@@ -1031,10 +1031,10 @@ DGifBufferedInput(GifFileType *GifFile, GifByteType *Buf, GifByteType *NextByte)
 }
 
 /******************************************************************************
- * This routine reads an entire GIF into core, hanging all its state info off
- * the GifFileType pointer.  Call DGifOpenFileName() or DGifOpenFileHandle()
- * first to initialize I/O.  Its inverse is EGifSpew().
- ******************************************************************************/
+ This routine reads an entire GIF into core, hanging all its state info off
+ the GifFileType pointer.  Call DGifOpenFileName() or DGifOpenFileHandle()
+ first to initialize I/O.  Its inverse is EGifSpew().
+*******************************************************************************/
 int
 DGifSlurp(GifFileType *GifFile)
 {

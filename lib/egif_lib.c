@@ -42,11 +42,11 @@ static int EGifBufferedOutput(GifFileType * GifFile, GifByteType * Buf,
 #define HIBYTE(x)	(((x) >> 8) & 0xff)
 
 /******************************************************************************
- * Open a new gif file for write, given by its name. If TestExistance then
- * if the file exists this routines fails (returns NULL).
- * Returns GifFileType pointer dynamically allocated which serves as the gif
- * info record. _GifError is cleared if succesfull.
- *****************************************************************************/
+ Open a new gif file for write, given by its name. If TestExistance then
+ if the file exists this routines fails (returns NULL).
+ Returns GifFileType pointer dynamically allocated which serves as the gif
+ info record. _GifError is cleared if successful.
+******************************************************************************/
 GifFileType *
 EGifOpenFileName(const char *FileName, const bool TestExistence)
 {
@@ -72,11 +72,11 @@ EGifOpenFileName(const char *FileName, const bool TestExistence)
 }
 
 /******************************************************************************
- * Update a new gif file, given its file handle, which must be opened for
- * write in binary mode.
- * Returns GifFileType pointer dynamically allocated which serves as the gif
- * info record. _GifError is cleared if succesfull.
- *****************************************************************************/
+ Update a new gif file, given its file handle, which must be opened for
+ write in binary mode.
+ Returns GifFileType pointer dynamically allocated which serves as the gif
+ info record. _GifError is cleared if successful.
+******************************************************************************/
 GifFileType *
 EGifOpenFileHandle(const int FileHandle)
 {
@@ -125,9 +125,9 @@ EGifOpenFileHandle(const int FileHandle)
 }
 
 /******************************************************************************
- * Output constructor that takes user supplied output function.
- * Basically just a copy of EGifOpenFileHandle. (MRB)
- *****************************************************************************/
+ Output constructor that takes user supplied output function.
+ Basically just a copy of EGifOpenFileHandle. (MRB)
+******************************************************************************/
 GifFileType *
 EGifOpen(void *userData, OutputFunc writeFunc)
 {
@@ -171,8 +171,8 @@ EGifOpen(void *userData, OutputFunc writeFunc)
 }
 
 /******************************************************************************
- * Routine to compute the GIF version that will be written on output.
- *****************************************************************************/
+ Routine to compute the GIF version that will be written on output.
+******************************************************************************/
 char *
 EGifGetGifVersion(GifFileType *GifFile)
 {
@@ -209,8 +209,8 @@ EGifGetGifVersion(GifFileType *GifFile)
 }
 
 /******************************************************************************
- * All writes to the GIF should go through this.
- *****************************************************************************/
+ All writes to the GIF should go through this.
+******************************************************************************/
 static int InternalWrite(GifFileType *GifFileOut, 
 		   const unsigned char *buf, size_t len)
 {
@@ -222,9 +222,9 @@ static int InternalWrite(GifFileType *GifFileOut,
 }
 
 /******************************************************************************
- * This routine should be called before any other EGif calls, immediately
- * following the GIF file opening.
- *****************************************************************************/
+ This routine should be called before any other EGif calls, immediately
+ following the GIF file opening.
+******************************************************************************/
 int
 EGifPutScreenDesc(GifFileType *GifFile,
                   const int Width,
@@ -315,9 +315,9 @@ EGifPutScreenDesc(GifFileType *GifFile,
 }
 
 /******************************************************************************
- * This routine should be called before any attempt to dump an image - any
- * call to any of the pixel dump routines.
- *****************************************************************************/
+ This routine should be called before any attempt to dump an image - any
+ call to any of the pixel dump routines.
+******************************************************************************/
 int
 EGifPutImageDesc(GifFileType *GifFile,
                  const int Left,
@@ -399,8 +399,8 @@ EGifPutImageDesc(GifFileType *GifFile,
 }
 
 /******************************************************************************
- * Put one full scanned line (Line) of length LineLen into GIF file.
- *****************************************************************************/
+ Put one full scanned line (Line) of length LineLen into GIF file.
+******************************************************************************/
 int
 EGifPutLine(GifFileType * GifFile, GifPixelType *Line, int LineLen)
 {
@@ -432,8 +432,8 @@ EGifPutLine(GifFileType * GifFile, GifPixelType *Line, int LineLen)
 }
 
 /******************************************************************************
- * Put one pixel (Pixel) into GIF file.
- *****************************************************************************/
+ Put one pixel (Pixel) into GIF file.
+******************************************************************************/
 int
 EGifPutPixel(GifFileType *GifFile, GifPixelType Pixel)
 {
@@ -459,8 +459,8 @@ EGifPutPixel(GifFileType *GifFile, GifPixelType Pixel)
 }
 
 /******************************************************************************
- * Put a comment into GIF file using the GIF89 comment extension block.
- *****************************************************************************/
+ Put a comment into GIF file using the GIF89 comment extension block.
+******************************************************************************/
 int
 EGifPutComment(GifFileType *GifFile, const char *Comment)
 {
@@ -500,10 +500,10 @@ EGifPutComment(GifFileType *GifFile, const char *Comment)
 }
 
 /******************************************************************************
- * Begin an extension block (see GIF manual).  More
- * extensions can be dumped using EGifPutExtensionBlock until
- * EGifPutExtensionTrailer is invoked.
- *****************************************************************************/
+ Begin an extension block (see GIF manual).  More
+ extensions can be dumped using EGifPutExtensionBlock until
+ EGifPutExtensionTrailer is invoked.
+******************************************************************************/
 int
 EGifPutExtensionLeader(GifFileType *GifFile, const int ExtCode)
 {
@@ -524,8 +524,8 @@ EGifPutExtensionLeader(GifFileType *GifFile, const int ExtCode)
 }
 
 /******************************************************************************
- * Put extension block data (see GIF manual) into gif file.
- *****************************************************************************/
+ Put extension block data (see GIF manual) into gif file.
+******************************************************************************/
 int
 EGifPutExtensionBlock(GifFileType *GifFile, 
 		     const int ExtLen,
@@ -548,8 +548,8 @@ EGifPutExtensionBlock(GifFileType *GifFile,
 }
 
 /******************************************************************************
- * Put a terminating block (see GIF manual) into gif file.
- *****************************************************************************/
+ Put a terminating block (see GIF manual) into gif file.
+******************************************************************************/
 int
 EGifPutExtensionTrailer(GifFileType *GifFile) {
 
@@ -570,11 +570,11 @@ EGifPutExtensionTrailer(GifFileType *GifFile) {
 }
 
 /******************************************************************************
- * Put an extension block (see GIF manual) into gif file.
- * Warning: This function is only useful for Extension blocks that have at
- * most one subblock.  Extensions with more than one subblock need to use the
- * EGifPutExtension{First,Next,Last} functions instead.
- *****************************************************************************/
+ Put an extension block (see GIF manual) into gif file.
+ Warning: This function is only useful for Extension blocks that have at
+ most one subblock.  Extensions with more than one subblock need to use the
+ EGifPutExtension{Leader,Block,Trailer} functions instead.
+******************************************************************************/
 int
 EGifPutExtension(GifFileType *GifFile,
                  const int ExtCode,
@@ -606,8 +606,8 @@ EGifPutExtension(GifFileType *GifFile,
 }
 
 /******************************************************************************
- * Render a Graphics Control Block as raw extension data
- *****************************************************************************/
+ Render a Graphics Control Block as raw extension data
+******************************************************************************/
 
 size_t EGifGCBToExtension(const GraphicsControlBlock *GCB,
 		       GifByteType *GifExtension)
@@ -623,8 +623,8 @@ size_t EGifGCBToExtension(const GraphicsControlBlock *GCB,
 }
 
 /******************************************************************************
- * Replace the Graphics Control Block for a saved image, if it exists.
- *****************************************************************************/
+ Replace the Graphics Control Block for a saved image, if it exists.
+******************************************************************************/
 
 int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB, 
 			    GifFileType *GifFile, int ImageIndex)
@@ -655,12 +655,12 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
 }
 
 /******************************************************************************
- * Put the image code in compressed form. This routine can be called if the
- * information needed to be piped out as is. Obviously this is much faster
- * than decoding and encoding again. This routine should be followed by calls
- * to EGifPutCodeNext, until NULL block is given.
- * The block should NOT be freed by the user (not dynamically allocated).
- *****************************************************************************/
+ Put the image code in compressed form. This routine can be called if the
+ information needed to be piped out as is. Obviously this is much faster
+ than decoding and encoding again. This routine should be followed by calls
+ to EGifPutCodeNext, until NULL block is given.
+ The block should NOT be freed by the user (not dynamically allocated).
+******************************************************************************/
 int
 EGifPutCode(GifFileType *GifFile, int CodeSize, const GifByteType *CodeBlock)
 {
@@ -685,10 +685,10 @@ EGifPutCode(GifFileType *GifFile, int CodeSize, const GifByteType *CodeBlock)
 }
 
 /******************************************************************************
- * Continue to put the image code in compressed form. This routine should be
- * called with blocks of code as read via DGifGetCode/DGifGetCodeNext. If
- * given buffer pointer is NULL, empty block is written to mark end of code.
- *****************************************************************************/
+ Continue to put the image code in compressed form. This routine should be
+ called with blocks of code as read via DGifGetCode/DGifGetCodeNext. If
+ given buffer pointer is NULL, empty block is written to mark end of code.
+******************************************************************************/
 int
 EGifPutCodeNext(GifFileType *GifFile, const GifByteType *CodeBlock)
 {
@@ -714,8 +714,8 @@ EGifPutCodeNext(GifFileType *GifFile, const GifByteType *CodeBlock)
 }
 
 /******************************************************************************
- * This routine should be called last, to close GIF file.
- *****************************************************************************/
+ This routine should be called last, to close the GIF file.
+******************************************************************************/
 int
 EGifCloseFile(GifFileType *GifFile)
 {
@@ -764,8 +764,8 @@ EGifCloseFile(GifFileType *GifFile)
 }
 
 /******************************************************************************
- * Put 2 bytes (word) into the given file:
- *****************************************************************************/
+ Put 2 bytes (a word) into the given file in little-endian order:
+******************************************************************************/
 static int
 EGifPutWord(int Word, GifFileType *GifFile)
 {
@@ -780,8 +780,8 @@ EGifPutWord(int Word, GifFileType *GifFile)
 }
 
 /******************************************************************************
- * Setup the LZ compression for this image:
- *****************************************************************************/
+ Setup the LZ compression for this image:
+******************************************************************************/
 static int
 EGifSetupCompress(GifFileType *GifFile)
 {
@@ -824,10 +824,10 @@ EGifSetupCompress(GifFileType *GifFile)
 }
 
 /******************************************************************************
- * The LZ compression routine:
- * This version compresses the given buffer Line of length LineLen.
- * This routine can be called a few times (one per scan line, for example), in
- * order to complete the whole image.
+ The LZ compression routine:
+ This version compresses the given buffer Line of length LineLen.
+ This routine can be called a few times (one per scan line, for example), in
+ order to complete the whole image.
 ******************************************************************************/
 static int
 EGifCompressLine(GifFileType *GifFile,
@@ -913,11 +913,11 @@ EGifCompressLine(GifFileType *GifFile,
 }
 
 /******************************************************************************
- * The LZ compression output routine:
- * This routine is responsible for the compression of the bit stream into
- * 8 bits (bytes) packets.
- * Returns GIF_OK if written succesfully.
- *****************************************************************************/
+ The LZ compression output routine:
+ This routine is responsible for the compression of the bit stream into
+ 8 bits (bytes) packets.
+ Returns GIF_OK if written successfully.
+******************************************************************************/
 static int
 EGifCompressOutput(GifFileType *GifFile,
                    const int Code)
@@ -961,11 +961,11 @@ EGifCompressOutput(GifFileType *GifFile,
 }
 
 /******************************************************************************
- * This routines buffers the given characters until 255 characters are ready
- * to be output. If Code is equal to -1 the buffer is flushed (EOF).
- * The buffer is Dumped with first byte as its size, as GIF format requires.
- * Returns GIF_OK if written succesfully.
- *****************************************************************************/
+ This routines buffers the given characters until 255 characters are ready
+ to be output. If Code is equal to -1 the buffer is flushed (EOF).
+ The buffer is Dumped with first byte as its size, as GIF format requires.
+ Returns GIF_OK if written successfully.
+******************************************************************************/
 static int
 EGifBufferedOutput(GifFileType *GifFile,
                    GifByteType *Buf,
@@ -1000,9 +1000,9 @@ EGifBufferedOutput(GifFileType *GifFile,
 }
 
 /******************************************************************************
- * This routine writes to disk an in-core representation of a GIF previously
- * created by DGifSlurp().
- *****************************************************************************/
+ This routine writes to disk an in-core representation of a GIF previously
+ created by DGifSlurp().
+******************************************************************************/
 
 static int
 EGifWriteExtensions(GifFileType *GifFileOut, 

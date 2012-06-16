@@ -32,7 +32,7 @@ static long NumberOfTests = 0,
 static int KeyItem(uint32_t Item);
 
 /******************************************************************************
-* Initialize HashTable - allocate the memory needed and clear it.	      *
+ Initialize HashTable - allocate the memory needed and clear it.	      *
 ******************************************************************************/
 GifHashTableType *_InitHashTable(void)
 {
@@ -48,8 +48,8 @@ GifHashTableType *_InitHashTable(void)
 }
 
 /******************************************************************************
-* Routine to clear the HashTable to an empty state.			      *
-* This part is a little machine depended. Use the commented part otherwise.   *
+ Routine to clear the HashTable to an empty state.			      *
+ This part is a little machine depended. Use the commented part otherwise.   *
 ******************************************************************************/
 void _ClearHashTable(GifHashTableType *HashTable)
 {
@@ -57,8 +57,8 @@ void _ClearHashTable(GifHashTableType *HashTable)
 }
 
 /******************************************************************************
-* Routine to insert a new Item into the HashTable. The data is assumed to be  *
-* new one.								      *
+ Routine to insert a new Item into the HashTable. The data is assumed to be  *
+ new one.								      *
 ******************************************************************************/
 void _InsertHashTable(GifHashTableType *HashTable, uint32_t Key, int Code)
 {
@@ -80,8 +80,8 @@ void _InsertHashTable(GifHashTableType *HashTable, uint32_t Key, int Code)
 }
 
 /******************************************************************************
-* Routine to test if given Key exists in HashTable and if so returns its code *
-* Returns the Code if key was found, -1 if not.				      *
+ Routine to test if given Key exists in HashTable and if so returns its code *
+ Returns the Code if key was found, -1 if not.				      *
 ******************************************************************************/
 int _ExistsHashTable(GifHashTableType *HashTable, uint32_t Key)
 {
@@ -105,11 +105,11 @@ int _ExistsHashTable(GifHashTableType *HashTable, uint32_t Key)
 }
 
 /******************************************************************************
-* Routine to generate an HKey for the hashtable out of the given unique key.  *
-* The given Key is assumed to be 20 bits as follows: lower 8 bits are the     *
-* new postfix character, while the upper 12 bits are the prefix code.	      *
-* Because the average hit ratio is only 2 (2 hash references per entry),      *
-* evaluating more complex keys (such as twin prime keys) does not worth it!   *
+ Routine to generate an HKey for the hashtable out of the given unique key.  *
+ The given Key is assumed to be 20 bits as follows: lower 8 bits are the     *
+ new postfix character, while the upper 12 bits are the prefix code.	      *
+ Because the average hit ratio is only 2 (2 hash references per entry),      *
+ evaluating more complex keys (such as twin prime keys) does not worth it!   *
 ******************************************************************************/
 static int KeyItem(uint32_t Item)
 {
@@ -118,8 +118,8 @@ static int KeyItem(uint32_t Item)
 
 #ifdef	DEBUG_HIT_RATE
 /******************************************************************************
-* Debugging routine to print the hit ratio - number of times the hash table   *
-* was tested per operation. This routine was used to test the KeyItem routine *
+ Debugging routine to print the hit ratio - number of times the hash table   *
+ was tested per operation. This routine was used to test the KeyItem routine *
 ******************************************************************************/
 void HashTablePrintHitRatio(void)
 {

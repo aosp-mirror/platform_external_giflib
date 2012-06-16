@@ -45,7 +45,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName);
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Perform the assembly operation - take few input files into one output.
+ Perform the assembly operation - merge several input files into one output.
 ******************************************************************************/
 static void DoAssembly(int NumFiles, char **FileNames)
 {
@@ -248,7 +248,7 @@ static void DoAssembly(int NumFiles, char **FileNames)
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
-	    default:	    /* Should be traps by DGifGetRecordType. */
+	    default:	    /* Should be trapped by DGifGetRecordType. */
 		break;
 	    }
 	}
@@ -263,7 +263,7 @@ static void DoAssembly(int NumFiles, char **FileNames)
 }
 
 /******************************************************************************
-* Perform the disassembly operation - take one input files into few output.
+ Perform the disassembly operation - take one input files into few output.
 ******************************************************************************/
 static void DoDisassembly(char *InFileName, char *OutFileName)
 {
@@ -302,7 +302,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
     else {
-	/* Use the stdin instead: */
+	/* Use stdin instead: */
 	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
@@ -374,7 +374,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 		    break;
 		case TERMINATE_RECORD_TYPE:
 		    break;
-		default:	    /* Should be traps by DGifGetRecordType. */
+		default:	/* Should be trapped by DGifGetRecordType. */
 		    break;
 	    }
 	}
@@ -399,7 +399,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.
+ Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
@@ -408,3 +408,5 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
     if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
     exit(EXIT_FAILURE);
 }
+
+/* end */

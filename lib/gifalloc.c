@@ -13,8 +13,8 @@
 #define MAX(x, y)    (((x) > (y)) ? (x) : (y))
 
 /******************************************************************************
- * Miscellaneous utility functions                          
- *****************************************************************************/
+ Miscellaneous utility functions                          
+******************************************************************************/
 
 /* return smallest bitfield size n will fit in */
 int
@@ -29,8 +29,8 @@ GifBitSize(int n)
 }
 
 /******************************************************************************
- * Color map object functions                              
- *****************************************************************************/
+  Color map object functions                              
+******************************************************************************/
 
 /*
  * Allocate a color map of given size; initialize with contents of
@@ -69,9 +69,9 @@ GifMakeMapObject(int ColorCount, const GifColorType *ColorMap)
     return (Object);
 }
 
-/*
- * Free a color map object
- */
+/*******************************************************************************
+Free a color map object
+*******************************************************************************/
 void
 GifFreeMapObject(ColorMapObject *Object)
 {
@@ -102,13 +102,13 @@ DumpColorMap(ColorMapObject *Object,
 }
 #endif /* DEBUG */
 
-/*
- * Compute the union of two given color maps and return it.  If result can't 
- * fit into 256 colors, NULL is returned, the allocated union otherwise.
- * ColorIn1 is copied as is to ColorUnion, while colors from ColorIn2 are
- * copied iff they didn't exist before.  ColorTransIn2 maps the old
- * ColorIn2 into the ColorUnion color map table.
- */
+/*******************************************************************************
+ Compute the union of two given color maps and return it.  If result can't 
+ fit into 256 colors, NULL is returned, the allocated union otherwise.
+ ColorIn1 is copied as is to ColorUnion, while colors from ColorIn2 are
+ copied iff they didn't exist before.  ColorTransIn2 maps the old
+ ColorIn2 into the ColorUnion color map table./
+*******************************************************************************/
 ColorMapObject *
 GifUnionColorMap(const ColorMapObject *ColorIn1,
               const ColorMapObject *ColorIn2,
@@ -197,9 +197,9 @@ GifUnionColorMap(const ColorMapObject *ColorIn1,
     return (ColorUnion);
 }
 
-/*
- * Apply a given color translation to the raster bits of an image
- */
+/*******************************************************************************
+ Apply a given color translation to the raster bits of an image
+*******************************************************************************/
 void
 GifApplyTranslation(SavedImage *Image, GifPixelType Translation[])
 {
@@ -211,10 +211,8 @@ GifApplyTranslation(SavedImage *Image, GifPixelType Translation[])
 }
 
 /******************************************************************************
- * Extension record functions                              
- *****************************************************************************/
-
-
+ Extension record functions                              
+******************************************************************************/
 int
 GifAddExtensionBlock(ExtensionList *List,
 		  int Function,
@@ -266,7 +264,7 @@ ExtensionList->ExtensionBlockCount = 0;
 }
 
 /******************************************************************************
- * Image block allocation functions                          
+ Image block allocation functions                          
 ******************************************************************************/
 
 /* Private Function:

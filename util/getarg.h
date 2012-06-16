@@ -1,10 +1,8 @@
 /***************************************************************************
- * Support routines for the giflib utilities
- *
- ***************************************************************************
- * History:
- * 11 Mar 88 - Version 1.0 by Gershon Elber.
- **************************************************************************/
+
+getarg.h - Support routines for the giflib utilities
+
+**************************************************************************/
 
 #ifndef _GETARG_H
 #define _GETARG_H
@@ -43,3 +41,5 @@ extern int GifLastError(void);
 #define GIF_EXIT(Msg)    { GIF_MESSAGE(Msg); exit(-3); }
 
 #endif /* _GETARG_H */
+
+/* end */

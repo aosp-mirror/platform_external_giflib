@@ -25,7 +25,7 @@ gifbg - generate a test-pattern GIF
 #define DEFAULT_MIN_INTENSITY	10			      /* In percent. */
 #define DEFAULT_MAX_INTENSITY	100
 
-#define DEFAULT_NUM_LEVELS	16     /* Number of colors to gen the image. */
+#define DEFAULT_NUM_LEVELS	16     /* Number of colors to gen in image. */
 
 #define DIR_NONE	0	     /* Direction the levels can be changed: */
 #define DIR_TOP		1
@@ -66,7 +66,7 @@ static unsigned int
 static void QuitGifError(GifFileType *GifFile);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -106,7 +106,8 @@ int main(int argc, char **argv)
     /* Convert DirectionStr to our local representation: */
     Direction = DIR_NONE;
     FlipDir = false;
-    for (i = 0; i < (int)strlen(DirectionStr);  i++) /* Make sure its upper case. */
+     /* Make sure it's upper case. */
+    for (i = 0; i < (int)strlen(DirectionStr);  i++)
 	if (islower(DirectionStr[i]))
 	    DirectionStr[i] = toupper(DirectionStr[i]);
 
@@ -227,7 +228,7 @@ int main(int argc, char **argv)
 	       PROGRAM_NAME, GifFile->Image.Left, GifFile->Image.Top,
 	       GifFile->Image.Width, GifFile->Image.Height);
 
-    /* Allocate one scan line twice as big as image is as we are going to    */
+    /* Allocate one scan line twice as big as image is, as we are going to   */
     /* shift along it, while we dump the scan lines:			     */
     if ((Line = (GifRowType) malloc(sizeof(GifPixelType) * ImageWidth * 2)) == NULL)
 	GIF_EXIT("Failed to allocate memory required, aborted.");
@@ -327,7 +328,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Close output file (if open), and exit.
+ Close output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {
@@ -335,3 +336,5 @@ static void QuitGifError(GifFileType *GifFile)
     if (GifFile != NULL) EGifCloseFile(GifFile);
     exit(EXIT_FAILURE);
 }
+
+/* end */

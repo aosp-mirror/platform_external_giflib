@@ -58,7 +58,7 @@ static void Gif2Raw(GifFileType *GifFile, bool Textify);
 static int HandleGifError(GifFileType *GifFile);
 
 /******************************************************************************
-* Interpret the command line, prepar global data and call the Gif routines.
+ Interpret the command line, prepar global data and call the Gif routines.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -151,7 +151,7 @@ int main(int argc, char **argv)
 	    }
 	}
 	else {
-	    /* Use the stdin instead: */
+	    /* Use stdin instead: */
 	    if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
 		PrintGifError();
 		exit(EXIT_FAILURE);
@@ -165,9 +165,9 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Convert Raw image (One byte per pixel) into Gif file. Raw data is read from
-* stdin, and Gif is dumped to stdout. ImagwWidth times ImageHeight bytes are
-* read. Color map is dumped from ColorMap.
+ Convert Raw image (One byte per pixel) into Gif file. Raw data is read from
+ stdin, and Gif is dumped to stdout. ImagwWidth times ImageHeight bytes are
+ read. Color map is dumped from ColorMap.
 ******************************************************************************/
 int Raw2Gif(int ImageWidth, int ImageHeight, ColorMapObject *ColorMap)
 {
@@ -230,7 +230,7 @@ int Raw2Gif(int ImageWidth, int ImageHeight, ColorMapObject *ColorMap)
 }
 
 /******************************************************************************
-* Handle last GIF error. Try to close the file and free all allocated memory. *
+ Handle last GIF error. Try to close the file and free all allocated memory. *
 ******************************************************************************/
 static int HandleGifError(GifFileType *GifFile)
 {
@@ -298,7 +298,7 @@ static void Gif2Raw(GifFileType *GifFile, bool Textify)
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
-	    default:		     /* Should be traps by DGifGetRecordType */
+	    default:		     /* Should be trapped by DGifGetRecordType */
 		break;
 	}
     }
@@ -309,3 +309,5 @@ static void Gif2Raw(GifFileType *GifFile, bool Textify)
 	exit(EXIT_FAILURE);
     }
 }
+
+/* end */

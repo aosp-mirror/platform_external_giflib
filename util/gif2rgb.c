@@ -60,7 +60,7 @@ static void SaveGif(GifByteType *OutputBuffer,
 static void QuitGifError(GifFileType *GifFile);
 
 /******************************************************************************
-* Load RGB file into internal frame buffer.
+ Load RGB file into internal frame buffer.
 ******************************************************************************/
 static void LoadRGB(char *FileName,
 		    int OneFileFlag,
@@ -158,7 +158,7 @@ static void LoadRGB(char *FileName,
 }
 
 /******************************************************************************
-* Save the GIF resulting image.
+ Save the GIF resulting image.
 ******************************************************************************/
 static void SaveGif(GifByteType *OutputBuffer,
 		    int Width, int Height,
@@ -197,7 +197,7 @@ static void SaveGif(GifByteType *OutputBuffer,
 }
 
 /******************************************************************************
-* Close output file (if open), and exit.
+ Close output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {
@@ -243,7 +243,7 @@ static void RGB2GIF(bool OneFileFlag, int NumFiles, char *FileName,
 }
 
 /******************************************************************************
-* The real screen dumping routine.
+ The real screen dumping routine.
 ******************************************************************************/
 static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 			   ColorMapObject *ColorMap,
@@ -359,7 +359,7 @@ static void GIF2RGB(int NumFiles, char *FileName,
 	}
     }
     else {
-	/* Use the stdin instead: */
+	/* Use stdin instead: */
 
 	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
 	    PrintGifError();
@@ -452,7 +452,7 @@ static void GIF2RGB(int NumFiles, char *FileName,
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
-	    default:		    /* Should be traps by DGifGetRecordType. */
+	    default:		    /* Should be trapped by DGifGetRecordType. */
 		break;
 	}
     } while (RecordType != TERMINATE_RECORD_TYPE);
@@ -522,3 +522,4 @@ int main(int argc, char **argv)
     return 0;
 }
 
+/* end */

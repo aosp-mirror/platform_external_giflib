@@ -38,7 +38,7 @@ static void Gif2Icon(char *FileName,
 static int EscapeString(char *cp, char *tp);
 
 /******************************************************************************
-* Main Sequence
+ Main sequence
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Parse image directives
+ Parse image directives
 ******************************************************************************/
 #define PARSE_ERROR(str)  (void) fprintf(stderr,"%s:%d: %s\n",FileName,LineNum,str);
 

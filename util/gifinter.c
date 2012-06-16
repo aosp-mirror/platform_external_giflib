@@ -37,7 +37,7 @@ static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer);
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
     else {
-	/* Use the stdin instead: */
+	/* Use stdin instead: */
 	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
@@ -137,7 +137,7 @@ int main(int argc, char **argv)
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
-	    default:		    /* Should be traps by DGifGetRecordType. */
+	    default:		    /* Should be trapped by DGifGetRecordType. */
 		break;
 	}
     }
@@ -152,10 +152,10 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Routine to read Image out. The image can be Interlaced or None interlaced.
-* The memory required to hold the image is allocate by the routine itself.
-* The image is always loaded sequencially into the buffer.
-* Return GIF_OK if succesful, GIF_ERROR otherwise.
+ Routine to read Image in. The image can be Interlaced or None interlaced.
+ The memory required to hold the image is allocated by the routine itself.
+ The image is always loaded sequentially into the buffer.
+ Return GIF_OK if successful, GIF_ERROR otherwise.
 ******************************************************************************/
 static int LoadImage(GifFileType *GifFile, GifRowType **ImageBufferPtr)
 {
@@ -206,10 +206,10 @@ static int LoadImage(GifFileType *GifFile, GifRowType **ImageBufferPtr)
 }
 
 /******************************************************************************
-* Routine to dump image out. The given Image buffer should always hold the
-* image sequencially. Image will be dumped according to IInterlaced flag in
-* GifFile structure. Once dumped, the memory holding the image is freed.
-* Return GIF_OK if succesful, GIF_ERROR otherwise.
+ Routine to dump image out. The given Image buffer should always hold the
+ image sequentially. Image will be dumped according to the Interlaced flag in
+ GifFile structure. Once dumped, the memory holding the image is freed.
+ Return GIF_OK if successful, GIF_ERROR otherwise.
 ******************************************************************************/
 static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer)
 {
@@ -251,3 +251,5 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
     if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
     exit(EXIT_FAILURE);
 }
+
+/* end */

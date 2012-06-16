@@ -62,7 +62,7 @@ static void AllocateColors1(int ColorMapSize, ColorMapObject *ColorMap);
 static void AllocateColors2(int ColorMapSize, ColorMapObject *ColorMap);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -110,7 +110,7 @@ int main(int argc, char **argv)
 	}
     }
     else {
-	/* Use the stdin instead: */
+	/* Use stdin instead: */
 
 	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
 	    PrintGifError();
@@ -214,7 +214,7 @@ int main(int argc, char **argv)
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
-	    default:		    /* Should be traps by DGifGetRecordType. */
+	    default:		    /* Should be trapped by DGifGetRecordType. */
 		break;
 	}
     }
@@ -255,7 +255,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* The real display routine.
+ The real display routine.
 ******************************************************************************/
 static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
 		     int ScreenWidth, int ScreenHeight, int XPosX, int XPosY,
@@ -292,7 +292,7 @@ static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
     }
     AvgIntensity = (MinIntensity + MaxIntensity) / 2;
 
-    /* The big trick here is to select the colors so let's do this first: */
+    /* The big trick here is to select the colors, so let's do this first: */
     if (ForceFlag)
 	AllocateColors2(ColorMapSize, ColorMap);
     else
@@ -405,9 +405,9 @@ static void Screen2X(int argc, char **argv, GifRowType *ScreenBuffer,
 }
 
 /******************************************************************************
-* Routine to allocate the requested colors from the X server.
-* Colors are allocated until success by stripping off the least bits of the
-* colors.
+ Routine to allocate the requested colors from the X server.
+ Colors are allocated until success by stripping off the least bits of the
+ colors.
 ******************************************************************************/
 static void AllocateColors1(int ColorMapSize, ColorMapObject *ColorMap)
 {
@@ -436,7 +436,7 @@ static void AllocateColors1(int ColorMapSize, ColorMapObject *ColorMap)
     }
 
     if (Strip == 8)
-	GIF_EXIT("Can not display the image - not enough colors available.");
+	GIF_EXIT("Cannot display the image - not enough colors available.");
 
     if (Strip != 0) {
 	(void)snprintf(Msg, sizeof(Msg),
@@ -446,15 +446,18 @@ static void AllocateColors1(int ColorMapSize, ColorMapObject *ColorMap)
 }
 
 /******************************************************************************
-* Routine to allocate the requested colors from the X server.
-* Two stages are performed:
-* 1. Colors are requested directly.
-* 2. If not enough colors can be allocated, the closest current color
-*    in current table is selected instead.
-* This allocation is not optimal as when fail to allocate all colors one
-* should pick the right colors to do allocate in order to minimize the
-* closest distance from the unallocated ones under some norm (what is a good
-* norm for the RGB space?). Improve it if you are bored.
+ Routine to allocate the requested colors from the X server.
+ Two stages are performed:
+ 1. Colors are requested directly.
+ 2. If not enough colors can be allocated, the closest current color
+    in current table is selected instead.
+ This allocation is not optimal; when failing to allocate all colors, one
+ should pick the right colors do allocate in order to minimize the
+ closest distance from the unallocated ones under some norm (what is a good
+ norm for the RGB space?). Improve it if you are bored.
+
+ 2012 note: With modern display hardware the entire RGB space is cheaply 
+ available, so it is unlikely case 2 will be hit.
 ******************************************************************************/
 static void AllocateColors2(int ColorMapSize, ColorMapObject *ColorMap)
 {
@@ -520,3 +523,5 @@ static void AllocateColors2(int ColorMapSize, ColorMapObject *ColorMap)
 	GIF_MESSAGE(Msg);
     }
 }
+
+/* end */

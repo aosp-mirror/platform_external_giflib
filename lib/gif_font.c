@@ -9,8 +9,8 @@ gif_font.c - utility font handling and simple drawing for the GIF library
 #include "gif_lib.h"
 
 /*****************************************************************************
- * Ascii 8 by 8 regular font - only first 128 characters are supported.
- ****************************************************************************/
+ Ascii 8 by 8 regular font - only first 128 characters are supported.
+*****************************************************************************/
 
 /*
  * Each array entry holds the bits for 8 horizontal scan lines, topmost

@@ -29,7 +29,7 @@ however, be identical (you can check this with gifbuild -d).
 #define PROGRAM_NAME	"giffilter"
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.
+ Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
@@ -40,7 +40,7 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 }
 
 /******************************************************************************
-* Main sequence
+ Main sequence
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
      * Command-line processing goes here.
      */
 
-    /* Use the stdin as input (note this also read screen descriptor in: */
+    /* Use stdin as input (note this also read screen descriptor in: */
     if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
 	QuitGifError(GifFileIn, GifFileOut);
 
@@ -133,3 +133,5 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+/* end */

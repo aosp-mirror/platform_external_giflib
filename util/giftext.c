@@ -39,7 +39,7 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset);
 static void PrintLZCodes(GifFileType *GifFile);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 	}
     }
     else {
-	/* Use the stdin instead: */
+	/* Use stdin instead: */
 	GifFileName = "Stdin";
 	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
 	    PrintGifError();
@@ -283,7 +283,7 @@ int main(int argc, char **argv)
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
-	    default:		     /* Should be traps by DGifGetRecordType */
+	    default:	     /* Should be trapped by DGifGetRecordType */
 		break;
 	}
     }
@@ -300,9 +300,9 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Print the given CodeBlock - a string in pascal notation (size in first
-* place). Save local information so printing can be performed continuously,
-* or reset to start state if Reset. If CodeBlock is NULL, output is flushed
+ Print the given CodeBlock - a string in pascal notation (size in first
+ place). Save local information so printing can be performed continuously,
+ or reset to start state if Reset. If CodeBlock is NULL, output is flushed
 ******************************************************************************/
 static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Reset)
 {
@@ -344,9 +344,9 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Re
 }
 
 /******************************************************************************
-* Print the given Extension - a string in pascal notation (size in first
-* place). Save local information so printing can be performed continuously,
-* or reset to start state if Reset. If Extension is NULL, output is flushed
+ Print the given Extension - a string in pascal notation (size in first
+ place). Save local information so printing can be performed continuously,
+ or reset to start state if Reset. If Extension is NULL, output is flushed
 ******************************************************************************/
 static void PrintExtBlock(GifByteType *Extension, bool Reset)
 {
@@ -389,9 +389,9 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset)
 }
 
 /******************************************************************************
-* Print the given PixelBlock of length Len.
-* Save local information so printing can be performed continuously,
-* or reset to start state if Reset. If PixelBlock is NULL, output is flushed
+ Print the given PixelBlock of length Len.
+ Save local information so printing can be performed continuously,
+ or reset to start state if Reset. If PixelBlock is NULL, output is flushed
 ******************************************************************************/
 static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset)
 {
@@ -431,7 +431,7 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset)
 }
 
 /******************************************************************************
-* Print the image as LZ codes (each 12bits), until EOF marker is reached.
+ Print the image as LZ codes (each 12bits), until EOF marker is reached.
 ******************************************************************************/
 static void PrintLZCodes(GifFileType *GifFile)
 {
@@ -451,3 +451,5 @@ static void PrintLZCodes(GifFileType *GifFile)
     }
     while (Code >= 0);
 }
+
+/* end */

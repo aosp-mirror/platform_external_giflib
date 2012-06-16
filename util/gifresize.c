@@ -34,7 +34,7 @@ static void ResizeLine(GifRowType LineIn, GifRowType LineOut,
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -103,7 +103,7 @@ int main(int argc, char **argv)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
     else {
-	/* Use the stdin instead: */
+	/* Use stdin instead: */
 	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
@@ -145,7 +145,7 @@ int main(int argc, char **argv)
 	    case IMAGE_DESC_RECORD_TYPE:
 		if (DGifGetImageDesc(GifFileIn) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
-		/* Put the image descriptor to out file: */
+		/* Put the image descriptor to the output file: */
 		l = (int) (GifFileIn->Image.Left * XScale + 0.5);
 		w = (int) (GifFileIn->Image.Width * XScale + 0.5);
 		t = (int) (GifFileIn->Image.Top * YScale + 0.5);
@@ -228,7 +228,7 @@ int main(int argc, char **argv)
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
-	    default:		    /* Should be traps by DGifGetRecordType. */
+	    default:		    /* Should be trapped by DGifGetRecordType. */
 		break;
 	}
     }
@@ -246,8 +246,8 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Line resizing routine - scale given lines as follows:
-* Scale (by pixel duplication/elimination) from InLineLen to OutLineLen.
+ Line resizing routine - scale given lines as follows:
+ Scale (by pixel duplication/elimination) from InLineLen to OutLineLen.
 ******************************************************************************/
 static void ResizeLine(GifRowType LineIn, GifRowType LineOut,
 		       int InLineLen, int OutLineLen, double XScale)
@@ -272,7 +272,7 @@ static void ResizeLine(GifRowType LineIn, GifRowType LineOut,
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.
+ Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
@@ -281,3 +281,5 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
     if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
     exit(EXIT_FAILURE);
 }
+
+/* end */

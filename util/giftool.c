@@ -568,4 +568,4 @@ int main(int argc, char **argv)
     return 0;
 }
 
-/* giftool.c ends here */
+/* end */

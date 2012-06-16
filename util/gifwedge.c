@@ -40,7 +40,7 @@ static int
 static void QuitGifError(GifFileType *GifFile);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -132,7 +132,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Close output file (if open), and exit.
+ Close output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {
@@ -140,3 +140,5 @@ static void QuitGifError(GifFileType *GifFile)
     if (GifFile != NULL) DGifCloseFile(GifFile);
     exit(EXIT_FAILURE);
 }
+
+/* end */

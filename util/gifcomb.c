@@ -32,7 +32,7 @@ static void QuitGifError(GifFileType *GifFileIn1, GifFileType *GifFileIn2,
 			 GifFileType *GifMaskFile, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -181,7 +181,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Read until first image in GIF file is detected and read its descriptor.
+ Read until first image in GIF file is detected and read its descriptor.
 ******************************************************************************/
 static int ReadUntilImage(GifFileType *GifFile)
 {
@@ -208,7 +208,7 @@ static int ReadUntilImage(GifFileType *GifFile)
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
-	    default:		    /* Should be traps by DGifGetRecordType. */
+	    default:		    /* Should be trapped by DGifGetRecordType. */
 		break;
 	}
     }
@@ -218,7 +218,7 @@ static int ReadUntilImage(GifFileType *GifFile)
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.
+ Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn1, GifFileType *GifFileIn2,
 			 GifFileType *GifMaskFile, GifFileType *GifFileOut)
@@ -230,3 +230,5 @@ static void QuitGifError(GifFileType *GifFileIn1, GifFileType *GifFileIn2,
     if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
     exit(EXIT_FAILURE);
 }
+
+/* end */

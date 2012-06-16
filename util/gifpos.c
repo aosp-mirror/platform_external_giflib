@@ -30,7 +30,7 @@ static char
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
     else {
-	/* Use the stdin instead: */
+	/* Use stdin instead: */
 	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
@@ -162,7 +162,7 @@ int main(int argc, char **argv)
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
-	    default:		    /* Should be traps by DGifGetRecordType. */
+	    default:		    /* Should be trapped by DGifGetRecordType. */
 		break;
 	}
     }
@@ -177,7 +177,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.
+ Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
@@ -186,3 +186,5 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
     if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
     exit(EXIT_FAILURE);
 }
+
+/* end */

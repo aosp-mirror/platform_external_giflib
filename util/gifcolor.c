@@ -34,7 +34,7 @@ static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 					int BufferWidth, int ForeGroundIndex);
 
 /******************************************************************************
-* Interpret the command line and generate the given GIF file.
+ Interpret the command line and generate the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -124,7 +124,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Close output file (if open), and exit.
+ Close output file (if open), and exit.
 ******************************************************************************/
 static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 					int BufferWidth, int ForeGroundIndex)
@@ -148,7 +148,7 @@ static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 }
 
 /******************************************************************************
-* Close output file (if open), and exit.
+ Close output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {

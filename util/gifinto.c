@@ -41,8 +41,8 @@ static int
     MinFileSize = DEFAULT_MIN_FILE_SIZE;
 
 /******************************************************************************
-* The is simply: read until EOF, then close the output, test its length, and
-* if non zero then rename it.
+ This is simply: read until EOF, then close the output, test its length, and
+ if non zero then rename it.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -141,3 +141,5 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+/* end */

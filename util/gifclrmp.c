@@ -46,7 +46,7 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap);
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -234,7 +234,7 @@ int main(int argc, char **argv)
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
-	    default:		    /* Should be traps by DGifGetRecordType. */
+	    default:		    /* Should be trapped by DGifGetRecordType. */
 		break;
 	}
     }
@@ -250,7 +250,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Modify the given colormap according to global variables setting.
+ Modify the given colormap according to global variables setting.
 ******************************************************************************/
 static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
 {
@@ -325,7 +325,7 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap)
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.
+ Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
@@ -335,3 +335,4 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
     exit(EXIT_FAILURE);
 }
 
+/* end */

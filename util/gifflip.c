@@ -42,7 +42,7 @@ static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer,
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -91,7 +91,7 @@ int main(int argc, char **argv)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
     else {
-	/* Use the stdin instead: */
+	/* Use stdin instead: */
 	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
 	    QuitGifError(GifFileIn, GifFileOut);
     }
@@ -191,7 +191,7 @@ int main(int argc, char **argv)
 		break;
 	    case TERMINATE_RECORD_TYPE:
 		break;
-	    default:		    /* Should be traps by DGifGetRecordType. */
+	    default:		    /* Should be trapped by DGifGetRecordType. */
 		break;
 	}
     }
@@ -206,9 +206,9 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Routine to read Image out. The image can be Non interlaced only.
-* The memory required to hold the image is allocate by the routine itself.
-* Return GIF_OK if succesful, GIF_ERROR otherwise.
+ Routine to read Image in. The image must be non-interlaced.
+ The memory required to hold the image is allocate by the routine itself.
+ Return GIF_OK if successful, GIF_ERROR otherwise.
 ******************************************************************************/
 static int LoadImage(GifFileType *GifFile, GifRowType **ImageBufferPtr)
 {
@@ -247,11 +247,11 @@ static int LoadImage(GifFileType *GifFile, GifRowType **ImageBufferPtr)
 }
 
 /******************************************************************************
-* Routine to dump image out. The given Image buffer should always hold the
-* image sequencially, and Width & Height hold image dimensions BEFORE flip.
-* Image will be dumped according to FlipDirection.
-* Once dumped, the memory holding the image is freed.
-* Return GIF_OK if succesful, GIF_ERROR otherwise.
+ Routine to dump image out. The given Image buffer should always hold the image
+ sequentially, and Width & Height must hold the image dimensions BEFORE flip.
+ Image will be dumped according to FlipDirection.
+ Once dumped, the memory holding the image is freed.
+ Return GIF_OK if successful, GIF_ERROR otherwise.
 ******************************************************************************/
 static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer,
 				int Width, int Height, int FlipDirection)
@@ -319,7 +319,7 @@ static int DumpImage(GifFileType *GifFile, GifRowType *ImageBuffer,
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.
+ Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
@@ -328,3 +328,5 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
     if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
     exit(EXIT_FAILURE);
 }
+
+/* end */

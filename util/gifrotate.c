@@ -44,7 +44,7 @@ static void RotateGifLine(GifRowType *ScreenBuffer, int BackGroundColor,
 static void QuitGifError(GifFileType *SrcGifFile, GifFileType *DstGifFile);
 
 /******************************************************************************
-* Interpret the command line and scan the given GIF file.
+ Interpret the command line and scan the given GIF file.
 ******************************************************************************/
 int main(int argc, char **argv)
 {
@@ -211,7 +211,7 @@ int main(int argc, char **argv)
 		if (EGifCloseFile(GifFileOut) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
 		break;
-	    default:		    /* Should be traps by DGifGetRecordType. */
+	    default:	/* Should be trapped by DGifGetRecordType. */
 		break;
 	}
     }
@@ -221,7 +221,7 @@ int main(int argc, char **argv)
 }
 
 /******************************************************************************
-* Save the GIF resulting image.
+ Save the resulting GIF image.
 ******************************************************************************/
 static void RotateGifImage(GifRowType *ScreenBuffer, 
 			   GifFileType *SrcGifFile,
@@ -252,7 +252,7 @@ static void RotateGifImage(GifRowType *ScreenBuffer,
 
 
 /******************************************************************************
-* Save the GIF resulting image.
+ Rotate a line by a specified angle.
 ******************************************************************************/
 static void RotateGifLine(GifRowType *ScreenBuffer, int BackGroundColor,
 		          int SrcWidth, int SrcHeight,
@@ -286,7 +286,7 @@ static void RotateGifLine(GifRowType *ScreenBuffer, int BackGroundColor,
 }
 
 /******************************************************************************
-* Close both input and output file (if open), and exit.
+ Close both input and output file (if open), and exit.
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
@@ -296,3 +296,4 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
     exit(EXIT_FAILURE);
 }
 
+/* end */

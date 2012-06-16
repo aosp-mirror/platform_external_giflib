@@ -16,8 +16,8 @@
 bool GifNoisyPrint = false;
 
 /*****************************************************************************
- * Same as fprintf to stderr but with optional print.
- *****************************************************************************/
+ Same as fprintf to stderr but with optional print.
+******************************************************************************/
 void
 GifQprintf(char *Format, ...) {
     char Line[128];
@@ -42,3 +42,5 @@ PrintGifError(void) {
     else
         fprintf(stderr, "\nGIF-LIB undefined error %d.\n", GifError());
 }
+
+/* end */

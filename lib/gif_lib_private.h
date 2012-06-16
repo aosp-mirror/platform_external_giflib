@@ -1,3 +1,9 @@
+/****************************************************************************
+
+gif_lib_private.h - internal giflib routines and structures
+
+****************************************************************************/
+
 #ifndef _GIF_LIB_PRIVATE_H
 #define _GIF_LIB_PRIVATE_H
 
@@ -51,3 +57,5 @@ typedef struct GifFilePrivateType {
 extern int _GifError;
 
 #endif /* _GIF_LIB_PRIVATE_H */
+
+/* end */
