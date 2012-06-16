@@ -5,7 +5,7 @@
 # This is what to do by default
 test: render-regress giffilter-regress gifsponge-regress \
 		gifclrmp-regress giftext-regress gifbuild-regress \
-		giftool-regress misc-regress
+		giftool-regress gif2raw-regress misc-regress
 	@echo "No output is good news"
 
 rebuild: render-buildregress misc-buildregress \
@@ -107,6 +107,10 @@ giftool-regress:
 	@$(UTILS)/giftool -i on <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
 	@echo "Checking that giftool interlaces correctly."
 	@$(UTILS)/giftool -i off <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
+
+gif2raw-regress:
+	@echo "Checking that gif2raw can self-invert."
+	@$(UTILS)/gif2raw <$(PICS)/treescap.gif | $(UTILS)/gif2raw -s 40 40 -p treescap.map | $(UTILS)/gif2rgb | cmp - treescap.rgb
 
 misc-buildregress:
 	$(UTILS)/gifwedge >wedge.gif
