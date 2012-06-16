@@ -30,7 +30,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" v%- s!-Width|Height!d!d p%-ColorMapFile!s h%- RawFile!*s";
+	" v%- s%-Width|Height!d!d p%-ColorMapFile!s h%- RawFile!*s";
 
 static GifColorType EGAPalette[] =      /* Default color map is EGA palette. */
 {
@@ -53,7 +53,8 @@ static GifColorType EGAPalette[] =      /* Default color map is EGA palette. */
 };
 #define EGA_PALETTE_SIZE (sizeof(EGAPalette) / sizeof(GifColorType))
 
-int Raw2Gif(int ImagwWidth, int ImagwHeight, ColorMapObject *ColorMap);
+static int Raw2Gif(int ImagwWidth, int ImagwHeight, ColorMapObject *ColorMap);
+static void Gif2Raw(GifFileType *GifFile);
 static int HandleGifError(GifFileType *GifFile);
 
 /******************************************************************************
@@ -88,54 +89,74 @@ int main(int argc, char **argv)
 	exit(EXIT_SUCCESS);
     }
 
-    if (ColorMapFlag) {
-	int ColorMapSize;
+    if (ImageSizeFlag) {
+	if (ColorMapFlag) {
+	    int ColorMapSize;
 
-	/* Read color map from given file: */
-	if ((InColorMapFile = fopen(ColorMapFile, "rt")) == NULL) {
-	    GIF_MESSAGE("Failed to open COLOR MAP file (not exists!?).");
-	    exit(EXIT_FAILURE);
-	}
-	if ((ColorMap = GifMakeMapObject(256, NULL)) == NULL) {
-	    GIF_MESSAGE("Failed to allocate bitmap, aborted.");
-	    exit(EXIT_FAILURE);
-	}
+	    /* Read color map from given file: */
+	    if ((InColorMapFile = fopen(ColorMapFile, "rt")) == NULL) {
+		GIF_MESSAGE("Failed to open COLOR MAP file (not exists!?).");
+		exit(EXIT_FAILURE);
+	    }
+	    if ((ColorMap = GifMakeMapObject(256, NULL)) == NULL) {
+		GIF_MESSAGE("Failed to allocate bitmap, aborted.");
+		exit(EXIT_FAILURE);
+	    }
 
-	for (ColorMapSize = 0;
-	     ColorMapSize < 256 && !feof(InColorMapFile);
-	     ColorMapSize++) {
-	    if (fscanf(InColorMapFile, "%3d %3d %3d %3d\n",
-		       &Dummy, &Red, &Green, &Blue) == 4) {
-		ColorMap->Colors[ColorMapSize].Red = Red;
-		ColorMap->Colors[ColorMapSize].Green = Green;
-		ColorMap->Colors[ColorMapSize].Blue = Blue;
+	    for (ColorMapSize = 0;
+		 ColorMapSize < 256 && !feof(InColorMapFile);
+		 ColorMapSize++) {
+		if (fscanf(InColorMapFile, "%3d %3d %3d %3d\n",
+			   &Dummy, &Red, &Green, &Blue) == 4) {
+		    ColorMap->Colors[ColorMapSize].Red = Red;
+		    ColorMap->Colors[ColorMapSize].Green = Green;
+		    ColorMap->Colors[ColorMapSize].Blue = Blue;
+		}
 	    }
 	}
-    }
-    else {
-	ColorMap = GifMakeMapObject(EGA_PALETTE_SIZE, EGAPalette);
-    }
-
-    if (NumFiles == 1) {
-	int InFileHandle;
-#ifdef _WIN32
-	if ((InFileHandle = open(*FileName, O_RDONLY | O_BINARY)) == -1) {
-#else
-	if ((InFileHandle = open(*FileName, O_RDONLY)) == -1) {
-#endif /* _WIN32 */
-	    GIF_MESSAGE("Failed to open RAW image file (not exists!?).");
-	    exit(EXIT_FAILURE);
+	else {
+	    ColorMap = GifMakeMapObject(EGA_PALETTE_SIZE, EGAPalette);
 	}
-	dup2(InFileHandle, 0);		       /* Make stdin from this file. */
+
+	if (NumFiles == 1) {
+	    int InFileHandle;
+    #ifdef _WIN32
+	    if ((InFileHandle = open(*FileName, O_RDONLY | O_BINARY)) == -1) {
+    #else
+	    if ((InFileHandle = open(*FileName, O_RDONLY)) == -1) {
+    #endif /* _WIN32 */
+		GIF_MESSAGE("Failed to open RAW image file (not exists!?).");
+		exit(EXIT_FAILURE);
+	    }
+	    dup2(InFileHandle, 0);		       /* Make stdin from this file. */
+	}
+	else {
+    #ifdef _WIN32
+	    _setmode(0, O_BINARY);		  /* Make sure it is in binary mode. */
+    #endif /* _WIN32 */
+	}
+
+	/* Convert Raw image from stdin to Gif file in stdout: */
+	Raw2Gif(ImageWidth, ImageHeight, ColorMap);
     }
     else {
-#ifdef _WIN32
-	_setmode(0, O_BINARY);		  /* Make sure it is in binary mode. */
-#endif /* _WIN32 */
-    }
+	GifFileType *GifFile;
 
-    /* Conver Raw image from stdin to Gif file in stdout: */
-    Raw2Gif(ImageWidth, ImageHeight, ColorMap);
+	if (NumFiles == 1) {
+	    if ((GifFile = DGifOpenFileName(*FileName)) == NULL) {
+		PrintGifError();
+		exit(EXIT_FAILURE);
+	    }
+	}
+	else {
+	    /* Use the stdin instead: */
+	    if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
+		PrintGifError();
+		exit(EXIT_FAILURE);
+	    }
+	}
+	Gif2Raw(GifFile);
+    }
 
     return 0;
     // cppcheck-suppress resourceLeak
@@ -217,4 +238,67 @@ static int HandleGifError(GifFileType *GifFile)
 	GifLastError();
     }
     return i;
+}
+
+static void Gif2Raw(GifFileType *GifFile)
+{
+    int i, ExtCode;
+    GifPixelType *Line;
+    GifRecordType RecordType;
+    GifByteType *Extension;
+
+#ifdef _WIN32
+    _setmode(1, O_BINARY);             /* Make sure it is in binary mode. */
+#endif /* _WIN32 */
+ 
+   do {
+	if (DGifGetRecordType(GifFile, &RecordType) == GIF_ERROR) {
+	    PrintGifError();
+	    exit(EXIT_FAILURE);
+	}
+	switch (RecordType) {
+	    case IMAGE_DESC_RECORD_TYPE:
+		if (DGifGetImageDesc(GifFile) == GIF_ERROR) {
+		    PrintGifError();
+		    exit(EXIT_FAILURE);
+		}
+
+		Line = (GifPixelType *) malloc(GifFile->Image.Width *
+					    sizeof(GifPixelType));
+		for (i = 0; i < GifFile->Image.Height; i++) {
+		    if (DGifGetLine(GifFile, Line, GifFile->Image.Width)
+			== GIF_ERROR) {
+			PrintGifError();
+			exit(EXIT_FAILURE);
+		    }
+		    fwrite(Line, 1, GifFile->Image.Width, stdout);
+		}
+		free((char *) Line);
+		break;
+	    case EXTENSION_RECORD_TYPE:
+		if (DGifGetExtension(GifFile, &ExtCode, &Extension) == GIF_ERROR) {
+		    PrintGifError();
+		    exit(EXIT_FAILURE);
+		}
+		for (;;) {
+		    if (DGifGetExtensionNext(GifFile, &Extension) == GIF_ERROR) {
+			PrintGifError();
+			exit(EXIT_FAILURE);
+		    }
+		    if (Extension == NULL)
+			break;
+		}
+		break;
+	    case TERMINATE_RECORD_TYPE:
+		break;
+	    default:		     /* Should be traps by DGifGetRecordType */
+		break;
+	}
+    }
+    while (RecordType != TERMINATE_RECORD_TYPE);
+
+    if (DGifCloseFile(GifFile) == GIF_ERROR) {
+	PrintGifError();
+	exit(EXIT_FAILURE);
+    }
 }
