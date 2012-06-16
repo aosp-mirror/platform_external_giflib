@@ -30,7 +30,7 @@ static char
 static char
     *CtrlStr =
 	PROGRAM_NAME
-	" v%- s%-Width|Height!d!d p%-ColorMapFile!s h%- RawFile!*s";
+	" v%- s%-Width|Height!d!d p%-ColorMapFile!s t%- h%- RawFile!*s";
 
 static GifColorType EGAPalette[] =      /* Default color map is EGA palette. */
 {
@@ -54,7 +54,7 @@ static GifColorType EGAPalette[] =      /* Default color map is EGA palette. */
 #define EGA_PALETTE_SIZE (sizeof(EGAPalette) / sizeof(GifColorType))
 
 static int Raw2Gif(int ImagwWidth, int ImagwHeight, ColorMapObject *ColorMap);
-static void Gif2Raw(GifFileType *GifFile);
+static void Gif2Raw(GifFileType *GifFile, bool Textify);
 static int HandleGifError(GifFileType *GifFile);
 
 /******************************************************************************
@@ -64,7 +64,8 @@ int main(int argc, char **argv)
 {
     int	NumFiles, ImageWidth, ImageHeight, Dummy, Red, Green, Blue;
     static bool Error,
-	ImageSizeFlag = false, ColorMapFlag = false, HelpFlag = false;
+	ImageSizeFlag = false, ColorMapFlag = false, HelpFlag = false,
+	TextifyFlag = false;
     char **FileName = NULL, *ColorMapFile;
     ColorMapObject *ColorMap;
     FILE *InColorMapFile;
@@ -72,6 +73,7 @@ int main(int argc, char **argv)
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&ImageSizeFlag, &ImageWidth, &ImageHeight,
 		&ColorMapFlag, &ColorMapFile,
+		&TextifyFlag,
 		&HelpFlag,
 		&NumFiles, &FileName)) != false ||
 		(NumFiles > 1 && !HelpFlag)) {
@@ -155,7 +157,7 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	    }
 	}
-	Gif2Raw(GifFile);
+	Gif2Raw(GifFile, TextifyFlag);
     }
 
     return 0;
@@ -240,9 +242,9 @@ static int HandleGifError(GifFileType *GifFile)
     return i;
 }
 
-static void Gif2Raw(GifFileType *GifFile)
+static void Gif2Raw(GifFileType *GifFile, bool Textify)
 {
-    int i, ExtCode;
+    int i, j, ExtCode;
     GifPixelType *Line;
     GifRecordType RecordType;
     GifByteType *Extension;
@@ -271,7 +273,12 @@ static void Gif2Raw(GifFileType *GifFile)
 			PrintGifError();
 			exit(EXIT_FAILURE);
 		    }
+		    if (Textify)
+			for (j = 0; j < GifFile->Image.Height; j++)
+			    Line[j] += ' ';
 		    fwrite(Line, 1, GifFile->Image.Width, stdout);
+		    if (Textify)
+			putchar('\n');
 		}
 		free((char *) Line);
 		break;

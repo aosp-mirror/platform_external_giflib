@@ -23,6 +23,7 @@
       <arg choice='plain'>-s 
       		<replaceable>width</replaceable>
       		<replaceable>height</replaceable></arg>
+      <arg choice='opt'>-t</arg>
       <arg choice='opt'>-p <replaceable>color-map</replaceable></arg>
       <arg choice='opt'>-h</arg>
       <arg choice='opt'><replaceable>raw-file</replaceable></arg>
@@ -31,13 +32,17 @@
 
 <refsect1><title>Description</title>
 
-<para>A program to convert RAW image data into GIF files.  Only one
-image can be handled.  The RAW image file is assumed to hold one pixel
-color in one byte, and therefore the file size must be Width times
+<para>A program to dump raw pixels from GIFS or convert raw image data
+into GIF files.  Only one image can be handled.  The default conversion
+is GIF-to-raw; the -s option inverts this.</para>
+
+<para>A raw image file is assumed to hold one pixel color in one byte,
+and therefore the size of a raw file on input must be Width times
 Height as specified by the -s option below.</para>
 
-<para>If no raw-file is given, gifraw will try to read RAW data from stdin.
-The generated GIF File is dumped to stdout.</para>
+<para>If no input file is given, gifraw will try to read a GIF or raw
+data data from stdin.  The generated GIF or raw data is dumped to
+stdout.</para>
 
 </refsect1>
 <refsect1><title>Options</title>
@@ -54,21 +59,30 @@ Enables printout of running scan lines.</para>
 <varlistentry>
 <term>-s width height</term>
 <listitem>
-<para>The dimensions of the image <emphasis>must</emphasis> be
-specified in the command line.  The raw image file size must be
-exactly width times weight bytes (each byte is one pixel
-color).</para>
+<para>Enables raw-to-GIF conversion. The dimensions of the image
+<emphasis>must</emphasis> be specified in the command line.  The raw
+image file size must be exactly width times weight bytes (each byte is
+one pixel color).</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
+<term>-t</term>
+<listitem>
+<para>Textify. In GIF-to-raw mode, add 32 to the raw value of each pixel
+emitted and emit \n at the end of each raster line. This maps raw pixel values
+to printable ASCII chacters, but unhappy results will follow if any pixel
+has a value greater than 95.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
 <term>-p ColorMapFile</term>
 <listitem>
-<para> Color map to load for given RAW image.  This file has 4
-integers in line (ColorIndex Red Green Blue), and the ColorIndex is in
-order starting from 1. See gifclrmap, which can also use/create these
-bitmap files. If no color map is specified, uses the EGA 16 color
-palette as default color map.</para>
+<para>Valid in raw-to-GIF mode only, Color map to load for given RAW
+image.  This file has 4 integers in line (ColorIndex Red Green Blue),
+and the ColorIndex is in order starting from 1. See gifclrmap, which
+can also use/create these bitmap files. If no color map is specified,
+uses the EGA 16 color palette as default color map.</para>
 </listitem>
 </varlistentry>
 
