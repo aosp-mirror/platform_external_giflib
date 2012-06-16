@@ -314,12 +314,11 @@ EGifGCBToSavedExtension() will create a new leading extension block.</para>
 <sect1><title>Error Handling (gif_err.c)</title>
 
 <programlisting>
-int GifError(void)
-int GifErrorString(void)
+int GifErrorString(int ErrCode)
 </programlisting>
 
-<para>These functions return the last error reported by a library function,
-as a numeric error code and string explanation respectively.</para>
+<para>Returns a sting describing the specified GIFLIB error code.
+Return NULL if the argument is not a valid error code.</para>
 
 </sect1>
 <sect1><title>The GIF Utility Font</title>

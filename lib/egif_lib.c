@@ -76,6 +76,7 @@ EGifOpenFileName(const char *FileName, const bool TestExistence)
  write in binary mode.
  Returns GifFileType pointer dynamically allocated which serves as the gif
  info record.
+ Only fails on a memory allocation error.
 ******************************************************************************/
 GifFileType *
 EGifOpenFileHandle(const int FileHandle)
@@ -86,7 +87,6 @@ EGifOpenFileHandle(const int FileHandle)
 
     GifFile = (GifFileType *) malloc(sizeof(GifFileType));
     if (GifFile == NULL) {
-        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 
@@ -95,13 +95,11 @@ EGifOpenFileHandle(const int FileHandle)
     Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
     if (Private == NULL) {
         free(GifFile);
-        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
     if ((Private->HashTable = _InitHashTable()) == NULL) {
         free(GifFile);
         free(Private);
-        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 
