@@ -832,7 +832,7 @@ not be used after this routine has been called.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise. When
 GIF_ERROR is returned, the GifFile structure is not freed so that the
-diagnostic error code will remain accessibkle in GifFile->Error.</para>
+diagnostic error code will remain accessible in GifFile->Error.</para>
 
 </sect2>
 <sect2><title>Sequential writing</title>
@@ -1036,7 +1036,7 @@ should not be used, once this routine has been called.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.When
 GIF_ERROR is returned, the GifFile structure is not freed so that the
-diagnostic error code will remain accessibkle in GifFile->Error.</para>
+diagnostic error code will remain accessible in GifFile->Error.</para>
 
 </sect2>
 
