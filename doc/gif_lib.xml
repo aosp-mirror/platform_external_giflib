@@ -86,18 +86,14 @@ valid (Image information is invalid until the first image has been read;
 read; SavedImages information is valid only after a DGifSlurp() call).</para>
 
 <para>As the library needs to keep its own internal data, a Private pointer
-to hidden data is included. Applications should ignore this item.</para>
-
-<para>The library has no static data other than one error-code cell
-analogous to errno. This means that it is reentrant and any
-number of GIF files (up to memory limits) can be opened for
-read/write. Instead of the static data, an internal structure pointed
-by the Private pointer is used.</para>
+to hidden data is included. Applications should ignore this.</para>
 
 <para>The library allocates its own memory dynamically, on opening of files,
 and releases that once closed.  The user is never required to allocate
-any memory for any of the functions of this library nor to free them
-directly.</para>
+any memory for any of the functions of this library, and is almost never
+required to free them directly. The "almost" in the latter clause is because
+one manual free() call may be required on a failed file close; see the
+documentation of DGifClose() and EGifClose() for details.</para>
 
 <para>Here is a module summary:</para>
 
@@ -834,7 +830,9 @@ int DGifCloseFile(GifFileType *GifFile)
 <para>Close GIF file and free all memory allocated for it. GifFile should
 not be used after this routine has been called.</para>
 
-<para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
+<para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise. When
+GIF_ERROR is returned, the GifFile structure is not freed so that the
+diagnostic error code will remain accessibkle in GifFile->Error.</para>
 
 </sect2>
 <sect2><title>Sequential writing</title>
@@ -1036,7 +1034,9 @@ int EGifCloseFile(GifFileType *GifFile)
 <para>Close a GIF file and free all memory allocated for it.  gif-file
 should not be used, once this routine has been called.</para>
 
-<para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
+<para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.When
+GIF_ERROR is returned, the GifFile structure is not freed so that the
+diagnostic error code will remain accessibkle in GifFile->Error.</para>
 
 </sect2>
 
@@ -1072,7 +1072,7 @@ control blocks in saved images.</para></listitem>
 <para>In documented functions:</para>
 
 <itemizedlist>
-<listitem><para>Gif fileopeners - DGifOpenFileName(),
+<listitem><para>GIF file openers - DGifOpenFileName(),
 DGifOpenFileHandle(), DGifOpen(), EGifOpenFileName(),
 EGifOpenFileHandle(), and EGifOpen() - all now take a final integer
 address argument.  If non-null, this is used to pass back an error

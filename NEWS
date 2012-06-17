@@ -28,25 +28,26 @@ New API Features
 
 Extensions
 ~~~~~~~~~~
-* The ExtensionBlock API has been repaired. The ExtensionBlockCount
-  and ExtensionBlockList members of the SavedImage structures are no
-  longer top-level in that structure, but now live in an
-  ExtensionBlockList substructure named 'Leading'.  This was done so
-  that the new list of trailing extension blocks in GifFileType can
-  use the same list-handler code as the Leading extension-block list
-  in each saved image.
+The ExtensionBlock API has been repaired, solving some problems with GIf89
+extension handling in earlier versions.
+
+* DGifSlurp() and EGifSpew() now preserve trailing extension blocks with
+  no following image file, in an ExtensionBlockList member named 'Trailing'.
+* The ExtensionBlockCount and ExtensionBlockList members of the
+  SavedImage structures are no longer top-level in that structure, but
+  now live in an ExtensionBlockList substructure named 'Leading'.
 * Three documented functions - EGifPutExtensionFirst(), EGifPutExtensionNext(),
   and EGifPutExtensionLast() - have been relaced by new functions
   EGifPutExtensionLeader(), EGifPutExtensionBlock(), and 
   EGifPutExtensionTrailer().  See the Compatibility section of
   the library API documentation for details.
-* DGifSlurp() and EGifSpew() now preserve trailing extension blocks with
-  no following image file, in an ExtensionBlockList member named 'Trailing'.
 * New functions DGifSavedExtensionToGCB() and EGifGCBToSavedExtension()
   make it easy to read and edit GIF89 graphics control blocks in saved images.
 
 Thread Safety
 ~~~~~~~~~~~~~
+The library is now completely re-entrant and thread-safe.
+
 * Library error handling no longer uses a static cell to store the last
   error code registered; that made the library thread-unsafe.  For functions 
   other than GIF file openers, the code is now put in an Error member of
@@ -61,8 +62,8 @@ Thread Safety
 
 Namespacing
 ~~~~~~~~~~~
-* All functions exported by giflib now have DGif, EGif, or Gif
-  as a name prefix.
+All functions exported by giflib now have DGif, EGif, or Gif as a name prefix.
+
 * Three documented functions - MakeMapObject(), FreeMapObject(), and
   UnionColorMap() - have been renamed to GifMakeMapObject(),
   GifFreeMapObject(), and GifUnionColorMap() respectively.
