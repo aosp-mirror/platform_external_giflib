@@ -228,13 +228,13 @@ static void QuitGifError(GifFileType *GifFileIn1, GifFileType *GifFileIn2,
 			 GifFileType *GifMaskFile, GifFileType *GifFileOut)
 {
     int Err = 0;
-    if (GifFileIn1->Error)
+    if (GifFileIn1 && GifFileIn1->Error)
 	Err = GifFileIn1->Error;
-    else if (GifFileIn2->Error)
+    else if (GifFileIn2 && GifFileIn2->Error)
 	Err = GifFileIn2->Error;
-    else if (GifMaskFile->Error)
+    else if (GifMaskFile && GifMaskFile->Error)
 	Err = GifMaskFile->Error;
-    else if (GifFileOut->Error)
+    else if (GifFileOut && GifFileOut->Error)
 	Err = GifFileOut->Error;
 
     PrintGifError(Err);

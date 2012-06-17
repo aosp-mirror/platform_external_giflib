@@ -203,8 +203,10 @@ static void SaveGif(GifByteType *OutputBuffer,
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {
-    PrintGifError(GifFile->Error);
-    if (GifFile != NULL) EGifCloseFile(GifFile);
+    if (GifFile != NULL) {
+	PrintGifError(GifFile->Error);
+	EGifCloseFile(GifFile);
+    }
     exit(EXIT_FAILURE);
 }
 

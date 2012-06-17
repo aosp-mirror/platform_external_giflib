@@ -189,29 +189,43 @@ int main(int argc, char **argv)
 		break;
 	    case EXTENSION_RECORD_TYPE:
 		/* pass through extension records */
-		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR)
+		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR) {
+		    PrintGifError(GifFileIn->Error);
 		    QuitGifError(GifFileIn, GifFileOut);
-		if (EGifPutExtensionLeader(GifFileOut, ExtCode) == GIF_ERROR)
+		}
+		if (EGifPutExtensionLeader(GifFileOut, ExtCode) == GIF_ERROR) {
+		    PrintGifError(GifFileOut->Error);
 		    QuitGifError(GifFileIn, GifFileOut);
+		}
 		if (EGifPutExtensionBlock(GifFileOut, 
 					  Extension[0],
-					  Extension + 1) == GIF_ERROR)
+					  Extension + 1) == GIF_ERROR) {
+		    PrintGifError(GifFileOut->Error);
 		    QuitGifError(GifFileIn, GifFileOut);
+		}
 		while (Extension != NULL) {
-		    if (DGifGetExtensionNext(GifFileIn, &Extension)==GIF_ERROR)
+		    if (DGifGetExtensionNext(GifFileIn, &Extension)==GIF_ERROR){
+			PrintGifError(GifFileIn->Error);
 			QuitGifError(GifFileIn, GifFileOut);
+		    }
 		    if (Extension != NULL)
 			if (EGifPutExtensionBlock(GifFileOut, 
 						  Extension[0],
-						  Extension + 1) == GIF_ERROR)
+						  Extension + 1) == GIF_ERROR){
+			    PrintGifError(GifFileOut->Error);
 			    QuitGifError(GifFileIn, GifFileOut);
+			}
 		}
-		if (EGifPutExtensionTrailer(GifFileOut) == GIF_ERROR)
+		if (EGifPutExtensionTrailer(GifFileOut) == GIF_ERROR) {
+		    PrintGifError(GifFileOut->Error);
 		    QuitGifError(GifFileIn, GifFileOut);
+		}
 		break;
 	    case TERMINATE_RECORD_TYPE:
-		if (EGifCloseFile(GifFileOut) == GIF_ERROR)
+		if (EGifCloseFile(GifFileOut) == GIF_ERROR) {
+		    PrintGifError(GifFileOut->Error);
 		    QuitGifError(GifFileIn, GifFileOut);
+		}
 		break;
 	    default:	/* Should be trapped by DGifGetRecordType. */
 		break;
@@ -292,9 +306,12 @@ static void RotateGifLine(GifRowType *ScreenBuffer, int BackGroundColor,
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
-    PrintGifError(GifFileOut->Error ? GifFileOut->Error : GifFileIn->Error);
-    if (GifFileIn != NULL) DGifCloseFile(GifFileIn);
-    if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
+    if (GifFileIn != NULL) {
+	EGifCloseFile(GifFileIn);
+    }
+    if (GifFileOut != NULL) {
+	EGifCloseFile(GifFileOut);
+    }
     exit(EXIT_FAILURE);
 }
 

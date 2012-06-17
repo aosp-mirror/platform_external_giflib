@@ -334,9 +334,10 @@ int main(int argc, char **argv)
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFile)
 {
-    PrintGifError(GifFile->Error);
-    if (GifFile != NULL) EGifCloseFile(GifFile);
-    exit(EXIT_FAILURE);
+    if (GifFile != NULL) {
+	PrintGifError(GifFile->Error);
+	EGifCloseFile(GifFile);
+    }
 }
 
 /* end */

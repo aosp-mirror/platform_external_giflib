@@ -82,6 +82,7 @@ int main(int argc, char **argv)
     }
 
     /* Dump out exactly same screen information: */
+    /* coverity[var_deref_op] */
     if (EGifPutScreenDesc(GifFileOut,
 	GifFileIn->SWidth, GifFileIn->SHeight,
 	GifFileIn->SColorResolution, GifFileIn->SBackGroundColor,
@@ -193,9 +194,14 @@ int main(int argc, char **argv)
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
     fprintf(stderr, "\nFollowing unrecoverable error occured:");
-    PrintGifError(GifFileOut->Error ? GifFileOut->Error : GifFileIn->Error);
-    if (GifFileIn != NULL) DGifCloseFile(GifFileIn);
-    if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
+    if (GifFileIn != NULL) {
+	PrintGifError(GifFileIn->Error);
+	EGifCloseFile(GifFileIn);
+    }
+    if (GifFileOut != NULL) {
+	PrintGifError(GifFileOut->Error);
+	EGifCloseFile(GifFileOut);
+    }
     exit(EXIT_FAILURE);
 }
 

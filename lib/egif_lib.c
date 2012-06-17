@@ -760,12 +760,20 @@ EGifCloseFile(GifFileType *GifFile)
         }
 	    free((char *) Private);
     }
-    free(GifFile);
 
     if (File && fclose(File) != 0) {
         GifFile->Error = E_GIF_ERR_CLOSE_FAILED;
         return GIF_ERROR;
     }
+
+    /* 
+     * Without the #ifndef, we get spurious warnings because Coverity mistakenly
+     * thinks the GIF structure is freed on an error return. 
+     */
+#ifndef __COVERITY__
+    free(GifFile);
+#endif /* __COVERITY__ */
+
     return GIF_OK;
 }
 

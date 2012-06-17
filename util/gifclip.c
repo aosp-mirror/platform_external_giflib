@@ -298,9 +298,14 @@ int main(int argc, char **argv)
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
-    PrintGifError(GifFileOut->Error ? GifFileOut->Error : GifFileIn->Error);
-    if (GifFileIn != NULL) DGifCloseFile(GifFileIn);
-    if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
+    if (GifFileIn != NULL) {
+	PrintGifError(GifFileIn->Error);
+	EGifCloseFile(GifFileIn);
+    }
+    if (GifFileOut != NULL) {
+	PrintGifError(GifFileOut->Error);
+	EGifCloseFile(GifFileOut);
+    }
     exit(EXIT_FAILURE);
 }
 

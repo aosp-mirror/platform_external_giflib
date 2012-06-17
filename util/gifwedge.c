@@ -37,8 +37,6 @@ static int
     ImageWidth = DEFAULT_WIDTH,
     ImageHeight = DEFAULT_HEIGHT;
 
-static void QuitGifError(GifFileType *GifFile);
-
 /******************************************************************************
  Interpret the command line and scan the given GIF file.
 ******************************************************************************/
@@ -97,15 +95,18 @@ int main(int argc, char **argv)
 	    ColorMap->Colors[c].Blue = (i == 0 || i == 3 || i == 5 || i == 6) * l;
 	}
 
-    if (EGifPutScreenDesc(GifFile,
-	ImageWidth, ImageHeight, LogNumLevels, 0, ColorMap)
-	== GIF_ERROR)
-	QuitGifError(GifFile);
+    if (EGifPutScreenDesc(GifFile, ImageWidth, ImageHeight, LogNumLevels, 0, ColorMap) == GIF_ERROR) {
+	PrintGifError(GifFile->Error);
+    }
 
     /* Dump out the image descriptor: */
     if (EGifPutImageDesc(GifFile,
-	0, 0, ImageWidth, ImageHeight, false, NULL) == GIF_ERROR)
-	QuitGifError(GifFile);
+			 0, 0, ImageWidth, ImageHeight, 
+			 false, NULL) == GIF_ERROR) {
+
+	PrintGifError(GifFile->Error);
+	exit(EXIT_FAILURE);
+    }
 
     GifQprintf("\n%s: Image 1 at (%d, %d) [%dx%d]:     ",
 		    PROGRAM_NAME, GifFile->Image.Left, GifFile->Image.Top,
@@ -121,26 +122,20 @@ int main(int argc, char **argv)
 	    for (j = 0; j < ImageWidth / NumLevels; j++)
 		Line[l++] = i + NumLevels * c;
 	for (i = 0; i < ImageHeight / 7; i++) {
-	    if (EGifPutLine(GifFile, Line, ImageWidth) == GIF_ERROR)
-		QuitGifError(GifFile);
+	    if (EGifPutLine(GifFile, Line, ImageWidth) == GIF_ERROR) {
+		PrintGifError(GifFile->Error);
+		exit(EXIT_FAILURE);
+	    }
 	    GifQprintf("\b\b\b\b%-4d", Count++);
 	}
     }
 
-    if (EGifCloseFile(GifFile) == GIF_ERROR)
-	QuitGifError(GifFile);
+    if (EGifCloseFile(GifFile) == GIF_ERROR) {
+	PrintGifError(GifFile->Error);
+	exit(EXIT_FAILURE);
+    }
 
     return 0;
-}
-
-/******************************************************************************
- Close output file (if open), and exit.
-******************************************************************************/
-static void QuitGifError(GifFileType *GifFile)
-{
-    PrintGifError(GifFile->Error);
-    if (GifFile != NULL) DGifCloseFile(GifFile);
-    exit(EXIT_FAILURE);
 }
 
 /* end */

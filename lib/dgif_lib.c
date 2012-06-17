@@ -642,7 +642,14 @@ DGifCloseFile(GifFileType *GifFile)
     }
 
     free((char *)GifFile->Private);
+
+    /* 
+     * Without the #ifndef, we get spurious warnings because Coverity mistakenly
+     * thinks the GIF structure is freed on an error return. 
+     */
+#ifndef __COVERITY__
     free(GifFile);
+#endif /* __COVERITY__ */
 
     return GIF_OK;
 }
