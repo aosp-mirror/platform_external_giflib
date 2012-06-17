@@ -138,6 +138,7 @@ Documentation and polish
   standards files from CompuServe.
 * The documentation now includes "What's In A GIF", a very detailed narrative
   description of the file format.
+* The -A option of gifasm (for inserting a loop control block) is documented.
 * The documentation directory includes a copy of the original GIF87 
   specification as well as GIF89's.
 * The project now has a logo.
