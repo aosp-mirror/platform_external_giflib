@@ -303,9 +303,13 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    if (DGifSlurp(Inclusion) == GIF_ERROR)
 	    {
 		PARSE_ERROR("Inclusion read failed.");
-		PrintGifError(Inclusion->Error);
-		if (Inclusion != NULL) DGifCloseFile(Inclusion);
-		if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
+		if (Inclusion != NULL) {
+		    PrintGifError(Inclusion->Error);
+		    DGifCloseFile(Inclusion);
+		}
+		if (GifFileOut != NULL) {
+		    EGifCloseFile(GifFileOut);
+		};
 		exit(EXIT_FAILURE);
 	    }
 
