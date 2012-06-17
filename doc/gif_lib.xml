@@ -215,6 +215,9 @@ above) and an ordinary output file descriptor.</para>
 special extension blocks defined in GIF89, in which case it is written
 with a GIF89 stamp.</para>
 
+<para>EGifSpew() finishes by closing the GIF (writing a termination
+record to it) and deallocating the associated storage.</para>
+
 <para>You can write to a GIF file through a function hook. Initialize
 with </para>
 
@@ -812,8 +815,9 @@ example).</para>
 int DGifCloseFile(GifFileType *GifFile)
 </programlisting>
 
-<para>Close GIF file and free all memory allocated for it. GifFile should
-not be used after this routine has been called.</para>
+<para>Write a termination block to the GIF, close the GIF file and
+free all memory allocated for managing it. GifFile should not be used after
+this routine has been called.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise. When
 GIF_ERROR is returned, the GifFile structure is not freed so that the
@@ -1016,8 +1020,9 @@ int EGifPutCodeNext(GifFileType *GifFile, ByteType **GifCodeBlock)
 int EGifCloseFile(GifFileType *GifFile)
 </programlisting>
 
-<para>Close a GIF file and free all memory allocated for it.  gif-file
-should not be used, once this routine has been called.</para>
+<para>Write a termination block to the GIF, close the GIF file, and
+free all memory allocated for managing it. GifFile should not be used
+after this routine has been called.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.When
 GIF_ERROR is returned, the GifFile structure is not freed so that the
@@ -1031,6 +1036,12 @@ diagnostic error code will remain accessible in GifFile->Error.</para>
 <para>Except for some details of extension-block handling and the addition
 of read/write function hooks, the DGifSlurp()/EGifSpew() interface has
 been stable since 1990.  It is expected to remain so.</para>
+
+<para>However, the signatures of the file-opener functions were changed in 5.0
+in order to make the library fully reentrant and thread-safe - earlier library
+versions did not feature the final pointer-to-error-code argument in 
+DGifOpen() and friends.  For the same reason, the static storage queried by
+GifLastError() in older versions is gone, and that function abolished.</para>
 
 <para>The library header contains some version #defines you can use if you
 need to condition your code so it can compile with different library 
