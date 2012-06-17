@@ -18,7 +18,7 @@ gif_font.c - utility font handling and simple drawing for the GIF library
  * the scan line.
  */
 /*@+charint@*/
-const unsigned char AsciiTable[][GIF_FONT_WIDTH] = {
+const unsigned char GifAsciiTable[][GIF_FONT_WIDTH] = {
     {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},    /* Ascii 0 */
     {0x3c, 0x42, 0xa5, 0x81, 0xbd, 0x42, 0x3c, 0x00},    /* Ascii 1 */
     {0x3c, 0x7e, 0xdb, 0xff, 0xc3, 0x7e, 0x3c, 0x00},    /* Ascii 2 */
@@ -165,7 +165,7 @@ GifDrawText8x8(SavedImage *Image,
 
         for (cp = legend; *cp; cp++)
             for (j = 0; j < GIF_FONT_WIDTH; j++) {
-                if (AsciiTable[(short)(*cp)][i] & (1 << (GIF_FONT_WIDTH - j)))
+                if (GifAsciiTable[(short)(*cp)][i] & (1 << (GIF_FONT_WIDTH - j)))
                     Image->RasterBits[base] = color;
                 base++;
             }

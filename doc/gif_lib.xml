@@ -131,12 +131,10 @@ documentation of DGifClose() and EGifClose() for details.</para>
 internally only.</para>
 
 <para>Most of the routines return GIF_ERROR (see gif_lib.h) if something
-went wrong, GIF_OK otherwise.  After an error return, the code in the
-gif_err.c module can be used to do something about it.</para>
-
-<para>In addition, a module to parse command line arguments is supplied.
-This module is called getarg.c and its headers are in getarg.h.  See the header
-of getarg.c for details on its usage.</para>
+went wrong, GIF_OK otherwise.  After an error return, all routines that
+take a pointer-to-GifFileType argument set the Error member with a code that
+can be interpreted into an expolanatory string with the function 
+GifErrorString() in gif_err.c.</para>
 
 </sect1>
 <sect1><title>Decoding (dgif_lib.c)</title>
@@ -156,16 +154,13 @@ information.</para>
 FILE_BUFFER_SIZE bytes.</para>
 
 <programlisting id="DGifOpenFileHandle">
-GifFileType *DGifOpenFileHandle(int GifFileHandle, int *ErrorCode)
+GifFileType *DGifOpenFileHandle(int FileHandle, int *ErrorCode)
 </programlisting>
 
-<para>Open a new GIF file using the given GifFileHandle, and read its Screen
+<para>Open a new GIF file using the given FileHandle, and read its Screen
 information.</para>
 
 <para>If any error occurs, NULL is returned and ErrorCode is set.</para>
-
-<para>The file is opened in binary mode, and its buffer size is set to
-FILE_BUFFER_SIZE bytes.</para>
 
 <para>Once you have acquired a handle on a GIF, the high-level
 function</para>
@@ -176,7 +171,8 @@ int DGifSlurp(GifFileType)
 
 <para>reads the rest of a complete (possibly multi-image) GIF file from the
 indicated file handle into in-core allocated structures.  It returns
-GIF_OK on success, GIF_ERROR on failure.</para>
+GIF_OK on success, GIF_ERROR on failure; on failure, the Error member 
+will be set.</para>
 
 <para>Once you have done this, all image, raster, and extension-block
 data in the GIF is accessable in the SavedImages member (see the
@@ -318,7 +314,7 @@ Return NULL if the argument is not a valid error code.</para>
 <sect1><title>The GIF Utility Font</title>
 
 <para>The 8x8 utility font used in gifecho and gifcolor lives in the library
-module gif_font.c, in a table called AsciiTable.  The library header file
+module gif_font.c, in a table called GifAsciiTable.  The library header file
 includes suitable externs and defines.</para>
 
 <para>The GIF utility font support includes entry points for drawing legends
@@ -326,7 +322,7 @@ on in-core images, drawing boxes and rectangles, and boxing text.
 These entry points are as follows:</para>
 
 <programlisting id="GifDrawText">
-void GifDrawText(
+void GifDrawText8x8(
         SavedImage *Image,
         const int x, const int y,
         const char *legend,
@@ -360,7 +356,7 @@ the box is at image pixels (x, y), width is w, height is h.  Use the
 specified color index.</para>
 
 <programlisting id="GifDrawBoxedText">
-void GifDrawBoxedText(SavedImage *Image,
+void GifDrawBoxedText8x8(SavedImage *Image,
         const int x, const int y,
         const char *legend,
         const int border,
@@ -497,7 +493,7 @@ briefly.</para>
 <varlistentry>
 <term><errorname>D_GIF_ERR_READ_FAILED</errorname></term>
 <listitem>
-   <para>Message printed using PrintGifError: "Failed to Read from given file"
+   <para>Message printed using PrintGifError: "Failed to read from given file"
    IO error result when attempt to write to the given GIF file.</para>
 </listitem>
 </varlistentry>
@@ -505,7 +501,7 @@ briefly.</para>
 <varlistentry>
 <term><errorname>D_GIF_ERR_NOT_GIF_FILE</errorname></term>
 <listitem>
-   <para>Message printed using PrintGifError: "Given file is NOT GIF file"
+   <para>Message printed using PrintGifError: "Data is not a GIF file"
    GIF files should have special stamp identifies them as such, If that stamp
    is not found, this error is issued.</para>
 </listitem>
@@ -514,7 +510,7 @@ briefly.</para>
 <varlistentry>
 <term><errorname>D_GIF_ERR_NO_SCRN_DSCR</errorname></term>
 <listitem>
-   <para>Message printed using PrintGifError: "No Screen Descriptor detected"
+   <para>Message printed using PrintGifError: "No screen descriptor detected"
    Each GIF file should have screen descriptor in its header. This error will
    be generated if no such descriptor was found.</para>
 </listitem>
@@ -523,7 +519,7 @@ briefly.</para>
 <varlistentry>
 <term><errorname>D_GIF_ERR_NO_IMAG_DSCR</errorname></term>
 <listitem>
-   <para>Message printed using PrintGifError: "No Image Descriptor detected"
+   <para>Message printed using PrintGifError: "No image descriptor detected"
    Each image should have image descriptor in its header. This error will
    be generated if no such descriptor was found.</para>
 </listitem>
@@ -532,8 +528,8 @@ briefly.</para>
 <varlistentry>
 <term><errorname>D_GIF_ERR_NO_COLOR_MAP</errorname></term>
 <listitem>
-   <para>Message printed using PrintGifError: "Neither Global Nor
-   Local color map" An image must have either global (screen) or local
+   <para>Message printed using PrintGifError: "Neither global nor
+   local color map" An image must have either global (screen) or local
    (image) color map.  Neither were given in this case.</para>
 </listitem>
 </varlistentry>
@@ -542,16 +538,16 @@ briefly.</para>
 <term><errorname>D_GIF_ERR_WRONG_RECORD</errorname></term>
 <listitem>
    <para>Message printed using PrintGifError: "Wrong record type detected"
-   Each record in GIF file has special identifier, in its header. If the
-   record has wrong identifier, this error is generated.</para>
+   Each record in a GIF file has a special identifier in its header. If the
+   record has an unrecognized identifier, this error is generated.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
   <term><errorname>D_GIF_ERR_DATA_TOO_BIG</errorname></term>
 <listitem>
-   <para>Message printed using PrintGifError: "#Pixels bigger than
-   Width * Height" The number of pixels dumped for this image is
+   <para>Message printed using PrintGifError: "Number of pixels bigger than
+   width * height" The number of pixels dumped for this image is
    bigger than specified by image Height times image Width.</para>
 </listitem>
 </varlistentry>
@@ -559,7 +555,7 @@ briefly.</para>
 <varlistentry>
 <term><errorname>D_GIF_ERR_NOT_ENOUGH_MEM</errorname></term>
 <listitem>
-   <para>Message printed using PrintGifError: "Fail to allocate
+   <para>Message printed using PrintGifError: "Failed to allocate
    required memory" Once an attemp is made to open GIF file, special
    structures are allocated to hold internal data for it. If
    allocation fails this error is returned.</para>
@@ -619,17 +615,6 @@ void PrintGifError(void)
 </programlisting>
 
 <para>Print a one-line diagnostic on the last giflib error to stderr.</para>
-
-<programlisting id="GifLastError">
-int GifLastError(void)
-</programlisting>
-
-<para>Return the number of the last giflib error, and clear the error.
-The error types are defined in gif_lib.h.</para>
-
-<para>Note it is the user's responsibility to call the file closing
-routine, so the file will be closed (if was opened), and allocated
-memory will be released.</para>
 
 </sect2>
 <sect2><title>Command Line Parsing</title>

@@ -278,7 +278,7 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
 
 #define GIF_FONT_WIDTH  8
 #define GIF_FONT_HEIGHT 8
-extern const unsigned char AsciiTable[][GIF_FONT_WIDTH];
+extern const unsigned char GifAsciiTable[][GIF_FONT_WIDTH];
 
 extern void GifDrawText8x8(SavedImage *Image,
                      const int x, const int y,
