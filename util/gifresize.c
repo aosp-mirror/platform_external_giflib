@@ -123,7 +123,7 @@ int main(int argc, char **argv)
 	YSize = (int) (GifFileIn->SHeight * YScale + 0.5);
     }
 
-    /* As at this time we know the Screen size of the input gif file, and as */
+    /* As at this time we know the Screen size of the input GIF file, and as */
     /* all image(s) in file must be less/equal to it, we can allocate the    */
     /* scan lines for the input file, and output file. The number of lines   */
     /* to allocate for each is set by ScaleDown & XScale & YScale:	     */

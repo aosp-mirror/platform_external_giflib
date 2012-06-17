@@ -11,7 +11,7 @@ Version 5.0.0
 
 Changes to the API require a library major-version bump. Certain
 initialization functions have acquired an integer address argument for
-passing back an error code, in order to avoid thrread-unsafe static
+passing back an error code, in order to avoid thread-unsafe static
 storage. Application code using extension blocks will require minor
 changes. A few functions have been renamed.
 
@@ -28,7 +28,7 @@ New API Features
 
 Extensions
 ~~~~~~~~~~
-The ExtensionBlock API has been repaired, solving some problems with GIf89
+The ExtensionBlock API has been repaired, solving some problems with GIF89
 extension handling in earlier versions.
 
 * DGifSlurp() and EGifSpew() now preserve trailing extension blocks with

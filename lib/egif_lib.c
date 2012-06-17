@@ -42,9 +42,9 @@ static int EGifBufferedOutput(GifFileType * GifFile, GifByteType * Buf,
 #define HIBYTE(x)	(((x) >> 8) & 0xff)
 
 /******************************************************************************
- Open a new gif file for write, given by its name. If TestExistance then
+ Open a new GIF file for write, specified by name. If TestExistance then
  if the file exists this routines fails (returns NULL).
- Returns GifFileType pointer dynamically allocated which serves as the gif
+ Returns a dynamically allocated GifFileType pointer which serves as the GIF
  info record. The Error member is cleared if successful.
 ******************************************************************************/
 GifFileType *
@@ -73,9 +73,9 @@ EGifOpenFileName(const char *FileName, const bool TestExistence, int *Error)
 }
 
 /******************************************************************************
- Update a new gif file, given its file handle, which must be opened for
+ Update a new GIF file, given its file handle, which must be opened for
  write in binary mode.
- Returns GifFileType pointer dynamically allocated which serves as the gif
+ Returns dynamically allocated a GifFileType pointer which serves as the GIF
  info record.
  Only fails on a memory allocation error.
 ******************************************************************************/
@@ -530,7 +530,7 @@ EGifPutExtensionLeader(GifFileType *GifFile, const int ExtCode)
 }
 
 /******************************************************************************
- Put extension block data (see GIF manual) into gif file.
+ Put extension block data (see GIF manual) into a GIF file.
 ******************************************************************************/
 int
 EGifPutExtensionBlock(GifFileType *GifFile, 
@@ -554,7 +554,7 @@ EGifPutExtensionBlock(GifFileType *GifFile,
 }
 
 /******************************************************************************
- Put a terminating block (see GIF manual) into gif file.
+ Put a terminating block (see GIF manual) into a GIF file.
 ******************************************************************************/
 int
 EGifPutExtensionTrailer(GifFileType *GifFile) {
@@ -576,7 +576,7 @@ EGifPutExtensionTrailer(GifFileType *GifFile) {
 }
 
 /******************************************************************************
- Put an extension block (see GIF manual) into gif file.
+ Put an extension block (see GIF manual) into a GIF file.
  Warning: This function is only useful for Extension blocks that have at
  most one subblock.  Extensions with more than one subblock need to use the
  EGifPutExtension{Leader,Block,Trailer} functions instead.

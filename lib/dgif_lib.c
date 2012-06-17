@@ -39,7 +39,7 @@ static int DGifBufferedInput(GifFileType *GifFile, GifByteType *Buf,
 
 /******************************************************************************
  Open a new GIF file for read, given by its name.
- Returns GifFileType pointer dynamically allocated which serves as the gif
+ Returns dynamically allocated GifFileType pointer which serves as the GIF
  info record.
 ******************************************************************************/
 GifFileType *
@@ -61,7 +61,7 @@ DGifOpenFileName(const char *FileName, int *Error)
 
 /******************************************************************************
  Update a new GIF file, given its file handle.
- Returns GifFileType pointer dynamically allocated which serves as the gif
+ Returns dynamically allocated GifFileType pointer which serves as the GIF
  info record.
 ******************************************************************************/
 GifFileType *
@@ -1000,7 +1000,7 @@ DGifDecompressInput(GifFileType *GifFile, int *Code)
 }
 
 /******************************************************************************
- This routines read one gif data block at a time and buffers it internally
+ This routines read one GIF data block at a time and buffers it internally
  so that the decompression routine could access it.
  The routine returns the next byte from its internal buffer (or read next
  block in if buffer empty) and returns GIF_OK if succesful.

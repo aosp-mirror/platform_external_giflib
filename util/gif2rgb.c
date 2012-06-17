@@ -9,8 +9,8 @@ gif2rgb - convert GIF to 24-bit RGB pixel triples or vice-versa
 Toshio Kuratomi had written this in a comment about the rgb2gif code:
 
   Besides fixing bugs, what's really needed is for someone to work out how to
-  calculate a colormap for writing gifs from rgb sources.  Right now, an rgb
-  source that has only two colors (b/w) is being converted into an 8 bit gif....
+  calculate a colormap for writing GIFs from rgb sources.  Right now, an rgb
+  source that has only two colors (b/w) is being converted into an 8 bit GIF....
   Which is horrendously wasteful without compression.
 
 I (ESR) took this off the main to-do list in 2012 because I don't think
