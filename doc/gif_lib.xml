@@ -1065,7 +1065,24 @@ control blocks in saved images.</para></listitem>
 
 <para>A few changes in behavior were introduced in 5.0:</para>
 
-<para>In documented functions:</para>
+<sect2><title>General behavior</title>
+
+<itemizedlist>
+<listitem><para>The library is now fully re-entrant and
+thread-safe.</para></listitem>
+</itemizedlist>
+<itemizedlist>
+<listitem><para>  All functions exported by this library now have DGif,
+EGif, or Gif as a name prefix.</para></listitem>
+<listitem><para>The default GIF version to write is now computed at
+write time from the types of an image's extension blocks. (Formerly
+EGifSpew() behaved this way, but the sequential-writing code didn't.)
+The result of this computation is available through the new function
+EGifGetGifVersion().</para></listitem>
+</itemizedlist>
+
+</sect2>
+<sect2><title>In documented functions:</title>
 
 <itemizedlist>
 <listitem><para>GIF file openers - DGifOpenFileName(),
@@ -1075,19 +1092,13 @@ address argument.  If non-null, this is used to pass back an error
 code when the function returns NULL.</para></listitem>
 <listitem><para>EGifSlurp() and EGifSpew() read and write
 extension blocks trailing after the last image, handle interlaced 
-images properly, and are both thread-safe (formerly EGifSpew() was
-thread-unsafe).</para></listitem>
+images properly.</para></listitem>
 <listitem><para>The ExtensionBlockCount and ExtensionBlockList
 members of the SavedImage structures are no longer top-level in that structure,
 but now live in an ExtensionBlockList substructure named 'Leading'.
 This was done so that the new list of trailing extension blocks in GifFileType
 can use the same list-handler code as the extension blocks leading each saved 
 image.</para></listitem>
-<listitem><para>The default GIF version to write is now computed at
-write time from the types of an image's extension blocks. Formerly
-EGifSpew() behaved this way, but the sequential-writing code didn't.
-The result of this computation is available through the new function
-EGifGetGifVersion().</para></listitem>
 <listitem><para>EGifPutExtensionFirst() has been replaced by
 EGifPutExtensionLeader(); the difference is the new function doesn't
 take an optional block, it just writes a block
@@ -1102,7 +1113,8 @@ EGifPutExtensionBlock() followed by
 EGifPutExtensionTrailer().</para></listitem>
 </itemizedlist>
 
-<para>In undocumented functions:</para>
+</sect2>
+<sect2><title>In undocumented functions:</title>
 
 <itemizedlist>
 <listitem><para>Some undocumented functions have been renamed. 
@@ -1114,20 +1126,25 @@ now GifFreeSavedImages(), and BitSize() is now GifBitSize().</para></listitem>
 <listitem><para>Three documented functions - MakeMapObject(),
 FreeMapObject(), and UnionColorMap() - have been renamed to
 GifMakeMapObject(), GifFreeMapObject(), and GifUnionColorMap()
-respectively.  All functions exported by this library now have DGif,
-EGif, or Gif as a name prefix.</para></listitem>
+respectively.</para></listitem>
 </itemizedlist>
 
-<para>Error handling:</para>
+</sect2>
+<sect2><title>Error handling:</title>
 
-<para>Library error handling no longer uses a static cell to store the
-last error code registered; that made the library thread-unsafe.  For
-functions other than GIF file openers, the code is now put in an Error
-member of the GifFileType structure.  The GifError() amd
+<itemizedlist>
+<listitem><para>Library error handling no longer uses a static cell to
+store the last error code registered; that made the library
+thread-unsafe.</para></listitem>
+<listitem><para>For functions other than GIF file openers, the Error
+code is now put in an Error member of the GifFileType
+structure.</para></listitem>
+<listitem><para>The GifError() amd
 GifLastError() functions that referenced that static cell are gone,
 and the GifErrorString() function introduced in the 4.2 release now
-takes an explicit error code argument.</para>
-
+takes an explicit error code argument.</para></listitem>
+</itemizedlist>
+</sect2>
 </sect1>
 <sect1><title>Skeletons of GIF filters</title>
 
