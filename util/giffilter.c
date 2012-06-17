@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 {
     GifFileType *GifFileIn = NULL, *GifFileOut = NULL;
     GifRecordType RecordType;
-    int CodeSize, ExtCode;
+    int CodeSize, ExtCode, ErrorCode;
     GifByteType *CodeBlock, *Extension;
 
     /*
@@ -54,12 +54,16 @@ int main(int argc, char **argv)
      */
 
     /* Use stdin as input (note this also read screen descriptor in: */
-    if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
-	QuitGifError(GifFileIn, GifFileOut);
+    if ((GifFileIn = DGifOpenFileHandle(0, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
 
     /* Use the stdout as output: */
-    if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFileIn, GifFileOut);
+    if ((GifFileOut = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
 
     /* And dump out its screen information: */
     if (EGifPutScreenDesc(GifFileOut,

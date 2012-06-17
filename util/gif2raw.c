@@ -61,7 +61,7 @@ static void Gif2Raw(GifFileType *GifFile, bool Textify);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	NumFiles, ImageWidth, ImageHeight, Dummy, Red, Green, Blue;
+    int	NumFiles, ImageWidth, ImageHeight, Dummy, Red, Green, Blue, ErrorCode;
     static bool Error,
 	ImageSizeFlag = false, ColorMapFlag = false, HelpFlag = false,
 	TextifyFlag = false;
@@ -144,15 +144,15 @@ int main(int argc, char **argv)
 	GifFileType *GifFile;
 
 	if (NumFiles == 1) {
-	    if ((GifFile = DGifOpenFileName(*FileName)) == NULL) {
-		PrintGifError(GifFile->Error);
+	    if ((GifFile = DGifOpenFileName(*FileName, &ErrorCode)) == NULL) {
+		PrintGifError(ErrorCode);
 		exit(EXIT_FAILURE);
 	    }
 	}
 	else {
 	    /* Use stdin instead: */
-	    if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
-		PrintGifError(GifFile->Error);
+	    if ((GifFile = DGifOpenFileHandle(0, &ErrorCode)) == NULL) {
+		PrintGifError(ErrorCode);
 		exit(EXIT_FAILURE);
 	    }
 	}
@@ -170,7 +170,7 @@ int main(int argc, char **argv)
 ******************************************************************************/
 void Raw2Gif(int ImageWidth, int ImageHeight, ColorMapObject *ColorMap)
 {
-    int i, j;
+    int i, j, ErrorCode;
     static GifPixelType *ScanLine;
     GifFileType *GifFile;
 
@@ -180,9 +180,9 @@ void Raw2Gif(int ImageWidth, int ImageHeight, ColorMapObject *ColorMap)
 	exit(EXIT_FAILURE);
     }
 
-    if ((GifFile = EGifOpenFileHandle(1)) == NULL) {	   /* Gif to stdout. */
+    if ((GifFile = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {	   /* Gif to stdout. */
 	free((char *) ScanLine);
-	PrintGifError(GifFile->Error);
+	PrintGifError(ErrorCode);
 	exit(EXIT_FAILURE);
     }
 

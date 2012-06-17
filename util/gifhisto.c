@@ -50,7 +50,7 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, NumFiles, ExtCode, CodeSize, NumColors = 2, ImageNum = 0;
+    int	i, j, ErrorCode, NumFiles, ExtCode, CodeSize, NumColors = 2, ImageNum = 0;
     bool Error, TextFlag = false, SizeFlag = false,
 	ImageNFlag = false, BackGroundFlag = false, HelpFlag = false;
     long Histogram[256];
@@ -81,13 +81,17 @@ int main(int argc, char **argv)
     }
 
     if (NumFiles == 1) {
-	if ((GifFileIn = DGifOpenFileName(*FileName)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileName(*FileName, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
     }
     else {
 	/* Use stdin instead: */
-	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileHandle(0, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
     }
 
     for (i = 0; i < 256; i++) Histogram[i] = 0;		  /* Reset counters. */
@@ -177,8 +181,10 @@ int main(int argc, char **argv)
 	int Color, Count;
 	long Scaler;
 	/* Open stdout for the histogram output file: */
-	if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileOut = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
 
 	/* Dump out screen descriptor to fit histogram dimensions: */
 	if (EGifPutScreenDesc(GifFileOut,

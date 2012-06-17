@@ -52,7 +52,7 @@ static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 int main(int argc, char **argv)
 {
     int	i, j, l, ImageWidth, ImageHeight, NumOfLines, LogNumLevels,
-	NumLevels, ColorMapSize = 1, 
+	ErrorCode, NumLevels, ColorMapSize = 1, 
 	ForeGroundIndex = DEFAULT_FG_INDEX;
     bool Error, ClrMapSizeFlag = false, ForeGroundFlag = false,
 	TextLineFlag = false, HelpFlag = false, ColorFlag = false;
@@ -112,8 +112,10 @@ int main(int argc, char **argv)
 	    GIF_EXIT("Failed to allocate memory required, aborted.");
 
     /* Open stdout for the output file: */
-    if ((GifFile = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFile);
+    if ((GifFile = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
 
     /* Dump out screen description with given size and generated color map: */
     for (LogNumLevels = 1, NumLevels = 2;

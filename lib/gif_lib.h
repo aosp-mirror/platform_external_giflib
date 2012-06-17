@@ -126,9 +126,9 @@ typedef struct GraphicsControlBlock {
 
 /* Main entry points */
 GifFileType *EGifOpenFileName(const char *GifFileName,
-                              const bool GifTestExistence);
-GifFileType *EGifOpenFileHandle(const int GifFileHandle);
-GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc);
+                              const bool GifTestExistence, int *Error);
+GifFileType *EGifOpenFileHandle(const int GifFileHandle, int *Error);
+GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc, int *Error);
 int EGifSpew(GifFileType * GifFile);
 char *EGifGetGifVersion(GifFileType *GifFile); /* new in 5.x */
 int EGifCloseFile(GifFileType * GifFile);
@@ -176,10 +176,10 @@ int EGifPutCodeNext(GifFileType *GifFile,
 ******************************************************************************/
 
 /* Main entry points */
-GifFileType *DGifOpenFileName(const char *GifFileName);
-GifFileType *DGifOpenFileHandle(int GifFileHandle);
+GifFileType *DGifOpenFileName(const char *GifFileName, int *Error);
+GifFileType *DGifOpenFileHandle(int GifFileHandle, int *Error);
 int DGifSlurp(GifFileType * GifFile);
-GifFileType *DGifOpen(void *userPtr, InputFunc readFunc);    /* new one (TVT) */
+GifFileType *DGifOpen(void *userPtr, InputFunc readFunc, int *Error);    /* new one (TVT) */
 int DGifCloseFile(GifFileType * GifFile);
 
 #define D_GIF_ERR_OPEN_FAILED    101    /* And DGif possible errors. */

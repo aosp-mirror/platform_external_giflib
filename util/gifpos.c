@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 {
     int	NumFiles, ExtCode, CodeSize, ImageNum = 0,
 	ScreenWidth, ScreenHeight,  ImageLeft, ImageTop, 
-	ImageN, ImageNLeft, ImageNTop;
+	ImageN, ImageNLeft, ImageNTop, ErrorCode;
     bool Error,
 	ScreenFlag = false, 
 	ImageFlag = false,
@@ -68,18 +68,24 @@ int main(int argc, char **argv)
     }
 
     if (NumFiles == 1) {
-	if ((GifFileIn = DGifOpenFileName(*FileName)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileName(*FileName, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
     }
     else {
 	/* Use stdin instead: */
-	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileHandle(0, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
     }
 
     /* Open stdout for the output file: */
-    if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFileIn, GifFileOut);
+    if ((GifFileOut = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
 
     /* And dump out its new possible repositioned screen information: */
     if (EGifPutScreenDesc(GifFileOut,

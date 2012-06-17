@@ -43,7 +43,7 @@ static void PrintLZCodes(GifFileType *GifFile);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int i, j, ExtCode, CodeSize, NumFiles, Len, ImageNum = 1;
+    int i, j, ExtCode, ErrorCode, CodeSize, NumFiles, Len, ImageNum = 1;
     bool Error,
 	ColorMapFlag = false, EncodedFlag = false, LZCodesFlag = false,
 	PixelFlag = false, HelpFlag = false, RawFlag = false; 
@@ -74,16 +74,16 @@ int main(int argc, char **argv)
 
     if (NumFiles == 1) {
 	GifFileName = *FileName;
-	if ((GifFile = DGifOpenFileName(*FileName)) == NULL) {
-	    PrintGifError(GifFile->Error);
+	if ((GifFile = DGifOpenFileName(*FileName, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
 	    exit(EXIT_FAILURE);
 	}
     }
     else {
 	/* Use stdin instead: */
 	GifFileName = "Stdin";
-	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
-	    PrintGifError(GifFile->Error);
+	if ((GifFile = DGifOpenFileHandle(0, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
 	    exit(EXIT_FAILURE);
 	}
     }

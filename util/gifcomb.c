@@ -36,7 +36,7 @@ static void QuitGifError(GifFileType *GifFileIn1, GifFileType *GifFileIn2,
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, NumFiles, Size;
+    int	i, j, NumFiles, Size, ErrorCode;
     bool Error, MaskFlag = false, HelpFlag = false;
     char **FileName = NULL, *MaskFileName;
     GifPixelType ColorTransIn2[256];
@@ -65,10 +65,12 @@ int main(int argc, char **argv)
     }
 
     /* Open all input files (two GIF to combine, and optional mask): */
-    if ((GifFileIn1 = DGifOpenFileName(FileName[0])) == NULL ||
-	(GifFileIn2 = DGifOpenFileName(FileName[1])) == NULL ||
-	(MaskFlag && (GifMaskFile = DGifOpenFileName(MaskFileName)) == NULL))
-	QuitGifError(GifFileIn1, GifFileIn2, GifMaskFile, GifFileOut);
+    if ((GifFileIn1 = DGifOpenFileName(FileName[0], &ErrorCode)) == NULL ||
+	(GifFileIn2 = DGifOpenFileName(FileName[1], &ErrorCode)) == NULL ||
+	(MaskFlag && (GifMaskFile = DGifOpenFileName(MaskFileName, &ErrorCode)) == NULL)) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
 
     if (ReadUntilImage(GifFileIn1) == GIF_ERROR ||
 	ReadUntilImage(GifFileIn2) == GIF_ERROR ||
@@ -82,8 +84,10 @@ int main(int argc, char **argv)
 	GIF_EXIT("Given GIF files have different image dimensions.");
 
     /* Open stdout for the output file: */
-    if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFileIn1, GifFileIn2, GifMaskFile, GifFileOut);
+    if ((GifFileOut = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
 
     Size = sizeof(GifPixelType) * GifFileIn1->Image.Width;
     if ((LineIn1 = (GifRowType) malloc(Size)) == NULL ||

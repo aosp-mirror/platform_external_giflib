@@ -39,7 +39,7 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 int main(int argc, char **argv)
 {
     int	i, iy, last_iy, l, t, w, h, NumFiles, ExtCode,
-	ImageNum = 0;
+	ErrorCode, ImageNum = 0;
     bool Error,
 	SizeFlag = false,
 	ScaleFlag = false,
@@ -99,13 +99,17 @@ int main(int argc, char **argv)
     }
 
     if (NumFiles == 1) {
-	if ((GifFileIn = DGifOpenFileName(*FileName)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileName(*FileName, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
     }
     else {
 	/* Use stdin instead: */
-	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileHandle(0, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
     }
 
     /* If size was specified, it is used to derive the scale: */
@@ -127,8 +131,10 @@ int main(int argc, char **argv)
     LineIn = (GifRowType) calloc(GifFileIn->SWidth, sizeof(GifPixelType));
 
     /* Open stdout for the output file: */
-    if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFileIn, GifFileOut);
+    if ((GifFileOut = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
 
     /* And dump out its new scaled screen information: */
     if (EGifPutScreenDesc(GifFileOut, XSize, YSize,

@@ -50,7 +50,8 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	NumFiles, ExtCode, CodeSize, ImageNum = 0, ImageN, HasGIFOutput;
+    int	NumFiles, ExtCode, CodeSize, ImageNum = 0, 
+	ImageN, HasGIFOutput, ErrorCode;
     bool Error, ImageNFlag = false, HelpFlag = false;
     GifRecordType RecordType;
     GifByteType *Extension, *CodeBlock;
@@ -85,13 +86,17 @@ int main(int argc, char **argv)
 	SaveFlag = true;
 
     if (NumFiles == 1) {
-	if ((GifFileIn = DGifOpenFileName(*FileName)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileName(*FileName, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
     }
     else {
 	/* Use stdin instead: */
-	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileHandle(0, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
     }
 
     if (SaveFlag) {
@@ -114,8 +119,10 @@ int main(int argc, char **argv)
 
     if ((HasGIFOutput = (LoadFlag || TranslateFlag || GammaFlag)) != 0) {
 	/* Open stdout for GIF output file: */
-	if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileOut = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
     }
 
     if (!ImageNFlag) {

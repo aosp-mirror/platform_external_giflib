@@ -46,7 +46,7 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, NumFiles, ExtCode, FlipDirection = FLIP_RIGHT;
+    int	i, ErrorCode, NumFiles, ExtCode, FlipDirection = FLIP_RIGHT;
     bool Error,
 	RightFlag = false, LeftFlag = false,
 	HorizFlag = false, VertFlag = false, HelpFlag = false;
@@ -87,17 +87,21 @@ int main(int argc, char **argv)
     }
 
     if (NumFiles == 1) {
-	if ((GifFileIn = DGifOpenFileName(*FileName)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileName(*FileName, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
     }
     else {
 	/* Use stdin instead: */
-	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileHandle(0, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
     }
 
     /* Open stdout for the output file: */
-    if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
+    if ((GifFileOut = EGifOpenFileHandle(1, &ErrorCode)) == NULL)
 	QuitGifError(GifFileIn, GifFileOut);
 
     if (RightFlag || LeftFlag) {

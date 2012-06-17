@@ -164,13 +164,15 @@ static void SaveGif(GifByteType *OutputBuffer,
 		    int Width, int Height,
 		    int ExpColorMapSize, ColorMapObject *OutputColorMap)
 {
-    int i;
+    int i, Error;
     GifFileType *GifFile;
     GifByteType *Ptr = OutputBuffer;
 
     /* Open stdout for the output file: */
-    if ((GifFile = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFile);
+    if ((GifFile = EGifOpenFileHandle(1, &Error)) == NULL) {
+	PrintGifError(Error);
+	exit(EXIT_FAILURE);
+    }
 
     if (EGifPutScreenDesc(GifFile,
 			  Width, Height, ExpColorMapSize, 0,
@@ -353,16 +355,17 @@ static void GIF2RGB(int NumFiles, char *FileName,
     ColorMapObject *ColorMap;
 
     if (NumFiles == 1) {
-	if ((GifFile = DGifOpenFileName(FileName)) == NULL) {
-	    PrintGifError(GifFile->Error);
+	int Error;
+	if ((GifFile = DGifOpenFileName(FileName, &Error)) == NULL) {
+	    PrintGifError(Error);
 	    exit(EXIT_FAILURE);
 	}
     }
     else {
+	int Error;
 	/* Use stdin instead: */
-
-	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
-	    PrintGifError(GifFile->Error);
+	if ((GifFile = DGifOpenFileHandle(0, &Error)) == NULL) {
+	    PrintGifError(Error);
 	    exit(EXIT_FAILURE);
 	}
     }

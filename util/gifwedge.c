@@ -44,7 +44,7 @@ static void QuitGifError(GifFileType *GifFile);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, l, c, LevelStep, LogNumLevels, Count = 0; 
+    int	i, j, l, c, LevelStep, LogNumLevels, ErrorCode, Count = 0; 
     bool Error, LevelsFlag = false, SizeFlag = false, HelpFlag = false;
     GifRowType Line;
     ColorMapObject *ColorMap;
@@ -77,8 +77,10 @@ int main(int argc, char **argv)
     ImageHeight = (ImageHeight / 7) * 7;
 
     /* Open stdout for the output file: */
-    if ((GifFile = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFile);
+    if ((GifFile = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
 
     /* Dump out screen description with given size and generated color map:  */
     /* The color map has 7 NumLevels colors for White, Red, Green and then   */

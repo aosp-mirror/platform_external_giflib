@@ -48,7 +48,7 @@ static int EGifBufferedOutput(GifFileType * GifFile, GifByteType * Buf,
  info record. The Error member is cleared if successful.
 ******************************************************************************/
 GifFileType *
-EGifOpenFileName(const char *FileName, const bool TestExistence)
+EGifOpenFileName(const char *FileName, const bool TestExistence, int *Error)
 {
 
     int FileHandle;
@@ -62,10 +62,11 @@ EGifOpenFileName(const char *FileName, const bool TestExistence)
 			  S_IREAD | S_IWRITE);
 
     if (FileHandle == -1) {
-        //_GifError = E_GIF_ERR_OPEN_FAILED;
+        if (Error != NULL)
+	    *Error = E_GIF_ERR_OPEN_FAILED;
         return NULL;
     }
-    GifFile = EGifOpenFileHandle(FileHandle);
+    GifFile = EGifOpenFileHandle(FileHandle, Error);
     if (GifFile == (GifFileType *) NULL)
         (void)close(FileHandle);
     return GifFile;
@@ -79,7 +80,7 @@ EGifOpenFileName(const char *FileName, const bool TestExistence)
  Only fails on a memory allocation error.
 ******************************************************************************/
 GifFileType *
-EGifOpenFileHandle(const int FileHandle)
+EGifOpenFileHandle(const int FileHandle, int *Error)
 {
     GifFileType *GifFile;
     GifFilePrivateType *Private;
@@ -95,11 +96,15 @@ EGifOpenFileHandle(const int FileHandle)
     Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
     if (Private == NULL) {
         free(GifFile);
+        if (Error != NULL)
+	    *Error = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
     if ((Private->HashTable = _InitHashTable()) == NULL) {
         free(GifFile);
         free(Private);
+        if (Error != NULL)
+	    *Error = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 
@@ -127,14 +132,15 @@ EGifOpenFileHandle(const int FileHandle)
  Basically just a copy of EGifOpenFileHandle. (MRB)
 ******************************************************************************/
 GifFileType *
-EGifOpen(void *userData, OutputFunc writeFunc)
+EGifOpen(void *userData, OutputFunc writeFunc, int *Error)
 {
     GifFileType *GifFile;
     GifFilePrivateType *Private;
 
     GifFile = (GifFileType *)malloc(sizeof(GifFileType));
     if (GifFile == NULL) {
-        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
+        if (Error != NULL)
+	    *Error = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 
@@ -143,7 +149,8 @@ EGifOpen(void *userData, OutputFunc writeFunc)
     Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
     if (Private == NULL) {
         free(GifFile);
-        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
+        if (Error != NULL)
+	    *Error = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 
@@ -151,7 +158,8 @@ EGifOpen(void *userData, OutputFunc writeFunc)
     if (Private->HashTable == NULL) {
         free (GifFile);
         free (Private);
-        //_GifError = E_GIF_ERR_NOT_ENOUGH_MEM;
+        if (Error != NULL)
+	    *Error = E_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 

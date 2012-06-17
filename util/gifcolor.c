@@ -38,7 +38,7 @@ static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, l, GifNoisyPrint, ColorMapSize;
+    int	i, j, l, GifNoisyPrint, ColorMapSize, ErrorCode;
     bool Error, BackGroundFlag = false, HelpFlag = false;
     char Line[LINE_LEN];
     GifRowType RasterBuffer[GIF_FONT_HEIGHT];
@@ -71,8 +71,10 @@ int main(int argc, char **argv)
     }
 
     /* Open stdout for the output file: */
-    if ((GifFile = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFile);
+    if ((GifFile = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
 
     /* Read the color map in ColorFile into this color map: */
     ColorMapSize = 0;

@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 ******************************************************************************/
 static void DoAssembly(int NumFiles, char **FileNames)
 {
-    int    i, j, k, Len = 0, ExtCode, ReMapColor[256];
+    int    i, j, k, Len = 0, ExtCode, ReMapColor[256], Error;
     ColorMapObject FirstColorMap;
     GifRecordType RecordType;
     GifByteType *Line = NULL, *Extension;
@@ -104,13 +104,17 @@ static void DoAssembly(int NumFiles, char **FileNames)
     FirstColorMap.ColorCount = 0;
 
     /* Open stdout for the output file: */
-    if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFileIn, GifFileOut);
+    if ((GifFileOut = EGifOpenFileHandle(1, &Error)) == NULL) {
+	PrintGifError(Error);
+	exit(EXIT_FAILURE);
+    }
 
     /* Scan the content of the GIF file and load the image(s) in: */
     for (i = 0; i < NumFiles; i++) {
-	if ((GifFileIn = DGifOpenFileName(FileNames[i])) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileName(FileNames[i], &Error)) == NULL) {
+	    PrintGifError(Error);
+	    exit(EXIT_FAILURE);
+	}
 
 	/* And dump out screen descriptor iff its first image.	*/
 	if (i == 0) {
@@ -267,7 +271,7 @@ static void DoAssembly(int NumFiles, char **FileNames)
 ******************************************************************************/
 static void DoDisassembly(char *InFileName, char *OutFileName)
 {
-    int	ExtCode, CodeSize, FileNum = 0;
+    int	Error, ExtCode, CodeSize, FileNum = 0;
     bool FileEmpty;
     GifRecordType RecordType;
     char CrntFileName[80];
@@ -298,21 +302,27 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 
     /* Open input file: */
     if (InFileName != NULL) {
-	if ((GifFileIn = DGifOpenFileName(InFileName)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileName(InFileName, &Error)) == NULL) {
+	    PrintGifError(Error);
+	    exit(EXIT_FAILURE);
+	}
     }
     else {
 	/* Use stdin instead: */
-	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileIn = DGifOpenFileHandle(0, &Error)) == NULL) {
+	    PrintGifError(Error);
+	    exit(EXIT_FAILURE);
+	}
     }
 
     /* Scan the content of GIF file and dump image(s) to separate file(s): */
     do {
 	snprintf(CrntFileName, sizeof(CrntFileName), 
 		 "%s%02d.gif", OutFileName, FileNum++);
-	if ((GifFileOut = EGifOpenFileName(CrntFileName, true)) == NULL)
-	    QuitGifError(GifFileIn, GifFileOut);
+	if ((GifFileOut = EGifOpenFileName(CrntFileName, true, &Error))==NULL) {
+	    PrintGifError(Error);
+	    exit(EXIT_FAILURE);
+	}
 	FileEmpty = true;
 
 	/* And dump out its exactly same screen information: */
@@ -389,7 +399,7 @@ static void DoDisassembly(char *InFileName, char *OutFileName)
 	    /* Might happen on last file - delete it if so: */
 	    unlink(CrntFileName);
 	}
-   }
+    }
     while (RecordType != TERMINATE_RECORD_TYPE);
 
     if (DGifCloseFile(GifFileIn) == GIF_ERROR) {

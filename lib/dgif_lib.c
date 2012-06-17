@@ -43,17 +43,18 @@ static int DGifBufferedInput(GifFileType *GifFile, GifByteType *Buf,
  info record.
 ******************************************************************************/
 GifFileType *
-DGifOpenFileName(const char *FileName)
+DGifOpenFileName(const char *FileName, int *Error)
 {
     int FileHandle;
     GifFileType *GifFile;
 
     if ((FileHandle = open(FileName, O_RDONLY)) == -1) {
-        //_GifError = D_GIF_ERR_OPEN_FAILED;
+	if (Error != NULL)
+	    *Error = D_GIF_ERR_OPEN_FAILED;
         return NULL;
     }
 
-    GifFile = DGifOpenFileHandle(FileHandle);
+    GifFile = DGifOpenFileHandle(FileHandle, Error);
     // cppcheck-suppress resourceLeak
     return GifFile;
 }
@@ -64,7 +65,7 @@ DGifOpenFileName(const char *FileName)
  info record.
 ******************************************************************************/
 GifFileType *
-DGifOpenFileHandle(int FileHandle)
+DGifOpenFileHandle(int FileHandle, int *Error)
 {
     char Buf[GIF_STAMP_LEN + 1];
     GifFileType *GifFile;
@@ -73,7 +74,8 @@ DGifOpenFileHandle(int FileHandle)
 
     GifFile = (GifFileType *)malloc(sizeof(GifFileType));
     if (GifFile == NULL) {
-        //_GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
+        if (Error != NULL)
+	    *Error = D_GIF_ERR_NOT_ENOUGH_MEM;
         (void)close(FileHandle);
         return NULL;
     }
@@ -86,7 +88,8 @@ DGifOpenFileHandle(int FileHandle)
 
     Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
     if (Private == NULL) {
-        //_GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
+        if (Error != NULL)
+	    *Error = D_GIF_ERR_NOT_ENOUGH_MEM;
         (void)close(FileHandle);
         free((char *)GifFile);
         return NULL;
@@ -108,7 +111,8 @@ DGifOpenFileHandle(int FileHandle)
 
     /* Let's see if this is a GIF file: */
     if (READ(GifFile, (unsigned char *)Buf, GIF_STAMP_LEN) != GIF_STAMP_LEN) {
-        //_GifError = D_GIF_ERR_READ_FAILED;
+        if (Error != NULL)
+	    *Error = D_GIF_ERR_READ_FAILED;
         (void)fclose(f);
         free((char *)Private);
         free((char *)GifFile);
@@ -118,7 +122,8 @@ DGifOpenFileHandle(int FileHandle)
     /* Check for GIF prefix at start of file */
     Buf[GIF_STAMP_LEN] = 0;
     if (strncmp(GIF_STAMP, Buf, GIF_VERSION_POS) != 0) {
-        //_GifError = D_GIF_ERR_NOT_GIF_FILE;
+        if (Error != NULL)
+	    *Error = D_GIF_ERR_NOT_GIF_FILE;
         (void)fclose(f);
         free((char *)Private);
         free((char *)GifFile);
@@ -144,7 +149,7 @@ DGifOpenFileHandle(int FileHandle)
  GifFileType constructor with user supplied input function (TVT)
 ******************************************************************************/
 GifFileType *
-DGifOpen(void *userData, InputFunc readFunc)
+DGifOpen(void *userData, InputFunc readFunc, int *Error)
 {
     char Buf[GIF_STAMP_LEN + 1];
     GifFileType *GifFile;
@@ -152,7 +157,8 @@ DGifOpen(void *userData, InputFunc readFunc)
 
     GifFile = (GifFileType *)malloc(sizeof(GifFileType));
     if (GifFile == NULL) {
-        //_GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
+        if (Error != NULL)
+	    *Error = D_GIF_ERR_NOT_ENOUGH_MEM;
         return NULL;
     }
 
@@ -164,7 +170,8 @@ DGifOpen(void *userData, InputFunc readFunc)
 
     Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
     if (!Private) {
-        //_GifError = D_GIF_ERR_NOT_ENOUGH_MEM;
+        if (Error != NULL)
+	    *Error = D_GIF_ERR_NOT_ENOUGH_MEM;
         free((char *)GifFile);
         return NULL;
     }
@@ -179,7 +186,8 @@ DGifOpen(void *userData, InputFunc readFunc)
 
     /* Lets see if this is a GIF file: */
     if (READ(GifFile, (unsigned char *)Buf, GIF_STAMP_LEN) != GIF_STAMP_LEN) {
-        //_GifError = D_GIF_ERR_READ_FAILED;
+        if (Error != NULL)
+	    *Error = D_GIF_ERR_READ_FAILED;
         free((char *)Private);
         free((char *)GifFile);
         return NULL;
@@ -188,7 +196,8 @@ DGifOpen(void *userData, InputFunc readFunc)
     /* Check for GIF prefix at start of file */
     Buf[GIF_STAMP_LEN] = '\0';
     if (strncmp(GIF_STAMP, Buf, GIF_VERSION_POS) != 0) {
-        //_GifError = D_GIF_ERR_NOT_GIF_FILE;
+        if (Error != NULL)
+	    *Error = D_GIF_ERR_NOT_GIF_FILE;
         free((char *)Private);
         free((char *)GifFile);
         return NULL;

@@ -71,7 +71,7 @@ static void QuitGifError(GifFileType *GifFile);
 int main(int argc, char **argv)
 {
     unsigned int Ratio;
-    int	i, l, LevelWidth, LogNumLevels, Count = 0;
+    int	i, l, LevelWidth, LogNumLevels, ErrorCode, Count = 0;
     bool Error, FlipDir, DoAllMaximum = false,
 	DirectionFlag = false, LevelsFlag = false, ColorFlag = false,
 	MinFlag = false, MaxFlag = false, SizeFlag = false, HelpFlag = false;
@@ -198,8 +198,10 @@ int main(int argc, char **argv)
     LogNumLevels = i;
 
     /* Open stdout for the output file: */
-    if ((GifFile = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFile);
+    if ((GifFile = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
 
     /* Dump out screen description with given size and generated color map:  */
     if ((ColorMap = GifMakeMapObject(NumLevels, NULL)) == NULL)

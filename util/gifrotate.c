@@ -48,7 +48,7 @@ static void QuitGifError(GifFileType *SrcGifFile, GifFileType *DstGifFile);
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    int	i, j, Size, NumFiles, Col, Row, Count, ExtCode,
+    int	i, j, Size, NumFiles, Col, Row, Count, ExtCode, ErrorCode,
 	DstWidth, DstHeight, Width, Height,
 	ImageNum = 0, Angle = 0;
     bool Error,
@@ -82,15 +82,15 @@ int main(int argc, char **argv)
     }
 
     if (NumFiles == 1) {
-	if ((GifFileIn = DGifOpenFileName(*FileName)) == NULL) {
-	    PrintGifError(GifFileIn->Error);
+	if ((GifFileIn = DGifOpenFileName(*FileName, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
 	    exit(EXIT_FAILURE);
 	}
     }
     else {
 	/* Use stdin instead */
-	if ((GifFileIn = DGifOpenFileHandle(0)) == NULL) {
-	    PrintGifError(GifFileIn->Error);
+	if ((GifFileIn = DGifOpenFileHandle(0, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
 	    exit(EXIT_FAILURE);
 	}
     }
@@ -101,14 +101,16 @@ int main(int argc, char **argv)
     }
 
     /* Open stdout for the output file: */
-    if ((GifFileOut = EGifOpenFileHandle(1)) == NULL)
-	QuitGifError(GifFileIn, GifFileOut);
+    if ((GifFileOut = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
+	    exit(EXIT_FAILURE);
+	}
 
     if (EGifPutScreenDesc(GifFileOut,
 	GifFileIn->SWidth, GifFileIn->SHeight,
 	GifFileIn->SColorResolution, GifFileIn->SBackGroundColor,
 	GifFileIn->SColorMap) == GIF_ERROR) {
-	PrintGifError(GifFileIn->Error);
+	PrintGifError(GifFileOut->Error);
 	exit(EXIT_FAILURE);
     }
 

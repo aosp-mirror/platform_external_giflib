@@ -148,27 +148,25 @@ of getarg.c for details on its usage.</para>
 <para>The following functions are used to set up input from a GIF:</para>
 
 <programlisting id="DGifOpenFileName">
-GifFileType *DGifOpenFileName(char *GifFileName)
+GifFileType *DGifOpenFileName(char *GifFileName, int *ErrorCode)
 </programlisting>
 
 <para>Open a new GIF file using the given GifFileName, and read its Screen
 information.</para>
 
-<para>If any error occurs, NULL is returned and the error handler can be
-used to get the exact error (see gif_err.c).</para>
+<para>If any error occurs, NULL is returned and ErrorCode is set.</para>
 
 <para>The file is opened in binary mode, and its buffer size is set to
 FILE_BUFFER_SIZE bytes.</para>
 
 <programlisting id="DGifOpenFileHandle">
-GifFileType *DGifOpenFileHandle(int GifFileHandle)
+GifFileType *DGifOpenFileHandle(int GifFileHandle, int *ErrorCode)
 </programlisting>
 
 <para>Open a new GIF file using the given GifFileHandle, and read its Screen
 information.</para>
 
-<para>If any error occurs, NULL is returned and the error handler can be 
-used to get the exact error (see gif_err.c).</para>
+<para>If any error occurs, NULL is returned and ErrorCode is set.</para>
 
 <para>The file is opened in binary mode, and its buffer size is set to
 FILE_BUFFER_SIZE bytes.</para>
@@ -200,7 +198,7 @@ codes.</para>
 with </para>
 
 <programlisting id="DGifOpen">
-GifFileType *DGifOpen(void *userPtr, InputFunc readFunc)
+GifFileType *DGifOpen(void *userPtr, InputFunc readFunc, int *ErrorCode)
 </programlisting>
 
 <para>and see the library header file for the type of InputFunc.</para>
@@ -229,7 +227,7 @@ with a GIF89 stamp.</para>
 with </para>
 
 <programlisting id="EGifOpen">
-GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc)
+GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc, int *ErrorCode)
 </programlisting>
 
 <para>and see the library header file for the type of OutputFunc.</para>
@@ -845,27 +843,25 @@ not be used after this routine has been called.</para>
 to use the following functions for sequential write.</para>
 
 <programlisting id="EGifOpenFileName">
-GifFileType *EGifOpenFileName(char *GifFileName, bool GifTestExistance)
+GifFileType *EGifOpenFileName(char *GifFileName, bool GifTestExistance, int *ErrorCode)
 </programlisting>
 
 <para>Open a new GIF file using the given GifFileName.  If GifTestExistance
 is TRUE, and file exists, the file is not destroyed, and NULL
 returned.</para>
 
-<para>If any error occurs, NULL is returned and the error handler can be
-used to get the exact error (see gif_err.c).</para>
+<para>If any error occurs, NULL is returned and the ErrorCode is set.</para>
 
 <para>The file is opened in binary mode, and its buffer size is set to
 FILE_BUFFER_SIZE bytes.</para>
 
 <programlisting id="EGifOpenFileHandle">
-GifFileType *EGifOpenFileHandle(int GifFileHandle)
+GifFileType *EGifOpenFileHandle(int GifFileHandle, int *ErrorCode)
 </programlisting>
 
 <para>Open a new GIF file using the given GifFileHandle.</para>
 
-<para>If any error occurs, NULL is returned and the error handler can be
-used to get the exact error (see gif_err.c).</para>
+<para>If any error occurs, NULL is returned and ErrorCode is set.</para>
 
 <para>The file is opened in binary mode, and its buffer size is set to
 FILE_BUFFER_SIZE bytes.</para>
@@ -1076,6 +1072,11 @@ control blocks in saved images.</para></listitem>
 <para>In documented functions:</para>
 
 <itemizedlist>
+<listitem><para>Gif fileopeners - DGifOpenFileName(),
+DGifOpenFileHandle(), DGifOpen(), EGifOpenFileName(),
+EGifOpenFileHandle(), and EGifOpen() - all now take a final integer
+address argument.  If non-null, this is used to pass back an error
+code when the function returns NULL.</para></listitem>
 <listitem><para>EGifSlurp() and EGifSpew() read and write
 extension blocks trailing after the last image, handle interlaced 
 images properly, and are both thread-safe (formerly EGifSpew() was

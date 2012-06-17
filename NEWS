@@ -9,9 +9,11 @@ Short-form news summary for shipper
 Version 5.0.0
 =============
 
-Changes to the API require a library major-version bump. Application
-code using the DGifSlurp()/EGifSpew() interface to extension blocks
-will require minor changes. A few functions have been renamed.
+Changes to the API require a library major-version bump. Certain
+initialization functions have acquired an integer address argument for
+passing back an error code, in order to avoid thrread-unsafe static
+storage. Application code using extension blocks will require minor
+changes. A few functions have been renamed.
 
 Code Fixes
 ----------
@@ -23,9 +25,9 @@ Code Fixes
 
 New API Features
 ----------------
-* DGifSlurp() and EGifSpew() now preserve trailing extension blocks with
-  no following image file, in an ExtensionBlockList member named 'Trailing'.
-* DGifSlurp() and EGifSpew() now read and write interlaced images.
+
+Extensions
+~~~~~~~~~~
 * The ExtensionBlock API has been repaired. The ExtensionBlockCount
   and ExtensionBlockList members of the SavedImage structures are no
   longer top-level in that structure, but now live in an
@@ -33,23 +35,18 @@ New API Features
   that the new list of trailing extension blocks in GifFileType can
   use the same list-handler code as the Leading extension-block list
   in each saved image.
-* Three documented functions - MakeMapObject(), FreeMapObject(), and
-  UnionColorMap() - have been renamed to GifMakeMapObject(),
-  GifFreeMapObject(), and GifUnionColorMap() respectively.
 * Three documented functions - EGifPutExtensionFirst(), EGifPutExtensionNext(),
   and EGifPutExtensionLast() - have been relaced by new functions
   EGifPutExtensionLeader(), EGifPutExtensionBlock(), and 
   EGifPutExtensionTrailer().  See the Compatibility section of
   the library API documentation for details.
-* Six undocumented functions have been renamed; five of these take additional
-  or slightly different argument types. See the Compatibility section of
-  the library API documentation for details.
-* All functions exported by giflib now have DGif, EGif, or Gif
-  as a name prefix.
+* DGifSlurp() and EGifSpew() now preserve trailing extension blocks with
+  no following image file, in an ExtensionBlockList member named 'Trailing'.
 * New functions DGifSavedExtensionToGCB() and EGifGCBToSavedExtension()
   make it easy to read and edit GIF89 graphics control blocks in saved images.
-* There's now an EGifGetGifVersion() that computes the version EGifSpew() 
-  will write.
+
+Thread Safety
+~~~~~~~~~~~~~
 * Library error handling no longer uses a static cell to store the last
   error code registered; that made the library thread-unsafe.  For functions 
   other than GIF file openers, the code is now put in an Error member of
@@ -57,13 +54,34 @@ New API Features
   that referenced that static cell are gone, and the GifErrorString()
   function introduced in the 4.2 release now takes an explicit error code
   argument.
-* QuantizeBuffer() has been returned to the core library as GifQuantizeBuffer() 
-  - turns out some important applications (notably mplayer) were using it.
-* TRUE and FALSE macros are gone, also VoidPtr.  No more namespace pollution.
+* Gif fileopeners - DGifOpenFileName(), DGifOpenFileHandle(), DGifOpen(),
+  EGifOpenFileName(), EGifOpenFileHandle(), and EGifOpen() - all now take
+  a final integer address argument.  If non-null, this is used to pass
+  back an error code when the function returns NULL. 
+
+Namespacing
+~~~~~~~~~~~
+* All functions exported by giflib now have DGif, EGif, or Gif
+  as a name prefix.
+* Three documented functions - MakeMapObject(), FreeMapObject(), and
+  UnionColorMap() - have been renamed to GifMakeMapObject(),
+  GifFreeMapObject(), and GifUnionColorMap() respectively.
 * The library Draw* functions are now prefixed GifDraw*, and the
   text-drawing ones are suffixed with "8x8". This fixes a conflict
   with the Windows API and leaves the door open for more general text-drawing
   functions with different font sizes.
+
+Other changes
+~~~~~~~~~~~~~
+* DGifSlurp() and EGifSpew() now read and write interlaced images properly.
+* Six undocumented functions have been renamed; five of these take additional
+  or slightly different argument types. See the Compatibility section of
+  the library API documentation for details.
+* There's now an EGifGetGifVersion() that computes the version EGifSpew() 
+  will write.
+* QuantizeBuffer() has been returned to the core library as GifQuantizeBuffer() 
+  - turns out some important applications (notably mplayer) were using it.
+* TRUE and FALSE macros are gone, also VoidPtr.  No more namespace pollution.
 * Various arguments have been made const where possible.
 
 Retirements

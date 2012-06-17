@@ -67,7 +67,7 @@ static void AllocateColors2(int ColorMapSize, ColorMapObject *ColorMap);
 int main(int argc, char **argv)
 {
     int	i, j, NumFiles, ImageNum = 0, Size, Row, Col, Width, Height,
-        ExtCode, Count;
+        ExtCode, Count, ErrorCode;
     bool Error;
     GifRecordType RecordType;
     GifByteType *Extension;
@@ -104,16 +104,16 @@ int main(int argc, char **argv)
     }
 
     if (NumFiles == 1) {
-	if ((GifFile = DGifOpenFileName(*FileName)) == NULL) {
-	    PrintGifError(GifFile->Error);
+	if ((GifFile = DGifOpenFileName(*FileName, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
 	    exit(EXIT_FAILURE);
 	}
     }
     else {
 	/* Use stdin instead: */
 
-	if ((GifFile = DGifOpenFileHandle(0)) == NULL) {
-	    PrintGifError(GifFile->Error);
+	if ((GifFile = DGifOpenFileHandle(0, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
 	    exit(EXIT_FAILURE);
 	}
     }

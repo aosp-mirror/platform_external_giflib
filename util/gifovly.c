@@ -29,7 +29,7 @@ static char
 
 int main(int argc, char **argv)
 {
-    int	k;
+    int	k, ErrorCode;
     GifFileType *GifFileIn, *GifFileOut = (GifFileType *)NULL;
     SavedImage *bp;
     int	TransparentColor = 0;
@@ -49,11 +49,11 @@ int main(int argc, char **argv)
 	exit(EXIT_SUCCESS);
     }
 
-    if ((GifFileIn = DGifOpenFileHandle(0)) == NULL
+    if ((GifFileIn = DGifOpenFileHandle(0, &ErrorCode)) == NULL
 	|| DGifSlurp(GifFileIn) == GIF_ERROR
-	|| ((GifFileOut = EGifOpenFileHandle(1)) == (GifFileType *)NULL))
+	|| ((GifFileOut = EGifOpenFileHandle(1, &ErrorCode)) == (GifFileType *)NULL))
     {
-	PrintGifError(GifFileOut->Error ? GifFileOut->Error : GifFileIn->Error);
+	PrintGifError(ErrorCode);
 	exit(EXIT_FAILURE);
     }
 
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
     if (EGifSpew(GifFileOut) == GIF_ERROR)
 	PrintGifError(GifFileOut->Error);
     else if (DGifCloseFile(GifFileIn) == GIF_ERROR)
-	PrintGifError(GifFileOut->Error);
+	PrintGifError(GifFileIn->Error);
 
     return 0;
 }

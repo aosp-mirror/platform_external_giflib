@@ -130,15 +130,13 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
     GifFileType *GifFileOut;
     SavedImage *NewImage = NULL;
     ExtensionList Leading;
-    int LineNum = 0;
+    int ErrorCode, LineNum = 0;
 
     Leading.ExtensionBlockCount = 0;
     Leading.ExtensionBlocks = NULL;
 
-    if ((GifFileOut = EGifOpenFileHandle(fdout)) == NULL) {
-	if (EGifCloseFile(GifFileOut) == GIF_ERROR) {
-	    PrintGifError(GifFileOut->Error);
-	}
+    if ((GifFileOut = EGifOpenFileHandle(fdout, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
 	exit(EXIT_FAILURE);
     }
 
@@ -290,17 +288,22 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "include %s", InclusionFile) == 1)
 	{
+	    int		ErrorCode;
 	    bool	DoTranslation;
 	    GifPixelType	Translation[256];
 
 	    GifFileType	*Inclusion;
 	    SavedImage	*NewImage, *CopyFrom;
 
-	    if ((Inclusion = DGifOpenFileName(InclusionFile)) == NULL
-		|| DGifSlurp(Inclusion) == GIF_ERROR)
+	    if ((Inclusion = DGifOpenFileName(InclusionFile, &ErrorCode)) == NULL) {
+		PrintGifError(ErrorCode);
+		exit(EXIT_FAILURE);
+	    }
+
+	    if (DGifSlurp(Inclusion) == GIF_ERROR)
 	    {
 		PARSE_ERROR("Inclusion read failed.");
-		PrintGifError(GifFileOut->Error);
+		PrintGifError(Inclusion->Error);
 		if (Inclusion != NULL) DGifCloseFile(Inclusion);
 		if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
 		exit(EXIT_FAILURE);
@@ -697,7 +700,7 @@ static void DumpExtensions(GifFileType *GifFileOut, ExtensionList *Extensions)
 	    GraphicsControlBlock gcb;
 	    printf("graphics control\n");
 	    if (DGifExtensionToGCB(ep->ByteCount, ep->Bytes, &gcb) == GIF_ERROR) {
-		PrintGifError(GifFileOut->Error);
+		GIF_MESSAGE("invalid graphics control block");
 		exit(EXIT_FAILURE);
 	    }
 	    printf("\tdisposal mode %d\n", gcb.DisposalMode);
@@ -730,19 +733,19 @@ static void Gif2Icon(char *FileName,
 		     int fdin, int fdout,
 		     char NameTable[])
 {
-    int im, i, j, ColorCount = 0;
+    int ErrorCode, im, i, j, ColorCount = 0;
     GifFileType *GifFile;
 
     if (fdin == -1) {
-	if ((GifFile = DGifOpenFileName(FileName)) == NULL) {
-	    PrintGifError(GifFile->Error);
+	if ((GifFile = DGifOpenFileName(FileName, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
 	    exit(EXIT_FAILURE);
 	}
     }
     else {
 	/* Use stdin instead: */
-	if ((GifFile = DGifOpenFileHandle(fdin)) == NULL) {
-	    PrintGifError(GifFile->Error);
+	if ((GifFile = DGifOpenFileHandle(fdin, &ErrorCode)) == NULL) {
+	    PrintGifError(ErrorCode);
 	    exit(EXIT_FAILURE);
 	}
     }

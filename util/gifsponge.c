@@ -30,14 +30,19 @@ however, be identical (you can check this with gifbuild -d).
 
 int main(int argc, char **argv)
 {
-    int	i;
+    int	i, ErrorCode;
     GifFileType *GifFileIn, *GifFileOut = (GifFileType *)NULL;
 
-    if ((GifFileIn = DGifOpenFileHandle(0)) == NULL
-	|| DGifSlurp(GifFileIn) == GIF_ERROR
-	|| ((GifFileOut = EGifOpenFileHandle(1)) == (GifFileType *)NULL))
-    {
-	PrintGifError(GifFileOut->Error ? GifFileOut->Error : GifFileIn->Error);
+    if ((GifFileIn = DGifOpenFileHandle(0, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
+    if (DGifSlurp(GifFileIn) == GIF_ERROR) {
+	PrintGifError(GifFileIn->Error);
+	exit(EXIT_FAILURE);
+    }
+    if ((GifFileOut = EGifOpenFileHandle(1, &ErrorCode)) == NULL) {
+	PrintGifError(ErrorCode);
 	exit(EXIT_FAILURE);
     }
 
