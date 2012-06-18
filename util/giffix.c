@@ -67,7 +67,9 @@ int main(int argc, char **argv)
 	    PrintGifError(ErrorCode);
 	    exit(EXIT_FAILURE);
 	}
-    else {
+    }
+    else
+    {
 	/* Use stdin instead: */
 	if ((GifFileIn = DGifOpenFileHandle(0, &ErrorCode)) == NULL)
 	    PrintGifError(ErrorCode);
