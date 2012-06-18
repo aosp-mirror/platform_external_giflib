@@ -2,6 +2,7 @@ SUBDIRS = lib util doc pic
 
 EXTRA_DIST = Makefile.unx \
 	     autogen.sh \
+	     test.sh \
 	     tests \
 	     TODO \
 	     BUGS \
@@ -9,6 +10,8 @@ EXTRA_DIST = Makefile.unx \
 	     history.asc \
 	     control \
 	     $(WINDOWS)
+
+TESTS=test.sh
 
 # Auditing tools.
 
