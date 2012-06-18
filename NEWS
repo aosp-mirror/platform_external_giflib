@@ -112,8 +112,6 @@ Utilities
   as a name prefix. Here's the list:
 
 	giffiltr -> giffilter
-	gifrotat -> gifrotate
-	gifrsize -> gifresize
 	gifspnge -> gifsponge
 	icon2gif -> gifbuild
 	text2gif -> gifecho
