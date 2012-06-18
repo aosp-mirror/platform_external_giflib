@@ -407,8 +407,8 @@ DGifGetImageDesc(GifFileType *GifFile)
         }
     }
     sp->RasterBits = (unsigned char *)NULL;
-    sp->Leading.ExtensionBlockCount = 0;
-    sp->Leading.ExtensionBlocks = (ExtensionBlock *) NULL;
+    sp->ExtensionBlockCount = 0;
+    sp->ExtensionBlocks = (ExtensionBlock *) NULL;
 
     GifFile->ImageCount++;
 
@@ -591,8 +591,8 @@ int DGifSavedExtensionToGCB(GifFileType *GifFile,
     GCB->DelayTime = 0;
     GCB->TransparentColor = NO_TRANSPARENT_COLOR;
 
-    for (i = 0; i < GifFile->SavedImages[ImageIndex].Leading.ExtensionBlockCount; i++) {
-	ExtensionBlock *ep = &GifFile->SavedImages[ImageIndex].Leading.ExtensionBlocks[i];
+    for (i = 0; i < GifFile->SavedImages[ImageIndex].ExtensionBlockCount; i++) {
+	ExtensionBlock *ep = &GifFile->SavedImages[ImageIndex].ExtensionBlocks[i];
 	if (ep->Function == GRAPHICS_EXT_FUNC_CODE)
 	    return DGifExtensionToGCB(ep->ByteCount, ep->Bytes, GCB);
     }
@@ -626,7 +626,7 @@ DGifCloseFile(GifFileType *GifFile)
         GifFile->SavedImages = NULL;
     }
 
-    GifFreeExtensions(&GifFile->Trailing);
+    GifFreeExtensions(&GifFile->ExtensionBlockCount, &GifFile->ExtensionBlocks);
 
     Private = (GifFilePrivateType *) GifFile->Private;
 
@@ -1059,8 +1059,8 @@ DGifSlurp(GifFileType *GifFile)
     GifByteType *ExtData;
     int ExtFunction;
 
-    GifFile->Trailing.ExtensionBlocks = NULL;
-    GifFile->Trailing.ExtensionBlockCount = 0;
+    GifFile->ExtensionBlocks = NULL;
+    GifFile->ExtensionBlockCount = 0;
 
     do {
         if (DGifGetRecordType(GifFile, &RecordType) == GIF_ERROR)
@@ -1113,12 +1113,12 @@ DGifSlurp(GifFileType *GifFile)
 		      return (GIF_ERROR);
 	      }
 
-              if (GifFile->Trailing.ExtensionBlocks) {
-                  sp->Leading.ExtensionBlocks = GifFile->Trailing.ExtensionBlocks;
-                  sp->Leading.ExtensionBlockCount = GifFile->Trailing.ExtensionBlockCount;
+              if (GifFile->ExtensionBlocks) {
+                  sp->ExtensionBlocks = GifFile->ExtensionBlocks;
+                  sp->ExtensionBlockCount = GifFile->ExtensionBlockCount;
 
-                  GifFile->Trailing.ExtensionBlocks = NULL;
-                  GifFile->Trailing.ExtensionBlockCount = 0;
+                  GifFile->ExtensionBlocks = NULL;
+                  GifFile->ExtensionBlockCount = 0;
               }
               break;
 
@@ -1126,7 +1126,9 @@ DGifSlurp(GifFileType *GifFile)
               if (DGifGetExtension(GifFile,&ExtFunction,&ExtData) == GIF_ERROR)
                   return (GIF_ERROR);
 	      /* Create an extension block with our data */
-	      if (GifAddExtensionBlock(&GifFile->Trailing, ExtFunction, ExtData[0], &ExtData[1])
+	      if (GifAddExtensionBlock(&GifFile->ExtensionBlockCount,
+				       &GifFile->ExtensionBlocks, 
+				       ExtFunction, ExtData[0], &ExtData[1])
 		  == GIF_ERROR)
 		  return (GIF_ERROR);
               while (ExtData != NULL) {
@@ -1134,7 +1136,8 @@ DGifSlurp(GifFileType *GifFile)
                       return (GIF_ERROR);
                   /* Continue the extension block */
 		  if (ExtData != NULL)
-		      if (GifAddExtensionBlock(&GifFile->Trailing, 
+		      if (GifAddExtensionBlock(&GifFile->ExtensionBlockCount,
+					       &GifFile->ExtensionBlocks,
 					       CONTINUE_EXT_FUNC_CODE, 
 					       ExtData[0], &ExtData[1]) == GIF_ERROR)
                       return (GIF_ERROR);

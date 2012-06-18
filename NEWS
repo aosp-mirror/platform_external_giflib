@@ -32,10 +32,7 @@ The ExtensionBlock API has been repaired, solving some problems with GIF89
 extension handling in earlier versions.
 
 * DGifSlurp() and EGifSpew() now preserve trailing extension blocks with
-  no following image file, in an ExtensionBlockList member named 'Trailing'.
-* The ExtensionBlockCount and ExtensionBlockList members of the
-  SavedImage structures are no longer top-level in that structure, but
-  now live in an ExtensionBlockList substructure named 'Leading'.
+  no following image file.
 * Three documented functions - EGifPutExtensionFirst(), EGifPutExtensionNext(),
   and EGifPutExtensionLast() - have been relaced by new functions
   EGifPutExtensionLeader(), EGifPutExtensionBlock(), and 

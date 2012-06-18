@@ -60,30 +60,27 @@ typedef struct ExtensionBlock {
 #define APPLICATION_EXT_FUNC_CODE 0xff    /* application block */
 } ExtensionBlock;
 
-typedef struct ExtensionList {
-    int ExtensionBlockCount;         /* # of extensions past last image */
-    ExtensionBlock *ExtensionBlocks; /* Extensions past last image */    
-} ExtensionList;
-
 typedef struct SavedImage {
     GifImageDesc ImageDesc;
-    GifByteType *RasterBits;  /* on malloc(3) heap */
-    ExtensionList Leading;
+    GifByteType *RasterBits;         /* on malloc(3) heap */
+    int ExtensionBlockCount;         /* Count of extensions before image */    
+    ExtensionBlock *ExtensionBlocks; /* Extensions before image */    
 } SavedImage;
 
 typedef struct GifFileType {
-    GifWord SWidth, SHeight;    /* Size of virtual canvas */
-    GifWord SColorResolution;   /* How many colors can we generate? */
-    GifWord SBackGroundColor;   /* Background color for virtual canvas */
-    GifByteType AspectByte;	/* Used to compute pixel aspect ratio */
-    ColorMapObject *SColorMap;  /* Global color map, NULL if nonexistent. */
-    int ImageCount;             /* Number of current image (both APIs) */
-    GifImageDesc Image;         /* Current image (low-level API) */
-    SavedImage *SavedImages;    /* Image sequence (high-level API) */
-    ExtensionList Trailing;     /* Extension blocks past last image */
-    int Error;			/* Last error condition reported */
-    void *UserData;             /* hook to attach user data (TVT) */
-    void *Private;              /* Don't mess with this! */
+    GifWord SWidth, SHeight;         /* Size of virtual canvas */
+    GifWord SColorResolution;        /* How many colors can we generate? */
+    GifWord SBackGroundColor;        /* Background color for virtual canvas */
+    GifByteType AspectByte;	     /* Used to compute pixel aspect ratio */
+    ColorMapObject *SColorMap;       /* Global colormap, NULL if nonexistent. */
+    int ImageCount;                  /* Number of current image (both APIs) */
+    GifImageDesc Image;              /* Current image (low-level API) */
+    SavedImage *SavedImages;         /* Image sequence (high-level API) */
+    int ExtensionBlockCount;         /* Count extensions past last image */
+    ExtensionBlock *ExtensionBlocks; /* Extensions past last image */    
+    int Error;			     /* Last error condition reported */
+    void *UserData;                  /* hook to attach user data (TVT) */
+    void *Private;                   /* Don't mess with this! */
 } GifFileType;
 
 #define GIF_ASPECT_RATIO(n)	((n)+15.0/64.0)
@@ -248,9 +245,12 @@ extern int GifBitSize(int n);
 ******************************************************************************/
 
 extern void GifApplyTranslation(SavedImage *Image, GifPixelType Translation[]);
-extern int GifAddExtensionBlock(ExtensionList *List, int Function, 
-				 unsigned int Len, unsigned char ExtData[]);
-extern void GifFreeExtensions(ExtensionList *ExtensionList);
+extern int GifAddExtensionBlock(int *ExtensionBlock_Count,
+				ExtensionBlock **ExtensionBlocks, 
+				int Function, 
+				unsigned int Len, unsigned char ExtData[]);
+extern void GifFreeExtensions(int *ExtensionBlock_Count,
+			      ExtensionBlock **ExtensionBlocks);
 extern SavedImage *GifMakeSavedImage(GifFileType *GifFile,
                                   const SavedImage *CopyFrom);
 extern void GifFreeSavedImages(GifFileType *GifFile);

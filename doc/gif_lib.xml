@@ -58,18 +58,19 @@ is a pointer to GifFileType structure as follows:</para>
 
 <programlisting>
 typedef struct GifFileType {
-    GifWord SWidth, SHeight;    /* Size of virtual canvas */
-    GifWord SColorResolution;   /* How many colors can we generate? */
-    GifWord SBackGroundColor;   /* Background color for virtual canvas */
-    GifByteType AspectByte;	/* Used to compute pixel aspect ratio */
-    ColorMapObject *SColorMap;  /* Global color map, NULL if nonexistent. */
-    int ImageCount;             /* Number of current image (both APIs) */
-    GifImageDesc Image;         /* Current image (low-level API) */
-    SavedImage *SavedImages;    /* Image sequence (high-level API) */
-    ExtensionList Trailing;     /* Extension blocks past last image */
-    int Error;			/* Last error condition reported */
-    void *UserData;             /* hook to attach user data (TVT) */
-    void *Private;              /* Don't mess with this! */
+    GifWord SWidth, SHeight;         /* Size of virtual canvas */
+    GifWord SColorResolution;        /* How many colors can we generate? */
+    GifWord SBackGroundColor;        /* Background color for virtual canvas */
+    GifByteType AspectByte;	     /* Used to compute pixel aspect ratio */
+    ColorMapObject *SColorMap;       /* Global colormap, NULL if nonexistent. */
+    int ImageCount;                  /* Number of current image (both APIs) */
+    GifImageDesc Image;              /* Current image (low-level API) */
+    SavedImage *SavedImages;         /* Image sequence (high-level API) */
+    int ExtensionBlockCount;         /* Count extensions past last image */
+    ExtensionBlock *ExtensionBlocks; /* Extensions past last image */    
+    int Error;			     /* Last error condition reported */
+    void *UserData;                  /* hook to attach user data (TVT) */
+    void *Private;                   /* Don't mess with this! */
 } GifFileType;
 </programlisting>
 
@@ -181,10 +182,9 @@ write it out with EGifSpew().</para>
 
 <para>One detail that may not be clear from just looking at the
 structures is how extension blocks and sub-blocks are stored.  Each
-ExtensionBlock structure in an ExtensionList represents an extension
-data block.  Those with a zero function code represent continuation
-data blocks attached to previous blocks with nonzero function
-codes.</para>
+ExtensionBlock structure represents an extension data block.  Those
+with a zero function code represent continuation data blocks attached
+to previous blocks with nonzero function codes.</para>
 
 <para>You can read from a GIF file through a function hook. Initialize
 with </para>
@@ -1093,12 +1093,6 @@ code when the function returns NULL.</para></listitem>
 <listitem><para>EGifSlurp() and EGifSpew() read and write
 extension blocks trailing after the last image, handle interlaced 
 images properly.</para></listitem>
-<listitem><para>The ExtensionBlockCount and ExtensionBlockList
-members of the SavedImage structures are no longer top-level in that structure,
-but now live in an ExtensionBlockList substructure named 'Leading'.
-This was done so that the new list of trailing extension blocks in GifFileType
-can use the same list-handler code as the extension blocks leading each saved 
-image.</para></listitem>
 <listitem><para>EGifPutExtensionFirst() has been replaced by
 EGifPutExtensionLeader(); the difference is the new function doesn't
 take an optional block, it just writes a block

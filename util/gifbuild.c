@@ -129,11 +129,9 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
     char buf[BUFSIZ * 2], InclusionFile[64];
     GifFileType *GifFileOut;
     SavedImage *NewImage = NULL;
-    ExtensionList Leading;
+    int LeadingExtensionBlockCount = 0;
+    ExtensionBlock *LeadingExtensionBlocks = NULL;
     int ErrorCode, LineNum = 0;
-
-    Leading.ExtensionBlockCount = 0;
-    Leading.ExtensionBlocks = NULL;
 
     if ((GifFileOut = EGifOpenFileHandle(fdout, &ErrorCode)) == NULL) {
 	PrintGifError(ErrorCode);
@@ -374,7 +372,8 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (GifAddExtensionBlock(&Leading,
+		    if (GifAddExtensionBlock(&LeadingExtensionBlockCount,
+					     &LeadingExtensionBlocks,
 					     bc++ == CONTINUE_EXT_FUNC_CODE ? COMMENT_EXT_FUNC_CODE : 0,
 					     Len,
 					     (unsigned char *)buf) == GIF_ERROR) {
@@ -395,7 +394,8 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (GifAddExtensionBlock(&Leading, 
+		    if (GifAddExtensionBlock(&LeadingExtensionBlockCount,
+					     &LeadingExtensionBlocks,
 					     bc++ == CONTINUE_EXT_FUNC_CODE ? PLAINTEXT_EXT_FUNC_CODE : 0,
 					     Len, 
 					     (unsigned char *)buf) == GIF_ERROR) {
@@ -443,10 +443,11 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		    exit(EXIT_FAILURE);
 		}
 	    Len = EGifGCBToExtension(&gcb, (GifByteType *)buf);
-	    if (GifAddExtensionBlock(&Leading,
-				  GRAPHICS_EXT_FUNC_CODE,
-				  Len,
-				  (unsigned char *)buf) == GIF_ERROR) {
+	    if (GifAddExtensionBlock(&LeadingExtensionBlockCount,
+				     &LeadingExtensionBlocks,
+				     GRAPHICS_EXT_FUNC_CODE,
+				     Len,
+				     (unsigned char *)buf) == GIF_ERROR) {
 		PARSE_ERROR("out of memory while adding GCB.");
 		exit(EXIT_FAILURE);
 	    }
@@ -457,16 +458,18 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	{
 	    unsigned char params[3] = {1, 0, 0};
 	    /* Create a Netscape 2.0 loop block */
-	    if (GifAddExtensionBlock(&Leading,
-				  APPLICATION_EXT_FUNC_CODE,
-				  11,
-				  (unsigned char *)"NETSCAPE2.0")==GIF_ERROR) {
+	    if (GifAddExtensionBlock(&LeadingExtensionBlockCount,
+				     &LeadingExtensionBlocks,
+				     APPLICATION_EXT_FUNC_CODE,
+				     11,
+				     (unsigned char *)"NETSCAPE2.0")==GIF_ERROR) {
 		PARSE_ERROR("out of memory while adding loop block.");
 		exit(EXIT_FAILURE);
 	    }
 	    params[1] = (intval & 0xff);
 	    params[2] = (intval >> 8) & 0xff;
-	    if (GifAddExtensionBlock(&Leading,
+	    if (GifAddExtensionBlock(&LeadingExtensionBlockCount,
+				     &LeadingExtensionBlocks,
 				     0, sizeof(params), params) == GIF_ERROR) {
 		PARSE_ERROR("out of memory while adding loop continuation.");
 		exit(EXIT_FAILURE);
@@ -486,7 +489,8 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    buf[strlen(buf) - 1] = '\0';
 		    Len = EscapeString(buf, buf);
-		    if (GifAddExtensionBlock(&Leading,
+		    if (GifAddExtensionBlock(&LeadingExtensionBlockCount,
+					     &LeadingExtensionBlocks,
 					     bc++ == CONTINUE_EXT_FUNC_CODE ? ExtCode : 0, 
 					     Len,
 					     (unsigned char *)buf) == GIF_ERROR) {
@@ -513,9 +517,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    KeyTable = GlobalColorKeys;
 
 	    /* connect leading extension blocks */
-	    NewImage->Leading = Leading;
-	    Leading.ExtensionBlockCount = 0;
-	    Leading.ExtensionBlocks = NULL;
+	    NewImage->ExtensionBlockCount = LeadingExtensionBlockCount;
+	    NewImage->ExtensionBlocks = LeadingExtensionBlocks;
+	    LeadingExtensionBlockCount = 0;
+	    LeadingExtensionBlocks = NULL;
 	}
 
 	/*
@@ -632,9 +637,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
     }
 
     /* connect trailing extension blocks */
-    GifFileOut->Trailing = Leading;
-    //Leading.ExtensionBlockCount = 0;
-    Leading.ExtensionBlocks = NULL;
+    GifFileOut->ExtensionBlockCount = LeadingExtensionBlockCount;
+    GifFileOut->ExtensionBlocks = LeadingExtensionBlocks;
+    //LeadingExtensionBlockCount = 0;
+    LeadingExtensionBlocks = NULL;
  
     EGifSpew(GifFileOut);
 }
@@ -669,14 +675,16 @@ static void VisibleDumpBuffer(GifByteType *buf, int len)
     }
 }
 
-static void DumpExtensions(GifFileType *GifFileOut, ExtensionList *Extensions)
+static void DumpExtensions(GifFileType *GifFileOut, 
+			   int ExtensionBlockCount,
+			   ExtensionBlock *ExtensionBlocks)
 {
     ExtensionBlock *ep;
 
-    for (ep = Extensions->ExtensionBlocks; 
-	 ep < Extensions->ExtensionBlocks + Extensions->ExtensionBlockCount;
+    for (ep = ExtensionBlocks; 
+	 ep < ExtensionBlocks + ExtensionBlockCount;
 	 ep++) {
-	bool last = (ep - Extensions->ExtensionBlocks == (Extensions->ExtensionBlockCount - 1));
+	bool last = (ep - ExtensionBlocks == (ExtensionBlockCount - 1));
 	if (ep->Function == COMMENT_EXT_FUNC_CODE) {
 	    printf("comment\n");
 	    VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
@@ -791,7 +799,8 @@ static void Gif2Icon(char *FileName,
     for (im = 0; im < GifFile->ImageCount; im++) {
 	SavedImage *image = &GifFile->SavedImages[im];
 
-	DumpExtensions(GifFile, &image->Leading);
+	DumpExtensions(GifFile, 
+		       image->ExtensionBlockCount, image->ExtensionBlocks);
 
 	printf("image # %d\nimage left %d\nimage top %d\n",
 	       im+1, image->ImageDesc.Left, image->ImageDesc.Top);
@@ -846,7 +855,8 @@ static void Gif2Icon(char *FileName,
 	putchar('\n');
     }
 
-    DumpExtensions(GifFile, &GifFile->Trailing);
+    DumpExtensions(GifFile, 
+		   GifFile->ExtensionBlockCount, GifFile->ExtensionBlocks);
 
     /* Tell EMACS this is a picture... */
     printf("# The following sets edit modes for GNU EMACS\n");

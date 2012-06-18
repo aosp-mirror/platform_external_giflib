@@ -187,9 +187,9 @@ EGifGetGifVersion(GifFileType *GifFile)
 
     /* Bulletproofing - always write GIF89 if we need to */
     for (i = 0; i < GifFile->ImageCount; i++) {
-        for (j = 0; j < GifFile->SavedImages[i].Leading.ExtensionBlockCount; j++) {
+        for (j = 0; j < GifFile->SavedImages[i].ExtensionBlockCount; j++) {
             int function =
-               GifFile->SavedImages[i].Leading.ExtensionBlocks[j].Function;
+               GifFile->SavedImages[i].ExtensionBlocks[j].Function;
 
             if (function == COMMENT_EXT_FUNC_CODE
                 || function == GRAPHICS_EXT_FUNC_CODE
@@ -198,8 +198,8 @@ EGifGetGifVersion(GifFileType *GifFile)
                 Private->gif89 = true;
         }
     }
-    for (i = 0; i < GifFile->Trailing.ExtensionBlockCount; i++) {
-	int function = GifFile->Trailing.ExtensionBlocks[i].Function;
+    for (i = 0; i < GifFile->ExtensionBlockCount; i++) {
+	int function = GifFile->ExtensionBlocks[i].Function;
 
 	if (function == COMMENT_EXT_FUNC_CODE
 	    || function == GRAPHICS_EXT_FUNC_CODE
@@ -642,8 +642,8 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
     if (ImageIndex < 0 || ImageIndex > GifFile->ImageCount - 1)
 	return GIF_ERROR;
 
-    for (i = 0; i < GifFile->SavedImages[ImageIndex].Leading.ExtensionBlockCount; i++) {
-	ExtensionBlock *ep = &GifFile->SavedImages[ImageIndex].Leading.ExtensionBlocks[i];
+    for (i = 0; i < GifFile->SavedImages[ImageIndex].ExtensionBlockCount; i++) {
+	ExtensionBlock *ep = &GifFile->SavedImages[ImageIndex].ExtensionBlocks[i];
 	if (ep->Function == GRAPHICS_EXT_FUNC_CODE) {
 	    EGifGCBToExtension(GCB, ep->Bytes);
 	    return GIF_OK;
@@ -651,10 +651,11 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
     }
 
     Len = EGifGCBToExtension(GCB, (GifByteType *)buf);
-    if (GifAddExtensionBlock(&GifFile->SavedImages[ImageIndex].Leading,
-			  GRAPHICS_EXT_FUNC_CODE,
-			  Len,
-			  (unsigned char *)buf) == GIF_ERROR)
+    if (GifAddExtensionBlock(&GifFile->SavedImages[ImageIndex].ExtensionBlockCount,
+			     &GifFile->SavedImages[ImageIndex].ExtensionBlocks,
+			     GRAPHICS_EXT_FUNC_CODE,
+			     Len,
+			     (unsigned char *)buf) == GIF_ERROR)
 	return (GIF_ERROR);
 
     return (GIF_OK);
@@ -1067,8 +1068,8 @@ EGifSpew(GifFileType *GifFileOut)
             continue;
 
 	if (EGifWriteExtensions(GifFileOut, 
-				sp->Leading.ExtensionBlocks,
-				sp->Leading.ExtensionBlockCount) == GIF_ERROR)
+				sp->ExtensionBlocks,
+				sp->ExtensionBlockCount) == GIF_ERROR)
 	    return (GIF_ERROR);
 
         if (EGifPutImageDesc(GifFileOut,
@@ -1109,8 +1110,8 @@ EGifSpew(GifFileType *GifFileOut)
     }
 
     if (EGifWriteExtensions(GifFileOut,
-			    GifFileOut->Trailing.ExtensionBlocks,
-			    GifFileOut->Trailing.ExtensionBlockCount) == GIF_ERROR)
+			    GifFileOut->ExtensionBlocks,
+			    GifFileOut->ExtensionBlockCount) == GIF_ERROR)
 	return (GIF_ERROR);
 
     if (EGifCloseFile(GifFileOut) == GIF_ERROR)
