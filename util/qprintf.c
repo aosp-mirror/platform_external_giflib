@@ -38,9 +38,9 @@ PrintGifError(int ErrorCode) {
     char *Err = GifErrorString(ErrorCode);
 
     if (Err != NULL)
-        fprintf(stderr, "\nGIF-LIB error: %s.\n", Err);
+        fprintf(stderr, "GIF-LIB error: %s.\n", Err);
     else
-        fprintf(stderr, "\nGIF-LIB undefined error %d.\n", ErrorCode);
+        fprintf(stderr, "GIF-LIB undefined error %d.\n", ErrorCode);
 }
 
 /* end */
