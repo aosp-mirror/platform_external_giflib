@@ -1,6 +1,6 @@
 
 noinst_LIBRARIES = libgetarg.a
-bin_PROGRAMS = gif2rgb gifbg gifclip giffix gifhisto gifinter gifinto \
+bin_PROGRAMS = gif2rgb gifbg giffix gifhisto gifinter gifinto \
     giftext gifwedge gif2raw gifecho gifsponge giffilter \
     gifbuild gifcolor giftool @COMPILABLE_EXTRAS@
 EXTRA_PROGRAMS = gifclrmp
