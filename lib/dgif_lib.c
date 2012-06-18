@@ -446,7 +446,6 @@ DGifGetLine(GifFileType *GifFile, GifPixelType *Line, int LineLen)
 
     if (DGifDecompressLine(GifFile, Line, LineLen) == GIF_OK) {
         if (Private->PixelCount == 0) {
-
             /* We probably won't be called any more, so let's clean up
              * everything before we return: need to flush out all the
              * rest of image until an empty block (size 0)
@@ -484,9 +483,11 @@ DGifGetPixel(GifFileType *GifFile, GifPixelType Pixel)
 
     if (DGifDecompressLine(GifFile, &Pixel, 1) == GIF_OK) {
         if (Private->PixelCount == 0) {
-            /* We probably would not be called any more, so lets clean
-             * everything before we return: need to flush out all rest of
-             * image until empty block (size 0) detected. We use GetCodeNext. */
+            /* We probably won't be called any more, so let's clean up
+             * everything before we return: need to flush out all the
+             * rest of image until an empty block (size 0)
+             * detected. We use GetCodeNext.
+	     */
             do
                 if (DGifGetCodeNext(GifFile, &Dummy) == GIF_ERROR)
                     return GIF_ERROR;
