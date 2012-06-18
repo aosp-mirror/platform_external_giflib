@@ -3,6 +3,7 @@
 Short-form news summary for shipper
  DGifSlurp()/EGifSpew() now handle interlacing and trailing extension blocks.
  New functions support reading and editing GIF89 graphics control blocks.
+ The library is now purely reentrant and thread-safe.
  All names of exported functions now have a Gif, DGif, or EGif prefix.
  A new giftool utility supports scripted modification of GIF data fields.
 
@@ -26,6 +27,22 @@ Code Fixes
 New API Features
 ----------------
 
+Thread Safety
+~~~~~~~~~~~~~
+The library is now completely re-entrant and thread-safe.
+
+* Library error handling no longer uses a static cell to store the last
+  error code registered; that made the library thread-unsafe.  For functions 
+  other than GIF file openers, the code is now put in an Error member of
+  the GifFileType structure.  The GifError() amd GifLastError() functions
+  that referenced that static cell are gone, and the GifErrorString()
+  function introduced in the 4.2 release now takes an explicit error code
+  argument.
+* GIF file openers - DGifOpenFileName(), DGifOpenFileHandle(), DGifOpen(),
+  EGifOpenFileName(), EGifOpenFileHandle(), and EGifOpen() - all now take
+  a final integer address argument.  If non-null, this is used to pass
+  back an error code when the function returns NULL. 
+
 Extensions
 ~~~~~~~~~~
 The ExtensionBlock API has been repaired, solving some problems with GIF89
@@ -40,22 +57,6 @@ extension handling in earlier versions.
   the library API documentation for details.
 * New functions DGifSavedExtensionToGCB() and EGifGCBToSavedExtension()
   make it easy to read and edit GIF89 graphics control blocks in saved images.
-
-Thread Safety
-~~~~~~~~~~~~~
-The library is now completely re-entrant and thread-safe.
-
-* Library error handling no longer uses a static cell to store the last
-  error code registered; that made the library thread-unsafe.  For functions 
-  other than GIF file openers, the code is now put in an Error member of
-  the GifFileType structure.  The GifError() amd GifLastError() functions
-  that referenced that static cell are gone, and the GifErrorString()
-  function introduced in the 4.2 release now takes an explicit error code
-  argument.
-* Gif fileopeners - DGifOpenFileName(), DGifOpenFileHandle(), DGifOpen(),
-  EGifOpenFileName(), EGifOpenFileHandle(), and EGifOpen() - all now take
-  a final integer address argument.  If non-null, this is used to pass
-  back an error code when the function returns NULL. 
 
 Namespacing
 ~~~~~~~~~~~
