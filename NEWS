@@ -92,6 +92,9 @@ Retirements
   but I did the same thing better and cleaner a decade later with
   PILdriver in the PIL package. Removing it gets rid of a dependency
   on shell.
+* gif2x11 gifasm, gifcomb, gifflip, gifovly, gifpos, gifresize, and gifrotate
+  are all gone.  The ImageMagick display(1)/convert(1) utilities and PILdriver
+  do these things better and in a format-independent way.
 * Lennie Araki's Windows C++ wrapper is gone. It's eight years old,
   unmaintained, he has dropped out of sight, and a better one needs to
   be written to use the high-level GIFLIB API and GIF89 graphics

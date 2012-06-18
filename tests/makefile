@@ -138,10 +138,10 @@ giftool-regress:
 misc-buildregress:
 	@echo "Remaking miscellaneous tests."
 	@$(UTILS)/gifwedge >wedge.gif
-	@$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/gifbuild -d >treescap.ico
+	@$(UTILS)/gifbuild -d <$(PICS)/treescap.gif >treescap.ico
 
 misc-regress:
 	@echo "gifwedge: Checking wedge generation."
 	@$(UTILS)/gifwedge | cmp - wedge.gif
 	@echo "gifpos: Checking behavior of gifpos."
-	@$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/gifbuild -d | diff -u treescap.ico -
+	@$(UTILS)/gifbuild -d <$(PICS)/treescap.gif | diff -u treescap.ico -

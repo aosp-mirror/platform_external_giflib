@@ -23,7 +23,6 @@ LIBDIR = /usr/lib
 # 1. EGA, VGA, SVGA (800x600), Hercules - all on IBM PC only.
 # 2. SGI 4D Irix using gl library (Add -D__SGI_GL__).
 # 3. X11 using libX.a (Add -D__X11__)
-DEVS = -D__X11__
 
 #
 # These are the flags for gcc, in BSD4.3 or Sun O.S. 4.0.3
@@ -71,7 +70,7 @@ OBJS = egif_lib.o dgif_lib.o gifalloc.o gif_font.o gif_hash.o \
 	gif_err.o quantize.o qprintf.o getarg.o
 
 .c.o:
-	$(CC) $(INCS) $(DEVS) $(CFLAGS) $<
+	$(CC) $(INCS) $(CFLAGS) $<
 
 all: static shared
 

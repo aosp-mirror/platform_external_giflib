@@ -14,11 +14,10 @@ SUFFIXES = .xml .html .txt .asc .1
 
 all: allhtml manpages
 
-XMLMAN = gif2rgb.xml gif2x11.xml gifasm.xml gifbg.xml gifclip.xml	\
-	gifclrmp.xml gifcolor.xml gifcomb.xml giffilter.xml giffix.xml	\
-	gifflip.xml gifhisto.xml gifinter.xml gifinto.xml gifovly.xml	\
-	gifpos.xml gifrotate.xml gifresize.xml gifsponge.xml giftext.xml	\
-	giftool.xml gifwedge.xml gifbuild.xml gif2raw.xml gifecho.xml
+XMLMAN = gif2rgb.xml gifbg.xml gifclrmp.xml gifcolor.xml giffilter.xml	\
+	giffix.xml gifhisto.xml gifinter.xml gifinto.xml gifsponge.xml 	\
+	giftext.xml giftool.xml gifwedge.xml gifbuild.xml gif2raw.xml	\
+	gifecho.xml
 XMLDOC = intro.xml gif_lib.xml
 XMLALL = $(XMLMAN) $(XMLDOC)
 TXTDOC = 00README gif87.txt gif89.txt lzgif.txt
@@ -34,11 +33,12 @@ manpages: $(XMLMAN:.xml=.1)
 # so people working from the distribution tarball won't need xmlto. 
 EXTRA_DIST = $(SOURCES) $(XMLMAN:.xml=.1)
 
-# Prepare the website directory to deliver an update
+# Prepare the website directory to deliver an update.
+# ImageMagick and asciidoc are required.
 website: allhtml
 	rm -fr staging; mkdir staging; 
 	cp -r $(XMLALL:.xml=.html) $(SITEHTML) *.txt whatsinagif staging
-	../util/gifresize -S 50 50 <../pic/gifgrid.gif >staging/giflib-logo.gif
+	convert ../pic/gifgrid.gif --resize 50x50 staging/giflib-logo.gif
 	asciidoc - <../history.asc >staging/history.html
 
 clean-local:

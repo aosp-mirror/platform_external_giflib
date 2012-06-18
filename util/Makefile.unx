@@ -14,16 +14,10 @@
 #				Eric Raymond, September 1992
 #
 
-#
-# If you have the Utah raster tool kit and wants conversion routines to and
-# from it set the ones below properly.
-#
-# X_INC_DIR = /server/sun4/usr/new/lib/X11R4
-
 # Declare the include files and libraries for the GIF utils:
 INC = -I../lib
 GIF_LIB = ../lib/libgif.a
-GIF_INC_DEPEND = ../lib/libgif.a ../lib/gif_lib.h ../lib/getarg.h
+GIF_INC_DEPEND = ../lib/libgif.a ../lib/gif_lib.h ../util/getarg.h
 
 # Where to copy executables to:
 DEST = /usr/bin
@@ -43,46 +37,33 @@ DEST = /usr/bin
 #
 # CFLAGS = $(INC) -O -s -sun4 -W -Wreturn-type -Wcomment -DUSE_VARARGS
 # CFLAGS = $(INC) -g -sun4 -W -Wreturn-type -Wcomment -DUSE_VARARGS
-# XLIBS = -lX11
 
 # These are the flags for xlc, ansi compiler for IBM R6000
 #
 # CC = xlc
 # CFLAGS = $(INC) -O -s -qnoro -D_POSIX_SOURCE -D_ALL_SOURCE -DR6000
 # CFLAGS = $(INC) -g -pg -qnoro -D_POSIX_SOURCE -D_ALL_SOURCE -DR6000
-# XLIBS = -lX11
 
 # GNU CC 2.2 under System V Release 3.2 with AT&T's crocked-up X11R3
 #
 # CC = gcc
 # CFLAGS = $(INC) -fno-builtin -O -s -W -Wreturn-type -Wcomment
 # CFLAGS = $(INC) -fno-builtin -g -lg -W -Wreturn-type -Wcomment
-# XLIBS = -lX11 -lnls -lnsl_s -lpt
-# X_INC_DIR = /usr/X/include
-# X_LIB_DIR = /usr/X/lib
 
 # SVr4 using SGCS X11R5
 #
 # CC = gcc
 # CFLAGS = $(INC) -fno-builtin -O -s -W -Wreturn-type -Wcomment
 # CFLAGS = $(INC) -fno-builtin -g -lg -W -Wreturn-type -Wcomment
-# XLIBS = -lX11 -lsocket -lnsl
-# X_INC_DIR = /usr/X/include
-# X_LIB_DIR = /usr/X/lib
 
 # Linux using XFree86
 #
 CC = gcc
 #CFLAGS = $(INC) -fno-builtin -O -s -W -Wreturn-type -Wcomment
 CFLAGS = $(INC) -fno-builtin -g -W -Wreturn-type -Wcomment
-XLIBS = -lX11
-X_INC_DIR = /usr/X11/include
-X_LIB_DIR = /usr/X11/lib
 
-BINARIES = gif2rgb gif2x11 gifasm gifbg \
-	gifclip gifclrmp gifcomb giffix gifflip gifhisto \
-	gifinter gifinto gifovly gifpos gifrotate gifresize giftext \
-	gifwedge gif2raw gifecho gifsponge giffilter \
+BINARIES = gif2rgb gifbg gifclrmp giffix gifhisto \
+	gifinter gifinto giftext gifwedge gif2raw gifecho gifsponge giffilter \
 	gifbuild gifcolor giftool
 
 all: $(BINARIES)
@@ -95,10 +76,6 @@ install-all:
 
 uninstall-utils:
 	(cd $(DEST); rm -f $(BINARIES))
-
-gif2x11: gif2x11.c
-	$(CC) gif2x11.c $(CFLAGS) -I$(X_INC_DIR) -L$(X_LIB_DIR) $(LDFLAGS) $(GIF_LIB) $(XLIBS) -o gif2x11
-
 
 clean:
 	rm -f $(BINARIES)

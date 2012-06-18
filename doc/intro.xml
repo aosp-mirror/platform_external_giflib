@@ -64,18 +64,6 @@ functions in the API to read and modify them.</para>
 at this page through a web browser, each utility name should be a
 hotlink to HTML documentation.</para>
 
-<sect2><title>Viewers</title>
-
-<variablelist>
-<varlistentry>
-<term><ulink url="gif2x11.html">gif2x11</ulink></term>
-<listitem>
-<para>display images saved as GIF files under X window system.</para>
-</listitem>
-</varlistentry>
-</variablelist>
-
-</sect2>
 <sect2><title>Conversion Utilities</title>
 
 <variablelist>
@@ -122,27 +110,9 @@ hotlink to HTML documentation.</para>
 
 <variablelist>
 <varlistentry>
-<term><ulink url="gifasm.html">gifasm</ulink></term>
-<listitem>
-<para>assemble multiple GIFs into one, or burst a multiple-image GIF</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><ulink url="gifclip.html">gifclip</ulink></term>
-<listitem>
-<para>clip or crop a GIF image</para>
-</listitem>
-</varlistentry>
-<varlistentry>
 <term><ulink url="gifclrmp.html">gifclrmp</ulink></term>
 <listitem>
 <para>modify GIF image colormaps</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><ulink url="gifcomb.html">gifcomb</ulink></term>
-<listitem>
-<para>combine 2 GIF images of exactly the same size into one</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -152,39 +122,9 @@ hotlink to HTML documentation.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><ulink url="gifflip.html">gifflip</ulink></term>
-<listitem>
-<para>flip GIF image along X or Y axis or rotate by 90 degrees</para>
-</listitem>
-</varlistentry>
-<varlistentry>
 <term><ulink url="gifinter.html">gifinter</ulink></term>
 <listitem>
 <para>convert between interlaced and non interlaced images</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><ulink url="gifovly.html">gifovly</ulink></term>
-<listitem>
-<para>generate one composite GIF from a multiple-image GIF</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><ulink url="gifpos.html">gifpos</ulink></term>
-<listitem>
-<para>change a GIF's screen size or recondition it.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><ulink url="gifrotate.html">gifrotate</ulink></term>
-<listitem>
-<para>rotate a GIF through any desired angle</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><ulink url="gifresize.html">gifresize</ulink></term>
-<listitem>
-<para>resize a GIF by deletion or duplication of bits</para>
 </listitem>
 </varlistentry>
 </variablelist>

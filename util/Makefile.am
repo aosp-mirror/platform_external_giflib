@@ -1,10 +1,9 @@
 
 noinst_LIBRARIES = libgetarg.a
-bin_PROGRAMS = gif2rgb gifasm gifbg gifclip gifcomb \
-    giffix gifflip gifhisto gifinter gifinto gifovly gifpos gifresize \
+bin_PROGRAMS = gif2rgb gifbg gifclip giffix gifhisto gifinter gifinto \
     giftext gifwedge gif2raw gifecho gifsponge giffilter \
     gifbuild gifcolor giftool @COMPILABLE_EXTRAS@
-EXTRA_PROGRAMS = gif2x11 gifclrmp gifrotate
+EXTRA_PROGRAMS = gifclrmp
 
 EXTRA_DIST=Makefile.unx $(bin_SCRIPTS)
 
@@ -15,29 +14,15 @@ AM_CPPFLAGS = -I$(srcdir) -I$(top_srcdir)/lib
 libgetarg_a_SOURCES = getarg.c getarg.h \
                     qprintf.c
 
-gif2x11_SOURCES = gif2x11.c
-gif2x11_LDADD = $(LDADD) @X11_LIB@
-gif2x11_CFLAGS = @X_CFLAGS@ $(AM_CFLAGS)
-
 gifclrmp_SOURCES = gifclrmp.c
 gifclrmp_LDADD = $(LDADD) @MATH_LIB@
 
-gifrotate_SOURCES = gifrotate.c
-gifrotate_LDADD = $(LDADD) @MATH_LIB@
-
 gif2rgb_SOURCES = gif2rgb.c
-gifasm_SOURCES = gifasm.c
 gifbg_SOURCES = gifbg.c
-gifclip_SOURCES = gifclip.c
-gifcomb_SOURCES = gifcomb.c
 giffix_SOURCES = giffix.c
-gifflip_SOURCES = gifflip.c
 gifhisto_SOURCES = gifhisto.c
 gifinter_SOURCES = gifinter.c
 gifinto_SOURCES = gifinto.c
-gifovly_SOURCES =  gifovly.c
-gifpos_SOURCES = gifpos.c
-gifresize_SOURCES = gifresize.c
 giftext_SOURCES = giftext.c
 gifwedge_SOURCES = gifwedge.c
 gif2raw_SOURCES = gif2raw.c

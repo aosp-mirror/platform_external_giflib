@@ -10,8 +10,8 @@
 # 1. solid2.gif
 # 2. gifgrid.gif
 # 3. porsche.gif
-#   In addition, set GIF_DISPLAY ( directly or through command line) to the
-# program to display gif files in our system.
+#   In addition, set GIF_DISPLAY (directly or through command line) to the
+# program to display GIFs on our system.
 #
 # Gershon Elber, Feb 90.  Rewritten by Eric Raymond, December 1995.
 # Revised by Toshio Kuratomi December 1998.
@@ -19,7 +19,6 @@
 PATH=$PATH:../util
 GIF_DIR=../pic
 GIF_DISPLAY=${1:-"display -"}
-GIF_DISPLAY=${GIF_DISPLAY:-"gif2x11"}
 
 echo "Announce the test"
 gifecho -t "The GIFLIB test sequence begins" | giftool -d 250 | $GIF_DISPLAY
@@ -27,37 +26,11 @@ gifecho -t "The GIFLIB test sequence begins" | giftool -d 250 | $GIF_DISPLAY
 echo "The Porsche."
 $GIF_DISPLAY <$GIF_DIR/porsche.gif
 
-echo "The Porsche composited with a generated background"
-gifbg -d tl -s 320 200 -c 255 255 255 -l 64 > /tmp/bg$$.gif
-gifcomb $GIF_DIR/porsche.gif /tmp/bg$$.gif | $GIF_DISPLAY
-rm -f /tmp/bg$$.gif
-
 echo "Color histogram of the Porsche image"
-gifhisto -b -s 200 512 $GIF_DIR/porsche.gif | gifflip -l | $GIF_DISPLAY
-
-echo "The #2 solid"
-$GIF_DISPLAY <$GIF_DIR/solid2.gif
-
-echo "The #2 solid flipped on its side"
-gifflip -r $GIF_DIR/solid2.gif | $GIF_DISPLAY
-
-echo "Scale the #2 solid by 0.45"
-gifresize -s 0.45 $GIF_DIR/solid2.gif | $GIF_DISPLAY
-
-echo "Resize the #2 solid image"
-gifresize -S 800 600 $GIF_DIR/solid2.gif | $GIF_DISPLAY
-
-echo "Clip and resize the #2 solid image"
-gifclip -i 222 0 390 134 $GIF_DIR/solid2.gif | gifresize -s 2.0 | $GIF_DISPLAY
+gifhisto -b -s 200 512 $GIF_DIR/porsche.gif | $GIF_DISPLAY
 
 echo "The GIF grid graphic"
 $GIF_DISPLAY <$GIF_DIR/gifgrid.gif
 
 echo "The grid graphic, reconstructed from its RGB dump (should look identical)"
 gif2rgb <$GIF_DIR/gifgrid.gif | gif2rgb -s 100 100 | $GIF_DISPLAY
-
-echo "The GIF grid flipped on its side"
-gifflip -x $GIF_DIR/gifgrid.gif | $GIF_DISPLAY
-
-echo "Rotate the GIF grid image by 45 degrees" 
-gifrotate -a 45 $GIF_DIR/gifgrid.gif | $GIF_DISPLAY

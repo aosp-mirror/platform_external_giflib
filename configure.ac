@@ -37,24 +37,9 @@ esac
 dnl Checks for libraries.
 
 AC_CHECK_LIB(m, pow, [MATH_LIB="${MATH_LIB} -lm"
-		      COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gifclrmp${EXEEXT} gifrotat${EXEEXT}"] )
+		      COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gifclrmp${EXEEXT}"] )
 
-AC_ARG_ENABLE([x11], AC_HELP_STRING([--enable-x11],[support conversion directly to X11 windows[[default=detect]]]),
-    enable_x11=$enableval, enable_x11=detect)
-
-if test "x$enable_x11" != "xno" ; then
-  AC_PATH_XTRA
-  AC_CHECK_HEADERS([X11/Xlib.h X11/Xutil.h],
-    AC_CHECK_LIB(X11, main, [X11_LIB="${X11_LIB} ${X_PRE_LIBS} $X_LIBS ${X_EXTRA_LIBS} -lX11"
-                 AC_DEFINE(HAVE_LIBX11, [1], [Define if the X11 library is installed])
-                 COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gif2x11${EXEEXT}"],, $X_LIBS))
-fi
-
-DEVS="${X11_LIB}" 
-AC_SUBST(DEVS)
 AC_SUBST(COMPILABLE_EXTRAS)
-AC_SUBST(X11_LIB)
-AC_SUBST(X_CFLAGS)
 AC_SUBST(MATH_LIB)
 AC_SUBST(SHLIBVERSION)
 AC_SUBST(LT_LDFLAGS)
