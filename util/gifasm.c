@@ -217,12 +217,12 @@ static void DoAssembly(int NumFiles, char **FileNames)
 			    Line[j] = ReMapColor[Line[j]];
  
 			if (EGifPutLine(GifFileOut, Line, Len) == GIF_ERROR) {
-			    free(Line);
+			    //free(Line);
 			    QuitGifError(GifFileIn, GifFileOut);
 			}
 		    }
 		    else {
-			free(Line);
+			//free(Line);
 			QuitGifError(GifFileIn, GifFileOut);
 		    }
 		}
