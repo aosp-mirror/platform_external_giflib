@@ -7,5 +7,5 @@ EXTRA_DIST = NOTES \
 	     treescap.gif \
 	     welcome2.gif \
 	     x-trans.gif \
-	     sample.ico \
-	     NOTES
+	     sample.ico
+
