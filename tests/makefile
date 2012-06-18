@@ -16,16 +16,16 @@ test: render-regress \
 	gifsponge-regress \
 	giftext-regress \
 	giftool-regress \
-	misc-regress
+	gifwedge-regress
 	@echo "No output is good news"
 
-rebuild: render-buildregress \
-		gif2rgb-buildregress \
-		gifclrmp-buildregress \
-		gifecho-buildregress \
-		giffix-buildregress \
-		giftext-buildregress \
-		misc-buildregress
+rebuild: render-rebuild \
+		gif2rgb-rebuild \
+		gifclrmp-rebuild \
+		gifecho-rebuild \
+		giffix-rebuild \
+		giftext-rebuild \
+		gifwedge-rebuild
 
 UTILS = ../util
 PICS = ../pic
@@ -44,7 +44,7 @@ render-regress:
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
 	@rm -f /tmp/regress
-render-buildregress:
+render-rebuild:
 	@for test in $(GIFS); do \
 		stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 		echo "Remaking $${stem}.rgb"; \
@@ -55,7 +55,7 @@ gif2raw-regress:
 	@echo "gif2raw: Checking that it can self-invert."
 	@$(UTILS)/gif2raw <$(PICS)/treescap.gif | $(UTILS)/gif2raw -s 40 40 -p treescap.map | $(UTILS)/gif2rgb | cmp - treescap.rgb
 
-gif2rgb-buildregress:
+gif2rgb-rebuild:
 	@echo "Rebuilding gif2rgb checkfile."
 	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d >gifgrid.ico
 gif2rgb-regress:
@@ -83,18 +83,18 @@ gifclrmp-regress:
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
 	@rm -f /tmp/regress
-gifclrmp-buildregress:
+gifclrmp-rebuild:
 	@for test in $(GIFS); do \
 		stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 		echo "Remaking $${stem}.map"; \
 		$(UTILS)/gifclrmp <$${test} >$${stem}.map; \
 	done
 
-gifecho-buildregress:
+gifecho-rebuild:
 	@echo "Rebuilding gifecho test."
 	@$(UTILS)/gifecho -t "foobar" | $(UTILS)/gifbuild -d >foobar.ico
 gifecho-regress:
-	@echo "gifecho: Testing behavior"
+	@echo "gifecho: Testing gifecho behavior"
 	@$(UTILS)/gifecho -t "foobar" | $(UTILS)/gifbuild -d | diff -u foobar.ico -
 
 giffilter-regress:
@@ -108,11 +108,11 @@ giffilter-regress:
 	done
 	@rm -f /tmp/regress
 
-giffix-buildregress:
+giffix-rebuild:
 	@echo "Rebuilding giffix test."
 	@head --bytes=-20 <$(PICS)/treescap.gif | $(UTILS)/giffix 2>/dev/null | $(UTILS)/gifbuild -d >giffixed.ico
 giffix-regress:
-	@echo "giffix: Testing behavior"
+	@echo "giffix: Testing giffix behavior"
 	@head --bytes=-20 <$(PICS)/treescap.gif | $(UTILS)/giffix 2>/dev/null | $(UTILS)/gifbuild -d | diff -u giffixed.ico -
 
 gifinter-regress:
@@ -152,7 +152,7 @@ giftext-regress:
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
 	@rm -f /tmp/regress
-giftext-buildregress:
+giftext-rebuild:
 	@for test in $(GIFS); do \
 		stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 		echo "Remaking $${stem}.dmp"; \
@@ -167,11 +167,9 @@ giftool-regress:
 	@echo "giftool: Checking that it interlaces correctly."
 	@$(UTILS)/giftool -i off <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
 
-misc-buildregress:
-	@echo "Remaking miscellaneous tests."
+gifwedge-rebuild:
+	@echo "Remaking the gifwedge test."
 	@$(UTILS)/gifwedge >wedge.gif
-	@$(UTILS)/gifbuild -d <$(PICS)/treescap.gif >treescap.ico
-
-misc-regress:
+gifwedge-regress:
 	@echo "gifwedge: Checking wedge generation."
 	@$(UTILS)/gifwedge | cmp - wedge.gif
