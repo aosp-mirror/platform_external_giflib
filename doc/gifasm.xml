@@ -41,11 +41,11 @@ Enables printout of running scan lines.</para>
 <varlistentry>
 <term>-a</term>
 <listitem>
-<para> Assemble.  This is the default, and the GifFile(s) are
-assembled to stdout. Note the screen descriptor (including screen
-color map) is taken from the first file, while other screen
-descriptors are ignored. As this tool requires at least 2 GIF files as
-input, no attempt will be made to read stdin if none specified on
+<para> Assemble.  This is the default; GIF file(s) are assembled to
+stdout. Note the screen descriptor (including screen color map) is
+taken from the first file, while other screen descriptors are
+ignored. As this tool requires at least 2 GIF files as input, no
+attempt will be made to read stdin if no files are specified on the
 command line.</para>
 </listitem>
 </varlistentry>
@@ -54,7 +54,7 @@ command line.</para>
 <listitem>
 <para> Disassemble GifFile (if specified on command line) or stdin,
 into several files of the form OutFileNameXX, where XX are two decimal
-digits.  Obviously up to 100 files can be generated this way. Note: in
+digits.  Up to 100 files can be generated this way. Note: in
 this mode nothing is sent to stdout.</para>
 </listitem>
 </varlistentry>
