@@ -5,6 +5,7 @@
 # This is what to do by default
 test: render-regress \
 	gif2raw-regress \
+	gif2rgb-regress \
 	gifbuild-regress \
 	gifclrmp-regress \
 	gifecho-regress \
@@ -16,8 +17,11 @@ test: render-regress \
 	misc-regress
 	@echo "No output is good news"
 
-rebuild: render-buildregress gifecho-buildregress \
-		gifclrmp-buildregress giftext-buildregress \
+rebuild: render-buildregress \
+		gif2rgb-buildregress \
+		gifclrmp-buildregress \
+		gifecho-buildregress \
+		giftext-buildregress \
 		misc-buildregress
 
 UTILS = ../util
@@ -48,7 +52,16 @@ gif2raw-regress:
 	@echo "gif2raw: Checking that it can self-invert."
 	@$(UTILS)/gif2raw <$(PICS)/treescap.gif | $(UTILS)/gif2raw -s 40 40 -p treescap.map | $(UTILS)/gif2rgb | cmp - treescap.rgb
 
+gif2rgb-buildregress:
+	@echo "Rebuilding gif2rgb checkfile."
+	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d >gifgrid.ico
+gif2rgb-regress:
+	@echo "gif2rgb: Checking idempotency"
+	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d | diff -u gifgrid.ico -
+
 gifbuild-regress:
+	@echo "gifbuild: basic sanity check"
+	@$(UTILS)/gifbuild -d <$(PICS)/treescap.gif | diff -u treescap.ico -
 	@echo "gifbuild: Checking idempotency on an icon file."
 	@$(UTILS)/gifbuild <$(PICS)/sample.ico | $(UTILS)/gifbuild -d >/tmp/sample-1.ico; $(UTILS)/gifbuild </tmp/sample-1.ico | $(UTILS)/gifbuild -d >/tmp/sample-2.ico; diff -u /tmp/sample-1.ico /tmp/sample-2.ico; rm /tmp/sample-*.ico
 	@echo "gifbuild: Checking idempotency on an animation."
@@ -152,5 +165,3 @@ misc-buildregress:
 misc-regress:
 	@echo "gifwedge: Checking wedge generation."
 	@$(UTILS)/gifwedge | cmp - wedge.gif
-	@echo "gifpos: Checking behavior of gifpos."
-	@$(UTILS)/gifbuild -d <$(PICS)/treescap.gif | diff -u treescap.ico -
