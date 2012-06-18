@@ -53,14 +53,11 @@ gifclip -i 222 0 390 134 $GIF_DIR/solid2.gif | gifresize -s 2.0 | $GIF_DISPLAY
 echo "The GIF grid graphic"
 $GIF_DISPLAY <$GIF_DIR/gifgrid.gif
 
+echo "The grid graphic, reconstructed from its RGB dump (should look identical)"
+gif2rgb <$GIF_DIR/gifgrid.gif | gif2rgb -s 100 100 | $GIF_DISPLAY
+
 echo "The GIF grid flipped on its side"
 gifflip -x $GIF_DIR/gifgrid.gif | $GIF_DISPLAY
 
 echo "Rotate the GIF grid image by 45 degrees" 
 gifrotate -a 45 $GIF_DIR/gifgrid.gif | $GIF_DISPLAY
-
-echo "The tree graphic"
-$GIF_DISPLAY <$GIF_DIR/treescap.gif
-
-echo "The tree graphic, reconstructed from its RGB dump"
-gif2rgb <$GIF_DIR/treescap.gif | gif2rgb -s 40 40 | $GIF_DISPLAY
