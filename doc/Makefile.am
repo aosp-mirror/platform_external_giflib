@@ -14,10 +14,23 @@ SUFFIXES = .xml .html .txt .asc .1
 
 all: allhtml manpages
 
-XMLMAN = gif2rgb.xml gifbg.xml gifclrmp.xml gifcolor.xml giffilter.xml	\
-	giffix.xml gifhisto.xml gifinter.xml gifinto.xml gifsponge.xml 	\
-	giftext.xml giftool.xml gifwedge.xml gifbuild.xml gif2raw.xml	\
-	gifecho.xml
+XMLMAN = \
+	gif2raw.xml \
+	gif2rgb.xml \
+	gifbg.xml \
+	gifbuild.xml \
+	gifclrmp.xml \
+	gifcolor.xml \
+	gifecho.xml \
+	giffilter.xml \
+	giffix.xml \
+	gifhisto.xml \
+	gifinter.xml \
+	gifinto.xml \
+	gifsponge.xml \
+	giftext.xml \
+	giftool.xml \
+	gifwedge.xml
 XMLDOC = intro.xml gif_lib.xml
 XMLALL = $(XMLMAN) $(XMLDOC)
 TXTDOC = 00README gif87.txt gif89.txt lzgif.txt

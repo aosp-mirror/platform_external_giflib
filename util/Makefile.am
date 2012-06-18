@@ -1,8 +1,21 @@
+# GIFLIB utilities makefile
+
+# The no-install programs are test pattern generators and example code.
+noinst_PROGRAMS = gifbg gifcolor giffilter gifhisto gifsponge gifwedge
 
 noinst_LIBRARIES = libgetarg.a
-bin_PROGRAMS = gif2rgb gifbg giffix gifhisto gifinter gifinto \
-    giftext gifwedge gif2raw gifecho gifsponge giffilter \
-    gifbuild gifcolor giftool @COMPILABLE_EXTRAS@
+
+bin_PROGRAMS = \
+	gif2raw \
+	gif2rgb \
+	gifbuild \
+	gifecho \
+	giffix \
+	gifinter \
+	gifinto \
+	giftext \
+	giftool \
+	@COMPILABLE_EXTRAS@
 EXTRA_PROGRAMS = gifclrmp
 
 EXTRA_DIST=Makefile.unx $(bin_SCRIPTS)
@@ -17,18 +30,18 @@ libgetarg_a_SOURCES = getarg.c getarg.h \
 gifclrmp_SOURCES = gifclrmp.c
 gifclrmp_LDADD = $(LDADD) @MATH_LIB@
 
+gif2raw_SOURCES = gif2raw.c
 gif2rgb_SOURCES = gif2rgb.c
 gifbg_SOURCES = gifbg.c
+gifbuild_SOURCES = gifbuild.c
+gifcolor_SOURCES = gifcolor.c
+gifecho_SOURCES = gifecho.c
+giffilter_SOURCES = giffilter.c
 giffix_SOURCES = giffix.c
 gifhisto_SOURCES = gifhisto.c
 gifinter_SOURCES = gifinter.c
 gifinto_SOURCES = gifinto.c
-giftext_SOURCES = giftext.c
-gifwedge_SOURCES = gifwedge.c
-gif2raw_SOURCES = gif2raw.c
-gifecho_SOURCES = gifecho.c
 gifsponge_SOURCES = gifsponge.c
-giffilter_SOURCES = giffilter.c
-gifbuild_SOURCES = gifbuild.c
-gifcolor_SOURCES = gifcolor.c
+giftext_SOURCES = giftext.c
 giftool_SOURCES = giftool.c
+gifwedge_SOURCES = gifwedge.c
