@@ -88,7 +88,7 @@ hotlink to HTML documentation.</para>
 <varlistentry>
 <term><ulink url="gif2raw.html">gif2raw</ulink></term>
 <listitem>
-<para>convert raw 8-bit image data into GIF files</para>
+<para>convert GIF files into raw 8-bit image data or vice-versa</para>
 </listitem>
 </varlistentry>
 </variablelist>
