@@ -1,4 +1,5 @@
 # Regression-test suite for the giflib library and tools
+# All utilities have tests except gifbg, gifcolor, giffix, and gifhisto.
 
 .SUFFIXES: .gif .rgb
 

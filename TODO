@@ -19,4 +19,5 @@ Accordingly, the top to-do item is...
 
 == More regression tests ==
 
-Not all the utilities have tests yet. See the file tests/coverage.asc.
+Not all the utilities have tests yet. See the header comment of the
+file tests/makefile
