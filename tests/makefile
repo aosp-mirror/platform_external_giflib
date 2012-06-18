@@ -1,5 +1,5 @@
 # Regression-test suite for the giflib library and tools
-# All utilities have tests except gifbg, gifcolor, giffix, and gifhisto.
+# All utilities have tests except gifbg, gifcolor, and gifhisto.
 
 .SUFFIXES: .gif .rgb
 
@@ -11,6 +11,7 @@ test: render-regress \
 	gifclrmp-regress \
 	gifecho-regress \
 	giffilter-regress \
+	giffix-regress \
 	gifinter-regress \
 	gifsponge-regress \
 	giftext-regress \
@@ -22,6 +23,7 @@ rebuild: render-buildregress \
 		gif2rgb-buildregress \
 		gifclrmp-buildregress \
 		gifecho-buildregress \
+		giffix-buildregress \
 		giftext-buildregress \
 		misc-buildregress
 
@@ -105,6 +107,13 @@ giffilter-regress:
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
 	@rm -f /tmp/regress
+
+giffix-buildregress:
+	@echo "Rebuilding giffix test."
+	@head --bytes=-20 <$(PICS)/treescap.gif | $(UTILS)/giffix 2>/dev/null | $(UTILS)/gifbuild -d >giffixed.ico
+giffix-regress:
+	@echo "giffix: Testing behavior"
+	@head --bytes=-20 <$(PICS)/treescap.gif | $(UTILS)/giffix 2>/dev/null | $(UTILS)/gifbuild -d | diff -u giffixed.ico -
 
 gifinter-regress:
 	@echo "gifinter: Checking that it de-interlaces correctly."
