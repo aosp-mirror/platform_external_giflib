@@ -107,4 +107,4 @@ GIF89 application block (Ext Code = 255 [ ]):
 00050:  2                                                 .gif             
 00060:  0                                                    New-5.gif     
 00070:  0                                                            new-6 
-Gif file terminated normally.
+GIF file terminated normally.

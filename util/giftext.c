@@ -294,7 +294,7 @@ int main(int argc, char **argv)
 	exit(EXIT_FAILURE);
     }
 
-    if (!RawFlag) printf("\nGif file terminated normally.\n");
+    if (!RawFlag) printf("\nGIF file terminated normally.\n");
 
     return 0;
 }

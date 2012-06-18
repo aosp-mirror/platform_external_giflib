@@ -136,8 +136,9 @@ giftool-regress:
 	@$(UTILS)/giftool -i off <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
 
 misc-buildregress:
-	$(UTILS)/gifwedge >wedge.gif
-	$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/gifbuild -d >treescap.ico
+	@echo "Remaking miscellaneous tests."
+	@$(UTILS)/gifwedge >wedge.gif
+	@$(UTILS)/gifpos -s 680 480 <$(PICS)/treescap.gif | $(UTILS)/gifbuild -d >treescap.ico
 
 misc-regress:
 	@echo "gifwedge: Checking wedge generation."

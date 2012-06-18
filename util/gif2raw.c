@@ -137,7 +137,7 @@ int main(int argc, char **argv)
     #endif /* _WIN32 */
 	}
 
-	/* Convert Raw image from stdin to Gif file in stdout: */
+	/* Convert Raw image from stdin to GIF file in stdout: */
 	Raw2Gif(ImageWidth, ImageHeight, ColorMap);
     }
     else {
