@@ -6,10 +6,9 @@
 #
 #   This test assumes the gif_lib utilities are available from one of the
 # path directories, and that GIF_DIR is set (directly or through command line)
-# to the directory holding these gif files:
-# 1. solid2.gif
-# 2. gifgrid.gif
-# 3. porsche.gif
+# to the directory holding these GIF files:
+# 1. gifgrid.gif
+# 2. porsche.gif
 #   In addition, set GIF_DISPLAY (directly or through command line) to the
 # program to display GIFs on our system.
 #

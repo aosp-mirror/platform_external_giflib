@@ -7,6 +7,7 @@ test: render-regress \
 	gif2raw-regress \
 	gifbuild-regress \
 	gifclrmp-regress \
+	gifecho-regress \
 	giffilter-regress \
 	gifinter-regress \
 	gifsponge-regress \
@@ -15,8 +16,9 @@ test: render-regress \
 	misc-regress
 	@echo "No output is good news"
 
-rebuild: render-buildregress misc-buildregress \
-		gifclrmp-buildregress giftext-buildregress
+rebuild: render-buildregress gifecho-buildregress \
+		gifclrmp-buildregress giftext-buildregress \
+		misc-buildregress
 
 UTILS = ../util
 PICS = ../pic
@@ -71,6 +73,13 @@ gifclrmp-buildregress:
 		echo "Remaking $${stem}.map"; \
 		$(UTILS)/gifclrmp <$${test} >$${stem}.map; \
 	done
+
+gifecho-buildregress:
+	@echo "Rebuilding gifecho test."
+	@$(UTILS)/gifecho -t "foobar" | $(UTILS)/gifbuild -d >foobar.ico
+gifecho-regress:
+	@echo "gifecho: Testing behavior"
+	@$(UTILS)/gifecho -t "foobar" | $(UTILS)/gifbuild -d | diff -u foobar.ico -
 
 giffilter-regress:
 	@for test in $(GIFS); \
