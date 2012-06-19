@@ -134,9 +134,7 @@ dir.  See below (-m &amp; -M) for min &amp; max. Default is Blue (0,
 </variablelist>
 
 <para>If min == max = 100 (%) and lvls == 2 then boolean mask image
-of specified size will be created - all foreground.  This can be used
-as a square mask for the <ulink url="gifcomb.html"></ulink>gifcomb
-utility.</para>
+of specified size will be created - all foreground.</para>
 
 </refsect1>
 <refsect1><title>Author</title>
