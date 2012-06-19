@@ -64,6 +64,12 @@ functions in the API to read and modify them.</para>
 at this page through a web browser, each utility name should be a
 hotlink to HTML documentation.</para>
 
+<para>Most utilities have a -v (verbose) option that will cause them to print
+the current input scan line number (counting up) whenever they read
+image input, and will print output image line number (counting down)
+when they dump output.  Utilities that only read or write always print
+in increasing order.</para>
+
 <sect2><title>Conversion Utilities</title>
 
 <variablelist>
@@ -176,30 +182,6 @@ hotlink to HTML documentation.</para>
 </listitem>
 </varlistentry>
 </variablelist>
-
-</sect2>
-<sect2><title>C Code Templates</title>
-
-<variablelist>
-<varlistentry>
-<term><ulink url="giffilter.html">giffilter</ulink></term>
-<listitem>
-<para>template code for filtering a GIF sequentially</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><ulink url="gifsponge.html">gifsponge</ulink></term>
-<listitem>
-<para>template code for filtering a GIF with in-core operations</para>
-</listitem>
-</varlistentry>
-</variablelist>
-
-<para>Most filters have a -v (verbose) option that will cause them to print
-the current input scan line number (counting up) whenever they read
-image input, and will print output image line number (counting down)
-when they dump output.  Utilities that only read or write always print
-in increasing order.</para>
 
 </sect2>
 </sect1>
