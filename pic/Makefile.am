@@ -1,5 +1,4 @@
 EXTRA_DIST = NOTES \
-	     cover.gif \
 	     fire.gif \
 	     gifgrid.gif \
 	     porsche.gif \
