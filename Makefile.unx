@@ -1,7 +1,7 @@
+# (Note: this is not presently used, there's an autoconf build.)
 #
 # Top-level Unix makefile for the GIFLIB package
 # Should work for all Unix versions
-# (Note: this is not presently used, there's an autoconf build.)
 #
 VERSION=3.0
 
@@ -20,8 +20,7 @@ uninstall:
 clean:
 	cd lib; make clean
 	cd util; make clean
-	rm -f giflib-$(VERSION)-1.i386.rpm giflib-$(VERSION)-1.src.rpm \
-		giflib-$(VERSION).tar.gz core giflib.lsm
+	rm -f giflib-$(VERSION).tar.gz core
 
 giflib-$(VERSION).tar:
 	(cd ..; tar cvf giflib-$(VERSION)/giflib-$(VERSION).tar `cat giflib-$(VERSION)/MANIFEST | sed "/\(^\| \)/s// giflib-$(VERSION)\//g"`)
@@ -30,8 +29,5 @@ giflib-$(VERSION).tar.gz: giflib-$(VERSION).tar
 
 dist: Makefile
 	make giflib-$(VERSION).tar.gz
-	lsmgen.sh $(VERSION) `wc -c giflib-$(VERSION).tar.gz` >giflib.lsm
-	make giflib-$(VERSION).tar.gz
 	ls -l giflib-$(VERSION).tar.gz
-	@echo "Don't forget to build RPMs from root!"
 
