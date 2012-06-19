@@ -52,8 +52,6 @@ doc/giffix.1
 doc/giffix.html
 doc/gifhisto.1
 doc/gifhisto.html
-doc/gifinter.1
-doc/gifinter.html
 doc/gifinto.1
 doc/gifinto.html
 doc/giflib.1
@@ -83,7 +81,6 @@ util/gifecho
 util/giffilter
 util/giffix
 util/gifhisto
-util/gifinter
 util/gifinto
 util/gifsponge
 util/giftext

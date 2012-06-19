@@ -133,12 +133,6 @@ of a local installation of the tools.
 <para>clumsily attempts to fix truncated GIF images</para>
 </listitem>
 </varlistentry>
-<varlistentry>
-<term><ulink url="gifinter.html">gifinter</ulink></term>
-<listitem>
-<para>convert between interlaced and non interlaced images</para>
-</listitem>
-</varlistentry>
 </variablelist>
 
 </sect2>

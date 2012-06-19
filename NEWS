@@ -7,6 +7,10 @@ Documentation and polish
 ------------------------
 * There is now an installable manual page for the GIFLIB utility kit.
 
+Retirements
+-----------
+* gifinter is gone.  Use convert -interlace from the ImageMagic suite.
+
 Version 5.0.0
 =============
 

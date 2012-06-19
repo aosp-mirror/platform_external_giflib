@@ -24,13 +24,14 @@ processing images encoded using GIF (Graphics Interchange Format).</para>
 
 <para>These utilities are not intended to compete with or replace
 multi-format graphics toolkits like ImageMagick or the Python Imaging
-Library, or graphics editors such as the GIMP. Find one of those, or an 
-equivalent, if you need to crop, scale, rotate, or perform other conventional
-image transformations. Rather, these are intended to facilitate GIF-specific
-operations which multi-format tools may not adequately support.</para>
+Library, or graphics editors such as the GIMP. Find one of those, or
+an equivalent, if you need to crop, scale, rotate, toggle interlacing,
+or perform other conventional image transformations. Rather, these are
+intended to facilitate GIF-specificoperations which multi-format tools
+may not adequately support.</para>
 
 <para>API documentation for the service library is best viewed through
-a browser at the project website.</para>
+a browser at the project website: &project;.</para>
 
 </refsect1>
 <refsect1><title>See Also</title>

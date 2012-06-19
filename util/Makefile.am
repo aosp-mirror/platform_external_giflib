@@ -11,7 +11,6 @@ bin_PROGRAMS = \
 	gifbuild \
 	gifecho \
 	giffix \
-	gifinter \
 	gifinto \
 	giftext \
 	giftool \
@@ -39,7 +38,6 @@ gifecho_SOURCES = gifecho.c
 giffilter_SOURCES = giffilter.c
 giffix_SOURCES = giffix.c
 gifhisto_SOURCES = gifhisto.c
-gifinter_SOURCES = gifinter.c
 gifinto_SOURCES = gifinto.c
 gifsponge_SOURCES = gifsponge.c
 giftext_SOURCES = giftext.c

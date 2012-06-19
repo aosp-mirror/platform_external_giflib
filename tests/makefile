@@ -12,7 +12,6 @@ test: render-regress \
 	gifecho-regress \
 	giffilter-regress \
 	giffix-regress \
-	gifinter-regress \
 	gifsponge-regress \
 	giftext-regress \
 	giftool-regress \
@@ -114,12 +113,6 @@ giffix-rebuild:
 giffix-regress:
 	@echo "giffix: Testing giffix behavior"
 	@head --bytes=-20 <$(PICS)/treescap.gif | $(UTILS)/giffix 2>/dev/null | $(UTILS)/gifbuild -d | diff -u giffixed.ico -
-
-gifinter-regress:
-	@echo "gifinter: Checking that it de-interlaces correctly."
-	@$(UTILS)/gifinter -s <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
-	@echo "gifinter: Checking that it interlaces correctly."
-	@$(UTILS)/gifinter -i <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
 
 gifinto-regress:
 	@echo "gifinto: Checking behavior on short files."
