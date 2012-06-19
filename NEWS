@@ -20,9 +20,6 @@ Code Fixes
 ----------
 * Fixes applied for CVE-2005-2974 and CVE-2005-3350
   This closes Debian bug #337972.
-* The amazingly obscure colormap sort flag and pixel aspect ratio
-  features of GIF are now read and preserved, for whatever good that
-  may do.
 
 New API Features
 ----------------
@@ -73,6 +70,9 @@ All functions exported by giflib now have DGif, EGif, or Gif as a name prefix.
 Other changes
 ~~~~~~~~~~~~~
 * DGifSlurp() and EGifSpew() now read and write interlaced images properly.
+* The amazingly obscure colormap sort flag and pixel aspect ratio
+  features of GIF are now read and preserved, for whatever good that
+  may do.
 * Six undocumented functions have been renamed; five of these take additional
   or slightly different argument types. See the Compatibility section of
   the library API documentation for details.
@@ -129,6 +129,8 @@ Utilities
   on GIFs, including: setting background and transparency colors, changing
   interlacing, setting image delays, setting the user-input flag, and setting
   the aspect-ratio byte.  It can sequence multiple operations.
+* The test-pattern generators gifbg, gifcolor, gihisto and gifwedge and the
+  code templates giffilter and gifsponge are no longer installed by default.
 
 Documentation and polish
 ------------------------
