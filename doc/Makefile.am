@@ -26,6 +26,7 @@ XMLMAN = \
 	gifhisto.xml \
 	gifinter.xml \
 	gifinto.xml \
+	giflib.xml \
 	giftext.xml \
 	giftool.xml \
 	gifwedge.xml
