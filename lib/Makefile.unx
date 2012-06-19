@@ -3,9 +3,9 @@
 # This is the make file for the lib subdirectory of the GIF library
 # You'll need GNU gcc or some other ANSI-complient compiler.
 #
-VERSION = 3.0
+LIBVERSION = 3.0
 
-SHLIB = libgif.so.$(VERSON)
+SHLIB = libgif.so.$(LIBVERSION)
 
 # Where all the include files are:
 INCS = -I.
@@ -33,7 +33,7 @@ libgif.a: $(OBJS)
 	-ranlib libgif.a
 
 $(SHLIB): $(OBJS)
-	rm -f libgif.so.$(VERSION)
+	rm -f libgif.so.$(LIBVERSION)
 	gcc -shared -o $(SHLIB) $(OBJS)
 
 egif_lib.o: gif_lib.h gif_hash.h
@@ -47,9 +47,9 @@ qprintf.o: gif_lib.h
 getarg.o: getarg.h
 
 install-lib: libgif.a
-	cp libgif.a libgif.so.$(VERSION) $(LIBDIR)
+	cp libgif.a libgif.so.$(LIBVERSION) $(LIBDIR)
 
 uninstall-lib: shared static
 	rm -f $(LIBDIR)/libgif.a $(LIBDIR)/$(SHLIB)
 clean:
-	rm -f *.[oa] *~ libgif.so.$(VERSION)
+	rm -f *.[oa] *~ libgif.so.$(LIBVERSION)
