@@ -49,7 +49,7 @@ EXTRA_DIST = $(SOURCES) $(XMLMAN:.xml=.1)
 website: allhtml
 	rm -fr staging; mkdir staging; 
 	cp -r $(XMLALL:.xml=.html) $(SITEHTML) *.txt whatsinagif staging
-	convert ../pic/gifgrid.gif --resize 50x50 staging/giflib-logo.gif
+	convert ../pic/gifgrid.gif -resize 50x50 staging/giflib-logo.gif
 	asciidoc - <../history.asc >staging/history.html
 
 clean-local:
