@@ -146,13 +146,11 @@ GifErrorString() in gif_err.c.</para>
 GifFileType *DGifOpenFileName(char *GifFileName, int *ErrorCode)
 </programlisting>
 
-<para>Open a new GIF file using the given GifFileName, and read its Screen
-information.</para>
+<para>Open a new GIF file (in binary mode, if under Windows) using the
+given GifFileName, and read its Screen information.</para>
 
-<para>If any error occurs, NULL is returned and ErrorCode is set.</para>
-
-<para>The file is opened in binary mode, and its buffer size is set to
-FILE_BUFFER_SIZE bytes.</para>
+<para>If any error occurs, NULL is returned and ErrorCode is set (if
+non-NULL).</para>
 
 <programlisting id="DGifOpenFileHandle">
 GifFileType *DGifOpenFileHandle(int FileHandle, int *ErrorCode)
@@ -161,7 +159,8 @@ GifFileType *DGifOpenFileHandle(int FileHandle, int *ErrorCode)
 <para>Open a new GIF file using the given FileHandle, and read its Screen
 information.</para>
 
-<para>If any error occurs, NULL is returned and ErrorCode is set.</para>
+<para>If any error occurs, NULL is returned and ErrorCode is set (if
+non-NULL).</para>
 
 <para>Once you have acquired a handle on a GIF, the high-level
 function</para>
@@ -833,14 +832,11 @@ to use the following functions for sequential write.</para>
 GifFileType *EGifOpenFileName(char *GifFileName, bool GifTestExistance, int *ErrorCode)
 </programlisting>
 
-<para>Open a new GIF file using the given GifFileName.  If GifTestExistance
-is TRUE, and file exists, the file is not destroyed, and NULL
-returned.</para>
+<para>Open a new GIF file using the given GifFileName (in binary mode,
+if under Windows).  If GifTestExistance is TRUE, and file exists, the
+file is not destroyed, and NULL returned.</para>
 
 <para>If any error occurs, NULL is returned and the ErrorCode is set.</para>
-
-<para>The file is opened in binary mode, and its buffer size is set to
-FILE_BUFFER_SIZE bytes.</para>
 
 <programlisting id="EGifOpenFileHandle">
 GifFileType *EGifOpenFileHandle(int GifFileHandle, int *ErrorCode)
