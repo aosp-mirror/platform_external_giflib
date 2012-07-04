@@ -17,11 +17,10 @@ two modules will be linked.  Preserve this property!
 
 #ifdef _WIN32
 #include <io.h>
-#include <sys\stat.h>
 #else
 #include <sys/types.h>
-#include <sys/stat.h>
 #endif /* _WIN32 */
+#include <sys/stat.h>
 
 #include "gif_lib.h"
 #include "gif_lib_private.h"
