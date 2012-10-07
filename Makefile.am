@@ -9,6 +9,7 @@ EXTRA_DIST = Makefile.unx \
 	     build.asc \
 	     history.asc \
 	     control \
+	     doc/whatsinagif
 	     $(WINDOWS)
 
 TESTS=test.sh
