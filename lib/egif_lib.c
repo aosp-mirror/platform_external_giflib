@@ -189,6 +189,7 @@ EGifGetGifVersion(GifFileType *GifFile)
     int i, j;
 
     /* Bulletproofing - always write GIF89 if we need to */
+    Private->gif89 = false;
     for (i = 0; i < GifFile->ImageCount; i++) {
         for (j = 0; j < GifFile->SavedImages[i].ExtensionBlockCount; j++) {
             int function =

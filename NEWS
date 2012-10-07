@@ -11,6 +11,13 @@ Retirements
 -----------
 * gifinter is gone.  Use convert -interlace from the ImageMagic suite.
 
+Code Fixes
+----------
+* In 5.0.0 the private gif89 bit wasn't being guaranteed cleared at
+  the beginning of EGifGetGifVersion(); this occasionally led to an
+  incorrect version prefix being issued dependent on the state of
+  malloced memory.
+
 Version 5.0.0
 =============
 
