@@ -17,6 +17,9 @@ Code Fixes
   the beginning of EGifGetGifVersion(); this occasionally led to an
   incorrect version prefix being issued dependent on the state of
   malloced memory.
+* An EGifSetGifVersion() function taking a GifFile argument has been 
+  added for use with the low-level sequential API. This change requires
+  a bump of the library revision number.
 
 Version 5.0.0
 =============

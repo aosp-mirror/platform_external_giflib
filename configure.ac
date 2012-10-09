@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(giflib, [5.0.0], [esr@thyrsus.com], giflib)
+AC_INIT(giflib, [5.0.1], [esr@thyrsus.com], giflib)
 AC_CONFIG_SRCDIR([lib/dgif_lib.c])
 AM_INIT_AUTOMAKE([gnu dist-bzip2 -Wall])
 
@@ -17,7 +17,7 @@ AC_PROG_MAKE_SET
 AM_PROG_CC_C_O
 
 dnl Shared-library version
-SHLIBVERSION=6:0:0
+SHLIBVERSION=6:1:0
 
 dnl Define warnings if we're compiling with gcc.
 dnl Set it in CFLAGS so the end-user can disable it if they wish.

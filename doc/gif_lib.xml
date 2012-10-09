@@ -855,6 +855,15 @@ char *EGifGetGifVersion(GifFileType *GifFile)
 
 <para>That version computation is available through this function.</para>
 
+<programlisting id="EGifSetGifVersion">
+void EGifSetGifVersion(GifFileType *GifFile, bool gif89)
+</programlisting>
+
+<para>Set the GIF type, to GIF89 if the argument is true and GIF87 if
+it is false.  The default type is GIF87. This function may be called
+aftert the GifFile record is allocated but before
+EGifPutScreenDesc().</para>
+
 <programlisting>
 int EGifPutScreenDesc(GifFileType *GifFile,
         const int GifWidth, const GifHeight,

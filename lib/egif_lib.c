@@ -174,6 +174,8 @@ EGifOpen(void *userData, OutputFunc writeFunc, int *Error)
     Private->Write = writeFunc;    /* User write routine (MRB) */
     GifFile->UserData = userData;    /* User write handle (MRB) */
 
+    Private->gif89 = false;	/* initially, write GIF87 */
+
     GifFile->Error = 0;
 
     return GifFile;
@@ -188,8 +190,12 @@ EGifGetGifVersion(GifFileType *GifFile)
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
     int i, j;
 
-    /* Bulletproofing - always write GIF89 if we need to */
-    Private->gif89 = false;
+    /* 
+     * Bulletproofing - always write GIF89 if we need to.
+     * Note, we don't clear the gif89 flag here because
+     * users of the sequential API might have called EGifSetGifVersion()
+     * in order to set that flag.
+     */
     for (i = 0; i < GifFile->ImageCount; i++) {
         for (j = 0; j < GifFile->SavedImages[i].ExtensionBlockCount; j++) {
             int function =
@@ -216,6 +222,20 @@ EGifGetGifVersion(GifFileType *GifFile)
 	return GIF89_STAMP;
     else
 	return GIF87_STAMP;
+}
+
+/******************************************************************************
+ Set the GIF version. In the extremely unlikely event that there is ever
+ another version, replace the bool argument with ann enum in which the 
+ GIF87 value is 0 (numerically the same as bool false) and the GIF89 value
+ is 1 (numerically the same as bool true).  That way we'll even preserve
+ object-file compatibility!
+******************************************************************************/
+int EGifSetGifVersion(GifFileType *GifFile, const bool gif89)
+{
+    GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
+
+    Private->gif89 = gif89;
 }
 
 /******************************************************************************
