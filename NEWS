@@ -1,7 +1,11 @@
 			GIFLIB NEWS
 
-Repository head
-===============
+Short summary of recent news:
+ Added an EGifSetGifVersion() entry point.
+ This release will only be of interest to those using the low-level API.
+
+Version 5.0.1
+=============
 
 Documentation and polish
 ------------------------
