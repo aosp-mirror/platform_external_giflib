@@ -32,15 +32,6 @@ if test "x$GCC" = "xyes" ; then
   CFLAGS="$CFLAGS -Wall"
 fi
 
-dnl Checks for additional libtool flags (platform-dependant)
-LT_LDFLAGS=""
-case "$host" in
-  *mingw*)
-    LT_LDFLAGS="-no-undefined"
-    ;;
-esac
-AC_SUBST(LT_LDFLAGS)
-
 AC_CHECK_HEADERS(limits.h, ,
                  AC_MSG_ERROR([giflib needs limits.h to compile]))
 AC_CHECK_HEADERS(fcntl.h, ,

@@ -16,5 +16,5 @@ libgif_la_SOURCES = dgif_lib.c  \
 					gif_lib_private.h \
 		    quantize.c
 
-libgif_la_LDFLAGS = -version-info @SHLIBVERSION@ $(LT_LDFLAGS)
+libgif_la_LDFLAGS = -no-undefined -version-info @SHLIBVERSION@
 libgif_CFLAGS = $(X_CFLAGS) $(AM_CFLAGS)
