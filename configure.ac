@@ -2,6 +2,8 @@ dnl Process this file with autoconf to produce a configure script.
 AC_INIT(giflib, [5.0.1], [esr@thyrsus.com], giflib)
 AC_CONFIG_SRCDIR([lib/dgif_lib.c])
 AM_INIT_AUTOMAKE([gnu dist-bzip2 -Wall])
+dnl Make builds less verbose.  Shuts off Makefile portability checks.
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl Note: config.h is not used in the current build
 dnl We leave this in place only to supptess an error message at autogen time
