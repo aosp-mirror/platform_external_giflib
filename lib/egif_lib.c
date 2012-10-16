@@ -226,12 +226,12 @@ EGifGetGifVersion(GifFileType *GifFile)
 
 /******************************************************************************
  Set the GIF version. In the extremely unlikely event that there is ever
- another version, replace the bool argument with ann enum in which the 
+ another version, replace the bool argument with an enum in which the 
  GIF87 value is 0 (numerically the same as bool false) and the GIF89 value
  is 1 (numerically the same as bool true).  That way we'll even preserve
  object-file compatibility!
 ******************************************************************************/
-int EGifSetGifVersion(GifFileType *GifFile, const bool gif89)
+void EGifSetGifVersion(GifFileType *GifFile, const bool gif89)
 {
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
 
