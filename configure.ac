@@ -24,6 +24,7 @@ AM_CONDITIONAL([BUILD_DOC], [test "x${have_xmlto}" = "xyes"])
 
 dnl Shared-library version
 SHLIBVERSION=6:1:0
+AC_SUBST(SHLIBVERSION)
 
 dnl Define warnings if we're compiling with gcc.
 dnl Set it in CFLAGS so the end-user can disable it if they wish.
@@ -32,22 +33,12 @@ if test "x$GCC" = "xyes" ; then
 fi
 
 dnl Checks for additional libtool flags (platform-dependant)
-
 LT_LDFLAGS=""
 case "$host" in
   *mingw*)
     LT_LDFLAGS="-no-undefined"
     ;;
 esac
-
-dnl Checks for libraries.
-
-AC_CHECK_LIB(m, pow, [MATH_LIB="${MATH_LIB} -lm"
-		      COMPILABLE_EXTRAS="${COMPILABLE_EXTRAS} gifclrmp${EXEEXT}"] )
-
-AC_SUBST(COMPILABLE_EXTRAS)
-AC_SUBST(MATH_LIB)
-AC_SUBST(SHLIBVERSION)
 AC_SUBST(LT_LDFLAGS)
 
 AC_CHECK_HEADERS(limits.h, ,

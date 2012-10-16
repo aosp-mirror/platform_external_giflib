@@ -14,8 +14,7 @@ bin_PROGRAMS = \
 	gifinto \
 	giftext \
 	giftool \
-	@COMPILABLE_EXTRAS@
-EXTRA_PROGRAMS = gifclrmp
+	gifclrmp
 
 EXTRA_DIST=Makefile.unx $(bin_SCRIPTS)
 
@@ -27,7 +26,7 @@ libgetarg_a_SOURCES = getarg.c getarg.h \
                     qprintf.c
 
 gifclrmp_SOURCES = gifclrmp.c
-gifclrmp_LDADD = $(LDADD) @MATH_LIB@
+gifclrmp_LDADD = $(LDADD) -lm
 
 gif2raw_SOURCES = gif2raw.c
 gif2rgb_SOURCES = gif2rgb.c
