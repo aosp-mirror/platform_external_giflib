@@ -4,6 +4,7 @@ EXTRA_DIST = NOTES \
 	     porsche.gif \
 	     solid2.gif \
 	     treescap.gif \
+	     treescap-interlaced.gif \
 	     welcome2.gif \
 	     x-trans.gif \
 	     sample.ico
