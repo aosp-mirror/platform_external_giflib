@@ -51,7 +51,7 @@ int main(int argc, char **argv)
     int	NumFiles;
     bool Error, MinSizeFlag = false, HelpFlag = false;
     char **FileName = NULL,
-        TmpName[STRLEN], FoutTmpName[STRLEN], FullPath[STRLEN], DefaultName[STRLEN], s[STRLEN], *p;
+        FoutTmpName[STRLEN], FullPath[STRLEN], DefaultName[STRLEN], s[STRLEN], *p;
     FILE *Fin, *Fout;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
