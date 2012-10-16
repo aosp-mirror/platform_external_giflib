@@ -21,9 +21,11 @@ gifinto - save GIF on stdin to file if size over set threshold
 
 #define PROGRAM_NAME	"gifinto"
 
+#define STRLEN		512
+
 #define DEFAULT_MIN_FILE_SIZE	14     /* More than GIF stamp + screen desc. */
 #define	DEFAULT_OUT_NAME	"GifInto.Gif"
-#define DEFAULT_TMP_NAME	"TempInto.$$$"
+#define DEFAULT_TMP_NAME	"TempInto.XXXXXX"
 
 static char
     *VersionStr =
@@ -49,7 +51,7 @@ int main(int argc, char **argv)
     int	NumFiles;
     bool Error, MinSizeFlag = false, HelpFlag = false;
     char **FileName = NULL,
-        TmpName[80], FoutTmpName[80], FullPath[80], DefaultName[80], s[80], *p;
+        TmpName[STRLEN], FoutTmpName[STRLEN], FullPath[STRLEN], DefaultName[STRLEN], s[STRLEN], *p;
     FILE *Fin, *Fout;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
@@ -85,7 +87,9 @@ int main(int argc, char **argv)
     /* Isolate the directory where our destination is, and set tmp file name */
     /* in the very same directory. This code is isecure because it creates   */
     /* predictable names, but it's not worth the effort and risk to fix.     */
-    strncpy(FullPath, *FileName, sizeof(FullPath)-1);
+    if ( *FileName == NULL ) GIF_EXIT("No valid Filename given.");
+    if ( strlen(*FileName) > STRLEN-1 ) GIF_EXIT("Filename too long.");
+    strncpy(FullPath, *FileName, STRLEN);
     if ((p = strrchr(FullPath, '/')) != NULL ||
 	(p = strrchr(FullPath, '\\')) != NULL)
 	p[1] = 0;
@@ -94,17 +98,19 @@ int main(int argc, char **argv)
     else
 	FullPath[0] = 0;		  /* No directory or disk specified. */
 
-    strcpy(FoutTmpName, FullPath);   /* Generate destination temporary name. */
-    /* Make sure the temporary is made in the current directory: */
-    /* coverity[secure_temp] */
-    p = tmpnam(TmpName);
-    if (strrchr(p, '/')) p = strrchr(p, '/') + 1;
-    if (strrchr(p, '\\')) p = strrchr(p, '\\') + 1;
-    if (strlen(p) == 0) p = DEFAULT_TMP_NAME;
-    strcat(FoutTmpName, p);
-
-    Fout = fopen(FoutTmpName, "wb");
-    if (Fout == NULL)
+    if ( strlen(FullPath) > STRLEN-1 ) GIF_EXIT("Filename too long.");
+    strncpy(FoutTmpName, FullPath, STRLEN);   /* First setup the Path */
+    /* then add a name for the tempfile */
+    if ( (strlen(FoutTmpName) + strlen(DEFAULT_TMP_NAME))  > STRLEN-1 ) GIF_EXIT("Filename too long.");
+    strcat(FoutTmpName, DEFAULT_TMP_NAME);
+    int FD;
+    FD = mkstemp(FoutTmpName); /* returns filedescriptor */
+    if (FD == -1 )
+    {
+	GIF_EXIT("Failed to open output.");
+    }
+    Fout = fdopen(FD, "w"); /* returns a stream with FD */
+    if (Fout == NULL )
     {
 	GIF_EXIT("Failed to open output.");
     }
@@ -119,11 +125,11 @@ int main(int argc, char **argv)
 	fclose(Fout);
 	unlink(*FileName);
 	if (rename(FoutTmpName, *FileName) != 0) {
-	    strcpy(DefaultName, FullPath);
+	    if ( (strlen(FullPath) + strlen(DEFAULT_OUT_NAME)) > STRLEN-1 ) GIF_EXIT("Filename too long.");
+	    strncpy(DefaultName, FullPath, STRLEN);
 	    strcat(DefaultName, DEFAULT_OUT_NAME);
 	    if (rename(FoutTmpName, DefaultName) == 0) {
-		(void)snprintf(s, sizeof(s), 
-			      "Failed to rename out file - left as %s.",
+		snprintf(s, STRLEN, "Failed to rename out file - left as %s.",
 			      DefaultName);
 		GIF_MESSAGE(s);
 	    }
