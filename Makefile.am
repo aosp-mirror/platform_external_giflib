@@ -1,4 +1,9 @@
-SUBDIRS = lib util doc pic
+SUBDIRS = lib util pic
+
+# Avoid trouble if your system doesn't have xmlto.
+if BUILD_DOC
+SUBDIRS += doc
+endif
 
 EXTRA_DIST = Makefile.unx \
 	     autogen.sh \

@@ -6,7 +6,7 @@ dnl Make builds less verbose.  Shuts off Makefile portability checks.
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl Note: config.h is not used in the current build
-dnl We leave this in place only to supptess an error message at autogen time
+dnl We leave this in place only to suppress an error message at autogen time
 AM_CONFIG_HEADER(config.h)
 
 dnl Checks for programs.
@@ -17,6 +17,10 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AM_PROG_CC_C_O
+
+dnl Allow partial building on systems without xmlto
+AC_CHECK_PROG([have_xmlto], [xmlto], ["yes"],["no"])
+AM_CONDITIONAL([BUILD_DOC], [test "x${have_xmlto}" = "xyes"])
 
 dnl Shared-library version
 SHLIBVERSION=6:1:0
