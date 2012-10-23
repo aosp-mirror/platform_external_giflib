@@ -89,6 +89,7 @@ int main(int argc, char **argv)
     /* predictable names, but it's not worth the effort and risk to fix.     */
     if ( *FileName == NULL ) GIF_EXIT("No valid Filename given.");
     if ( strlen(*FileName) > STRLEN-1 ) GIF_EXIT("Filename too long.");
+    memset(FullPath, '\0', sizeof(FullPath));
     strncpy(FullPath, *FileName, STRLEN);
     if ((p = strrchr(FullPath, '/')) != NULL ||
 	(p = strrchr(FullPath, '\\')) != NULL)
