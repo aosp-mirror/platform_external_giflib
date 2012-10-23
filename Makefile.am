@@ -35,8 +35,8 @@ SPLINT_SUPPRESSIONS = -boolops -nullret
 splint: 
 	splint +quiet +posixlib $(SPLINT_SUPPRESSIONS) lib/*.[ch]
 
-# release using the shipper tool
-release: dist
+# release using the shipper tool, if distcheck passes
+release: distcheck
 	cd doc; make website
 	shipper -u -m -t; make clean
 	rm -fr doc/staging
