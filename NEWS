@@ -1,8 +1,21 @@
 			GIFLIB NEWS
 
 Short summary of recent news:
- Added an EGifSetGifVersion() entry point.
- This release will only be of interest to those using the low-level API.
+  Change unused return of EGifSetGifVersion() to void.
+  Minor build simplification and packaging fixes.
+  Fix SF tracker bug #3577691: treescap-interlaced.gif missing from tarball.
+
+Version 5.0.2
+=============
+
+Documentation and polish
+------------------------
+* Partial build is now possible on systems without xmlto.
+
+Code Fixes
+----------
+* Change unused return of EGifSetGifVersion() to void.
+* Buffer overrun prevention in gifinto.
 
 Version 5.0.1
 =============
