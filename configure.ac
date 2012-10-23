@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(giflib, [5.0.1], [esr@thyrsus.com], giflib)
+AC_INIT(giflib, [5.0.2], [esr@thyrsus.com], giflib)
 AC_CONFIG_SRCDIR([lib/dgif_lib.c])
 AM_INIT_AUTOMAKE([gnu dist-bzip2 -Wall])
 dnl Make builds less verbose.  Shuts off Makefile portability checks.
