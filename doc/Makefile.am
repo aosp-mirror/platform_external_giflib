@@ -38,6 +38,7 @@ SITEHTML = index.html
 allhtml: $(XMLALL:.xml=.html)
 
 manpages: $(XMLMAN:.xml=.1)
+man_MANS = $(XMLMAN:.xml=.1)
 
 # Control what goes in the distribution tarball.
 # We include all of the XML, and also generated manual pages 
