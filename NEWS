@@ -1,9 +1,12 @@
 			GIFLIB NEWS
 
 Short summary of recent news:
-  Change unused return of EGifSetGifVersion() to void.
-  Minor build simplification and packaging fixes.
-  Fix SF tracker bug #3577691: treescap-interlaced.gif missing from tarball.
+  Trivial fix to manual-page installation.
+
+Version 5.0.3
+=============
+
+Fix a build-system glitch so it will install manpages.
 
 Version 5.0.2
 =============
