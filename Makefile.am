@@ -38,5 +38,5 @@ splint:
 # release using the shipper tool, if distcheck passes
 release: distcheck
 	cd doc; make website
-	shipper -u -m -t; make clean
+	shipper -u -m -t; rm SHIPPER.*; make clean
 	rm -fr doc/staging
