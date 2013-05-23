@@ -40,18 +40,40 @@ Toshio Kuratomi, May 2004
 CompuServe Incorporated.  GIF(sm) is a Service Mark property of CompuServe
 Incorporated.</para>
 
-<para>Gershon wrote: "This library was written because I couldn't find
-anything similar and I wanted one.  I was inspired by the RLE Utah tool kit,
-which I hoped to port to an IBM PC, but found it to be too machine specific,
-and its compression ratio too low.  I compromised on the GIF format, but I am
-not sure how long 8 bits per pixel will be enough."</para>
-
 <para>This document explains the GIF library code in directory `lib'.  The
 code is collected into a service library which is used in all the utilities in
 `util'.  It can be used in any application needs to read/write the GIF
 file format.  This document does <emphasis>not</emphasis> explain the GIF file
 format and assumes you know it, at least to the level of the GIF file
 structure.</para>
+
+</sect1>
+<sect1><title>Credit and Blame</title>
+
+<para>Gershon wrote: "This library was written because I couldn't find
+anything similar and I wanted one.  I was inspired by the RLE Utah tool kit,
+which I hoped to port to an IBM PC, but found it to be too machine specific,
+and its compression ratio too low.  I compromised on the GIF format, but I am
+not sure how long 8 bits per pixel will be enough."</para>
+
+<para>During his first spell of maintainership between 1989 and 1994, Eric
+S. Raymond (aka "ESR") ported the code to Unix, wrote the high-level
+DGIfSlurp()/EGifSpew() interface, rationalized the internal data
+structures, and did a lot of general cleanup and refactoring to
+improve the code quality.</para>
+
+<para>Between 1994 and 2012 Toshio Kuratomi fixed various tool bugs,
+build-recipe problems and rare segfaults. He partially untangled the
+somewhat misdesigned extension-block handling in earlier versions. 
+The core code was very stable during this period.</para>
+
+<para>During his second spell of maintainership, ESR fixed the
+extension API, made the library re-entrant and thread-safe, wrote a
+regression-test suite, greatly improved the documentation, and
+discarded a lot of obsolete code.</para>
+
+</sect1>
+<sect1><title>The GIF descriptor</title>
 
 <para>When a GIF file is opened, a GIF file descriptor is created which
 is a pointer to GifFileType structure as follows:</para>
