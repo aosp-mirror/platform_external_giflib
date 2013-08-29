@@ -886,13 +886,13 @@ static int EscapeString(char *cp, char *tp)
 
 	if (*cp == '\\' && strchr("0123456789xX", cp[1]))
 	{
-	    char *dp, *hex = "00112233445566778899aAbBcCdDeEfF";
 	    int dcount = 0;
 
-	    if (*++cp == 'x' || *cp == 'X')
+	    if (*++cp == 'x' || *cp == 'X') {
+		char *dp, *hex = "00112233445566778899aAbBcCdDeEfF";
 		for (++cp; (dp = strchr(hex, *cp)) && (dcount++ < 2); cp++)
 		    cval = (cval * 16) + (dp - hex) / 2;
-	    else if (*cp == '0')
+	    } else if (*cp == '0')
 		while (strchr("01234567",*cp) != (char*)NULL && (dcount++ < 3))
 		    cval = (cval * 8) + (*cp++ - '0');
 	    else

@@ -66,8 +66,6 @@ int main(int argc, char **argv)
 	ImageSizeFlag = false, ColorMapFlag = false, HelpFlag = false,
 	TextifyFlag = false;
     char **FileName = NULL, *ColorMapFile;
-    ColorMapObject *ColorMap;
-    FILE *InColorMapFile;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
 		&ImageSizeFlag, &ImageWidth, &ImageHeight,
@@ -91,7 +89,9 @@ int main(int argc, char **argv)
     }
 
     if (ImageSizeFlag) {
+	ColorMapObject *ColorMap;
 	if (ColorMapFlag) {
+	    FILE *InColorMapFile;
 	    int ColorMapSize;
 
 	    /* Read color map from given file: */
@@ -114,6 +114,7 @@ int main(int argc, char **argv)
 		    ColorMap->Colors[ColorMapSize].Blue = Blue;
 		}
 	    }
+	    (void)fclose(InColorMapFile);
 	}
 	else {
 	    ColorMap = GifMakeMapObject(EGA_PALETTE_SIZE, EGAPalette);
@@ -160,7 +161,6 @@ int main(int argc, char **argv)
     }
 
     return 0;
-    // cppcheck-suppress resourceLeak
 }
 
 /******************************************************************************

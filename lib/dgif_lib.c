@@ -59,7 +59,6 @@ DGifOpenFileName(const char *FileName, int *Error)
     }
 
     GifFile = DGifOpenFileHandle(FileHandle, Error);
-    // cppcheck-suppress resourceLeak
     return GifFile;
 }
 

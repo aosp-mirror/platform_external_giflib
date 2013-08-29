@@ -20,12 +20,12 @@ bool GifNoisyPrint = false;
 ******************************************************************************/
 void
 GifQprintf(char *Format, ...) {
-    char Line[128];
     va_list ArgPtr;
 
     va_start(ArgPtr, Format);
 
     if (GifNoisyPrint) {
+	char Line[128];
 	(void)vsnprintf(Line, sizeof(Line), Format, ArgPtr);
 	(void)fputs(Line, stderr);
     }

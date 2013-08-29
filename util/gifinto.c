@@ -50,8 +50,7 @@ int main(int argc, char **argv)
 {
     int	NumFiles;
     bool Error, MinSizeFlag = false, HelpFlag = false;
-    char **FileName = NULL,
-        FoutTmpName[STRLEN], FullPath[STRLEN], DefaultName[STRLEN], s[STRLEN], *p;
+    char **FileName = NULL, FoutTmpName[STRLEN], FullPath[STRLEN], *p;
     FILE *Fin, *Fout;
 
     if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint,
@@ -90,6 +89,7 @@ int main(int argc, char **argv)
     if ( *FileName == NULL ) GIF_EXIT("No valid Filename given.");
     if ( strlen(*FileName) > STRLEN-1 ) GIF_EXIT("Filename too long.");
     memset(FullPath, '\0', sizeof(FullPath));
+    // cppcheck-suppress redundantCopy
     strncpy(FullPath, *FileName, STRLEN);
     if ((p = strrchr(FullPath, '/')) != NULL ||
 	(p = strrchr(FullPath, '\\')) != NULL)
@@ -126,10 +126,13 @@ int main(int argc, char **argv)
 	fclose(Fout);
 	unlink(*FileName);
 	if (rename(FoutTmpName, *FileName) != 0) {
+	    char DefaultName[STRLEN];
 	    if ( (strlen(FullPath) + strlen(DEFAULT_OUT_NAME)) > STRLEN-1 ) GIF_EXIT("Filename too long.");
 	    strncpy(DefaultName, FullPath, STRLEN);
+	    // cppcheck-suppress uninitstring
 	    strcat(DefaultName, DEFAULT_OUT_NAME);
 	    if (rename(FoutTmpName, DefaultName) == 0) {
+		char s[STRLEN];
 		snprintf(s, STRLEN, "Failed to rename out file - left as %s.",
 			      DefaultName);
 		GIF_MESSAGE(s);

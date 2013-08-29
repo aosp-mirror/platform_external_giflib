@@ -494,7 +494,7 @@ EGifPutPixel(GifFileType *GifFile, GifPixelType Pixel)
 int
 EGifPutComment(GifFileType *GifFile, const char *Comment)
 {
-    unsigned int length = strlen(Comment);
+    unsigned int length;
     char *buf;
 
     length = strlen(Comment);

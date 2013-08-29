@@ -72,7 +72,7 @@ static void LoadRGB(char *FileName,
     int i;
     unsigned long Size;
     GifByteType *RedP, *GreenP, *BlueP;
-    FILE *f[3];
+    FILE *rgbfp[3];
 
     Size = ((long) Width) * Height * sizeof(GifByteType);
 
@@ -86,14 +86,13 @@ static void LoadRGB(char *FileName,
     BlueP = *BlueBuffer;
 
     if (FileName != NULL) {
-	char OneFileName[80];
-
 	if (OneFileFlag) {
-	    if ((f[0] = fopen(FileName, "rb")) == NULL)
+	    if ((rgbfp[0] = fopen(FileName, "rb")) == NULL)
 		GIF_EXIT("Can't open input file name.");
 	}
 	else {
 	    static char *Postfixes[] = { ".R", ".G", ".B" };
+	    char OneFileName[80];
 
 	    for (i = 0; i < 3; i++) {
 		strncpy(OneFileName, FileName, sizeof(OneFileName)-1);
@@ -101,7 +100,7 @@ static void LoadRGB(char *FileName,
 		strncat(OneFileName, Postfixes[i], 
 			sizeof(OneFileName) - 1 - strlen(OneFileName));
 
-		if ((f[i] = fopen(OneFileName, "rb")) == NULL)
+		if ((rgbfp[i] = fopen(OneFileName, "rb")) == NULL)
 		    GIF_EXIT("Can't open input file name.");
 	    }
 	}
@@ -113,7 +112,7 @@ static void LoadRGB(char *FileName,
 	_setmode(0, O_BINARY);
 #endif /* _WIN32 */
 
-	f[0] = stdin;
+	rgbfp[0] = stdin;
     }
 
     GifQprintf("\n%s: RGB image:     ", PROGRAM_NAME);
@@ -127,7 +126,7 @@ static void LoadRGB(char *FileName,
 	for (i = 0; i < Height; i++) {
 	    int j;
 	    GifQprintf("\b\b\b\b%-4d", i);
-	    if (fread(Buffer, Width * 3, 1, f[0]) != 1)
+	    if (fread(Buffer, Width * 3, 1, rgbfp[0]) != 1)
 		GIF_EXIT("Input file(s) terminated prematurly.");
 	    for (j = 0, BufferP = Buffer; j < Width; j++) {
 		*RedP++ = *BufferP++;
@@ -137,23 +136,25 @@ static void LoadRGB(char *FileName,
 	}
 
 	free((char *) Buffer);
-	fclose(f[0]);
+	fclose(rgbfp[0]);
     }
     else {
 	for (i = 0; i < Height; i++) {
 	    GifQprintf("\b\b\b\b%-4d", i);
-	    if (fread(RedP, Width, 1, f[0]) != 1 ||
-		fread(GreenP, Width, 1, f[1]) != 1 ||
-		fread(BlueP, Width, 1, f[2]) != 1)
+	    if (fread(RedP, Width, 1, rgbfp[0]) != 1 ||
+		fread(GreenP, Width, 1, rgbfp[1]) != 1 ||
+		fread(BlueP, Width, 1, rgbfp[2]) != 1)
 		GIF_EXIT("Input file(s) terminated prematurly.");
 	    RedP += Width;
 	    GreenP += Width;
 	    BlueP += Width;
 	}
 
-	fclose(f[0]);
-	fclose(f[1]);
-	fclose(f[2]);
+	fclose(rgbfp[0]);
+	// cppcheck-suppress useClosedFile
+	fclose(rgbfp[1]);
+	// cppcheck-suppress useClosedFile
+	fclose(rgbfp[2]);
     }
 }
 
@@ -213,7 +214,7 @@ static void QuitGifError(GifFileType *GifFile)
 static void RGB2GIF(bool OneFileFlag, int NumFiles, char *FileName,
 		    int ExpNumOfColors, int Width, int Height)
 {
-    int ColorMapSize = 256;
+    int ColorMapSize;
 
     GifByteType *RedBuffer = NULL, *GreenBuffer = NULL, *BlueBuffer = NULL,
 	*OutputBuffer = NULL;
@@ -257,16 +258,15 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
     int i, j;
     GifRowType GifRow;
     GifColorType *ColorMapEntry;
-    FILE *f[3];
+    FILE *rgbfp[3];
 
     if (FileName != NULL) {
-        char OneFileName[80];
-
         if (OneFileFlag) {
-            if ((f[0] = fopen(FileName, "wb")) == NULL)
+            if ((rgbfp[0] = fopen(FileName, "wb")) == NULL)
             GIF_EXIT("Can't open input file name.");
         } else {
             static char *Postfixes[] = { ".R", ".G", ".B" };
+	    char OneFileName[80];
 
             for (i = 0; i < 3; i++) {
                 strncpy(OneFileName, FileName, sizeof(OneFileName)-1);
@@ -274,7 +274,7 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
                 strncat(OneFileName, Postfixes[i], 
 			sizeof(OneFileName) - 1 - strlen(OneFileName));
     
-                if ((f[i] = fopen(OneFileName, "wb")) == NULL) {
+                if ((rgbfp[i] = fopen(OneFileName, "wb")) == NULL) {
                     GIF_EXIT("Can't open input file name.");
                 }
             }
@@ -286,7 +286,7 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 	_setmode(1, O_BINARY);
 #endif /* _WIN32 */
         
-        f[0] = stdout;
+        rgbfp[0] = stdout;
     }
 
     if (OneFileFlag) {
@@ -303,12 +303,12 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
                 *BufferP++ = ColorMapEntry->Green;
                 *BufferP++ = ColorMapEntry->Blue;
             }
-            if (fwrite(Buffer, ScreenWidth * 3, 1, f[0]) != 1)
+            if (fwrite(Buffer, ScreenWidth * 3, 1, rgbfp[0]) != 1)
                 GIF_EXIT("Write to file(s) failed.");
         }
 
         free((char *) Buffer);
-        fclose(f[0]);
+        fclose(rgbfp[0]);
     } else {
         unsigned char *Buffers[3];
 
@@ -326,18 +326,20 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
                 Buffers[1][j] = ColorMapEntry->Green;
                 Buffers[2][j] = ColorMapEntry->Blue;
             }
-            if (fwrite(Buffers[0], ScreenWidth, 1, f[0]) != 1 ||
-                fwrite(Buffers[1], ScreenWidth, 1, f[1]) != 1 ||
-                fwrite(Buffers[2], ScreenWidth, 1, f[2]) != 1)
+            if (fwrite(Buffers[0], ScreenWidth, 1, rgbfp[0]) != 1 ||
+                fwrite(Buffers[1], ScreenWidth, 1, rgbfp[1]) != 1 ||
+                fwrite(Buffers[2], ScreenWidth, 1, rgbfp[2]) != 1)
                 GIF_EXIT("Write to file(s) failed.");
         }
 
         free((char *) Buffers[0]);
         free((char *) Buffers[1]);
         free((char *) Buffers[2]);
-        fclose(f[0]);
-        fclose(f[1]);
-        fclose(f[2]);
+        fclose(rgbfp[0]);
+	// cppcheck-suppress useClosedFile
+        fclose(rgbfp[1]);
+	// cppcheck-suppress useClosedFile
+        fclose(rgbfp[2]);
     }
 }
 
