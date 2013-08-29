@@ -1,7 +1,15 @@
 			GIFLIB NEWS
 
 Short summary of recent news:
-  Fix for a rare misrendering bug when a GIF overruns the code table.
+  Set the error return properly when a screen descriptor read fails. 
+Fixes for some minor API documentation bugs.
+
+Version 5.0.5
+=============
+
+Set the error return properly when a screen descriptor read fails.
+Fixes for some minor API documentation bugs. Some internal manual
+pages are not to be installed.
 
 Version 5.0.4
 =============
