@@ -210,6 +210,7 @@ DGifOpen(void *userData, InputFunc readFunc, int *Error)
     if (DGifGetScreenDesc(GifFile) == GIF_ERROR) {
         free((char *)Private);
         free((char *)GifFile);
+	*Error = D_GIF_ERR_NO_SCRN_DSCR;
         return NULL;
     }
 
