@@ -1,5 +1,8 @@
 SUBDIRS = lib util pic
 
+# Pacify autoreconf.  We don't actually use this.
+ACLOCAL_AMFLAGS = -I m4
+
 # Avoid trouble if your system doesn't have xmlto.
 if BUILD_DOC
 SUBDIRS += doc

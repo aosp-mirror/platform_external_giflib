@@ -29,6 +29,7 @@ missing
 pic/Makefile
 pic/Makefile.in
 stamp-h1
+m4/
 doc/gif2raw.1
 doc/gif2raw.html
 doc/gif2rgb.1
