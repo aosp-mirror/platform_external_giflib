@@ -965,15 +965,12 @@ if your extension blocks may fall into this category.</para>
 <programlisting id="EGifPutExtensionLeader">
 int EGifPutExtensionLeader(
         GifFileType * GifFile,
-        const int GifExtCode,
-        const int GifExtLen,
-        const VoidPtr GifExtension)
+        const int GifExtCode)
 </programlisting>
 
 <para>Dumps the beginning of a GIF extension block to a GIF file.
 Extension blocks are optional in GIF files.  This function outputs the
-meta information necessary to a GIF extension block and the extension
-data described in the GifExtension argument.</para>
+type code information necessary for a GIF extension block.</para>
 
 <para>Further blocks of the GIF Extension should be dumped using
 EGifPutExtensionBlock.  When finished with this extension block,
@@ -984,14 +981,14 @@ EGifPutExtensionTrailer should be called to output the block termination.</para>
 <programlisting id="EGifPutExtensionBlock">
 int EGifPutExtensionBlock(
         GifFileType * GifFile,
-        const int GifExtCode,
         const int GifExtLen,
         const VoidPtr GifExtension)
 </programlisting>
 
-<para>Dumps a subblock of a GIF extension to a GIF File.  Extension
-blocks are optional in GIF files.  This function will write the
-Extension Data in GifExtension to the file as a subblock of the
+<para>Dumps a subblock of a GIF extension to a GIF File; should be
+used only following an initializing call to EGifPutExtensionLeader().
+Extension blocks are optional in GIF files.  This function will write
+the Extension Data in GifExtension to the file as a subblock of the
 preceding Extension Block.  Repeat calling of this function until all
 data subblocks have been output.</para>
 
