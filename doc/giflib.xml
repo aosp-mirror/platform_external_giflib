@@ -27,7 +27,7 @@ multi-format graphics toolkits like ImageMagick or the Python Imaging
 Library, or graphics editors such as the GIMP. Find one of those, or
 an equivalent, if you need to crop, scale, rotate, toggle interlacing,
 or perform other conventional image transformations. Rather, these are
-intended to facilitate GIF-specificoperations which multi-format tools
+intended to facilitate GIF-specific operations which multi-format tools
 may not adequately support.</para>
 
 <para>API documentation for the service library is best viewed through
