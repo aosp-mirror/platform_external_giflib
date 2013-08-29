@@ -224,13 +224,13 @@ described in a later section.</para>
 <para>The high-level function</para>
 
 <programlisting id="EGifSpew">
-int EGifSpew(GifFileType *GifFile, int GifFileHandle)
+int EGifSpew(GifFileType *GifFile)
 </programlisting>
 
 <para>writes a complete (possibly multi-image) GIF file to the indicated file
 handle from in-core allocated structures created by a previous DGifSlurp()
-or equivalent operations.  Its arguments are a GIF file descriptor (as
-above) and an ordinary output file descriptor.</para>
+or equivalent operations.  Its argument is a GIF file descriptor, which
+imnplicitly points to storage previously allocated by DGifSlurp().</para>
 
 <para>The file is written with a GIF87 stamp unless it contains one of the four
 special extension blocks defined in GIF89, in which case it is written
@@ -320,9 +320,10 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
 <para>With these functions you can extract the data from a graphics
 control extension associated with a saved image into a
 GraphicsControlBlock, modify it, and write it back out.  Note that if
-the specified saved image doesn't have a graphics control
-extension, DGifSavedExtensionToGCB() will fill the GCB with default values;
-EGifGCBToSavedExtension() will create a new leading extension block.</para>
+the specified saved image doesn't have a graphics control extension,
+DGifSavedExtensionToGCB() will fill the GCB with default values and
+return GIF_ERROR (which can be ignored); EGifGCBToSavedExtension()
+will create a new leading extension block.</para>
 
 </sect1>
 <sect1><title>Error Handling (gif_err.c)</title>
