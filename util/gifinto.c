@@ -110,14 +110,18 @@ int main(int argc, char **argv)
     {
 	GIF_EXIT("Failed to open output.");
     }
-    Fout = fdopen(FD, "w"); /* returns a stream with FD */
+    Fout = fdopen(FD, "wb"); /* returns a stream with FD */
     if (Fout == NULL )
     {
 	GIF_EXIT("Failed to open output.");
     }
 
-    while (!feof(Fin)) {
-	if (putc(getc(Fin), Fout) == EOF)
+    while (1) {
+	int c = getc(Fin);
+
+	if (feof(Fin))
+	    break;
+	if (putc(c, Fout) == EOF)
 	    GIF_EXIT("Failed to write output.");
     }
 
