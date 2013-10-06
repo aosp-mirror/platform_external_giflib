@@ -42,6 +42,28 @@ static char
 static int
     MinFileSize = DEFAULT_MIN_FILE_SIZE;
 
+#ifdef _WIN32
+#include <errno.h>
+#include <sys/stat.h>
+int
+mkstemp(char *tpl)
+{
+  int fd = -1;
+  char *p;
+  int e = errno;
+
+  errno = 0;
+  p = _mktemp(tpl);
+  if (*p && errno == 0)
+    {
+      errno = e;
+      fd = _open(p, _O_RDWR | _O_CREAT | _O_EXCL | _O_BINARY,
+		 _S_IREAD | _S_IWRITE);
+    }
+  return fd;
+}
+#endif
+
 /******************************************************************************
  This is simply: read until EOF, then close the output, test its length, and
  if non zero then rename it.
