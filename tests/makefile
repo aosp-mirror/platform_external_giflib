@@ -78,7 +78,7 @@ gifclrmp-regress:
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 	    if echo "gifclrmap: Checking colormap of $${test}" >&2; \
 	    $(UTILS)/gifclrmp <$${test} >/tmp/regress 2>&1; \
-	    then cmp $${stem}.map /tmp/regress; \
+	    then diff -u $${stem}.map /tmp/regress; \
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
 	@rm -f /tmp/regress
