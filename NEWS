@@ -9,6 +9,8 @@ Repository head
 
 Repair the internal quantization function used in gif2rgb so it's
 less vulnerable to cross-platform skew due to qsort() being unstable.
+This shouldn't affect production use, it's just a cross-platform
+issue for regression testing 
 
 Version 5.0.5
 =============
