@@ -4,6 +4,12 @@ Short summary of recent news:
   Set the error return properly when a screen descriptor read fails. 
 Fixes for some minor API documentation bugs.
 
+Repository head
+===============
+
+Repair the internal quantization function used in gif2rgb so it's
+less vulnerable to cross-platform skew due to qsort() being unstable.
+
 Version 5.0.5
 =============
 
