@@ -184,7 +184,7 @@ EGifOpen(void *userData, OutputFunc writeFunc, int *Error)
 /******************************************************************************
  Routine to compute the GIF version that will be written on output.
 ******************************************************************************/
-char *
+const char *
 EGifGetGifVersion(GifFileType *GifFile)
 {
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
@@ -265,7 +265,7 @@ EGifPutScreenDesc(GifFileType *GifFile,
 {
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
-    char *write_version;
+    const char *write_version;
 
     if (Private->FileState & FILE_STATE_SCREEN) {
         /* If already has screen descriptor - something is wrong! */
