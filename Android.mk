@@ -9,7 +9,7 @@ LOCAL_SRC_FILES := \
 	gif_err.c
 
 LOCAL_CFLAGS += -Wno-format -DHAVE_CONFIG_H
-
+LOCAL_SDK_VERSION := 8
 LOCAL_MODULE:= libgif
 
 include $(BUILD_STATIC_LIBRARY)
