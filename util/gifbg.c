@@ -273,6 +273,7 @@ int main(int argc, char **argv)
 	}
 
 	for (i = 0; i < ImageHeight; i++) {
+	    /* coverity[uninit_use_in_call] */
 	    if (EGifPutLine(GifFile, Line, ImageWidth) == GIF_ERROR)
 		QuitGifError(GifFile);
 	    GifQprintf("\b\b\b\b%-4d", Count++);

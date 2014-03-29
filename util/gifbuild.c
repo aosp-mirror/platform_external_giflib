@@ -562,6 +562,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    int c;
 	    bool hex = (strstr(buf, "hex") != NULL);
 
+	    /* coverity[overflow_sink] */
 	    if ((Raster = (GifPixelType *) malloc(sizeof(GifPixelType) * NewImage->ImageDesc.Width * NewImage->ImageDesc.Height))
 		== NULL) {
 		PARSE_ERROR("Failed to allocate raster block, aborted.");
