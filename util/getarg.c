@@ -224,7 +224,7 @@ GATestAllSatis(char *CtrlStrCopy,
     if (!ISCTRLCHAR(CtrlStr[i + 2])) {
         GASetParamCount(CtrlStr, i, ParamCount); /* Point in correct param. */
         *Parameters[(*ParamCount)++] = *argc;
-        memcpy((char *)Parameters[(*ParamCount)++], (char *)argv,
+        memcpy((void *)Parameters[(*ParamCount)++], (void *)argv,
                    sizeof(char *));
     }
 
@@ -506,7 +506,7 @@ GAGetMultiParmeters(int *Parameters[],
     /* That it save the number of parameters read as first parameter to
      * return and the pointer to the block as second, and return: */
     *Parameters[(*ParamCount)++] = NumOfPrm;
-    memcpy((char *)Parameters[(*ParamCount)++], (char *)&Pmain,
+    memcpy((void *)Parameters[(*ParamCount)++], (void *)&Pmain,
                sizeof(char *));
     free(Pmain);
     return NumOfPrm;
