@@ -1,11 +1,14 @@
 			GIFLIB NEWS
 
 Short summary of recent news:
-  Set the error return properly when a screen descriptor read fails. 
-Fixes for some minor API documentation bugs.
+  Minor fix for rare memory leak. MinGW port fixes.
 
-Repository head
-===============
+Version 5.0.6
+=============
+
+Minor fix for a rare memory leak (SF bug #55).  
+
+MinGW port fixes.
 
 Repair the internal quantization function used in gif2rgb so it's
 less vulnerable to cross-platform skew due to qsort() being unstable.
