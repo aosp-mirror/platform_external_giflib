@@ -14,4 +14,6 @@ XBS-Web-Directory: doc/staging
 XBS-Logo: doc/staging/giflib-logo.gif
 XBS-SourceForge-Folder: giflib-5.x
 
+XBS-VC-Tag-Template: %(version)s
+
 XBS-Freecode-Tags: GIF, graphics
