@@ -5,8 +5,6 @@
 
 # This is what to do by default
 test: render-regress \
-	gif2raw-regress \
-	gif2rgb-regress \
 	gifbuild-regress \
 	gifclrmp-regress \
 	gifecho-regress \
@@ -49,10 +47,6 @@ render-rebuild:
 		echo "Remaking $${stem}.rgb"; \
 		$(UTILS)/gif2rgb -1 -o $${stem}.rgb $${test}; \
 	done
-
-gif2raw-regress:
-	@echo "gif2raw: Checking that it can self-invert."
-	@$(UTILS)/gif2raw <$(PICS)/treescap.gif | $(UTILS)/gif2raw -s 40 40 -p treescap.map | $(UTILS)/gif2rgb | cmp - treescap.rgb
 
 gif2rgb-rebuild:
 	@echo "Rebuilding gif2rgb checkfile."
