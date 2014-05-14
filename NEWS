@@ -11,7 +11,7 @@ Minor fix for SF bug #56; BitsPerPixel may be left as uninitialized value when
 reading (truncated) gif.
 
 Removed gif2raw from utils. Its blithe assumption that the EGA16
-palette is correct is now about 20 hyears obsolete. Format conversion
+palette is correct is now about 20 years obsolete. Format conversion
 is better done with convert(1) from the ImageMagick suite, anyway.
 
 Version 5.0.6
