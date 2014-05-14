@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(giflib, [5.0.6], [esr@thyrsus.com], giflib)
+AC_INIT(giflib, [5.1.0], [esr@thyrsus.com], giflib)
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([lib/dgif_lib.c])
 AM_INIT_AUTOMAKE([gnu dist-bzip2 -Wall])
@@ -24,7 +24,7 @@ AC_CHECK_PROG([have_xmlto], [xmlto], ["yes"],["no"])
 AM_CONDITIONAL([BUILD_DOC], [test "x${have_xmlto}" = "xyes"])
 
 dnl Shared-library version
-SHLIBVERSION=6:1:0
+SHLIBVERSION=7:0:0
 AC_SUBST(SHLIBVERSION)
 
 dnl Define warnings if we're compiling with gcc.

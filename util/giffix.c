@@ -182,11 +182,14 @@ int main(int argc, char **argv)
     }
     while (RecordType != TERMINATE_RECORD_TYPE);
 
-    if (DGifCloseFile(GifFileIn) == GIF_ERROR)
-	QuitGifError(GifFileIn, GifFileOut);
-    if (EGifCloseFile(GifFileOut) == GIF_ERROR)
-	QuitGifError(GifFileIn, GifFileOut);
-
+    if (DGifCloseFile(GifFileIn, &ErrorCode) == GIF_ERROR) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
+    if (EGifCloseFile(GifFileOut, &ErrorCode) == GIF_ERROR) {
+	PrintGifError(ErrorCode);
+	exit(EXIT_FAILURE);
+    }
     return 0;
 }
 
@@ -198,11 +201,11 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
     fprintf(stderr, "\nFollowing unrecoverable error occured:");
     if (GifFileIn != NULL) {
 	PrintGifError(GifFileIn->Error);
-	EGifCloseFile(GifFileIn);
+	EGifCloseFile(GifFileIn, NULL);
     }
     if (GifFileOut != NULL) {
 	PrintGifError(GifFileOut->Error);
-	EGifCloseFile(GifFileOut);
+	EGifCloseFile(GifFileOut, NULL);
     }
     exit(EXIT_FAILURE);
 }

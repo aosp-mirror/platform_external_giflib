@@ -303,10 +303,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		PARSE_ERROR("Inclusion read failed.");
 		if (Inclusion != NULL) {
 		    PrintGifError(Inclusion->Error);
-		    DGifCloseFile(Inclusion);
+		    DGifCloseFile(Inclusion, NULL);
 		}
 		if (GifFileOut != NULL) {
-		    EGifCloseFile(GifFileOut);
+		    EGifCloseFile(GifFileOut, NULL);
 		};
 		exit(EXIT_FAILURE);
 	    }
@@ -322,8 +322,8 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		{
 		    PARSE_ERROR("Inclusion failed --- global map conflict.");
 		    PrintGifError(GifFileOut->Error);
-		    if (Inclusion != NULL) DGifCloseFile(Inclusion);
-		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
+		    if (Inclusion != NULL) DGifCloseFile(Inclusion, NULL);
+		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut, NULL);
 		    exit(EXIT_FAILURE);
 		}
 
@@ -339,8 +339,8 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		{
 		    PARSE_ERROR("Inclusion failed --- out of memory.");
 		    PrintGifError(GifFileOut->Error);
-		    if (Inclusion != NULL) DGifCloseFile(Inclusion);
-		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut);
+		    if (Inclusion != NULL) DGifCloseFile(Inclusion, NULL);
+		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut, NULL);
 		    exit(EXIT_FAILURE);
 		}
 		else if (DoTranslation)
@@ -354,7 +354,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 			InclusionFile);
 	    }
 
-	    (void) DGifCloseFile(Inclusion);
+	    (void) DGifCloseFile(Inclusion, NULL);
 	}
 
 	/*
@@ -870,8 +870,8 @@ static void Gif2Icon(char *FileName,
     if (fdin == -1)
 	(void) printf("# End of %s dump\n", FileName);
 
-    if (DGifCloseFile(GifFile) == GIF_ERROR) {
-	PrintGifError(GifFile->Error);
+    if (DGifCloseFile(GifFile, &ErrorCode) == GIF_ERROR) {
+	PrintGifError(ErrorCode);
 	exit(EXIT_FAILURE);
     }
 }

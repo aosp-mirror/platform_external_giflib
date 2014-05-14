@@ -12,8 +12,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define GIFLIB_MAJOR 5
-#define GIFLIB_MINOR 0
-#define GIFLIB_RELEASE 6
+#define GIFLIB_MINOR 1
+#define GIFLIB_RELEASE 0
 
 #define GIF_ERROR   0
 #define GIF_OK      1
@@ -129,8 +129,9 @@ GifFileType *EGifOpenFileHandle(const int GifFileHandle, int *Error);
 GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc, int *Error);
 int EGifSpew(GifFileType * GifFile);
 const char *EGifGetGifVersion(GifFileType *GifFile); /* new in 5.x */
-int EGifCloseFile(GifFileType * GifFile);
+int EGifCloseFile(GifFileType *GifFile, int *ErrorCode);
 
+#define E_GIF_SUCCEEDED          0
 #define E_GIF_ERR_OPEN_FAILED    1    /* And EGif possible errors. */
 #define E_GIF_ERR_WRITE_FAILED   2
 #define E_GIF_ERR_HAS_SCRN_DSCR  3
@@ -179,8 +180,9 @@ GifFileType *DGifOpenFileName(const char *GifFileName, int *Error);
 GifFileType *DGifOpenFileHandle(int GifFileHandle, int *Error);
 int DGifSlurp(GifFileType * GifFile);
 GifFileType *DGifOpen(void *userPtr, InputFunc readFunc, int *Error);    /* new one (TVT) */
-int DGifCloseFile(GifFileType * GifFile);
+    int DGifCloseFile(GifFileType * GifFile, int *ErrorCode);
 
+#define D_GIF_SUCCEEDED          0
 #define D_GIF_ERR_OPEN_FAILED    101    /* And DGif possible errors. */
 #define D_GIF_ERR_READ_FAILED    102
 #define D_GIF_ERR_NOT_GIF_FILE   103

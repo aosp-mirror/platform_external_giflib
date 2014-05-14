@@ -752,7 +752,7 @@ EGifPutCodeNext(GifFileType *GifFile, const GifByteType *CodeBlock)
  This routine should be called last, to close the GIF file.
 ******************************************************************************/
 int
-EGifCloseFile(GifFileType *GifFile)
+EGifCloseFile(GifFileType *GifFile, int *ErrorCode)
 {
     GifByteType Buf;
     GifFilePrivateType *Private;
@@ -766,7 +766,9 @@ EGifCloseFile(GifFileType *GifFile)
 	return GIF_ERROR;
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
+	if (ErrorCode != NULL)
+	    *ErrorCode = E_GIF_ERR_NOT_WRITEABLE;
+	free(GifFile);
         return GIF_ERROR;
     }
 
@@ -787,22 +789,19 @@ EGifCloseFile(GifFileType *GifFile)
         if (Private->HashTable) {
             free((char *) Private->HashTable);
         }
-	    free((char *) Private);
+	free((char *) Private);
     }
 
     if (File && fclose(File) != 0) {
-        GifFile->Error = E_GIF_ERR_CLOSE_FAILED;
+	if (ErrorCode != NULL)
+	    *ErrorCode = E_GIF_ERR_CLOSE_FAILED;
+	free(GifFile);
         return GIF_ERROR;
     }
 
-    /* 
-     * Without the #ifndef, we get spurious warnings because Coverity mistakenly
-     * thinks the GIF structure is freed on an error return. 
-     */
-#ifndef __COVERITY__
     free(GifFile);
-#endif /* __COVERITY__ */
-
+    if (ErrorCode != NULL)
+	*ErrorCode = E_GIF_SUCCEEDED;
     return GIF_OK;
 }
 
@@ -1142,7 +1141,7 @@ EGifSpew(GifFileType *GifFileOut)
 			    GifFileOut->ExtensionBlockCount) == GIF_ERROR)
 	return (GIF_ERROR);
 
-    if (EGifCloseFile(GifFileOut) == GIF_ERROR)
+    if (EGifCloseFile(GifFileOut, NULL) == GIF_ERROR)
         return (GIF_ERROR);
 
     return (GIF_OK);

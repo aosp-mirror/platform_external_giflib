@@ -289,8 +289,8 @@ int main(int argc, char **argv)
     }
     while (RecordType != TERMINATE_RECORD_TYPE);
 
-    if (DGifCloseFile(GifFile) == GIF_ERROR) {
-	PrintGifError(GifFile->Error);
+    if (DGifCloseFile(GifFile, &ErrorCode) == GIF_ERROR) {
+	PrintGifError(ErrorCode);
 	exit(EXIT_FAILURE);
     }
 

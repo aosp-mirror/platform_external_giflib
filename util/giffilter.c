@@ -35,11 +35,11 @@ static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
     if (GifFileIn != NULL) {
 	PrintGifError(GifFileIn->Error);
-	EGifCloseFile(GifFileIn);
+	EGifCloseFile(GifFileIn, NULL);
     }
     if (GifFileOut != NULL) {
 	PrintGifError(GifFileOut->Error);
-	EGifCloseFile(GifFileOut);
+	EGifCloseFile(GifFileOut, NULL);
     }
     exit(EXIT_FAILURE);
 }
@@ -135,10 +135,22 @@ int main(int argc, char **argv)
     }
     while (RecordType != TERMINATE_RECORD_TYPE);
 
-    if (DGifCloseFile(GifFileIn) == GIF_ERROR)
-	QuitGifError(GifFileIn, GifFileOut);
-    if (EGifCloseFile(GifFileOut) == GIF_ERROR)
-	QuitGifError(GifFileIn, GifFileOut);
+    if (DGifCloseFile(GifFileIn, &ErrorCode) == GIF_ERROR)
+    {
+	PrintGifError(ErrorCode);
+	if (GifFileIn != NULL) {
+	    EGifCloseFile(GifFileIn, NULL);
+	}
+	exit(EXIT_FAILURE);
+    }
+    if (EGifCloseFile(GifFileOut, &ErrorCode) == GIF_ERROR)
+    {
+	PrintGifError(ErrorCode);
+	if (GifFileOut != NULL) {
+	    EGifCloseFile(GifFileOut, NULL);
+	}
+	exit(EXIT_FAILURE);
+    }
 
     return 0;
 }

@@ -610,7 +610,7 @@ int DGifSavedExtensionToGCB(GifFileType *GifFile,
  This routine should be called last, to close the GIF file.
 ******************************************************************************/
 int
-DGifCloseFile(GifFileType *GifFile)
+DGifCloseFile(GifFileType *GifFile, int *ErrorCode)
 {
     GifFilePrivateType *Private;
 
@@ -638,25 +638,25 @@ DGifCloseFile(GifFileType *GifFile)
 
     if (!IS_READABLE(Private)) {
         /* This file was NOT open for reading: */
-        GifFile->Error = D_GIF_ERR_NOT_READABLE;
+	if (ErrorCode != NULL)
+	    *ErrorCode = D_GIF_ERR_NOT_READABLE;
+	free((char *)GifFile->Private);
+	free(GifFile);
         return GIF_ERROR;
     }
 
     if (Private->File && (fclose(Private->File) != 0)) {
-        GifFile->Error = D_GIF_ERR_CLOSE_FAILED;
+	if (ErrorCode != NULL)
+	    *ErrorCode = D_GIF_ERR_CLOSE_FAILED;
+	free((char *)GifFile->Private);
+	free(GifFile);
         return GIF_ERROR;
     }
 
     free((char *)GifFile->Private);
-
-    /* 
-     * Without the #ifndef, we get spurious warnings because Coverity mistakenly
-     * thinks the GIF structure is freed on an error return. 
-     */
-#ifndef __COVERITY__
     free(GifFile);
-#endif /* __COVERITY__ */
-
+    if (ErrorCode != NULL)
+	*ErrorCode = D_GIF_SUCCEEDED;
     return GIF_OK;
 }
 
