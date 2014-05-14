@@ -3,6 +3,12 @@
 Short summary of recent news:
   Minor fix for rare memory leak. MinGW port fixes.
 
+Repository head
+===============
+
+Minor fix for SF bug #56; BitsPerPixel may be left as uninitialized value when 
+reading (truncated) gif.
+
 Version 5.0.6
 =============
 

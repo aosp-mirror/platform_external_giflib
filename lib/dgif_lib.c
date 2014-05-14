@@ -420,9 +420,7 @@ DGifGetImageDesc(GifFileType *GifFile)
        (long)GifFile->Image.Height;
 
     /* Reset decompress algorithm parameters. */
-    (void)DGifSetupDecompress(GifFile);
-
-    return GIF_OK;
+    return DGifSetupDecompress(GifFile);
 }
 
 /******************************************************************************
@@ -748,7 +746,9 @@ DGifSetupDecompress(GifFileType *GifFile)
     GifPrefixType *Prefix;
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
-    READ(GifFile, &CodeSize, 1);    /* Read Code size from file. */
+    if (READ(GifFile, &CodeSize, 1) < 1) {    /* Read Code size from file. */
+	return GIF_ERROR;    /* Failed to read Code size. */
+    }
     BitsPerPixel = CodeSize;
 
     Private->Buf[0] = 0;    /* Input Buffer empty. */
