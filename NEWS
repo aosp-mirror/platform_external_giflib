@@ -1,11 +1,12 @@
 			GIFLIB NEWS
 
 Short summary of recent news:
-  API change to assist library wrappers in dynamic languages.
-  gif2raw removed.
+  Minor API change to assist library wrappers in dynamic languages.
+  The gif2raw utility has been removed.
+  Various minor fix patches for unusual edge cases.
 
-Repository head
-===============
+Version 5.1.0
+=============
 
 Changes to the API require a library major-version bump.
 
