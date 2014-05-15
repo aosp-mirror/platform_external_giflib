@@ -345,6 +345,7 @@ static void QuitGifError(GifFileType *GifFile)
 	PrintGifError(GifFile->Error);
 	EGifCloseFile(GifFile, NULL);
     }
+    exit(EXIT_FAILURE);
 }
 
 /* end */

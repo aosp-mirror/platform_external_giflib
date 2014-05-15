@@ -249,18 +249,12 @@ int main(int argc, char **argv)
     if (DGifCloseFile(GifFileIn, &ErrorCode) == GIF_ERROR)
     {
 	PrintGifError(ErrorCode);
-	if (GifFileIn != NULL) {
-	    EGifCloseFile(GifFileIn, NULL);
-	}
 	exit(EXIT_FAILURE);
     }
     if (HasGIFOutput)
 	if (EGifCloseFile(GifFileOut, &ErrorCode) == GIF_ERROR)
 	{
 	    PrintGifError(ErrorCode);
-	    if (GifFileOut != NULL) {
-		EGifCloseFile(GifFileOut, NULL);
-	    }
 	    exit(EXIT_FAILURE);
 	}
 
