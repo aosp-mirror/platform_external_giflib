@@ -16,6 +16,10 @@ config.status
 config.sub
 configure
 depcomp
+test-driver
+test-suite.log
+test.sh.log
+test.sh.trs
 doc/Makefile
 doc/Makefile.in
 install-sh
