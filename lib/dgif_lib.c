@@ -1030,14 +1030,6 @@ DGifBufferedInput(GifFileType *GifFile, GifByteType *Buf, GifByteType *NextByte)
             GifFile->Error = D_GIF_ERR_IMAGE_DEFECT;
             return GIF_ERROR;
         }
-        /* There shouldn't be any empty data blocks here as the LZW spec
-         * says the LZW termination code should come first.  Therefore we
-         * shouldn't be inside this routine at that point.
-         */
-        if (Buf[0] == 0) {
-            GifFile->Error = D_GIF_ERR_IMAGE_DEFECT;
-            return GIF_ERROR;
-        }
         if (READ(GifFile, &Buf[1], Buf[0]) != Buf[0]) {
             GifFile->Error = D_GIF_ERR_READ_FAILED;
             return GIF_ERROR;
