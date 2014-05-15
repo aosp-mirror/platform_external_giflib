@@ -1,7 +1,7 @@
 			GIFLIB NEWS
 
 Short summary of recent news:
-  Minor fix for rare memory leak. MinGW port fixes.
+  API change to assist library wrappers in dynamic languages.
   gif2raw removed.
 
 Repository head
