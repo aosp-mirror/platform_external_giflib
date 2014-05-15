@@ -25,6 +25,12 @@ Code Fixes
 * Minor fix for SF bug #56; BitsPerPixel may be left as uninitialized
   value when reading (truncated) gif.
 
+* Applied SF patch #17: Use a fallback on Windows where mkstemp is not
+  available.
+
+* Applied SF patch #15: Code hardening, preventing spurious
+  defective-image messages.
+
 Retirements
 -----------
 
