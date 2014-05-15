@@ -834,19 +834,22 @@ DGifDecompressLine(GifFileType *GifFile, GifPixelType *Line, int LineLen)
                  * pixels on our stack. If we done, pop the stack in reverse
                  * (thats what stack is good for!) order to output.  */
                 if (Prefix[CrntCode] == NO_SUCH_CODE) {
+                    CrntPrefix = LastCode;
+
                     /* Only allowed if CrntCode is exactly the running code:
                      * In that case CrntCode = XXXCode, CrntCode or the
                      * prefix code is last code and the suffix char is
                      * exactly the prefix of last code! */
                     if (CrntCode == Private->RunningCode - 2) {
-                        CrntPrefix = LastCode;
                         Suffix[Private->RunningCode - 2] =
                            Stack[StackPtr++] = DGifGetPrefixChar(Prefix,
                                                                  LastCode,
                                                                  ClearCode);
                     } else {
-                        GifFile->Error = D_GIF_ERR_IMAGE_DEFECT;
-                        return GIF_ERROR;
+                        Suffix[Private->RunningCode - 2] =
+                           Stack[StackPtr++] = DGifGetPrefixChar(Prefix,
+                                                                 CrntCode,
+                                                                 ClearCode);
                     }
                 } else
                     CrntPrefix = CrntCode;
