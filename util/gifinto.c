@@ -127,7 +127,15 @@ int main(int argc, char **argv)
     if ( (strlen(FoutTmpName) + strlen(DEFAULT_TMP_NAME))  > STRLEN-1 ) GIF_EXIT("Filename too long.");
     strcat(FoutTmpName, DEFAULT_TMP_NAME);
     int FD;
+#ifdef _WIN32
+    char *tmpFN = _mktemp(FoutTmpName);
+    if (tmpFN)
+	FD = open(tmpFN, O_CREAT | O_EXCL | O_WRONLY);
+    else
+	FD = -1;
+#else
     FD = mkstemp(FoutTmpName); /* returns filedescriptor */
+#endif
     if (FD == -1 )
     {
 	GIF_EXIT("Failed to open output.");
