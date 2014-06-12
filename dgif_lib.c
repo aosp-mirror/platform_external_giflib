@@ -1134,11 +1134,13 @@ DGifSlurp(GifFileType *GifFile)
               if (DGifGetExtension(GifFile,&ExtFunction,&ExtData) == GIF_ERROR)
                   return (GIF_ERROR);
 	      /* Create an extension block with our data */
-	      if (GifAddExtensionBlock(&GifFile->ExtensionBlockCount,
+              if (ExtData != NULL) {
+	          if (GifAddExtensionBlock(&GifFile->ExtensionBlockCount,
 				       &GifFile->ExtensionBlocks, 
 				       ExtFunction, ExtData[0], &ExtData[1])
 		  == GIF_ERROR)
 		  return (GIF_ERROR);
+              }
               while (ExtData != NULL) {
                   if (DGifGetExtensionNext(GifFile, &ExtData) == GIF_ERROR)
                       return (GIF_ERROR);
