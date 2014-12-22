@@ -1171,7 +1171,7 @@ thread-unsafe.</para></listitem>
 <listitem><para>For functions other than GIF file openers, the Error
 code is now put in an Error member of the GifFileType
 structure.</para></listitem>
-<listitem><para>The GifError() amd
+<listitem><para>The GifError() and
 GifLastError() functions that referenced that static cell are gone,
 and the GifErrorString() function introduced in the 4.2 release now
 takes an explicit error code argument.</para></listitem>

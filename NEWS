@@ -128,7 +128,7 @@ The library is now completely re-entrant and thread-safe.
 * Library error handling no longer uses a static cell to store the last
   error code registered; that made the library thread-unsafe.  For functions 
   other than GIF file openers, the code is now put in an Error member of
-  the GifFileType structure.  The GifError() amd GifLastError() functions
+  the GifFileType structure.  The GifError() and GifLastError() functions
   that referenced that static cell are gone, and the GifErrorString()
   function introduced in the 4.2 release now takes an explicit error code
   argument.
