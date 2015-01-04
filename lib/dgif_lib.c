@@ -391,12 +391,14 @@ DGifGetImageDesc(GifFileType *GifFile)
     }
 
     if (GifFile->SavedImages) {
-        if ((GifFile->SavedImages = (SavedImage *)realloc(GifFile->SavedImages,
-                                      sizeof(SavedImage) *
-                                      (GifFile->ImageCount + 1))) == NULL) {
+        SavedImage* new_saved_images =
+            (SavedImage *)realloc(GifFile->SavedImages,
+                            sizeof(SavedImage) * (GifFile->ImageCount + 1));
+        if (new_saved_images == NULL) {
             GifFile->Error = D_GIF_ERR_NOT_ENOUGH_MEM;
             return GIF_ERROR;
         }
+        GifFile->SavedImages = new_saved_images;
     } else {
         if ((GifFile->SavedImages =
              (SavedImage *) malloc(sizeof(SavedImage))) == NULL) {
