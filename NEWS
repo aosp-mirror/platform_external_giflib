@@ -1,9 +1,28 @@
 			GIFLIB NEWS
 
 Short summary of recent news:
-  Minor API change to assist library wrappers in dynamic languages.
-  The gif2raw utility has been removed.
-  Various minor fix patches for unusual edge cases.
+   Two fixes to prevent library misbehavior in rare failure conditions.
+   Minor fixes to gifsponge and getarg.c, affacting utilities only.
+
+Version 5.1.1
+=============
+
+Code Fixes
+----------
+
+* Numerous minor fixes in getarg.c. Affects only the utilities, not the
+  core library.
+
+* Fix SourceForge bug #59 DGifOpen can segfault if DGifGetScreenDesc fails.
+
+* SourceForge patch #20: In gifalloc, fix usage of realloc() in case of failure.
+
+* Fix SourceForge bug #61 Leak in gifsponge.
+
+Build Fixes
+----------
+
+* glibtoolize port fix for OS X.
 
 Version 5.1.0
 =============
