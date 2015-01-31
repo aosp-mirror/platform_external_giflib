@@ -1,8 +1,14 @@
 			GIFLIB NEWS
 
-Short summary of recent news:
-   Two fixes to prevent library misbehavior in rare failure conditions.
-   Minor fixes to gifsponge and getarg.c, affacting utilities only.
+Repository head
+===============
+
+Code Fixes
+----------
+
+* Inexpensive sanity check in DGifSlurp() catches malformed files with
+  no image descriptor. Fixes SourceForge bug #64: malformed gif causes
+  crash in giftool.
 
 Version 5.1.1
 =============

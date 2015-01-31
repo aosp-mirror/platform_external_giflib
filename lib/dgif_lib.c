@@ -1170,6 +1170,12 @@ DGifSlurp(GifFileType *GifFile)
         }
     } while (RecordType != TERMINATE_RECORD_TYPE);
 
+    /* Sanity check for corrupted file */
+    if (GifFile->ImageCount == 0) {
+	GifFile->Error = D_GIF_ERR_NO_IMAG_DSCR;
+	return(GIF_ERROR);
+    }
+
     return (GIF_OK);
 }
 
