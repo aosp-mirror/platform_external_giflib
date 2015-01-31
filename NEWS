@@ -10,6 +10,9 @@ Code Fixes
   no image descriptor. Fixes SourceForge bug #64: malformed gif causes
   crash in giftool.
 
+* Sanity check in giffilter catches files with malformed extension records
+  Fixes SourceForge bug #63: malformed gif causes segfault in giffilter.
+
 Version 5.1.1
 =============
 

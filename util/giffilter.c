@@ -107,7 +107,7 @@ int main(int argc, char **argv)
 		break;
 	    case EXTENSION_RECORD_TYPE:
 		/* pass through extension records */
-		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR)
+		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR || Extension == NULL)
 		    QuitGifError(GifFileIn, GifFileOut);
 		if (EGifPutExtensionLeader(GifFileOut, ExtCode) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
