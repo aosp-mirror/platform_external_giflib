@@ -6,6 +6,9 @@ Repository head
 Code Fixes
 ----------
 
+* Fix SourceForge bug #66: GifDrawBoxedText8x8() modifying constant input
+  parameter.
+
 * Inexpensive sanity check in DGifSlurp() catches malformed files with
   no image descriptor. Fixes SourceForge bug #64: malformed gif causes
   crash in giftool.
@@ -22,7 +25,7 @@ Code Fixes
 * Numerous minor fixes in getarg.c. Affects only the utilities, not the
   core library.
 
-* Fix SourceForge bug #59 DGifOpen can segfault if DGifGetScreenDesc fails.
+* Fix SourceForge bug #59: DGifOpen can segfault if DGifGetScreenDesc fails.
 
 * SourceForge patch #20: In gifalloc, fix usage of realloc() in case of failure.
 
