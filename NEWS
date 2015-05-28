@@ -6,6 +6,8 @@ Repository head
 Code Fixes
 ----------
 
+* Code hardening using reallocarray() from OpenBSD.
+
 * Fix SourceForge bug #66: GifDrawBoxedText8x8() modifying constant input
   parameter.
 
