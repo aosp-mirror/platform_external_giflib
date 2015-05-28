@@ -11,6 +11,7 @@ dnl We leave this in place only to suppress an error message at autogen time
 AM_CONFIG_HEADER(config.h)
 
 dnl Checks for programs.
+AM_PROG_AR
 AC_PROG_LIBTOOL
 AC_PROG_CC
 AC_PROG_CPP
