@@ -392,8 +392,8 @@ DGifGetImageDesc(GifFileType *GifFile)
 
     if (GifFile->SavedImages) {
         SavedImage* new_saved_images =
-            (SavedImage *)realloc(GifFile->SavedImages,
-                            sizeof(SavedImage) * (GifFile->ImageCount + 1));
+            (SavedImage *)reallocarray(GifFile->SavedImages,
+                            (GifFile->ImageCount + 1), sizeof(SavedImage));
         if (new_saved_images == NULL) {
             GifFile->Error = D_GIF_ERR_NOT_ENOUGH_MEM;
             return GIF_ERROR;
@@ -1098,7 +1098,7 @@ DGifSlurp(GifFileType *GifFile)
               if (ImageSize > (SIZE_MAX / sizeof(GifPixelType))) {
                   return GIF_ERROR;
               }
-              sp->RasterBits = (unsigned char *)malloc(ImageSize *
+              sp->RasterBits = (unsigned char *)reallocarray(NULL, ImageSize,
                       sizeof(GifPixelType));
 
               if (sp->RasterBits == NULL) {
