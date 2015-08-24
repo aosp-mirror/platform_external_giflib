@@ -60,6 +60,7 @@ GifMakeMapObject(int ColorCount, const GifColorType *ColorMap)
 
     Object->ColorCount = ColorCount;
     Object->BitsPerPixel = GifBitSize(ColorCount);
+    Object->SortFlag = false;
 
     if (ColorMap != NULL) {
         memcpy((char *)Object->Colors,
@@ -186,9 +187,15 @@ GifUnionColorMap(const ColorMapObject *ColorIn1,
             Map[j].Red = Map[j].Green = Map[j].Blue = 0;
 
         /* perhaps we can shrink the map? */
-        if (RoundUpTo < ColorUnion->ColorCount)
-            ColorUnion->Colors = (GifColorType *)realloc(Map,
+        if (RoundUpTo < ColorUnion->ColorCount) {
+            GifColorType *new_map = (GifColorType *)realloc(Map,
                                  sizeof(GifColorType) * RoundUpTo);
+            if( new_map == NULL ) {
+                GifFreeMapObject(ColorUnion);
+                return ((ColorMapObject *) NULL);
+            }
+            ColorUnion->Colors = new_map;
+        }
     }
 
     ColorUnion->ColorCount = RoundUpTo;
@@ -224,10 +231,14 @@ GifAddExtensionBlock(int *ExtensionBlockCount,
 
     if (*ExtensionBlocks == NULL)
         *ExtensionBlocks=(ExtensionBlock *)malloc(sizeof(ExtensionBlock));
-    else
-        *ExtensionBlocks = (ExtensionBlock *)realloc(*ExtensionBlocks,
+    else {
+        ExtensionBlock* ep_new = (ExtensionBlock *)realloc(*ExtensionBlocks,
                                       sizeof(ExtensionBlock) *
                                       (*ExtensionBlockCount + 1));
+        if( ep_new == NULL )
+            return (GIF_ERROR);
+        *ExtensionBlocks = ep_new;
+    }
 
     if (*ExtensionBlocks == NULL)
         return (GIF_ERROR);
@@ -311,8 +322,6 @@ FreeLastSavedImage(GifFileType *GifFile)
 SavedImage *
 GifMakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
 {
-    SavedImage *sp;
-
     if (GifFile->SavedImages == NULL)
         GifFile->SavedImages = (SavedImage *)malloc(sizeof(SavedImage));
     else
@@ -322,7 +331,7 @@ GifMakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
     if (GifFile->SavedImages == NULL)
         return ((SavedImage *)NULL);
     else {
-        sp = &GifFile->SavedImages[GifFile->ImageCount++];
+        SavedImage *sp = &GifFile->SavedImages[GifFile->ImageCount++];
         memset((char *)sp, '\0', sizeof(SavedImage));
 
         if (CopyFrom != NULL) {

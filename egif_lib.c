@@ -186,7 +186,7 @@ EGifOpen(void *userData, OutputFunc writeFunc, int *Error)
 /******************************************************************************
  Routine to compute the GIF version that will be written on output.
 ******************************************************************************/
-char *
+const char *
 EGifGetGifVersion(GifFileType *GifFile)
 {
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
@@ -267,7 +267,7 @@ EGifPutScreenDesc(GifFileType *GifFile,
 {
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
-    char *write_version;
+    const char *write_version;
 
     if (Private->FileState & FILE_STATE_SCREEN) {
         /* If already has screen descriptor - something is wrong! */
@@ -379,6 +379,10 @@ EGifPutImageDesc(GifFileType *GifFile,
     GifFile->Image.Height = Height;
     GifFile->Image.Interlace = Interlace;
     if (ColorMap) {
+	if (GifFile->Image.ColorMap != NULL) {
+	    GifFreeMapObject(GifFile->Image.ColorMap);
+	    GifFile->Image.ColorMap = NULL;
+	}
         GifFile->Image.ColorMap = GifMakeMapObject(ColorMap->ColorCount,
                                                 ColorMap->Colors);
         if (GifFile->Image.ColorMap == NULL) {
@@ -496,7 +500,7 @@ EGifPutPixel(GifFileType *GifFile, GifPixelType Pixel)
 int
 EGifPutComment(GifFileType *GifFile, const char *Comment)
 {
-    unsigned int length = strlen(Comment);
+    unsigned int length;
     char *buf;
 
     length = strlen(Comment);
@@ -750,7 +754,7 @@ EGifPutCodeNext(GifFileType *GifFile, const GifByteType *CodeBlock)
  This routine should be called last, to close the GIF file.
 ******************************************************************************/
 int
-EGifCloseFile(GifFileType *GifFile)
+EGifCloseFile(GifFileType *GifFile, int *ErrorCode)
 {
     GifByteType Buf;
     GifFilePrivateType *Private;
@@ -764,7 +768,9 @@ EGifCloseFile(GifFileType *GifFile)
 	return GIF_ERROR;
     if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
-        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
+	if (ErrorCode != NULL)
+	    *ErrorCode = E_GIF_ERR_NOT_WRITEABLE;
+	free(GifFile);
         return GIF_ERROR;
     }
 
@@ -785,22 +791,19 @@ EGifCloseFile(GifFileType *GifFile)
         if (Private->HashTable) {
             free((char *) Private->HashTable);
         }
-	    free((char *) Private);
+	free((char *) Private);
     }
 
     if (File && fclose(File) != 0) {
-        GifFile->Error = E_GIF_ERR_CLOSE_FAILED;
+	if (ErrorCode != NULL)
+	    *ErrorCode = E_GIF_ERR_CLOSE_FAILED;
+	free(GifFile);
         return GIF_ERROR;
     }
 
-    /* 
-     * Without the #ifndef, we get spurious warnings because Coverity mistakenly
-     * thinks the GIF structure is freed on an error return. 
-     */
-#ifndef __COVERITY__
     free(GifFile);
-#endif /* __COVERITY__ */
-
+    if (ErrorCode != NULL)
+	*ErrorCode = E_GIF_SUCCEEDED;
     return GIF_OK;
 }
 
@@ -1140,7 +1143,7 @@ EGifSpew(GifFileType *GifFileOut)
 			    GifFileOut->ExtensionBlockCount) == GIF_ERROR)
 	return (GIF_ERROR);
 
-    if (EGifCloseFile(GifFileOut) == GIF_ERROR)
+    if (EGifCloseFile(GifFileOut, NULL) == GIF_ERROR)
         return (GIF_ERROR);
 
     return (GIF_OK);
