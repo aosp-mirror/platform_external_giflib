@@ -78,8 +78,6 @@ int main(int argc, char **argv)
 
     if (DGifCloseFile(GifFileIn, &ErrorCode) == GIF_ERROR)
 	PrintGifError(ErrorCode);
-    if (EGifCloseFile(GifFileOut, &ErrorCode) == GIF_ERROR)
-	PrintGifError(ErrorCode);
 
     return 0;
 }
