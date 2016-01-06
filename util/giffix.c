@@ -112,6 +112,8 @@ int main(int argc, char **argv)
 		Height = GifFileIn->Image.Height;
 		GifQprintf("\n%s: Image %d at (%d, %d) [%dx%d]:     ",
 		    PROGRAM_NAME, ++ImageNum, Col, Row, Width, Height);
+		if (Width > GifFileIn->SWidth)
+		    GIF_EXIT("Image is wider than total");
 
 		/* Put the image descriptor to out file: */
 		if (EGifPutImageDesc(GifFileOut, Col, Row, Width, Height,
