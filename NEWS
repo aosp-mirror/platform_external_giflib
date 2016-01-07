@@ -33,6 +33,8 @@ Code Fixes
 * Fix SourceForge bug #74: Double free in gifsponge under 5.1,1,
   for any valid gif image.
 
+* Fix SourceForge bug #75: GAGetArgs overflows due to uncounted use of va_arg.
+
 * Sanity check in giffix catches some malformed files. Addresses
   SourceForge bug #77: dgif_lib.c: extension processing error
 
