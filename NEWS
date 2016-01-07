@@ -18,6 +18,20 @@ Code Fixes
 * Sanity check in giffilter catches files with malformed extension records
   Fixes SourceForge bug #63: malformed gif causes segfault in giffilter.
 
+* Sanity check in giffix catches some malformed files. Addresses
+  SourceForge bug #77: dgif_lib.c: extension processing error
+
+* Bail out of GIF read on invalid pixel width. Addresses Savannah bug
+  #67: invalid shift in dgif_lib.c
+
+* Fix SourceForge bug #74: Double free in gifsponge under 5.1,1,
+  for any valid gif image.
+
+* Fix SourceForge bug #73: Null pointer deference in gifclrmap (only
+  reachable with malformed GIF).
+
+* Fix SourceForge bug #71: Buffer overwrite when giffixing a malformed gif.
+
 Version 5.1.1
 =============
 
