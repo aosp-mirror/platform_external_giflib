@@ -8,8 +8,7 @@ Code Fixes
 
 * Prevent malloc randomess from causing the header output routine to emit
   a GIF89 version string even when no GIf89 features are present. Only
-  breaks tests, not production code, but it's odd this weasn't caught sooner.
-
+  breaks tests, not production code, but it's odd this wasn't caught sooner.
 
 Version 5.1.2
 =============
