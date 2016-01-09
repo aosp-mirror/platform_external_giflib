@@ -121,6 +121,7 @@ EGifOpenFileHandle(const int FileHandle, int *Error)
     Private->FileHandle = FileHandle;
     Private->File = f;
     Private->FileState = FILE_STATE_WRITE;
+    Private->gif89 = false;
 
     Private->Write = (OutputFunc) 0;    /* No user write routine (MRB) */
     GifFile->UserData = (void *)NULL;    /* No user write handle (MRB) */
