@@ -378,6 +378,11 @@ static void GIF2RGB(int NumFiles, char *FileName,
 	}
     }
 
+    if (GifFile->SHeight == 0) {
+	fprintf(stderr, "Image of height 0\n");
+	exit(EXIT_FAILURE);
+    }
+
     /* 
      * Allocate the screen as vector of column of rows. Note this
      * screen is device independent - it's the screen defined by the
