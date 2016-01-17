@@ -13,6 +13,9 @@ Code Fixes
 * Prevent malloc randomess from producing sporadic failures by causing
   sanity checks added in 5.1.2 to misfire.
 
+* Bulletproof gif2rgb against 0-height images. Addressed SF bug #78:
+  Heap overflow in gif2rgb with images of size 0.
+
 Version 5.1.2
 =============
 
