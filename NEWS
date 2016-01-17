@@ -3,6 +3,10 @@
 Repository head
 ===============
 
+As of this version the library and code has been seriously abused by fuzzers,
+smoking out crash bugs (now fixed) induced by various kinds of severely
+malformed GIF.
+
 Code Fixes
 ----------
 
@@ -162,7 +166,7 @@ Documentation and polish
 
 Retirements
 -----------
-* gifinter is gone.  Use convert -interlace from the ImageMagic suite.
+* gifinter is gone.  Use convert -interlace from the ImageMagick suite.
 
 Code Fixes
 ----------
