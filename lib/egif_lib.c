@@ -159,6 +159,8 @@ EGifOpen(void *userData, OutputFunc writeFunc, int *Error)
         return NULL;
     }
 
+    memset(Private, '\0', sizeof(GifFilePrivateType));
+
     Private->HashTable = _InitHashTable();
     if (Private->HashTable == NULL) {
         free (GifFile);
