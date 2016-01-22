@@ -378,8 +378,8 @@ static void GIF2RGB(int NumFiles, char *FileName,
 	}
     }
 
-    if (GifFile->SHeight == 0) {
-	fprintf(stderr, "Image of height 0\n");
+    if (GifFile->SHeight == 0 || GifFile->SWidth == 0) {
+	fprintf(stderr, "Image of width or height 0\n");
 	exit(EXIT_FAILURE);
     }
 
