@@ -189,12 +189,7 @@ static void SaveGif(GifByteType *OutputBuffer,
 
     for (i = 0; i < Height; i++) {
 	if (EGifPutLine(GifFile, Ptr, Width) == GIF_ERROR)
-	{
-	    if (GifFile != NULL) {
-		EGifCloseFile(GifFile, NULL);
-	    }
 	    exit(EXIT_FAILURE);
-	}
 	GifQprintf("\b\b\b\b%-4d", Height - i - 1);
 
 	Ptr += Width;
