@@ -181,9 +181,6 @@ static void SaveGif(GifByteType *OutputBuffer,
 			 0, 0, Width, Height, false, NULL) ==
 	                                                             GIF_ERROR)
 	PrintGifError(Error);
-	if (GifFile != NULL) {
-	    EGifCloseFile(GifFile, NULL);
-	}
 	exit(EXIT_FAILURE);
 
     GifQprintf("\n%s: Image 1 at (%d, %d) [%dx%d]:     ",
@@ -205,9 +202,6 @@ static void SaveGif(GifByteType *OutputBuffer,
 
     if (EGifCloseFile(GifFile, &Error) == GIF_ERROR)
 	PrintGifError(Error);
-	if (GifFile != NULL) {
-	    EGifCloseFile(GifFile, NULL);
-	}
 	exit(EXIT_FAILURE);
 }
 
