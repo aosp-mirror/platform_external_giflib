@@ -852,7 +852,7 @@ static void Gif2Icon(char *FileName,
 	for (i = 0; i < image->ImageDesc.Height; i++) {
 	    for (j = 0; j < image->ImageDesc.Width; j++) {
 		GifByteType ch = image->RasterBits[i*image->ImageDesc.Width + j];
-		if (ColorCount < PRINTABLES)
+		if (ch < PRINTABLES)
 		    putchar(NameTable[ch]);
 		else
 		    printf("%02x", ch);
