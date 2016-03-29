@@ -692,6 +692,7 @@ static void DumpExtensions(GifFileType *GifFileOut,
 	    putchar('\n');
 	    while (!last && ep[1].Function == CONTINUE_EXT_FUNC_CODE) {
 		++ep;
+		last = (ep - ExtensionBlocks == (ExtensionBlockCount - 1));
 		VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
 		putchar('\n');
 	    }
@@ -703,6 +704,7 @@ static void DumpExtensions(GifFileType *GifFileOut,
 	    putchar('\n');
 	    while (!last && ep[1].Function == CONTINUE_EXT_FUNC_CODE) {
 		++ep;
+		last = (ep - ExtensionBlocks == (ExtensionBlockCount - 1));
 		VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
 		putchar('\n');
 	    }
@@ -737,6 +739,7 @@ static void DumpExtensions(GifFileType *GifFileOut,
 	    VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
 	    while (!last && ep[1].Function == CONTINUE_EXT_FUNC_CODE) {
 		++ep;
+		last = (ep - ExtensionBlocks == (ExtensionBlockCount - 1));
 		VisibleDumpBuffer(ep->Bytes, ep->ByteCount);
 		putchar('\n');
 	    }
