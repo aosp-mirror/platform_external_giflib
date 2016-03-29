@@ -726,6 +726,7 @@ static void DumpExtensions(GifFileType *GifFileOut,
 	else if (!last
 		 && ep->Function == APPLICATION_EXT_FUNC_CODE
 		 && ep->ByteCount >= 11
+		 && (ep+1)->ByteCount >= 3
 		 && memcmp(ep->Bytes, "NETSCAPE2.0", 11) == 0) {
 	    unsigned char *params = (++ep)->Bytes;
 	    unsigned int loopcount = params[1] | (params[2] << 8);
