@@ -1,5 +1,13 @@
 			GIFLIB NEWS
 
+Repository head
+===============
+
+Code Fixes
+----------
+
+* Fix SF bug #87 Heap buffer overflow in 5.1.2 (gif2rgb).
+
 
 Version 5.1.4
 =============
