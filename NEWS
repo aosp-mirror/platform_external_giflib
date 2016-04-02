@@ -1,5 +1,20 @@
 			GIFLIB NEWS
 
+
+Repository head
+===============
+
+Code Fixes
+----------
+
+* Fix SF bug #94: giflib 5 loves to fail to load images... a LOT.
+
+* Fix SF Bug #92: Fix buffer overread in gifbuild.
+
+* Fix SF Bug #93: Add bounds check in gifbuild netscape2.0 path
+
+* Fix SF Bug #89: Fix buffer overread in gifbuild.
+
 Version 5.1.3
 =============
 
