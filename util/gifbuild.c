@@ -876,6 +876,17 @@ static void Gif2Icon(char *FileName,
     if (fdin == -1)
 	(void) printf("# End of %s dump\n", FileName);
 
+
+    /*
+     * Sanity checks.
+     */
+
+    /* check that the background color isn't garbage (SF bug #87) */
+    if (GifFile->SBackGroundColor < 0
+	    || GifFile->SBackGroundColor >= GifFile->SColorMap->ColorCount) {
+        fprintf(stderr, "gifbuild: background color invalid for screen colormap.\n");
+    }
+
     if (DGifCloseFile(GifFile, &ErrorCode) == GIF_ERROR) {
 	PrintGifError(ErrorCode);
 	exit(EXIT_FAILURE);
