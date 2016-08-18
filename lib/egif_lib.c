@@ -44,6 +44,13 @@ static int EGifBufferedOutput(GifFileType * GifFile, GifByteType * Buf,
 #define LOBYTE(x)	((x) & 0xff)
 #define HIBYTE(x)	(((x) >> 8) & 0xff)
 
+#ifndef S_IREAD
+#define S_IREAD S_IRUSR
+#endif
+
+#ifndef S_IWRITE
+#define S_IWRITE S_IWUSR
+#endif
 /******************************************************************************
  Open a new GIF file for write, specified by name. If TestExistance then
  if the file exists this routines fails (returns NULL).

@@ -20,6 +20,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#ifndef SIZE_MAX
+    #define SIZE_MAX     UINTPTR_MAX
+#endif
+
 /*
  * This is sqrt(SIZE_MAX+1), as s1*s2 <= SIZE_MAX
  * if both s1 < MUL_NO_OVERFLOW and s2 < MUL_NO_OVERFLOW

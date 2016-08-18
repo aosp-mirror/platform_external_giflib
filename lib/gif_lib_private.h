@@ -10,6 +10,10 @@ gif_lib_private.h - internal giflib routines and structures
 #include "gif_lib.h"
 #include "gif_hash.h"
 
+#ifndef SIZE_MAX
+    #define SIZE_MAX     UINTPTR_MAX
+#endif
+
 #define EXTENSION_INTRODUCER      0x21
 #define DESCRIPTOR_INTRODUCER     0x2c
 #define TERMINATOR_INTRODUCER     0x3b
