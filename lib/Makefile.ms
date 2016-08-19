@@ -24,10 +24,10 @@ SOURCES = dgif_lib.c \
 		gif_hash.c \
 		gifalloc.c \
 		qprintf.c \
-		quantize.c
+		quantize.c \
+		openbsd-reallocarray
 
-OBJECTS = dev2gif.obj \
-		dgif_lib.obj \
+OBJECTS = dgif_lib.obj \
 		egif_lib.obj \
 		getarg.obj \
 		gif_err.obj \
@@ -35,7 +35,8 @@ OBJECTS = dev2gif.obj \
 		gif_hash.obj \
 		gifalloc.obj \
 		qprintf.obj \
-		quantize.obj
+		quantize.obj \
+		openbsd-reallocarray.obj
 
 TARGET  = giflib.lib
 
@@ -55,7 +56,6 @@ $(TARGET):   $(OBJECTS)
 
 clean: 	
 	-$(DEL_FILE) $(TARGET)
-	-$(DEL_FILE) dev2gif.obj
 	-$(DEL_FILE) dgif_lib.obj
 	-$(DEL_FILE) egif_lib.obj
 	-$(DEL_FILE) getarg.obj
@@ -65,8 +65,6 @@ clean:
 	-$(DEL_FILE) gifalloc.obj
 	-$(DEL_FILE) qprintf.obj
 	-$(DEL_FILE) quantize.obj
-
-dev2gif.obj: dev2gif.c gif_lib.h
 
 dgif_lib.obj: dgif_lib.c gif_lib.h \
 		gif_lib_private.h \
@@ -94,3 +92,4 @@ quantize.obj: quantize.c gif_lib.h \
 		gif_lib_private.h \
 		gif_hash.h
 
+openbsd-reallocarray.obj: openbsd-reallocarray.c
