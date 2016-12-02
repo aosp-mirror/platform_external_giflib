@@ -1,0 +1,21 @@
+cc_library_static {
+    name: "libgif",
+
+    sdk_version: "9",
+
+    srcs: [
+        "dgif_lib.c",
+        "egif_lib.c",
+        "gifalloc.c",
+        "gif_err.c",
+        "gif_hash.c",
+        "quantize.c",
+    ],
+
+    cflags: [
+        "-Wno-format",
+        "-Wno-sign-compare",
+        "-Wno-unused-parameter",
+        "-DHAVE_CONFIG_H",
+    ],
+}
