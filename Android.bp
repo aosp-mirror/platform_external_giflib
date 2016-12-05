@@ -18,4 +18,6 @@ cc_library_static {
         "-Wno-unused-parameter",
         "-DHAVE_CONFIG_H",
     ],
+
+    export_include_dirs: ["."],
 }
