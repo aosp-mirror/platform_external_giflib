@@ -4,7 +4,8 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES := \
 	dgif_lib.c \
 	gifalloc.c \
-	gif_err.c
+	gif_err.c  \
+	openbsd-reallocarray.c
 
 LOCAL_CFLAGS += -Wno-format -DHAVE_CONFIG_H
 
