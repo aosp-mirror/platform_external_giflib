@@ -9,6 +9,7 @@ LOCAL_SRC_FILES := \
 	gifalloc.c \
 	gif_err.c \
 	gif_hash.c \
+	openbsd-reallocarray.c \
 	quantize.c
 
 LOCAL_CFLAGS += -Wno-format -Wno-sign-compare -Wno-unused-parameter -DHAVE_CONFIG_H
