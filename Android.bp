@@ -14,6 +14,7 @@ cc_library_static {
     ],
 
     cflags: [
+        "-Werror",
         "-Wno-format",
         "-Wno-sign-compare",
         "-Wno-unused-parameter",
