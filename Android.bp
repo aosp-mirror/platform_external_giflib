@@ -9,10 +9,12 @@ cc_library_static {
         "gifalloc.c",
         "gif_err.c",
         "gif_hash.c",
+        "openbsd-reallocarray.c",
         "quantize.c",
     ],
 
     cflags: [
+        "-Werror",
         "-Wno-format",
         "-Wno-sign-compare",
         "-Wno-unused-parameter",
