@@ -329,9 +329,11 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Re
 	    else
 		NumBytes = ((((long) GifFile->Image.Width) * GifFile->Image.Height)
 				* GifFile->SColorMap->BitsPerPixel) / 8;
-	    Percent = 100 * CodeCount / NumBytes;
-	    printf("\nCompression ratio: %ld/%ld (%d%%).\n",
+	    if (NumBytes > 0) {
+		Percent = 100 * CodeCount / NumBytes;
+		printf("\nCompression ratio: %ld/%ld (%d%%).\n",
 			CodeCount, NumBytes, Percent);
+	    }
 	    return;
 	}
 	CrntPlace = 0;
