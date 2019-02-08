@@ -1104,7 +1104,7 @@ DGifSlurp(GifFileType *GifFile)
 
               sp = &GifFile->SavedImages[GifFile->ImageCount - 1];
               /* Allocate memory for the image */
-              if (sp->ImageDesc.Width < 0 && sp->ImageDesc.Height < 0 &&
+              if (sp->ImageDesc.Width < 0 || sp->ImageDesc.Height < 0 ||
                       sp->ImageDesc.Width > (INT_MAX / sp->ImageDesc.Height)) {
                   return GIF_ERROR;
               }
