@@ -1,4 +1,4 @@
-SUFFIXES = .xml .html .txt .asc .1
+SUFFIXES = .xml .html .txt .adoc .1
 
 .xml.html:
 	xmlto xhtml-nochunks $<
@@ -9,7 +9,7 @@ SUFFIXES = .xml .html .txt .asc .1
 .xml.txt:
 	xmlto txt $<
 
-.asc.html:
+.adoc.html:
 	asciidoc $<
 
 all: allhtml manpages
@@ -55,7 +55,7 @@ website: allhtml
 	rm -fr staging; mkdir staging; 
 	cp -r $(XMLALL:.xml=.html) $(SITEHTML) *.txt whatsinagif staging
 	convert ../pic/gifgrid.gif -resize 50x50 staging/giflib-logo.gif
-	asciidoc - <../history.asc >staging/history.html
+	asciidoc - <../history.adoc >staging/history.html
 
 clean-local:
 	rm -fr staging $(XMLALL:.xml=.html) $(XMLMAN:.xml=.1)
