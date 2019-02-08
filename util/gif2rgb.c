@@ -178,10 +178,10 @@ static void SaveGif(GifByteType *OutputBuffer,
 			  Width, Height, ExpColorMapSize, 0,
 			  OutputColorMap) == GIF_ERROR ||
 	EGifPutImageDesc(GifFile,
-			 0, 0, Width, Height, false, NULL) ==
-	                                                             GIF_ERROR)
+			 0, 0, Width, Height, false, NULL) == GIF_ERROR) {
 	PrintGifError(Error);
 	exit(EXIT_FAILURE);
+    }
 
     GifQprintf("\n%s: Image 1 at (%d, %d) [%dx%d]:     ",
 	       PROGRAM_NAME, GifFile->Image.Left, GifFile->Image.Top,
@@ -195,9 +195,10 @@ static void SaveGif(GifByteType *OutputBuffer,
 	Ptr += Width;
     }
 
-    if (EGifCloseFile(GifFile, &Error) == GIF_ERROR)
+    if (EGifCloseFile(GifFile, &Error) == GIF_ERROR) {
 	PrintGifError(Error);
 	exit(EXIT_FAILURE);
+    }
 }
 
 /******************************************************************************
