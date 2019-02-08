@@ -6,9 +6,10 @@ AM_INIT_AUTOMAKE([gnu dist-bzip2 -Wall])
 dnl Make builds less verbose.  Shuts off Makefile portability checks.
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
-dnl Note: config.h is not used in the current build
-dnl We leave this in place only to suppress an error message at autogen time
 AM_CONFIG_HEADER(config.h)
+
+dnl Define _GNU_SOURCE for reallocarray.
+AC_USE_SYSTEM_EXTENSIONS
 
 dnl Checks for programs.
 AM_PROG_AR
@@ -42,6 +43,9 @@ AC_CHECK_HEADERS(stdint.h, ,
 		 AC_MSG_ERROR([giflib needs stdint.h to compile]))
 AC_CHECK_HEADERS(stdarg.h, ,
 		 AC_MSG_ERROR([giflib needs stdarg.h to compile]))
+
+AC_CHECK_FUNCS(reallocarray)
+AM_CONDITIONAL([INTERNAL_REALLOCARRAY], [test "${ac_cv_func_reallocarray}" = "no"])
 
 AC_CONFIG_FILES([
 util/Makefile

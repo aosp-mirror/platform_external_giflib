@@ -4,11 +4,14 @@
 
 ****************************************************************************/
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "gif_lib.h"
+#include "gif_lib_private.h"
 
 #define MAX(x, y)    (((x) > (y)) ? (x) : (y))
 

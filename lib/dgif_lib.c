@@ -8,6 +8,8 @@ two modules will be linked.  Preserve this property!
 
 *****************************************************************************/
 
+#include "config.h"
+
 #include <stdlib.h>
 #include <limits.h>
 #include <stdint.h>

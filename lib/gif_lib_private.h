@@ -7,6 +7,7 @@ gif_lib_private.h - internal giflib routines and structures
 #ifndef _GIF_LIB_PRIVATE_H
 #define _GIF_LIB_PRIVATE_H
 
+#include "config.h"
 #include "gif_lib.h"
 #include "gif_hash.h"
 
@@ -57,6 +58,11 @@ typedef struct GifFilePrivateType {
     GifHashTableType *HashTable;
     bool gif89;
 } GifFilePrivateType;
+
+#ifndef HAVE_REALLOCARRAY
+extern void *openbsd_reallocarray(void *optr, size_t nmemb, size_t size);
+#define reallocarray openbsd_reallocarray
+#endif
 
 #endif /* _GIF_LIB_PRIVATE_H */
 

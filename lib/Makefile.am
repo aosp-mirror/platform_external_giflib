@@ -12,10 +12,12 @@ libgif_la_SOURCES = dgif_lib.c  \
 					gif_hash.c  \
 					gif_hash.h	\
                     gifalloc.c  \
-		    openbsd-reallocarray.c \
                     gif_err.c   \
 					gif_lib_private.h \
 		    quantize.c
+if INTERNAL_REALLOCARRAY
+libgif_la_SOURCES += openbsd-reallocarray.c
+endif
 
 libgif_la_LDFLAGS = -no-undefined -version-info @SHLIBVERSION@
 libgif_CFLAGS = $(X_CFLAGS) $(AM_CFLAGS)
