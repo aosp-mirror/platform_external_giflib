@@ -282,6 +282,11 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
         rgbfp[0] = stdout;
     }
 
+    if (ColorMap == NULL) {
+	fprintf(stderr, "Color map pointer is NULL.\n");
+	exit(EXIT_FAILURE);
+    }
+
     if (OneFileFlag) {
         unsigned char *Buffer, *BufferP;
 
