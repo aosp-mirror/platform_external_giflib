@@ -315,7 +315,7 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Re
     static int CrntPlace = 0; 
     static long CodeCount = 0;
     int i, Percent, Len;
-    long NumBytes;
+    long NumBytes = 0;
 
     if (Reset || CodeBlock == NULL) {
 	if (CodeBlock == NULL) {
@@ -326,9 +326,10 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Re
 	    if (GifFile->Image.ColorMap)
 		NumBytes = ((((long) GifFile->Image.Width) * GifFile->Image.Height)
 				* GifFile->Image.ColorMap->BitsPerPixel) / 8;
-	    else
+	    else if (GifFile->SColorMap != NULL)
 		NumBytes = ((((long) GifFile->Image.Width) * GifFile->Image.Height)
 				* GifFile->SColorMap->BitsPerPixel) / 8;
+	    /* FIXME: What should the compression ratio be if no color table? */
 	    if (NumBytes > 0) {
 		Percent = 100 * CodeCount / NumBytes;
 		printf("\nCompression ratio: %ld/%ld (%d%%).\n",
@@ -381,9 +382,9 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset)
 	int i, Len;
 	Len = Extension[0];
 	for (i = 1; i <= Len; i++) {
-	    (void)snprintf(&HexForm[CrntPlace * 3], 3,
+	    (void)snprintf(&HexForm[CrntPlace * 3], 4,
 			   " %02x", Extension[i]);
-	    (void)snprintf(&AsciiForm[CrntPlace], 3,
+	    (void)snprintf(&AsciiForm[CrntPlace], 4,
 			   "%c", MAKE_PRINTABLE(Extension[i]));
 	    if (++CrntPlace == 16) {
 		HexForm[CrntPlace * 3] = 0;
@@ -424,9 +425,9 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset)
     }
 
     for (i = 0; i < Len; i++) {
-	(void)snprintf(&HexForm[CrntPlace * 3], 3,
+	(void)snprintf(&HexForm[CrntPlace * 3], 4,
 		       " %02x", PixelBlock[i]);
-	(void)snprintf(&AsciiForm[CrntPlace], 3,
+	(void)snprintf(&AsciiForm[CrntPlace], 4,
 		       "%c", MAKE_PRINTABLE(PixelBlock[i]));
 	if (++CrntPlace == 16) {
 	    HexForm[CrntPlace * 3] = 0;
