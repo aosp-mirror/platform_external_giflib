@@ -387,19 +387,21 @@ EGifPutImageDesc(GifFileType *GifFile,
     GifFile->Image.Width = Width;
     GifFile->Image.Height = Height;
     GifFile->Image.Interlace = Interlace;
-    if (ColorMap) {
-	if (GifFile->Image.ColorMap != NULL) {
-	    GifFreeMapObject(GifFile->Image.ColorMap);
+    if (ColorMap != GifFile->Image.ColorMap) {
+	if (ColorMap) {
+	    if (GifFile->Image.ColorMap != NULL) {
+		GifFreeMapObject(GifFile->Image.ColorMap);
+		GifFile->Image.ColorMap = NULL;
+	    }
+	    GifFile->Image.ColorMap = GifMakeMapObject(ColorMap->ColorCount,
+						    ColorMap->Colors);
+	    if (GifFile->Image.ColorMap == NULL) {
+		GifFile->Error = E_GIF_ERR_NOT_ENOUGH_MEM;
+		return GIF_ERROR;
+	    }
+	} else {
 	    GifFile->Image.ColorMap = NULL;
 	}
-        GifFile->Image.ColorMap = GifMakeMapObject(ColorMap->ColorCount,
-                                                ColorMap->Colors);
-        if (GifFile->Image.ColorMap == NULL) {
-            GifFile->Error = E_GIF_ERR_NOT_ENOUGH_MEM;
-            return GIF_ERROR;
-        }
-    } else {
-        GifFile->Image.ColorMap = NULL;
     }
 
     /* Put the image descriptor into the file: */
