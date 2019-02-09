@@ -325,10 +325,13 @@ GifMakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
 {
     if (GifFile->SavedImages == NULL)
         GifFile->SavedImages = (SavedImage *)malloc(sizeof(SavedImage));
-    else
-        GifFile->SavedImages = (SavedImage *)reallocarray(GifFile->SavedImages,
+    else {
+        SavedImage* newSavedImages = (SavedImage *)reallocarray(GifFile->SavedImages,
                                (GifFile->ImageCount + 1), sizeof(SavedImage));
-
+        if( newSavedImages == NULL)
+            return ((SavedImage *)NULL);
+        GifFile->SavedImages = newSavedImages;
+    }
     if (GifFile->SavedImages == NULL)
         return ((SavedImage *)NULL);
     else {
