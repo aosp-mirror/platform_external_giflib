@@ -6,12 +6,16 @@ Repository head
 Code Fixes
 ----------
 
+* Fix SF bug #107: Floating point exception in giftext utility
+
+* Fix SF bug #104: Ineffective bounds check in DGifSlurp
+
 * Fix SF bug #87 Heap buffer overflow in 5.1.2 (gif2rgb).
 
 Build Fixes
 -----------
 
-The horrible old autoconf build system has been removed. 
+The horrible old autoconf build system has been removed with extreme prejudice. 
 You now build this simply by running "make" from the top-level directory.
 
 Version 5.1.4
