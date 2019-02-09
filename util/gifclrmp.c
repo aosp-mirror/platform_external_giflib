@@ -222,6 +222,8 @@ int main(int argc, char **argv)
 		/* pass through extension records */
 		if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
+		if (Extension == NULL)
+		    break;
 		if (EGifPutExtensionLeader(GifFileOut, ExtCode) == GIF_ERROR)
 		    QuitGifError(GifFileIn, GifFileOut);
 		if (EGifPutExtensionBlock(GifFileOut, 
