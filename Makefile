@@ -123,7 +123,6 @@ EXTRAS = Makefile \
 	     README \
 	     NEWS \
 	     TODO \
-	     AUTHORS \
 	     COPYING \
 	     ChangeLog \
 	     build.adoc \
