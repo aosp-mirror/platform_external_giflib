@@ -1,4 +1,4 @@
-SUFFIXES = .xml .html .txt .adoc .1
+.SUFFIXES: .xml .html .txt .adoc .1
 
 .xml.html:
 	xmlto xhtml-nochunks $<
@@ -36,26 +36,17 @@ XMLDOC = intro.xml gif_lib.xml
 XMLALL = $(XMLMAN) $(XMLINTERNAL) $(XMLDOC)
 TXTDOC = 00README gif87.txt gif89.txt lzgif.txt
 SOURCES = $(XMLALL) $(TXTDOC)
-SITEHTML = index.html
 
 # Philosophical choice: the website gets the internal manual pages
 allhtml: $(XMLALL:.xml=.html) $(XMLINTERNAL:.xml=.html)
 
 manpages: $(XMLMAN:.xml=.1) $(XMLINTERNAL:.xml=.1)
-man_MANS = $(XMLMAN:.xml=.1)
-
-# Control what goes in the distribution tarball.
-# We include all of the XML, and also generated manual pages 
-# so people working from the distribution tarball won't need xmlto. 
-EXTRA_DIST = $(SOURCES) $(XMLMAN:.xml=.1) $(XMLINTERNAL:.xml=.1)
 
 # Prepare the website directory to deliver an update.
 # ImageMagick and asciidoc are required.
 website: allhtml
 	rm -fr staging; mkdir staging; 
-	cp -r $(XMLALL:.xml=.html) $(SITEHTML) *.txt whatsinagif staging
+	cp -r $(XMLALL:.xml=.html) *.txt whatsinagif staging
+	cp index.html.in staging/index.html
 	convert ../pic/gifgrid.gif -resize 50x50 staging/giflib-logo.gif
 	asciidoc - <../history.adoc >staging/history.html
-
-clean-local:
-	rm -fr staging $(XMLALL:.xml=.html) $(XMLMAN:.xml=.1)

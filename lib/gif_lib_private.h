@@ -7,7 +7,6 @@ gif_lib_private.h - internal giflib routines and structures
 #ifndef _GIF_LIB_PRIVATE_H
 #define _GIF_LIB_PRIVATE_H
 
-#include "config.h"
 #include "gif_lib.h"
 #include "gif_hash.h"
 

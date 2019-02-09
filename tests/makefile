@@ -24,7 +24,7 @@ rebuild: render-rebuild \
 		giftext-rebuild \
 		gifwedge-rebuild
 
-UTILS = ../util
+UTILS = ..
 PICS = ../pic
 
 GIFS := $(shell ls ../pic/*.gif)
