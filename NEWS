@@ -203,7 +203,7 @@ Documentation and polish
 
 Retirements
 -----------
-* gifinter is gone.  Use convert -interlace from the ImageMagick suite.
+* gifinter is gone.  Use "convert -interlace line" from the ImageMagick suite.
 
 Code Fixes
 ----------
