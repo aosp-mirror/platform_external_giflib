@@ -2,7 +2,7 @@
 # Should work for all Unix versions
 #
 CC    = gcc
-CFLAGS  = -std=gnu99 -fPIC -pedantic -Wall -Wextra
+CFLAGS  = -std=gnu99 -fPIC -Wall
 DFLAGS  = -O0
 OFLAGS  = -O2 -fwhole-program
 
