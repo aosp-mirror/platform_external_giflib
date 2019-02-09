@@ -297,6 +297,17 @@ DGifGetScreenDesc(GifFileType *GifFile)
     return GIF_OK;
 }
 
+const char *
+DGifGetGifVersion(GifFileType *GifFile)
+{
+    GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
+
+    if (Private->gif89)
+	return GIF89_STAMP;
+    else
+	return GIF87_STAMP;
+}
+
 /******************************************************************************
  This routine should be called before any attempt to read an image.
 ******************************************************************************/

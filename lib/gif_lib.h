@@ -211,6 +211,7 @@ int DGifGetCode(GifFileType *GifFile, int *GifCodeSize,
                 GifByteType **GifCodeBlock);
 int DGifGetCodeNext(GifFileType *GifFile, GifByteType **GifCodeBlock);
 int DGifGetLZCodes(GifFileType *GifFile, int *GifCode);
+const char *DGifGetGifVersion(GifFileType *GifFile);
 
 
 /******************************************************************************

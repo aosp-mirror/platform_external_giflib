@@ -853,6 +853,16 @@ diagnostic error code will remain accessible in GifFile->Error.
 This behavior was changed because it caused problems for the
 implementation of library wrappers in dynamic languages.)</para>
 
+<programlisting id="DGetGifVersion">
+const char * DGifGetGifVersion(GifFileType *GifFile)
+</programlisting>
+
+<para>Get the GIF version collected during sequential read. This is
+handy for sequential API users who want to set an encoder's version
+from a decoder (e.g. for gif resizing). For the all-at-once users this
+isn't necessary because gif encoder inspects all the extension blocks,
+but sequential users do not have that luxury.</para>
+
 </sect2>
 <sect2><title>Sequential writing</title>
 
