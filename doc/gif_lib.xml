@@ -770,18 +770,6 @@ not recommended.</para>
 
 <para>Returns GIF_ERROR if something went wrong, GIF_OK otherwise.</para>
 
-<programlisting id="DGifGetComment">
-int DGifGetComment(GifFileType *GifFile, char *GifComment)
-</programlisting>
-
-<para>Load a comment from the GIF file.  Because DGifGetRecordType will
-only tell if the record is of type extension, this routine should be
-called iff it is known %100 that is must be a comment.</para>
-
-<para>For the definition of a comment, see <link
-linkend="EGifPutComment">EGifPutComment()</link>.  Returns GIF_ERROR
-if something went wrong, GIF_OK otherwise.</para>
-
 <programlisting>
 int DGifGetExtension(
         GifFileType *GifFile,
