@@ -53,8 +53,8 @@ all: giflib.so $(UTILS)
 
 giflib.so: $(OBJECTS)
 	$(CC) $(CFLAGS) -shared $(OFLAGS) -o giflib.so $(OBJECTS)
-	ln giflib.so giflib.so.$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
-	ln giflib.so giflib.so.$(LIBMAJOR)
+	ln -sf giflib.so giflib.so.$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
+	ln -sf giflib.so giflib.so.$(LIBMAJOR)
 
 giflib.a: $(OBJECTS)
 	ar rcs giflib.a $(OBJECTS)
