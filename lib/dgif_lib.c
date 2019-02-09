@@ -348,17 +348,12 @@ DGifGetRecordType(GifFileType *GifFile, GifRecordType* Type)
     return GIF_OK;
 }
 
-/******************************************************************************
- This routine should be called before any attempt to read an image.
- Note it is assumed the Image desc. header has been read.
-******************************************************************************/
 int
-DGifGetImageDesc(GifFileType *GifFile)
+DGifGetImageHeader(GifFileType *GifFile)
 {
     unsigned int BitsPerPixel;
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
-    SavedImage *sp;
 
     if (!IS_READABLE(Private)) {
         /* This file was NOT open for reading: */
@@ -373,8 +368,8 @@ DGifGetImageDesc(GifFileType *GifFile)
         return GIF_ERROR;
     if (READ(GifFile, Buf, 1) != 1) {
         GifFile->Error = D_GIF_ERR_READ_FAILED;
-	GifFreeMapObject(GifFile->Image.ColorMap);
-	GifFile->Image.ColorMap = NULL;
+        GifFreeMapObject(GifFile->Image.ColorMap);
+        GifFile->Image.ColorMap = NULL;
         return GIF_ERROR;
     }
     BitsPerPixel = (Buf[0] & 0x07) + 1;
@@ -387,7 +382,7 @@ DGifGetImageDesc(GifFileType *GifFile)
     }
     /* Does this image have local color map? */
     if (Buf[0] & 0x80) {
-	unsigned int i;
+        unsigned int i;
 
         GifFile->Image.ColorMap = GifMakeMapObject(1 << BitsPerPixel, NULL);
         if (GifFile->Image.ColorMap == NULL) {
@@ -397,7 +392,7 @@ DGifGetImageDesc(GifFileType *GifFile)
 
         /* Get the image local color map: */
         for (i = 0; i < GifFile->Image.ColorMap->ColorCount; i++) {
-	    /* coverity[check_return] */
+            /* coverity[check_return] */
             if (READ(GifFile, Buf, 3) != 3) {
                 GifFreeMapObject(GifFile->Image.ColorMap);
                 GifFile->Error = D_GIF_ERR_READ_FAILED;
@@ -408,6 +403,33 @@ DGifGetImageDesc(GifFileType *GifFile)
             GifFile->Image.ColorMap->Colors[i].Green = Buf[1];
             GifFile->Image.ColorMap->Colors[i].Blue = Buf[2];
         }
+    }
+
+    Private->PixelCount = (long)GifFile->Image.Width *
+       (long)GifFile->Image.Height;
+
+    /* Reset decompress algorithm parameters. */
+    return DGifSetupDecompress(GifFile);
+}
+
+/******************************************************************************
+ This routine should be called before any attempt to read an image.
+ Note it is assumed the Image desc. header has been read.
+******************************************************************************/
+int
+DGifGetImageDesc(GifFileType *GifFile)
+{
+    GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
+    SavedImage *sp;
+
+    if (!IS_READABLE(Private)) {
+        /* This file was NOT open for reading: */
+        GifFile->Error = D_GIF_ERR_NOT_READABLE;
+        return GIF_ERROR;
+    }
+
+    if (DGifGetImageHeader(GifFile) == GIF_ERROR) {
+        return GIF_ERROR;
     }
 
     if (GifFile->SavedImages) {
@@ -444,11 +466,7 @@ DGifGetImageDesc(GifFileType *GifFile)
 
     GifFile->ImageCount++;
 
-    Private->PixelCount = (long)GifFile->Image.Width *
-       (long)GifFile->Image.Height;
-
-    /* Reset decompress algorithm parameters. */
-    return DGifSetupDecompress(GifFile);
+    return GIF_OK;
 }
 
 /******************************************************************************
