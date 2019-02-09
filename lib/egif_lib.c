@@ -277,6 +277,7 @@ EGifPutScreenDesc(GifFileType *GifFile,
     GifByteType Buf[3];
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
     const char *write_version;
+    GifFile->SColorMap = NULL;
 
     if (Private->FileState & FILE_STATE_SCREEN) {
         /* If already has screen descriptor - something is wrong! */
