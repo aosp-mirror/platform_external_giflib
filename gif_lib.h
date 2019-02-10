@@ -58,7 +58,7 @@ typedef struct ExtensionBlock {
 #define COMMENT_EXT_FUNC_CODE     0xfe    /* comment */
 #define GRAPHICS_EXT_FUNC_CODE    0xf9    /* graphics control (GIF89) */
 #define PLAINTEXT_EXT_FUNC_CODE   0x01    /* plaintext */
-#define APPLICATION_EXT_FUNC_CODE 0xff    /* application block */
+#define APPLICATION_EXT_FUNC_CODE 0xff    /* application block (GIF89) */
 } ExtensionBlock;
 
 typedef struct SavedImage {
