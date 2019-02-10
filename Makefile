@@ -4,7 +4,7 @@
 CC    = gcc
 OFLAGS = -O0
 #OFLAGS  = -O2 -fwhole-program
-CFLAGS  = -std=gnu99 -fPIC -Wall $(OFLAGS)
+CFLAGS  = -std=gnu99 -fPIC -Wall -Wno-format-truncation $(OFLAGS)
 LDFLAGS = -g
 
 SHELL = /bin/sh
