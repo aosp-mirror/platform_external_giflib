@@ -55,6 +55,8 @@ LDLIBS=giflib.a -lm
 all: giflib.so giflib.a $(UTILS)
 	cd doc; make
 
+$(UTILS):: giflib.a
+
 giflib.so: $(OBJECTS) $(HEADERS)
 	$(CC) $(CFLAGS) -shared $(OFLAGS) -o giflib.so $(OBJECTS)
 	ln -sf giflib.so giflib.so.$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
