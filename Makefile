@@ -2,7 +2,7 @@
 # Should work for all Unix versions
 #
 CC    = gcc
-OFLAGS = -O0
+OFLAGS = -O0 -g
 #OFLAGS  = -O2 -fwhole-program
 CFLAGS  = -std=gnu99 -fPIC -Wall -Wno-format-truncation $(OFLAGS)
 LDFLAGS = -g
