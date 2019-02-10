@@ -2,9 +2,10 @@
 # Should work for all Unix versions
 #
 CC    = gcc
-CFLAGS  = -std=gnu99 -fPIC -Wall
-DFLAGS  = -O0
-OFLAGS  = -O2 -fwhole-program
+OFLAGS = -O0
+#OFLAGS  = -O2 -fwhole-program
+CFLAGS  = -std=gnu99 -fPIC -Wall $(OFLAGS)
+LDFLAGS = -g
 
 SHELL = /bin/sh
 TAR = tar
@@ -21,11 +22,12 @@ LIBMAJOR=7
 LIBMINOR=1
 LIBPOINT=0
 
-SOURCES = $(shell echo lib/*.c)
-HEADERS = $(shell echo lib/*.h)
+SOURCES = dgif_lib.c egif_lib.c getarg.c gifalloc.c gif_err.c gif_font.c \
+	gif_hash.c openbsd-reallocarray.c qprintf.c quantize.c
+HEADERS = getarg.h  gif_hash.h  gif_lib.h  gif_lib_private.h
 OBJECTS = $(SOURCES:.c=.o)
 
-# Some utilitoes are installed
+# Some utilities are installed
 INSTALLABLE = \
 	gif2rgb \
 	gifbuild \
@@ -48,46 +50,18 @@ UTILS = $(INSTALLABLE) \
 	gifsponge \
 	gifwedge
 
-all: giflib.so $(UTILS)
+LDLIBS=giflib.a -lm
+
+all: giflib.so giflib.a $(UTILS)
 	cd doc; make
 
-giflib.so: $(OBJECTS)
+giflib.so: $(OBJECTS) $(HEADERS)
 	$(CC) $(CFLAGS) -shared $(OFLAGS) -o giflib.so $(OBJECTS)
 	ln -sf giflib.so giflib.so.$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
 	ln -sf giflib.so giflib.so.$(LIBMAJOR)
 
-giflib.a: $(OBJECTS)
+giflib.a: $(OBJECTS) $(HEADERS)
 	ar rcs giflib.a $(OBJECTS)
-
-GETARG=util/getarg.c util/getarg.h util/qprintf.c 
-gifbg: util/gifbg.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o gifbg util/gifbg.o $(GETARG:.c=.o) giflib.a
-gifcolor: util/gifcolor.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o gifcolor util/gifcolor.o $(GETARG:.c=.o) giflib.a
-gifhisto: util/gifhisto.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o gifhisto util/gifhisto.o $(GETARG:.c=.o) giflib.a
-gif2rgb: util/gif2rgb.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o gif2rgb util/gif2rgb.o $(GETARG:.c=.o) giflib.a
-gifbuild: util/gifbuild.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o gifbuild util/gifbuild.o $(GETARG:.c=.o) giflib.a
-gifecho: util/gifecho.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o gifecho util/gifecho.o $(GETARG:.c=.o) giflib.a
-giffix: util/giffix.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o giffix util/giffix.o $(GETARG:.c=.o) giflib.a
-giffilter: util/giffilter.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o giffilter util/giffilter.o $(GETARG:.c=.o) giflib.a
-gifinto: util/gifinto.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o gifinto util/gifinto.o $(GETARG:.c=.o) giflib.a
-gifsponge: util/gifsponge.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o gifsponge util/gifsponge.o $(GETARG:.c=.o) giflib.a
-giftext: util/giftext.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o giftext util/giftext.o $(GETARG:.c=.o) giflib.a
-giftool: util/giftool.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o giftool util/giftool.o $(GETARG:.c=.o) giflib.a
-gifwedge: util/gifwedge.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o gifwedge util/gifwedge.o $(GETARG:.c=.o) giflib.a
-gifclrmp: util/gifclrmp.o $(GETARG:.c=.o) giflib.a
-	$(CC) $(CFLAGS) $(OFLAGS) -o gifclrmp util/gifclrmp.o -lm $(GETARG:.c=.o) giflib.a
 
 clean:
 	rm -f $(UTILS) $(TARGET) libgetarg.a giflib.a giflib.so
@@ -95,7 +69,7 @@ clean:
 	rm -f giflib.so.$(LIBMAJOR)
 	rm -fr doc/*.1 *.html doc/staging
 
-check: all
+make check: all
 	cd tests; make
 
 # Installation/uninstallation
