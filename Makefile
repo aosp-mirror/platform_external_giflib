@@ -104,7 +104,7 @@ EXTRAS = Makefile \
 	     control \
 	     doc/whatsinagif \
 
-DSOURCES = Makefile lib/*.[ch] util/*.[ch]
+DSOURCES = Makefile *.[ch]
 DOCS = doc/*.1 doc/*.xml doc/*.txt doc/index.html.in doc/00README
 ALL =  $(DSOURCES) $(DOCS) tests pic $(EXTRAS)
 giflib-$(VERSION).tar.gz: $(ALL)
