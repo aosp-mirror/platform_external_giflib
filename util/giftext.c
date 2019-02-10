@@ -382,9 +382,9 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset)
 	int i, Len;
 	Len = Extension[0];
 	for (i = 1; i <= Len; i++) {
-	    (void)snprintf(&HexForm[CrntPlace * 3], 4,
+	    (void)snprintf(&HexForm[CrntPlace * 3], 3,
 			   " %02x", Extension[i]);
-	    (void)snprintf(&AsciiForm[CrntPlace], 4,
+	    (void)snprintf(&AsciiForm[CrntPlace], 3,
 			   "%c", MAKE_PRINTABLE(Extension[i]));
 	    if (++CrntPlace == 16) {
 		HexForm[CrntPlace * 3] = 0;
@@ -425,9 +425,9 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset)
     }
 
     for (i = 0; i < Len; i++) {
-	(void)snprintf(&HexForm[CrntPlace * 3], 4,
+	(void)snprintf(&HexForm[CrntPlace * 3], 3,
 		       " %02x", PixelBlock[i]);
-	(void)snprintf(&AsciiForm[CrntPlace], 4,
+	(void)snprintf(&AsciiForm[CrntPlace], 3,
 		       "%c", MAKE_PRINTABLE(PixelBlock[i]));
 	if (++CrntPlace == 16) {
 	    HexForm[CrntPlace * 3] = 0;
