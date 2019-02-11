@@ -95,7 +95,6 @@ static void LoadRGB(char *FileName,
 
 	    for (i = 0; i < 3; i++) {
 		strncpy(OneFileName, FileName, sizeof(OneFileName)-1);
-		/* cppcheck-suppress uninitstring */
 		strncat(OneFileName, Postfixes[i], 
 			sizeof(OneFileName) - 1 - strlen(OneFileName));
 
@@ -150,9 +149,7 @@ static void LoadRGB(char *FileName,
 	}
 
 	fclose(rgbfp[0]);
-	// cppcheck-suppress useClosedFile
 	fclose(rgbfp[1]);
-	// cppcheck-suppress useClosedFile
 	fclose(rgbfp[2]);
     }
 }
@@ -263,7 +260,6 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 
             for (i = 0; i < 3; i++) {
                 strncpy(OneFileName, FileName, sizeof(OneFileName)-1);
-		/* cppcheck-suppress uninitstring */
                 strncat(OneFileName, Postfixes[i], 
 			sizeof(OneFileName) - 1 - strlen(OneFileName));
     
@@ -334,9 +330,7 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
         free((char *) Buffers[1]);
         free((char *) Buffers[2]);
         fclose(rgbfp[0]);
-	// cppcheck-suppress useClosedFile
         fclose(rgbfp[1]);
-	// cppcheck-suppress useClosedFile
         fclose(rgbfp[2]);
     }
 }

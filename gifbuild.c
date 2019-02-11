@@ -170,15 +170,12 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	 * Explicit header declarations
 	 */
 
-	// cppcheck-suppress invalidscanf 
 	if (sscanf(buf, "screen width %d\n", &GifFileOut->SWidth) == 1)
 	    continue;
 
-	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "screen height %d\n", &GifFileOut->SHeight) == 1)
 	    continue;
 
-	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "screen colors %d\n", &n) == 1)
 	{
 	    int	ResBits = GifBitSize(n);
@@ -193,13 +190,11 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    continue;
 	}
 
-	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf,
 			"screen background %d\n",
 			&GifFileOut->SBackGroundColor) == 1)
 	    continue;
 
-	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "pixel aspect byte %u\n", &intval) == 1) {
 	    GifFileOut->AspectByte = (GifByteType)(intval & 0xff);
 	    continue;
@@ -238,7 +233,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    memset(LocalColorKeys, '\0', sizeof(LocalColorKeys));
 	}
 
-	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "	rgb %d %d %d is %c",
 		   &red, &green, &blue, &KeyTable[ColorMapSize]) == 4)
 	{
@@ -248,7 +242,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    ColorMapSize++;
 	}
 
-	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "	rgb %d %d %d", &red, &green, &blue) == 3)
 	{
 	    ColorMap[ColorMapSize].Red = red;
@@ -283,15 +276,15 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	}
 
 	/* GIF inclusion */
-	// cppcheck-suppress invalidscanf 
-	else if (sscanf(buf, "include %s", InclusionFile) == 1)
+	/* ugly magic number is because scanf has no */
+	else if (sscanf(buf, "include %63s", InclusionFile) == 1)
 	{
 	    int		ErrorCode;
 	    bool	DoTranslation;
 	    GifPixelType	Translation[256];
 
 	    GifFileType	*Inclusion;
-	    SavedImage	*NewImage, *CopyFrom;
+	    SavedImage	*CopyFrom;
 
 	    if ((Inclusion = DGifOpenFileName(InclusionFile, &ErrorCode)) == NULL) {
 		PrintGifError(ErrorCode);
@@ -311,16 +304,18 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		exit(EXIT_FAILURE);
 	    }
 
+	    //cppcheck-suppress nullPointerRedundantCheck
 	    if ((DoTranslation = (GifFileOut->SColorMap!=(ColorMapObject*)NULL)))
 	    {
 		ColorMapObject	*UnionMap;
 
-		UnionMap = GifUnionColorMap(GifFileOut->SColorMap,
-					 Inclusion->SColorMap, Translation);
+		//cppcheck-suppress nullPointerRedundantCheck
+		UnionMap = GifUnionColorMap(GifFileOut->SColorMap, Inclusion->SColorMap, Translation);
 
 		if (UnionMap == NULL)
 		{
 		    PARSE_ERROR("Inclusion failed --- global map conflict.");
+		    //cppcheck-suppress nullPointerRedundantCheck
 		    PrintGifError(GifFileOut->Error);
 		    if (Inclusion != NULL) DGifCloseFile(Inclusion, NULL);
 		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut, NULL);
@@ -331,13 +326,17 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 		GifFileOut->SColorMap = UnionMap;
 	    }
 
+	    //cppcheck-suppress nullPointerRedundantCheck
 	    for (CopyFrom = Inclusion->SavedImages;
+		 //cppcheck-suppress nullPointerRedundantCheck
 		 CopyFrom < Inclusion->SavedImages + Inclusion->ImageCount;
 		 CopyFrom++)
 	    {
+		SavedImage	*NewImage;
 		if ((NewImage = GifMakeSavedImage(GifFileOut, CopyFrom)) == NULL)
 		{
 		    PARSE_ERROR("Inclusion failed --- out of memory.");
+		    //cppcheck-suppress nullPointerRedundantCheck
 		    PrintGifError(GifFileOut->Error);
 		    if (Inclusion != NULL) DGifCloseFile(Inclusion, NULL);
 		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut, NULL);
@@ -420,7 +419,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 		    while (isspace(*tp))
 			tp++;
-		    // cppcheck-suppress invalidscanf 
 		    if (sscanf(tp, "disposal mode %d\n", &gcb.DisposalMode))
 			continue;
 		    if (strcmp(tp, "user input flag on\n") == 0) {
@@ -431,10 +429,8 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 			gcb.UserInputFlag = false;
 			continue;
 		    }
-		    // cppcheck-suppress invalidscanf 
 		    if (sscanf(tp, "delay %d\n", &gcb.DelayTime))
 			continue;
-		    // cppcheck-suppress invalidscanf 
 		    if (sscanf(tp, "transparent index %d\n",
 			       &gcb.TransparentColor))
 			continue;
@@ -453,7 +449,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    }
 
 	}
-	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "netscape loop %u", &intval))
 	{
 	    unsigned char params[3] = {1, 0, 0};
@@ -476,7 +471,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    }
 	    
 	}
-	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "extension %x", &ExtCode))
 	{
 	    int bc = 0;
@@ -537,11 +531,9 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	/*
 	 * Accept image attributes
 	 */
-	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "image top %d\n", &NewImage->ImageDesc.Top) == 1)
 	    continue;
 
-	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf, "image left %d\n", &NewImage->ImageDesc.Left)== 1)
 	    continue;
 
@@ -551,7 +543,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	    continue;
 	}
 
-	// cppcheck-suppress invalidscanf 
 	else if (sscanf(buf,
 			"image bits %d by %d",
 			&NewImage->ImageDesc.Width,

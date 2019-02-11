@@ -314,11 +314,11 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Re
 {
     static int CrntPlace = 0; 
     static long CodeCount = 0;
-    int i, Percent, Len;
-    long NumBytes = 0;
+    int i, Len;
 
     if (Reset || CodeBlock == NULL) {
 	if (CodeBlock == NULL) {
+	    long NumBytes = 0;
 	    if (CrntPlace > 0) {
 		printf("\n");
 		CodeCount += CrntPlace - 16;
@@ -331,7 +331,7 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Re
 				* GifFile->SColorMap->BitsPerPixel) / 8;
 	    /* FIXME: What should the compression ratio be if no color table? */
 	    if (NumBytes > 0) {
-		Percent = 100 * CodeCount / NumBytes;
+		int Percent = 100 * CodeCount / NumBytes;
 		printf("\nCompression ratio: %ld/%ld (%d%%).\n",
 			CodeCount, NumBytes, Percent);
 	    }

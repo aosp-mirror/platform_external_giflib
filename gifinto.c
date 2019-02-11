@@ -112,7 +112,6 @@ int main(int argc, char **argv)
     if ( *FileName == NULL ) GIF_EXIT("No valid Filename given.");
     if ( strlen(*FileName) > STRLEN-1 ) GIF_EXIT("Filename too long.");
     memset(FullPath, '\0', sizeof(FullPath));
-    // cppcheck-suppress redundantCopy
     strncpy(FullPath, *FileName, STRLEN);
     if ((p = strrchr(FullPath, '/')) != NULL ||
 	(p = strrchr(FullPath, '\\')) != NULL)
@@ -164,7 +163,6 @@ int main(int argc, char **argv)
 	    memset(DefaultName, '\0', sizeof(DefaultName));
 	    if ( (strlen(FullPath) + strlen(DEFAULT_OUT_NAME)) > STRLEN-1 ) GIF_EXIT("Filename too long.");
 	    strncpy(DefaultName, FullPath, STRLEN);
-	    // cppcheck-suppress uninitstring
 	    strcat(DefaultName, DEFAULT_OUT_NAME);
 	    if (rename(FoutTmpName, DefaultName) == 0) {
 		char s[STRLEN];

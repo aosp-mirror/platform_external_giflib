@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 	ForeGroundIndex = DEFAULT_FG_INDEX;
     bool Error, ClrMapSizeFlag = false, ForeGroundFlag = false,
 	TextLineFlag = false, HelpFlag = false, ColorFlag = false;
-    char *TextLines[MAX_NUM_TEXT_LINES], Line[LINE_LEN];
+    char *TextLines[MAX_NUM_TEXT_LINES];
     GifRowType RasterBuffer[GIF_FONT_HEIGHT];
     ColorMapObject *ColorMap;
     GifFileType *GifFile;
@@ -90,6 +90,7 @@ int main(int argc, char **argv)
 	ImageWidth = GIF_FONT_WIDTH * strlen(TextLines[0]);
     }
     else {
+	char Line[LINE_LEN];
 	NumOfLines = l = 0;
 	while (fgets(Line, LINE_LEN - 1, stdin)) {
 	    for (i = strlen(Line); i > 0 && Line[i-1] <= ' '; i--);
@@ -174,7 +175,6 @@ int main(int argc, char **argv)
 static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 					int BufferWidth, int ForeGroundIndex)
 {
-    unsigned char c;
     unsigned char Byte, Mask;
     int i, j, k, CharPosX, Len = strlen(TextLine);
 
@@ -182,7 +182,7 @@ static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
         for (j = 0; j < GIF_FONT_HEIGHT; j++) RasterBuffer[j][i] = 0;
 
     for (i = CharPosX = 0; i < Len; i++, CharPosX += GIF_FONT_WIDTH) {
-	c = TextLine[i];
+	unsigned char c = TextLine[i];
 	for (j = 0; j < GIF_FONT_HEIGHT; j++) {
 	    Byte = GifAsciiTable8x8[(unsigned short)c][j];
 	    for (k = 0, Mask = 128; k < GIF_FONT_WIDTH; k++, Mask >>= 1)

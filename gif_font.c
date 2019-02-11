@@ -158,11 +158,10 @@ GifDrawText8x8(SavedImage *Image,
 	    const int color)
 {
     int i, j;
-    int base;
     const char *cp;
 
     for (i = 0; i < GIF_FONT_HEIGHT; i++) {
-        base = Image->ImageDesc.Width * (y + i) + x;
+        int base = Image->ImageDesc.Width * (y + i) + x;
 
         for (cp = legend; *cp; cp++)
             for (j = 0; j < GIF_FONT_WIDTH; j++) {

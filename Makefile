@@ -123,7 +123,7 @@ dist: giflib-$(VERSION).tar.gz
 
 # cppcheck should run clean
 cppcheck:
-	cppcheck -Ilib --inline-suppr --template gcc --enable=all --suppress=unusedStructMember --suppress=unusedFunction --force lib/*.[ch] util/*.[ch]
+	cppcheck --inline-suppr --template gcc --enable=all --suppress=unusedFunction --force *.[ch]
 
 # release using the shipper tool
 release: all

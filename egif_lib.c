@@ -778,44 +778,45 @@ EGifCloseFile(GifFileType *GifFile, int *ErrorCode)
     Private = (GifFilePrivateType *) GifFile->Private;
     if (Private == NULL)
 	return GIF_ERROR;
-    if (!IS_WRITEABLE(Private)) {
+    else if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
 	if (ErrorCode != NULL)
 	    *ErrorCode = E_GIF_ERR_NOT_WRITEABLE;
 	free(GifFile);
         return GIF_ERROR;
-    }
+    } else {
+	//cppcheck-suppress nullPointerRedundantCheck
+	File = Private->File;
 
-    File = Private->File;
+	Buf = TERMINATOR_INTRODUCER;
+	InternalWrite(GifFile, &Buf, 1);
 
-    Buf = TERMINATOR_INTRODUCER;
-    InternalWrite(GifFile, &Buf, 1);
+	if (GifFile->Image.ColorMap) {
+	    GifFreeMapObject(GifFile->Image.ColorMap);
+	    GifFile->Image.ColorMap = NULL;
+	}
+	if (GifFile->SColorMap) {
+	    GifFreeMapObject(GifFile->SColorMap);
+	    GifFile->SColorMap = NULL;
+	}
+	if (Private) {
+	    if (Private->HashTable) {
+		free((char *) Private->HashTable);
+	    }
+	    free((char *) Private);
+	}
 
-    if (GifFile->Image.ColorMap) {
-        GifFreeMapObject(GifFile->Image.ColorMap);
-        GifFile->Image.ColorMap = NULL;
-    }
-    if (GifFile->SColorMap) {
-        GifFreeMapObject(GifFile->SColorMap);
-        GifFile->SColorMap = NULL;
-    }
-    if (Private) {
-        if (Private->HashTable) {
-            free((char *) Private->HashTable);
-        }
-	free((char *) Private);
-    }
+	if (File && fclose(File) != 0) {
+	    if (ErrorCode != NULL)
+		*ErrorCode = E_GIF_ERR_CLOSE_FAILED;
+	    free(GifFile);
+	    return GIF_ERROR;
+	}
 
-    if (File && fclose(File) != 0) {
-	if (ErrorCode != NULL)
-	    *ErrorCode = E_GIF_ERR_CLOSE_FAILED;
 	free(GifFile);
-        return GIF_ERROR;
+	if (ErrorCode != NULL)
+	    *ErrorCode = E_GIF_SUCCEEDED;
     }
-
-    free(GifFile);
-    if (ErrorCode != NULL)
-	*ErrorCode = E_GIF_SUCCEEDED;
     return GIF_OK;
 }
 
@@ -890,9 +891,7 @@ EGifCompressLine(GifFileType *GifFile,
                  GifPixelType *Line,
                  const int LineLen)
 {
-    int i = 0, CrntCode, NewCode;
-    unsigned long NewKey;
-    GifPixelType Pixel;
+    int i = 0, CrntCode;
     GifHashTableType *HashTable;
     GifFilePrivateType *Private = (GifFilePrivateType *) GifFile->Private;
 
@@ -904,11 +903,12 @@ EGifCompressLine(GifFileType *GifFile,
         CrntCode = Private->CrntCode;    /* Get last code in compression. */
 
     while (i < LineLen) {   /* Decode LineLen items. */
-        Pixel = Line[i++];  /* Get next pixel from stream. */
+	GifPixelType Pixel = Line[i++];  /* Get next pixel from stream. */
         /* Form a new unique key to search hash table for the code combines 
          * CrntCode as Prefix string with Pixel as postfix char.
          */
-        NewKey = (((uint32_t) CrntCode) << 8) + Pixel;
+	int NewCode;
+	unsigned long NewKey = (((uint32_t) CrntCode) << 8) + Pixel;
         if ((NewCode = _ExistsHashTable(HashTable, NewKey)) >= 0) {
             /* This Key is already there, or the string is old one, so
              * simple take new code as our CrntCode:
@@ -1066,11 +1066,10 @@ EGifWriteExtensions(GifFileType *GifFileOut,
 			       int ExtensionBlockCount) 
 {
     if (ExtensionBlocks) {
-        ExtensionBlock *ep;
 	int j;
 
 	for (j = 0; j < ExtensionBlockCount; j++) {
-	    ep = &ExtensionBlocks[j];
+	    ExtensionBlock *ep = &ExtensionBlocks[j];
 	    if (ep->Function != CONTINUE_EXT_FUNC_CODE)
 		if (EGifPutExtensionLeader(GifFileOut, ep->Function) == GIF_ERROR)
 		    return (GIF_ERROR);
