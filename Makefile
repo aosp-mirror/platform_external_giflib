@@ -112,7 +112,7 @@ EXTRAS = Makefile \
 	     doc/whatsinagif \
 
 DSOURCES = Makefile *.[ch]
-DOCS = doc/*.1 doc/*.xml doc/*.txt doc/index.html.in doc/00README
+DOCS = doc/*.1 doc/*.xml doc/*.txt doc/index.html.in doc/00README doc/Makefile
 ALL =  $(DSOURCES) $(DOCS) tests pic $(EXTRAS)
 giflib-$(VERSION).tar.gz: $(ALL)
 	$(TAR) --transform='s:^:giflib-$(VERSION)/:' --show-transformed-names -cvzf giflib-$(VERSION).tar.gz $(ALL)
@@ -125,8 +125,15 @@ dist: giflib-$(VERSION).tar.gz
 cppcheck:
 	cppcheck --inline-suppr --template gcc --enable=all --suppress=unusedFunction --force *.[ch]
 
+# Verify the build
+distcheck: all
+	make giflib-$(VERSION).tar.gz
+	tar xzvf giflib-$(VERSION).tar.gz
+	cd giflib-$(VERSION); make
+	rm -fr giflib-$(VERSION)
+
 # release using the shipper tool
-release: all
+release: all distcheck
 	cd doc; make website
 	shipper --no-stale version=$(VERSION) | sh -e -x
 	rm -fr doc/staging
