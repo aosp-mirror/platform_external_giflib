@@ -28,6 +28,7 @@ is backward-conformant to C89.
 1. Check the SourceForge tracker for bugs and patches.
 
 2. Bump the version number in the Makefile as appropriate.
+   Also needs to be changed in gif_lib.h.
 
 3. Version-stamp the top entry in the NEWS file. 
 

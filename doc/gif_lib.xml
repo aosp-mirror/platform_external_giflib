@@ -1097,6 +1097,8 @@ NEWS file in the GIFLIB distribution to track API changes.</para>
 <listitem><para>New functions DGifSavedExtensionToGCB() and
 EGifGCBToSavedExtension() make it easy to read and edit GIF89 graphics
 control blocks in saved images.</para></listitem>
+<listitem><para>The new function DGifGetGifVersion() is conventiont
+for people doing sequential reads.</para></listitem>
 </itemizedlist>
 
 <para>A few changes in behavior were introduced in 5.0:</para>
