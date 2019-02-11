@@ -22,7 +22,7 @@ LIBDIR = $(PREFIX)/lib
 
 # No user-serviceable parts below this line
 
-VERSION=5.1.4
+VERSION=5.1.5
 LIBMAJOR=7
 LIBMINOR=1
 LIBPOINT=0
