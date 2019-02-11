@@ -20,22 +20,25 @@ the test header lines) is good news.
 
 This codebase now assumes your compiler is C99-conformant.  If it
 isn't, the most likely trouble spot is "#include <stdint.h>"; your
-compiler may be looking for "inttypes.h" instead.
+compiler may be looking for "inttypes.h" instead.  By test, the code
+is backward-conformant to C89. 
 
 == Release Procedure ==
 
 1. Check the SourceForge tracker for bugs and patches.
 
-2. Version-stamp the top entry in the NEWS file. 
+2. Bump the version number in the Makefile as appropriate.
 
-3. If you are changing major versions, sync the XBS-SourceForge-Folder
+3. Version-stamp the top entry in the NEWS file. 
+
+4. If you are changing major versions, sync the XBS-SourceForge-Folder
    attribute in the control file.
 
-4. 'make dist' to make a tarball.
+5. 'make dist' to make a tarball.
 
-5. Tag the release in the repo.
+6. Tag the release in the repo.
 
-6. Ship the release tarball.
+7. Ship the release tarball.
 
 The last three steps can be done with "make release" if you have shipper
 installed.
