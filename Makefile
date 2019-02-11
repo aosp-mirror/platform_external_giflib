@@ -1,6 +1,11 @@
 # Top-level Unix makefile for the GIFLIB package
 # Should work for all Unix versions
 #
+# If your platform has the OpenBSD reallocarray(3) call, you may
+# add -DHAVE_REALLOCARRAY to CFLAGS to use that, saving a bit
+# of code space in the shared library.
+
+#
 CC    = gcc
 OFLAGS = -O0 -g
 #OFLAGS  = -O2 -fwhole-program
