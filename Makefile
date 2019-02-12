@@ -24,7 +24,7 @@ MANDIR = $(PREFIX)/share/man
 
 # No user-serviceable parts below this line
 
-VERSION=5.1.6
+VERSION=$(shell getversion)
 LIBMAJOR=7
 LIBMINOR=1
 LIBPOINT=0
@@ -120,6 +120,7 @@ EXTRAS = Makefile \
 	     NEWS \
 	     TODO \
 	     COPYING \
+	     getversion \
 	     ChangeLog \
 	     build.adoc \
 	     history.adoc \
@@ -137,6 +138,10 @@ giflib-$(VERSION).tar.bz2: $(ALL)
 dist: giflib-$(VERSION).tar.gz giflib-$(VERSION).tar.bz2
 
 # Auditing tools.
+
+# Check that getversion hasn't gone pear-shaped.
+version:
+	@echo $(VERSION)
 
 # cppcheck should run clean
 cppcheck:
