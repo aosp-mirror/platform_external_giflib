@@ -16,9 +16,11 @@ SHELL = /bin/sh
 TAR = tar
 INSTALL = install
 
-PREFIX = $(DESTDIR)/usr/local
+PREFIX = /usr/local
 BINDIR = $(PREFIX)/bin
+INCDIR = $(PREFIX)/include
 LIBDIR = $(PREFIX)/lib
+MANDIR = $(PREFIX)/share/man
 
 # No user-serviceable parts below this line
 
@@ -26,6 +28,7 @@ VERSION=5.1.5
 LIBMAJOR=7
 LIBMINOR=1
 LIBPOINT=0
+LIBVER=$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
 
 SOURCES = dgif_lib.c egif_lib.c getarg.c gifalloc.c gif_err.c gif_font.c \
 	gif_hash.c openbsd-reallocarray.c qprintf.c quantize.c
@@ -55,44 +58,56 @@ UTILS = $(INSTALLABLE) \
 	gifsponge \
 	gifwedge
 
-LDLIBS=giflib.a -lm
+LDLIBS=libgif.a -lm
 
-all: giflib.so giflib.a $(UTILS)
-	cd doc; make
+all: libgif.so libgif.a $(UTILS)
+	$(MAKE) -C doc
 
-$(UTILS):: giflib.a
+$(UTILS):: libgif.a
 
-giflib.so: $(OBJECTS) $(HEADERS)
-	$(CC) $(CFLAGS) -shared $(OFLAGS) -o giflib.so $(OBJECTS)
-	ln -sf giflib.so giflib.so.$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
-	ln -sf giflib.so giflib.so.$(LIBMAJOR)
+libgif.so: $(OBJECTS) $(HEADERS)
+	$(CC) $(CFLAGS) -shared $(OFLAGS) -o libgif.so $(OBJECTS)
 
-giflib.a: $(OBJECTS) $(HEADERS)
-	ar rcs giflib.a $(OBJECTS)
+libgif.a: $(OBJECTS) $(HEADERS)
+	ar rcs libgif.a $(OBJECTS)
 
 clean:
-	rm -f $(UTILS) $(TARGET) libgetarg.a giflib.a giflib.so
-	rm -f giflib.so.$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
-	rm -f giflib.so.$(LIBMAJOR)
+	rm -f $(UTILS) $(TARGET) libgetarg.a libgif.a libgif.so
+	rm -f libgif.so.$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
+	rm -f libgif.so.$(LIBMAJOR)
 	rm -fr doc/*.1 *.html doc/staging
 
-make check: all
-	cd tests; make
+check: all
+	$(MAKE) -C tests
 
 # Installation/uninstallation
 
-install: all install-bin install-man
+install: all install-bin install-include install-lib install-man
 install-bin: $(INSTALLABLE)
-	$(INSTALL) -d "$(PREFIX)/bin"
-	$(INSTALL) $^ "$(PREFIX)/bin"
+	$(INSTALL) -d "$(DESTDIR)$(BINDIR)"
+	$(INSTALL) $^ "$(DESTDIR)$(BINDIR)"
+install-include:
+	$(INSTALL) -d "$(DESTDIR)$(INCDIR)"
+	$(INSTALL) -m 644 gif_lib.h "$(DESTDIR)$(INCDIR)"
+install-lib:
+	$(INSTALL) -d "$(DESTDIR)$(LIBDIR)"
+	$(INSTALL) -m 644 libgif.a "$(DESTDIR)$(LIBDIR)/libgif.a"
+	$(INSTALL) -m 755 libgif.so "$(DESTDIR)$(LIBDIR)/libgif.so.$(LIBVER)"
+	ln -sf libgif.so.$(LIBVER) "$(DESTDIR)$(LIBDIR)/libgif.so.$(LIBMAJOR)"
+	ln -sf libgif.so.$(LIBMAJOR) "$(DESTDIR)$(LIBDIR)/libgif.so"
 install-man:
-	$(INSTALL) -d "$(PREFIX)/share/man/man1"
-	$(INSTALL) -m 644 doc/*.1 "$(PREFIX)/share/man/man1"
-uninstall: uninstall-man uninstall-bin
+	$(INSTALL) -d "$(DESTDIR)$(MANDIR)"
+	$(INSTALL) -m 644 doc/*.1 "$(DESTDIR)$(MANDIR)"
+uninstall: uninstall-man uninstall-include uninstall-lib uninstall-bin
 uninstall-bin:
-	cd "$(PREFIX)/bin"; rm $(INSTALLABLE)
+	cd "$(DESTDIR)$(BINDIR)" && rm -f $(INSTALLABLE)
+uninstall-include:
+	rm -f "$(DESTDIR)$(INCDIR)/gif_lib.h"
+uninstall-lib:
+	cd "$(DESTDIR)$(LIBDIR)" && \
+		rm -f libgif.a libgif.so libgif.so.$(LIBMAJOR) libgif.so.$(LIBVER)
 uninstall-man:
-	cd $(target)/share/man/man1/ && rm -f $(shell cd doc >/dev/null ; echo *.1)
+	cd "$(DESTDIR)$(MANDIR)" && rm -f $(shell cd doc >/dev/null && echo *.1)
 
 # Make distribution tarball
 #
@@ -127,19 +142,19 @@ cppcheck:
 
 # Verify the build
 distcheck: all
-	make giflib-$(VERSION).tar.gz
+	$(MAKE) giflib-$(VERSION).tar.gz
 	tar xzvf giflib-$(VERSION).tar.gz
-	cd giflib-$(VERSION); make
+	$(MAKE) -C giflib-$(VERSION)
 	rm -fr giflib-$(VERSION)
 
 # release using the shipper tool
 release: all distcheck
-	cd doc; make website
+	$(MAKE) -C doc website
 	shipper --no-stale version=$(VERSION) | sh -e -x
 	rm -fr doc/staging
 
 # Refresh the website
 refresh: all
-	cd doc; make website
+	$(MAKE) -C doc website
 	shipper --no-stale -w version=$(VERSION) | sh -e -x
 	rm -fr doc/staging
