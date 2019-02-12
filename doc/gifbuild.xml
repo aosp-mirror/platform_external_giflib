@@ -120,7 +120,7 @@ dumped with the lines in non-interlaced order.</para>
 <para>The <quote>comment</quote>, <quote>plaintext</quote> or
 <quote>ggraphics control</quote> keywords lead defined GIF89 extension
 record data. The final GIF89 type, graphics control and application
-block, are not yet supported, but the codecdies recognize a Netscape
+block, are not yet supported, but the code does recognize a Netscape
 loop block.  You can also say <quote>extension</quote> followed by a
 hexadecimal record type.  All of these extension declarations must be
 followed by an extension block, which is terminated by the keyword
