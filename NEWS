@@ -1,5 +1,13 @@
 			GIFLIB NEWS
 
+Version 5.1.6
+=============
+
+Build Fixes
+-----------
+
+Fix library installation in the Makefile.
+
 Version 5.1.5
 =============
 

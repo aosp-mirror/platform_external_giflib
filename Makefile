@@ -24,7 +24,7 @@ MANDIR = $(PREFIX)/share/man
 
 # No user-serviceable parts below this line
 
-VERSION=5.1.5
+VERSION=5.1.6
 LIBMAJOR=7
 LIBMINOR=1
 LIBPOINT=0
