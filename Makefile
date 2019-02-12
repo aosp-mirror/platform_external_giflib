@@ -130,9 +130,11 @@ DSOURCES = Makefile *.[ch]
 DOCS = doc/*.1 doc/*.xml doc/*.txt doc/index.html.in doc/00README doc/Makefile
 ALL =  $(DSOURCES) $(DOCS) tests pic $(EXTRAS)
 giflib-$(VERSION).tar.gz: $(ALL)
-	$(TAR) --transform='s:^:giflib-$(VERSION)/:' --show-transformed-names -cvzf giflib-$(VERSION).tar.gz $(ALL)
+	$(TAR) --transform='s:^:giflib-$(VERSION)/:' -czf giflib-$(VERSION).tar.gz $(ALL)
+giflib-$(VERSION).tar.bz2: $(ALL)
+	$(TAR) --transform='s:^:giflib-$(VERSION)/:' -cjf giflib-$(VERSION).tar.gz $(ALL)
 
-dist: giflib-$(VERSION).tar.gz
+dist: giflib-$(VERSION).tar.gz giflib-$(VERSION).tar.bz2
 
 # Auditing tools.
 
