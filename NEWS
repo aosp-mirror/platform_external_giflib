@@ -1,5 +1,10 @@
 			GIFLIB NEWS
 
+Version 5.1.7
+=============
+
+Correct a minor packaging error (superfluous symlinks) in the 5.1.6 tarballs.
+
 Version 5.1.6
 =============
 
