@@ -114,9 +114,7 @@ uninstall-man:
 # We include all of the XML, and also generated manual pages
 # so people working from the distribution tarball won't need xmlto.
 
-EXTRAS = Makefile \
-	     tests \
-	     README \
+EXTRAS =     README \
 	     NEWS \
 	     TODO \
 	     COPYING \
@@ -133,7 +131,7 @@ ALL =  $(DSOURCES) $(DOCS) tests pic $(EXTRAS)
 giflib-$(VERSION).tar.gz: $(ALL)
 	$(TAR) --transform='s:^:giflib-$(VERSION)/:' -czf giflib-$(VERSION).tar.gz $(ALL)
 giflib-$(VERSION).tar.bz2: $(ALL)
-	$(TAR) --transform='s:^:giflib-$(VERSION)/:' -cjf giflib-$(VERSION).tar.gz $(ALL)
+	$(TAR) --transform='s:^:giflib-$(VERSION)/:' -cjf giflib-$(VERSION).tar.bz2 $(ALL)
 
 dist: giflib-$(VERSION).tar.gz giflib-$(VERSION).tar.bz2
 
