@@ -69,7 +69,7 @@ libgif.so: $(OBJECTS) $(HEADERS)
 	$(CC) $(CFLAGS) -shared $(OFLAGS) -Wl,-soname -Wl,libgif.so.$(LIBMAJOR) -o libgif.so $(OBJECTS)
 
 libgif.a: $(OBJECTS) $(HEADERS)
-	ar rcs libgif.a $(OBJECTS)
+	$(AR) rcs libgif.a $(OBJECTS)
 
 clean:
 	rm -f $(UTILS) $(TARGET) libgetarg.a libgif.a libgif.so
