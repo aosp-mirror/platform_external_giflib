@@ -201,7 +201,7 @@ int main(int argc, char **argv)
 ******************************************************************************/
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut)
 {
-    fprintf(stderr, "\nFollowing unrecoverable error occured:");
+    fprintf(stderr, "\nFollowing unrecoverable error occurred:");
     if (GifFileIn != NULL) {
 	PrintGifError(GifFileIn->Error);
 	EGifCloseFile(GifFileIn, NULL);

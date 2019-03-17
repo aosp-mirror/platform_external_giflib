@@ -158,7 +158,7 @@ int main(int argc, char **argv)
 	    break;
     }
     if (Direction == DIR_NONE)
-	GIF_EXIT("Direction requested (-d option) is wierd!");
+	GIF_EXIT("Direction requested (-d option) is weird!");
 
     /* We are going to handle only TOP, TOP_RIGHT, RIGHT, BOT_RIGHT  so flip */
     /* the complement cases (TOP <-> BOT for example) by flipping the	     */
