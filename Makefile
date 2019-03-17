@@ -96,8 +96,8 @@ install-lib:
 	ln -sf libgif.so.$(LIBVER) "$(DESTDIR)$(LIBDIR)/libgif.so.$(LIBMAJOR)"
 	ln -sf libgif.so.$(LIBMAJOR) "$(DESTDIR)$(LIBDIR)/libgif.so"
 install-man:
-	$(INSTALL) -d "$(DESTDIR)$(MANDIR)"
-	$(INSTALL) -m 644 doc/*.1 "$(DESTDIR)$(MANDIR)"
+	$(INSTALL) -d "$(DESTDIR)$(MANDIR)/man1"
+	$(INSTALL) -m 644 doc/*.1 "$(DESTDIR)$(MANDIR)/man1"
 uninstall: uninstall-man uninstall-include uninstall-lib uninstall-bin
 uninstall-bin:
 	cd "$(DESTDIR)$(BINDIR)" && rm -f $(INSTALLABLE)
@@ -107,7 +107,7 @@ uninstall-lib:
 	cd "$(DESTDIR)$(LIBDIR)" && \
 		rm -f libgif.a libgif.so libgif.so.$(LIBMAJOR) libgif.so.$(LIBVER)
 uninstall-man:
-	cd "$(DESTDIR)$(MANDIR)" && rm -f $(shell cd doc >/dev/null && echo *.1)
+	cd "$(DESTDIR)$(MANDIR)/man1" && rm -f $(shell cd doc >/dev/null && echo *.1)
 
 # Make distribution tarball
 #
