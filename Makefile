@@ -66,7 +66,7 @@ all: libgif.so libgif.a $(UTILS)
 $(UTILS):: libgif.a
 
 libgif.so: $(OBJECTS) $(HEADERS)
-	$(CC) $(CFLAGS) -shared $(OFLAGS) -o libgif.so $(OBJECTS)
+	$(CC) $(CFLAGS) -shared $(OFLAGS) -Wl,-soname -Wl,libgif.so.$(LIBMAJOR) -o libgif.so $(OBJECTS)
 
 libgif.a: $(OBJECTS) $(HEADERS)
 	ar rcs libgif.a $(OBJECTS)
