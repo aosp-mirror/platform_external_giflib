@@ -65,7 +65,7 @@ gifbuild-regress:
 	@$(UTILS)/gifbuild < $@.fire1.ico > $@.fire2.gif
 	@$(UTILS)/gifbuild -d < $@.fire2.gif > $@.fire2.ico
 	@diff -u  $@.fire1.ico  $@.fire2.ico
-	@rm -f $@.fire1.ico  $@.fire2.ico
+	@rm -f $@.fire1.ico  $@.fire2.ico $@.fire2.gif
 
 gifclrmp-regress:
 	@for test in $(GIFS); \
