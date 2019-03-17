@@ -10,8 +10,7 @@
 // JavaScript to generate a compact date representation
 
 //
-// format date as dd-mmm-yyyyy
-// example: 12-Jan-1999
+// format date as yyyy-mm-dd
 //
 function date_ddmmmyyyy(date)
 {
@@ -19,17 +18,7 @@ function date_ddmmmyyyy(date)
   var m = date.getMonth() + 1;
   var y = date.getFullYear();
 
-  // could use splitString() here 
-  // but the following method is 
-  // more compatible
-  var mmm = 
-    ( 1==m)?'Jan':( 2==m)?'Feb':(3==m)?'Mar':
-    ( 4==m)?'Apr':( 5==m)?'May':(6==m)?'Jun':
-    ( 7==m)?'Jul':( 8==m)?'Aug':(9==m)?'Sep':
-    (10==m)?'Oct':(11==m)?'Nov':'Dec';
-
-  return "" +
-    (d<10?"0"+d:d) + " " + mmm + " " + y;
+  return "" + y + "-" + (m<10?"0"+m:m) + "-" + (d<10?"0"+d:d);
 }
 
 
