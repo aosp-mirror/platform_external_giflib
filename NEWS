@@ -1,5 +1,20 @@
 			GIFLIB NEWS
 
+Version 5.1.8
+=============
+
+* Address SF bug #119: MemorySanitizer: FPE on unknown address
+
+* Address SF bug #125: 5.1.7: xmlto is still required for tarball
+
+* Address SF bug #124: 5.1.7: ar invocation is not crosscompile compatible
+
+* Address SF bug #122: 5.1.7 installs manpages to wrong directory
+
+* Address SF bug #121: make: getversion: Command not found
+
+* Address SF bug #120: 5.1.7 does not build a proper library - no 
+
 Version 5.1.7
 =============
 
