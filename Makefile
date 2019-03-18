@@ -8,9 +8,8 @@
 #
 CC    = gcc
 OFLAGS = -O0 -g
-#OFLAGS  = -O2 -fwhole-program
+OFLAGS  = -O2 -fwhole-program
 CFLAGS  = -std=gnu99 -fPIC -Wall -Wno-format-truncation $(OFLAGS)
-LDFLAGS = -g
 
 SHELL = /bin/sh
 TAR = tar
@@ -66,7 +65,7 @@ all: libgif.so libgif.a $(UTILS)
 $(UTILS):: libgif.a
 
 libgif.so: $(OBJECTS) $(HEADERS)
-	$(CC) $(CFLAGS) -shared $(OFLAGS) -Wl,-soname -Wl,libgif.so.$(LIBMAJOR) -o libgif.so $(OBJECTS)
+	$(CC) $(CFLAGS) -shared $(LDFLAGS) -Wl,-soname -Wl,libgif.so.$(LIBMAJOR) -o libgif.so $(OBJECTS)
 
 libgif.a: $(OBJECTS) $(HEADERS)
 	$(AR) rcs libgif.a $(OBJECTS)
