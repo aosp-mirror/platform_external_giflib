@@ -1,5 +1,12 @@
 			GIFLIB NEWS
 
+Repository head
+===============
+
+The documentation directly now includes an HTMlified version of the
+GIF89 sdtandard, and a more detailed description of how LZW compression
+is applied to GIFs.
+
 Version 5.1.8
 =============
 
