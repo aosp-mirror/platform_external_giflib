@@ -34,8 +34,6 @@ XMLINTERNAL = \
 	gifwedge.xml
 XMLDOC = intro.xml gif_lib.xml
 XMLALL = $(XMLMAN) $(XMLINTERNAL) $(XMLDOC)
-TXTDOC = 00README gif87.txt gif89.txt lzgif.txt
-SOURCES = $(XMLALL) $(TXTDOC)
 
 # Philosophical choice: the website gets the internal manual pages
 allhtml: $(XMLALL:.xml=.html) $(XMLINTERNAL:.xml=.html)
@@ -46,7 +44,7 @@ manpages: $(XMLMAN:.xml=.1) $(XMLINTERNAL:.xml=.1)
 # ImageMagick and asciidoc are required.
 website: allhtml
 	rm -fr staging; mkdir staging; 
-	cp -r $(XMLALL:.xml=.html) *.txt whatsinagif staging
+	cp -r $(XMLALL:.xml=.html) gifstandard whatsinagif staging
 	cp index.html.in staging/index.html
 	convert ../pic/gifgrid.gif -resize 50x50 staging/giflib-logo.gif
 	asciidoc - <../history.adoc >staging/history.html
