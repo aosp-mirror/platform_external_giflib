@@ -74,12 +74,6 @@ redesign it, applications beyond counting would break if you did.</p>
 and backward abysm of MS-DOS, but Unix hackers are encouraged to spell it 
 "giflib" in deference to local conventions. :-)
 
-<p>You can read GIFLIB's documentation <a href="intro.html">here</a>,
-a very detailed description of GIF <a
-href="whatsinagif/index.html">here</a>, and the GIF standard <a
-href="gifstandard/GIF89a.html">here</a>. People to thank for this
-code: Gershon Elber, Eric S. Raymond, Toshio Kuratomi.</p>
-
 <p>Before October 2006 the GIF format was encumbered by patents on the
 LZW compression it uses.  This first became an issue in 1993 when the
 patent-holders made ambiguous noises about requiring royalties.  For
@@ -101,11 +95,14 @@ review the project, find links to the bugtracker  and mailing list
 pages, or ask to join the project as a developer) is <a
 href="https://sourceforge.net/projects/giflib/">here</a>.
 
+<p>People to thank for this code: Gershon Elber, Eric S. Raymond,
+Toshio Kuratomi.</p>
+
 <p>If you appreciate this project, and especially if you make money
 from it, please <a href="https://www.patreon.com/esr">support
 continuing maintainance on Patreon</a>.</p>
 
-<p>GIFLIB:</p>
+<p>GIFLIB technical documentation:</p>
 <ul>
 <li><a href="intro.html">GIFLIB documentation</a></li>
 <li><a href="history.html">GIFLIB's history</a></li>
