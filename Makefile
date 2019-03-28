@@ -6,7 +6,6 @@
 # of code space in the shared library.
 
 #
-CC    = gcc
 OFLAGS = -O0 -g
 OFLAGS  = -O2
 CFLAGS  = -std=gnu99 -fPIC -Wall -Wno-format-truncation $(OFLAGS)
