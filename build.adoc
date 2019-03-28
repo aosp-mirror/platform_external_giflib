@@ -21,7 +21,13 @@ the test header lines) is good news.
 This codebase now assumes your compiler is C99-conformant.  If it
 isn't, the most likely trouble spot is "#include <stdint.h>"; your
 compiler may be looking for "inttypes.h" instead.  By test, the code
-is backward-conformant to C89 except that it uses bool/true//false. 
+is backward-conformant to C89 except that it uses bool/true/false. 
+
+One (minimal but sufficient) concession to Windows portability has been
+make; inclusion of <unistd.h> is conditional on _WIN32 not being
+defined by the compiler (if it is <io.h> is included
+instead). Requests to go any further out of the way to accommodate
+Microsoft's toolchains are unlikely be looked on favorably.
 
 == Release Procedure ==
 
