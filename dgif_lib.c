@@ -28,7 +28,7 @@ two modules will be linked.  Preserve this property!
 #define UNSIGNED_LITTLE_ENDIAN(lo, hi)	((lo) | ((hi) << 8))
 
 /* avoid extra function call in case we use fread (TVT) */
-static inline int InternalRead(GifFileType *gif, GifByteType *buf, int len) {
+static int InternalRead(GifFileType *gif, GifByteType *buf, int len) {
     //fprintf(stderr, "### Read: %d\n", len);
     return 
 	(((GifFilePrivateType*)gif->Private)->Read ?

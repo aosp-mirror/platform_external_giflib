@@ -21,7 +21,7 @@ the test header lines) is good news.
 This codebase now assumes your compiler is C99-conformant.  If it
 isn't, the most likely trouble spot is "#include <stdint.h>"; your
 compiler may be looking for "inttypes.h" instead.  By test, the code
-is backward-conformant to C89. 
+is backward-conformant to C89 except that it uses bool/true//false. 
 
 == Release Procedure ==
 

@@ -7,7 +7,9 @@ The documentation directory now includes an HTMlified version of the
 GIF89 standard, and a more detailed description of how LZW compression
 is applied to GIFs.
 
-* Address SF vug #129: The latest version of giflib cannot be build on windows.
+* Address SF bug #129: The latest version of giflib cannot be build on windows.
+
+* Address SF bug #126: Cannot compile giflib using c89
 
 Version 5.1.8
 =============
