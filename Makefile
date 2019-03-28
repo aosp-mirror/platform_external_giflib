@@ -29,10 +29,14 @@ LIBMINOR=1
 LIBPOINT=0
 LIBVER=$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
 
-SOURCES = dgif_lib.c egif_lib.c getarg.c gifalloc.c gif_err.c gif_font.c \
-	gif_hash.c openbsd-reallocarray.c qprintf.c quantize.c
-HEADERS = getarg.h  gif_hash.h  gif_lib.h  gif_lib_private.h
+SOURCES = dgif_lib.c egif_lib.c gifalloc.c gif_err.c gif_font.c \
+	gif_hash.c openbsd-reallocarray.c
+HEADERS = gif_hash.h  gif_lib.h  gif_lib_private.h
 OBJECTS = $(SOURCES:.c=.o)
+
+USOURCES = qprintf.c quantize.c getarg.c 
+UHEADERS = getarg.h
+UOBJECTS = $(USOURCES:.c=.o)
 
 # Some utilities are installed
 INSTALLABLE = \
@@ -59,10 +63,10 @@ UTILS = $(INSTALLABLE) \
 
 LDLIBS=libgif.a -lm
 
-all: libgif.so libgif.a $(UTILS)
+all: libgif.so libgif.a libutil.so libutil.a $(UTILS)
 	$(MAKE) -C doc
 
-$(UTILS):: libgif.a
+$(UTILS):: libgif.a libutil.a
 
 libgif.so: $(OBJECTS) $(HEADERS)
 	$(CC) $(CFLAGS) -shared $(LDFLAGS) -Wl,-soname -Wl,libgif.so.$(LIBMAJOR) -o libgif.so $(OBJECTS)
@@ -70,8 +74,14 @@ libgif.so: $(OBJECTS) $(HEADERS)
 libgif.a: $(OBJECTS) $(HEADERS)
 	$(AR) rcs libgif.a $(OBJECTS)
 
+libutil.so: $(UOBJECTS) $(UHEADERS)
+	$(CC) $(CFLAGS) -shared $(LDFLAGS) -Wl,-soname -Wl,libutil.so.$(LIBMAJOR) -o libutil.so $(UOBJECTS)
+
+libutil.a: $(UOBJECTS) $(UHEADERS)
+	$(AR) rcs libutil.a $(UOBJECTS)
+
 clean:
-	rm -f $(UTILS) $(TARGET) libgetarg.a libgif.a libgif.so *.o
+	rm -f $(UTILS) $(TARGET) libgetarg.a libgif.a libgif.so libutil.a libutil.so *.o
 	rm -f libgif.so.$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
 	rm -f libgif.so.$(LIBMAJOR)
 	rm -fr doc/*.1 *.html doc/staging
