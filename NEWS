@@ -4,8 +4,10 @@ Repository head
 ===============
 
 The documentation directory now includes an HTMlified version of the
-GIF89 sdtandard, and a more detailed description of how LZW compression
+GIF89 standard, and a more detailed description of how LZW compression
 is applied to GIFs.
+
+* Address SF vug #129: The latest version of giflib cannot be build on windows.
 
 Version 5.1.8
 =============

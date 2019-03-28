@@ -4,7 +4,6 @@ gifinto - save GIF on stdin to file if size over set threshold
 
 *****************************************************************************/
 
-#include <unistd.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,6 +13,8 @@ gifinto - save GIF on stdin to file if size over set threshold
 
 #ifdef _WIN32
 #include <io.h>
+#else
+#include <unistd.h>
 #endif /* _WIN32 */
 
 #include "gif_lib.h"
