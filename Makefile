@@ -132,6 +132,7 @@ EXTRAS =     README \
 	     history.adoc \
 	     control \
 	     doc/whatsinagif \
+	     doc/gifstandard \
 
 DSOURCES = Makefile *.[ch]
 DOCS = doc/*.xml doc/*.1 doc/*.html doc/index.html.in doc/00README doc/Makefile
