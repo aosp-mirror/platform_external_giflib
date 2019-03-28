@@ -8,7 +8,7 @@
 #
 CC    = gcc
 OFLAGS = -O0 -g
-OFLAGS  = -O2 -fwhole-program
+OFLAGS  = -O2
 CFLAGS  = -std=gnu99 -fPIC -Wall -Wno-format-truncation $(OFLAGS)
 
 SHELL = /bin/sh
@@ -71,7 +71,7 @@ libgif.a: $(OBJECTS) $(HEADERS)
 	$(AR) rcs libgif.a $(OBJECTS)
 
 clean:
-	rm -f $(UTILS) $(TARGET) libgetarg.a libgif.a libgif.so
+	rm -f $(UTILS) $(TARGET) libgetarg.a libgif.a libgif.so *.o
 	rm -f libgif.so.$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
 	rm -f libgif.so.$(LIBMAJOR)
 	rm -fr doc/*.1 *.html doc/staging
