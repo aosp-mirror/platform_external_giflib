@@ -31,6 +31,15 @@ extern bool GifNoisyPrint;
 extern void GifQprintf(char *Format, ...);
 extern void PrintGifError(int ErrorCode);
 
+/******************************************************************************
+ Color table quantization
+******************************************************************************/
+int GifQuantizeBuffer(unsigned int Width, unsigned int Height,
+                   int *ColorMapSize, GifByteType * RedInput,
+                   GifByteType * GreenInput, GifByteType * BlueInput,
+                   GifByteType * OutputBuffer,
+                   GifColorType * OutputColorMap);
+
 /* These used to live in the library header */
 #define GIF_MESSAGE(Msg) fprintf(stderr, "\n%s: %s\n", PROGRAM_NAME, Msg)
 #define GIF_EXIT(Msg)    { GIF_MESSAGE(Msg); exit(-3); }

@@ -215,15 +215,6 @@ const char *DGifGetGifVersion(GifFileType *GifFile);
 
 
 /******************************************************************************
- Color table quantization (deprecated)
-******************************************************************************/
-int GifQuantizeBuffer(unsigned int Width, unsigned int Height,
-                   int *ColorMapSize, GifByteType * RedInput,
-                   GifByteType * GreenInput, GifByteType * BlueInput,
-                   GifByteType * OutputBuffer,
-                   GifColorType * OutputColorMap);
-
-/******************************************************************************
  Error handling and reporting.
 ******************************************************************************/
 extern const char *GifErrorString(int ErrorCode);     /* new in 2012 - ESR */

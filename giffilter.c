@@ -23,8 +23,8 @@ however, be identical (you can check this with gifbuild -d).
 #include <string.h>
 #include <fcntl.h>
 
-#include "getarg.h"
 #include "gif_lib.h"
+#include "getarg.h"
 
 #define PROGRAM_NAME	"giffilter"
 

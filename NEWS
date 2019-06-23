@@ -1,5 +1,18 @@
 			GIFLIB NEWS
 
+
+Reopository head:
+=================
+
+Note: The undocumented and deprecated GifQuantizeBuffer() eentry point
+has been moved to the util library to reduce libgif size and attack
+surface. Applications needing this function are couraged to link the
+utuil library or make their own copy.
+
+* Address SourceForge issue #136: Stack-buffer-overflow in gifcolor.c:84
+
+* Address SF bug #134: Giflib fails to slurp significant number of gifs
+
 Version 5.1.9
 =============
 

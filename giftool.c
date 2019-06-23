@@ -11,8 +11,8 @@ giftool.c - GIF transformation tool.
 #include <stdbool.h>
 
 #include "getopt.h"
-#include "getarg.h"
 #include "gif_lib.h"
+#include "getarg.h"
 
 #define PROGRAM_NAME	"giftool"
 
