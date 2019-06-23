@@ -66,7 +66,7 @@ int main(int argc, char **argv)
     for (i = 0; i < GIF_FONT_HEIGHT; i++)
     {
 	if ((RasterBuffer[i] = (GifRowType) malloc(sizeof(GifPixelType) *
-							IMAGEWIDTH)) == NULL)
+						   IMAGEWIDTH)) == NULL)
 	    GIF_EXIT("Failed to allocate memory required, aborted.");
     }
 
@@ -81,11 +81,15 @@ int main(int argc, char **argv)
     while (fscanf(stdin,
 		  "%*3d %3d %3d %3d\n",
 		  &red, &green, &blue) == 3) {
-	    ScratchMap[ColorMapSize].Red = red;
-	    ScratchMap[ColorMapSize].Green = green;
-	    ScratchMap[ColorMapSize].Blue = blue;
-	    ColorMapSize++;
+	if (ColorMapSize < 256) {
+		ScratchMap[ColorMapSize].Red = red;
+		ScratchMap[ColorMapSize].Green = green;
+		ScratchMap[ColorMapSize].Blue = blue;
+		ColorMapSize++;
+	} else {
+	    GIF_EXIT("Too many color map triples, aborting.");
 	}
+    }
 
     if ((ColorMap = GifMakeMapObject(1 << GifBitSize(ColorMapSize), ScratchMap)) == NULL)
 	GIF_EXIT("Failed to allocate memory required, aborted.");
@@ -98,12 +102,12 @@ int main(int argc, char **argv)
 
     /* Dump out the image descriptor: */
     if (EGifPutImageDesc(GifFile,
-	0, 0, IMAGEWIDTH, ColorMapSize * GIF_FONT_HEIGHT, false, NULL) == GIF_ERROR)
+			 0, 0, IMAGEWIDTH, ColorMapSize * GIF_FONT_HEIGHT, false, NULL) == GIF_ERROR)
 	QuitGifError(GifFile);
 
     GifQprintf("\n%s: Image 1 at (%d, %d) [%dx%d]:     ",
-		    PROGRAM_NAME, GifFile->Image.Left, GifFile->Image.Top,
-		    GifFile->Image.Width, GifFile->Image.Height);
+	       PROGRAM_NAME, GifFile->Image.Left, GifFile->Image.Top,
+	       GifFile->Image.Width, GifFile->Image.Height);
 
     for (i = l = 0; i < ColorMap->ColorCount; i++) {
 	(void)snprintf(Line, sizeof(Line),
