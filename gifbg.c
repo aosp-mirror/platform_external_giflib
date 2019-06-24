@@ -2,6 +2,8 @@
 
 gifbg - generate a test-pattern GIF
 
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 #include <stdio.h>

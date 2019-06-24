@@ -2,6 +2,8 @@
 
 gif_lib_private.h - internal giflib routines and structures
 
+SPDX-License-Identifier: MIT
+
 ****************************************************************************/
 
 #ifndef _GIF_LIB_PRIVATE_H

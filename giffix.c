@@ -2,6 +2,8 @@
 
 giffix - attempt to fix a truncated GIF
 
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 #include <stdlib.h>

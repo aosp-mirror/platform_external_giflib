@@ -4,6 +4,8 @@
 
  A global variable GifNoisyPrint controls the printing of this routine
  
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 

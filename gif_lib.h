@@ -2,6 +2,8 @@
  
 gif_lib.h - service library for decoding and encoding GIF images
                                                                              
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 #ifndef _GIF_LIB_H_

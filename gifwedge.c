@@ -2,6 +2,8 @@
 
 gifwedge - create a GIF test pattern
 
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 #include <stdlib.h>

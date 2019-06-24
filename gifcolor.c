@@ -2,6 +2,8 @@
 
 gifcolor - generate color test-pattern GIFs
 
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 #include <stdlib.h>

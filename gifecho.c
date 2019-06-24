@@ -2,6 +2,8 @@
 
 gifecho - generate a GIF from ASCII text
 
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 #include <stdlib.h>

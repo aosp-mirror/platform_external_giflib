@@ -2,6 +2,8 @@
 
  GIF construction tools
 
+SPDX-License-Identifier: MIT
+
 ****************************************************************************/
 
 #include <stdlib.h>

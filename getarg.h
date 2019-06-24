@@ -2,11 +2,14 @@
 
 getarg.h - Support routines for the giflib utilities
 
+SPDX-License-Identifier: MIT
+
 **************************************************************************/
 
 #ifndef _GETARG_H
 #define _GETARG_H
 
+#include "gif_lib.h"
 #include <stdbool.h>
 
 #define VERSION_COOKIE " Version %d.%d, "

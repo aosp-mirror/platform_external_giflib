@@ -2,6 +2,8 @@
 
 gifclrmap - extract colormaps from GIF images
 
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 #include <math.h>

@@ -2,6 +2,8 @@
 
 giftext - dump GIF pixels and metadata as text
 
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 #include <stdlib.h>

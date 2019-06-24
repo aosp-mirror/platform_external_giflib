@@ -9,6 +9,8 @@
  and was removed in 4.2.  Then it turned out some client apps were
  actually using it, so it was restored in 5.0.
 
+SPDX-License-Identifier: MIT
+
 ******************************************************************************/
 
 #include <stdlib.h>

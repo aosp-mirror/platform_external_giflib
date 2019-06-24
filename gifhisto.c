@@ -2,6 +2,8 @@
 
 gifhisto - make a color histogram from image color frequencies
 
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 #include <stdlib.h>

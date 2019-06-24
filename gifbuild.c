@@ -2,6 +2,8 @@
 
 gifbuild - dump GIF data in a textual format, or undump it to a GIF
 
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 #include <stdlib.h>

@@ -7,7 +7,7 @@ Reopository head:
 Note: The undocumented and deprecated GifQuantizeBuffer() eentry point
 has been moved to the util library to reduce libgif size and attack
 surface. Applications needing this function are couraged to link the
-utuil library or make their own copy.
+util library or make their own copy.
 
 * Address SourceForge issue #136: Stack-buffer-overflow in gifcolor.c:84
 
@@ -63,13 +63,13 @@ Code Fixes
 * Fix SF bug #113: Heap Buffer Overflow-2 in function DGifDecompressLine()
   in cgif.c.  This had been assigned CVE-2018-11490.
 
-# Fix SF bug #111: segmentation fault in PrintCodeBlock
+* Fix SF bug #111: segmentation fault in PrintCodeBlock
 
 * Fix SF bug #109: Segmentation fault of giftool reading a crafted file
 
 * Fix SF bug #107: Floating point exception in giftext utility
 
-* Fix SF bug: #105 heap buffer overflow in DumpScreen2RGB in gif2rgb.c:317
+* Fix SF bug #105: heap buffer overflow in DumpScreen2RGB in gif2rgb.c:317
 
 * Fix SF bug #104: Ineffective bounds check in DGifSlurp
 

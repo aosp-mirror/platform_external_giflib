@@ -2,6 +2,8 @@
 
 gifinto - save GIF on stdin to file if size over set threshold
 
+SPDX-License-Identifier: MIT
+
 *****************************************************************************/
 
 #include <fcntl.h>

@@ -2,6 +2,8 @@
  
 gif_font.c - utility font handling and simple drawing for the GIF library
  
+SPDX-License-Identifier: MIT
+
 ****************************************************************************/
 
 #include <string.h>
