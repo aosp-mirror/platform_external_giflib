@@ -37,13 +37,9 @@ UOBJECTS = $(USOURCES:.c=.o)
 INSTALLABLE = \
 	gif2rgb \
 	gifbuild \
-	gifecho \
-	giffilter \
 	giffix \
-	gifinto \
 	giftext \
 	giftool \
-	gifsponge \
 	gifclrmp
 
 # Some utilities are only used internally for testing.
@@ -52,7 +48,10 @@ INSTALLABLE = \
 UTILS = $(INSTALLABLE) \
 	gifbg \
 	gifcolor \
+	gifecho \
+	giffilter \
 	gifhisto \
+	gifinto \
 	gifsponge \
 	gifwedge
 

@@ -4,14 +4,22 @@
 Reopository head:
 =================
 
-Note: The undocumented and deprecated GifQuantizeBuffer() eentry point
+The undocumented and deprecated GifQuantizeBuffer() entry point
 has been moved to the util library to reduce libgif size and attack
 surface. Applications needing this function are couraged to link the
 util library or make their own copy.
 
+The following obsolete utility programs are no longer installed:
+gifecho, giffilter, gifinto, gifsponge. These were either installed in
+error or have been obsolesced by modern image-transformmation tools
+like ImageMagick convert. They may be removed entirely in a future
+release.
+
 * Address SourceForge issue #136: Stack-buffer-overflow in gifcolor.c:84
 
 * Address SF bug #134: Giflib fails to slurp significant number of gifs
+
+* Apply SPDX convention for license tagging.
 
 Version 5.1.9
 =============
