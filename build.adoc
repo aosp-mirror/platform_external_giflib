@@ -33,7 +33,7 @@ Microsoft's toolchains are unlikely be looked on favorably.
 
 1. Check the SourceForge tracker for bugs and patches.
 
-2. Bump the version number in the gif_lib.h.  Do "make version"
+2. Bump the version number in gif_lib.h.  Do "make version"
    to confirm that it looks sane when extracted to the Makefile.
 
 3. Version-stamp the top entry in the NEWS file. 

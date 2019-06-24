@@ -14,8 +14,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define GIFLIB_MAJOR 5
-#define GIFLIB_MINOR 1
-#define GIFLIB_RELEASE 9
+#define GIFLIB_MINOR 2
+#define GIFLIB_RELEASE 0
 
 #define GIF_ERROR   0
 #define GIF_OK      1
