@@ -1,5 +1,9 @@
 			GIFLIB NEWS
 
+Repository head
+==============
+
+* In gifbuild.c, avoid a core dump on no color map.
 
 Version 5.2.0
 =============
@@ -83,7 +87,7 @@ Code Fixes
 
 ^ Fix SF bug #103: GIFLIB 5.1.4: DGifSlurp fails on empty comment
 
-* Fix SF bug #87 Heap buffer overflow in 5.1.2 (gif2rgb).
+* Fix SF bug #87: Heap buffer overflow in 5.1.2 (gif2rgb).
 
 Build Fixes
 -----------
