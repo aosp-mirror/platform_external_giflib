@@ -23,6 +23,10 @@ MANDIR = $(PREFIX)/share/man
 # No user-serviceable parts below this line
 
 VERSION:=$(shell ./getversion)
+LIBMAJOR=7
+LIBMINOR=1
+LIBPOINT=0
+LIBVER=$(LIBMAJOR).$(LIBMINOR).$(LIBPOINT)
 
 SOURCES = dgif_lib.c egif_lib.c gifalloc.c gif_err.c gif_font.c \
 	gif_hash.c openbsd-reallocarray.c
