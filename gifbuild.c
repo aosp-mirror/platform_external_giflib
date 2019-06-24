@@ -876,7 +876,7 @@ static void Gif2Icon(char *FileName,
 
     /* check that the background color isn't garbage (SF bug #87) */
     if (GifFile->SBackGroundColor < 0
-	    || GifFile->SBackGroundColor >= GifFile->SColorMap->ColorCount) {
+	|| (GifFile->SColorMap && GifFile->SBackGroundColor >= GifFile->SColorMap->ColorCount)) {
         fprintf(stderr, "gifbuild: background color invalid for screen colormap.\n");
     }
 
