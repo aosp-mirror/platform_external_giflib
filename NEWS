@@ -1,9 +1,14 @@
 			GIFLIB NEWS
 
-Repository head
+
+Version 5.2.1
 ==============
 
+This is the "Maybe I shouldn't have dome a release while imn surgical recovery" release.
+
 * In gifbuild.c, avoid a core dump on no color map.
+
+* Restore inadvertently removed library version numbers in Makefile.
 
 Version 5.2.0
 =============
