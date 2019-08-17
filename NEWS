@@ -4,7 +4,7 @@
 Version 5.2.1
 ==============
 
-This is the "Maybe I shouldn't have done a release while imn surgical recovery" release.
+This is the "Maybe I shouldn't have done a release while in surgical recovery" release.
 
 * In gifbuild.c, avoid a core dump on no color map.
 
@@ -20,7 +20,7 @@ util library or make their own copy.
 
 The following obsolete utility programs are no longer installed:
 gifecho, giffilter, gifinto, gifsponge. These were either installed in
-error or have been obsolesced by modern image-transformmation tools
+error or have been obsolesced by modern image-transformation tools
 like ImageMagick convert. They may be removed entirely in a future
 release.
 
