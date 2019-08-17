@@ -4,7 +4,7 @@
 Version 5.2.1
 ==============
 
-This is the "Maybe I shouldn't have dome a release while imn surgical recovery" release.
+This is the "Maybe I shouldn't have done a release while imn surgical recovery" release.
 
 * In gifbuild.c, avoid a core dump on no color map.
 
@@ -44,7 +44,7 @@ is applied to GIFs.
 Version 5.1.8
 =============
 
-* Address SF bug #119: MemorySanitizer: FPE on unknown address
+* Address SF bug #119: MemorySanitizer: FPE on unknown address. This is CVE-2019-15133
 
 * Address SF bug #125: 5.1.7: xmlto is still required for tarball
 
