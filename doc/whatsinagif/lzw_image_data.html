@@ -23,10 +23,8 @@
 .alg_steps th, .alg_steps td {border: 1px solid black}
 .alg_steps .index {padding: 0 .3em}
 .alg_steps .processed {color: #CCC}
-.alg_steps .buffer {background: #C8DBD9 url(highlight_green.gif) repeat-x center left;
-	border-top: 1px solid #AAA2A2; border-bottom: 1px solid #AAA2A2;}
-.alg_steps .current {background: #D0C4C4 url(highlight_purple.gif) repeat-x center left;
-	border-top: 1px solid #98A5A4; border-bottom: 1px solid #98A5A4;}
+.alg_steps .buffer {background-color: #c0efc0; border-top: 1px solid #c0efc0; border-bottom: 1px solid #c0efc0;}
+.alg_steps .current {background-color: #e0d0e0; border-top: 1px solid #e0d0e0; border-bottom: 1px solid #e0d0e0;}
 </style>
 </head>
 <body>
@@ -226,14 +224,16 @@ buffer (#6 = 1,1) to the code stream and set the index buffer to be
 K. [Step 6].</p>
 
 <table class="alg_steps" cellspacing="0">
-<tbody>
+<thead>
 <tr>
 	<th>Step</th>
 	<th>Action</th>
 	<th>Index Stream</th>
 	<th>New Code Table Row</th>
 	<th>Code Stream</th>
-</tr>	
+</tr>
+</thead>
+<tbody>
 <tr>
 	<td>0</td>
 	<td>Init</td>
@@ -1055,7 +1055,7 @@ HEIGHT="220"></p>
 
 <p>You can see in the first byte that was returned (<span
 class="byte">8C</span>) that the lowest three bits (because that was
-our first code size) contain 110 which is the binary value of 4 so
+our first code size) contain 010 which is the binary value of 4 so
 that would be the clear code we started with, #4. In the three bits to
 the left, you see 001 which out or first data code of #1. You can also
 see when we switched into code sizes of 4 bits in the second byte

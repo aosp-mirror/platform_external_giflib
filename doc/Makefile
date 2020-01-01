@@ -36,8 +36,12 @@ XMLINTERNAL = \
 XMLDOC = intro.xml gif_lib.xml
 XMLALL = $(XMLMAN) $(XMLINTERNAL) $(XMLDOC)
 
+# Logo image file for HTML docs
+giflib-logo.gif: ../pic/gifgrid.gif
+	convert $^ -resize 50x50 $@
+
 # Philosophical choice: the website gets the internal manual pages
-allhtml: $(XMLALL:.xml=.html) $(XMLINTERNAL:.xml=.html)
+allhtml: $(XMLALL:.xml=.html) $(XMLINTERNAL:.xml=.html) giflib-logo.gif
 
 manpages: $(XMLMAN:.xml=.1) $(XMLINTERNAL:.xml=.1)
 
@@ -45,7 +49,6 @@ manpages: $(XMLMAN:.xml=.1) $(XMLINTERNAL:.xml=.1)
 # ImageMagick and asciidoc are required.
 website: allhtml
 	rm -fr staging; mkdir staging; 
-	cp -r $(XMLALL:.xml=.html) gifstandard whatsinagif staging
+	cp -r $(XMLALL:.xml=.html) gifstandard whatsinagif giflib-logo.gif staging
 	cp index.html.in staging/index.html
-	convert ../pic/gifgrid.gif -resize 50x50 staging/giflib-logo.gif
 	asciidoc - <../history.adoc >staging/history.html
