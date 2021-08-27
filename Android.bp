@@ -1,3 +1,20 @@
+package {
+    default_applicable_licenses: ["external_giflib_license"],
+}
+
+// Added automatically by a large-scale-change
+// See: http://go/android-license-faq
+license {
+    name: "external_giflib_license",
+    visibility: [":__subpackages__"],
+    license_kinds: [
+        "SPDX-license-identifier-MIT",
+    ],
+    license_text: [
+        "NOTICE",
+    ],
+}
+
 cc_library_static {
     name: "libgif",
 
