@@ -280,7 +280,7 @@ ColorMapObject *GifUnionColorMap(
 <para>Create the union of two given color maps and return it.  If the result
 won't fit into 256 colors, NULL is returned, the allocated union
 otherwise.  ColorIn1 is copied as it to ColorUnion, while colors from
-ColorIn2 are copied iff they didn't exist before.  ColorTransIn2 maps
+ColorIn2 are copied if they didn't exist before.  ColorTransIn2 maps
 the old ColorIn2 into ColorUnion color map table.</para>
 
 <programlisting id="GifAttachImage">
