@@ -307,6 +307,12 @@ GAGetParmeters(void *Parameters[],
     int i = 0, ScanRes;
 
     while (!(ISSPACE(CtrlStrCopy[i]))) {
+
+        if ((*argv) == argv_end) {
+            GAErrorToken = Option;
+            return CMD_ERR_NumRead;
+        }
+
         switch (CtrlStrCopy[i + 1]) {
           case 'd':    /* Get signed integers. */
               ScanRes = sscanf(*((*argv)++), "%d",
