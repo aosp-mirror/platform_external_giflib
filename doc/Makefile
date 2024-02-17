@@ -25,6 +25,7 @@ XMLMAN = \
 	giffix.xml \
 	gifinto.xml \
 	giflib.xml \
+	gifsponge.xml \
 	giftext.xml \
 	giftool.xml
 XMLINTERNAL = \
