@@ -22,6 +22,7 @@ XMLMAN = \
 	gifbuild.xml \
 	gifclrmp.xml \
 	gifecho.xml \
+	giffilter.xml \
 	giffix.xml \
 	gifinto.xml \
 	giflib.xml \
