@@ -63,6 +63,15 @@ UTILS = $(INSTALLABLE) \
 
 LDLIBS=libgif.a -lm
 
+MANUAL_PAGES = \
+	doc/gif2rgb.xml \
+	doc/gifbuild.xml \
+	doc/gifclrmp.xml \
+	doc/giffix.xml \
+	doc/giflib.xml \
+	doc/giftext.xml \
+	doc/giftool.xml
+
 SOEXTENION	= so
 LIBGIFSO	= libgif.$(SOEXTENSION)
 LIBGIFSOMAJOR	= libgif.$(SOEXTENSION).$(LIBMAJOR)
@@ -137,7 +146,7 @@ install-lib:
 	ln -sf $(LIBGIFSOMAJOR) "$(DESTDIR)$(LIBDIR)/$(LIBGIFSO)"
 install-man:
 	$(INSTALL) -d "$(DESTDIR)$(MANDIR)/man1"
-	$(INSTALL) -m 644 doc/*.1 "$(DESTDIR)$(MANDIR)/man1"
+	$(INSTALL) -m 644 $(MANUAL_PAGES) "$(DESTDIR)$(MANDIR)/man1"
 uninstall: uninstall-man uninstall-include uninstall-lib uninstall-bin
 uninstall-bin:
 	cd "$(DESTDIR)$(BINDIR)" && rm -f $(INSTALLABLE)
