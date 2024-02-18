@@ -42,7 +42,7 @@ static int DGifGetWord(GifFileType *GifFile, GifWord *Word);
 static int DGifSetupDecompress(GifFileType *GifFile);
 static int DGifDecompressLine(GifFileType *GifFile, GifPixelType *Line,
                               int LineLen);
-static int DGifGetPrefixChar(GifPrefixType *Prefix, int Code, int ClearCode);
+static int DGifGetPrefixChar(const GifPrefixType *Prefix, int Code, int ClearCode);
 static int DGifDecompressInput(GifFileType *GifFile, int *Code);
 static int DGifBufferedInput(GifFileType *GifFile, GifByteType *Buf,
                              GifByteType *NextByte);
@@ -976,7 +976,7 @@ DGifDecompressLine(GifFileType *GifFile, GifPixelType *Line, int LineLen)
  the maximum possible if image O.k. - LZ_MAX_CODE times.
 ******************************************************************************/
 static int
-DGifGetPrefixChar(GifPrefixType *Prefix, int Code, int ClearCode)
+DGifGetPrefixChar(const GifPrefixType *Prefix, int Code, int ClearCode)
 {
     int i = 0;
 
@@ -1194,8 +1194,8 @@ DGifSlurp(GifFileType *GifFile)
 		    * The way an interlaced image should be read - 
 		    * offsets and jumps...
 		    */
-		  int InterlacedOffset[] = { 0, 4, 2, 1 };
-		  int InterlacedJumps[] = { 8, 8, 4, 2 };
+		  static const int InterlacedOffset[] = { 0, 4, 2, 1 };
+		  static const int InterlacedJumps[] = { 8, 8, 4, 2 };
 		  /* Need to perform 4 passes on the image */
 		  for (i = 0; i < 4; i++)
 		      for (j = InterlacedOffset[i]; 

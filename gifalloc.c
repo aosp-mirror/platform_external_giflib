@@ -211,7 +211,7 @@ GifUnionColorMap(const ColorMapObject *ColorIn1,
  Apply a given color translation to the raster bits of an image
 *******************************************************************************/
 void
-GifApplyTranslation(SavedImage *Image, GifPixelType Translation[])
+GifApplyTranslation(SavedImage *Image, const GifPixelType Translation[])
 {
     register int i;
     register int RasterSize = Image->ImageDesc.Height * Image->ImageDesc.Width;

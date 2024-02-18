@@ -242,7 +242,7 @@ extern int GifBitSize(int n);
  Support for the in-core structures allocation (slurp mode).              
 ******************************************************************************/
 
-extern void GifApplyTranslation(SavedImage *Image, GifPixelType Translation[]);
+extern void GifApplyTranslation(SavedImage *Image, const GifPixelType Translation[]);
 extern int GifAddExtensionBlock(int *ExtensionBlock_Count,
 				ExtensionBlock **ExtensionBlocks, 
 				int Function, 

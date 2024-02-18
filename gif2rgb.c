@@ -93,7 +93,7 @@ static void LoadRGB(char *FileName,
 		GIF_EXIT("Can't open input file name.");
 	}
 	else {
-	    static char *Postfixes[] = { ".R", ".G", ".B" };
+	    static const char *Postfixes[] = { ".R", ".G", ".B" };
 	    char OneFileName[80];
 
 	    for (i = 0; i < 3; i++) {
@@ -352,9 +352,8 @@ static void GIF2RGB(int NumFiles, char *FileName,
     GifByteType *Extension;
     GifRowType *ScreenBuffer;
     GifFileType *GifFile;
-    int
-	InterlacedOffset[] = { 0, 4, 2, 1 }, /* The way Interlaced image should. */
-	InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
+    static const int InterlacedOffset[] = { 0, 4, 2, 1 }; /* The way Interlaced image should. */
+    static const int InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
     int ImageNum = 0;
     ColorMapObject *ColorMap;
     int Error;

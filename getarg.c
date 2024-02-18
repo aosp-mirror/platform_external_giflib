@@ -138,8 +138,8 @@ static int GAGetParmeters(void *Parameters[], int *ParamCount,
                           char ***argv);
 static int GAGetMultiParmeters(void *Parameters[], int *ParamCount,
                                char *CtrlStrCopy, char **argv_end, char ***argv);
-static void GASetParamCount(char *CtrlStr, int Max, int *ParamCount);
-static bool GAOptionExists(char **argv_end, char **argv);
+static void GASetParamCount(const char *CtrlStr, const int Max, int *ParamCount);
+static bool GAOptionExists(const char **argv_end, const char **argv);
 
 /***************************************************************************
  Allocate or die
@@ -169,7 +169,7 @@ GAGetArgs(int argc,
     int i, ParamCount = 0;
     void *Parameters[MAX_PARAM];     /* Save here parameter addresses. */
     char CtrlStrCopy[CTRL_STR_MAX_LEN];
-    char **argv_end = argv + argc;
+    const char **argv_end = (const char **)argv + argc;
     va_list ap;
 
     strncpy(CtrlStrCopy, CtrlStr, sizeof(CtrlStrCopy)-1);
@@ -180,18 +180,18 @@ GAGetArgs(int argc,
     va_end(ap);
 
     argv++;    /* Skip the program name (first in argv/c list). */
-    while (argv < argv_end) {
+    while (argv < (char **)argv_end) {
 	bool Error = false;
-        if (!GAOptionExists(argv_end, argv))
+        if (!GAOptionExists(argv_end, (const char **)argv))
             break;    /* The loop. */
         char *Option = *argv++;
         if ((Error = GAUpdateParameters(Parameters, &ParamCount, Option,
-                                        CtrlStrCopy, CtrlStr, argv_end,
+                                        CtrlStrCopy, CtrlStr, (char **)argv_end,
                                         &argv)) != false)
             return Error;
     }
     /* Check for results and update trail of command line: */
-    return GATestAllSatis(CtrlStrCopy, CtrlStr, argv_end, &argv, Parameters,
+    return GATestAllSatis(CtrlStrCopy, CtrlStr, (char **)argv_end, (char ***)&argv, Parameters,
                           &ParamCount) != ARG_OK;
 }
 
@@ -507,8 +507,8 @@ GAGetMultiParmeters(void *Parameters[],
  Note ALL variables are passed by address and so of fixed size (address).
 ***************************************************************************/
 static void
-GASetParamCount(char *CtrlStr,
-                int Max,
+GASetParamCount(char const *CtrlStr,
+                const int Max,
                 int *ParamCount) {
     int i;
 
@@ -527,8 +527,8 @@ GASetParamCount(char *CtrlStr,
  given list argc, argv:
 ***************************************************************************/
 static bool
-GAOptionExists(char **argv_end,
-               char **argv) {
+GAOptionExists(const char **argv_end,
+               const char **argv) {
 
     while (argv < argv_end)
         if ((*argv++)[0] == '-')
