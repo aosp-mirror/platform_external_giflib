@@ -28,6 +28,7 @@ with our utilities mainly interesting as test tools.
 #include <string.h>
 #include <stdbool.h>
 #include <fcntl.h>
+#include <limits.h>
 
 #ifdef _WIN32
 #include <io.h>
@@ -531,10 +532,14 @@ int main(int argc, char **argv)
     }
     if (!OutFileFlag) OutFileName = NULL;
 
-    if (SizeFlag && Width > 0 && Height > 0)
+    if (SizeFlag) {
+        if ((Width <= 0 || Height <= 0) || (Height > INT_MAX / Width)) {
+	  GIF_MESSAGE("Image size would be overflow, zero or negative");
+	   exit(EXIT_FAILURE);
+	}
 	RGB2GIF(OneFileFlag, NumFiles, *FileName, 
 		ExpNumOfColors, Width, Height);
-    else
+    } else
 	GIF2RGB(NumFiles, *FileName, OneFileFlag, OutFileName);
 
     return 0;
