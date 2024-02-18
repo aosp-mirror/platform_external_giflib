@@ -72,7 +72,7 @@ MANUAL_PAGES = \
 	doc/giftext.xml \
 	doc/giftool.xml
 
-SOEXTENION	= so
+SOEXTENSION	= so
 LIBGIFSO	= libgif.$(SOEXTENSION)
 LIBGIFSOMAJOR	= libgif.$(SOEXTENSION).$(LIBMAJOR)
 LIBGIFSOVER	= libgif.$(SOEXTENSION).$(LIBVER)
