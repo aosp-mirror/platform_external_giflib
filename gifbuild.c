@@ -238,6 +238,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 	else if (sscanf(buf, "	rgb %d %d %d is %c",
 		   &red, &green, &blue, &KeyTable[ColorMapSize]) == 4)
 	{
+	    if (ColorMapSize >= 256 ) {
+		PARSE_ERROR("Too many color entries.");
+		exit(EXIT_FAILURE);
+	    }
 	    ColorMap[ColorMapSize].Red = red;
 	    ColorMap[ColorMapSize].Green = green;
 	    ColorMap[ColorMapSize].Blue = blue;
@@ -246,6 +250,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
 
 	else if (sscanf(buf, "	rgb %d %d %d", &red, &green, &blue) == 3)
 	{
+	    if (ColorMapSize >= 256 ) {
+		PARSE_ERROR("Too many color entries.");
+		exit(EXIT_FAILURE);
+	    }
 	    ColorMap[ColorMapSize].Red = red;
 	    ColorMap[ColorMapSize].Green = green;
 	    ColorMap[ColorMapSize].Blue = blue;
