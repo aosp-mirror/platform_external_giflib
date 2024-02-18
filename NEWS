@@ -17,6 +17,8 @@ Repository head
 
 * Address SF issue #145: Remove manual pages installation for binaries that are not installed too
 
+* Address SF issue #146: [PATCH] Limit installed man pages to binaries, move giflib to section 7
+
 * Address SF issue #147 [PATCH] Fixes to doc/whatsinagif/ content
 
 * Address SF issue #148: heap Out of Bound Read in gif2rgb.c:298 DumpScreen2RGB
