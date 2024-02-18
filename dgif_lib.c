@@ -1242,11 +1242,10 @@ DGifSlurp(GifFileType *GifFile)
 		  if (ExtData == NULL)
 		      break;
                   /* Continue the extension block */
-		  if (ExtData != NULL)
-		      if (GifAddExtensionBlock(&GifFile->ExtensionBlockCount,
-					       &GifFile->ExtensionBlocks,
-					       CONTINUE_EXT_FUNC_CODE, 
-					       ExtData[0], &ExtData[1]) == GIF_ERROR)
+		  if (GifAddExtensionBlock(&GifFile->ExtensionBlockCount,
+					   &GifFile->ExtensionBlocks,
+					   CONTINUE_EXT_FUNC_CODE, 
+					   ExtData[0], &ExtData[1]) == GIF_ERROR)
                       return (GIF_ERROR);
               }
               break;
