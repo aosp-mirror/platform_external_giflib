@@ -778,9 +778,9 @@ EGifCloseFile(GifFileType *GifFile, int *ErrorCode)
         return GIF_ERROR;
 
     Private = (GifFilePrivateType *) GifFile->Private;
-    if (Private == NULL)
+    if (Private == NULL) {
 	return GIF_ERROR;
-    else if (!IS_WRITEABLE(Private)) {
+    } else if (!IS_WRITEABLE(Private)) {
         /* This file was NOT open for writing: */
 	if (ErrorCode != NULL)
 	    *ErrorCode = E_GIF_ERR_NOT_WRITEABLE;
@@ -801,23 +801,23 @@ EGifCloseFile(GifFileType *GifFile, int *ErrorCode)
 	    GifFreeMapObject(GifFile->SColorMap);
 	    GifFile->SColorMap = NULL;
 	}
-	if (Private) {
-	    if (Private->HashTable) {
-		free((char *) Private->HashTable);
-	    }
-	    free((char *) Private);
+	if (Private->HashTable) {
+	    free((char *) Private->HashTable);
 	}
+	free((char *) Private);
 
 	if (File && fclose(File) != 0) {
-	    if (ErrorCode != NULL)
+	    if (ErrorCode != NULL) {
 		*ErrorCode = E_GIF_ERR_CLOSE_FAILED;
+	    }
 	    free(GifFile);
 	    return GIF_ERROR;
 	}
 
 	free(GifFile);
-	if (ErrorCode != NULL)
+	if (ErrorCode != NULL) {
 	    *ErrorCode = E_GIF_SUCCEEDED;
+	}
     }
     return GIF_OK;
 }

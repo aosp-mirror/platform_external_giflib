@@ -343,6 +343,7 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock, bool Re
 	CodeCount = 0;
     }
 
+    // cppcheck-suppress nullPointerRedundantCheck
     Len = CodeBlock[0];
     for (i = 1; i <= Len; i++) {
 	if (CrntPlace == 0) {
