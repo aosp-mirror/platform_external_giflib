@@ -194,7 +194,7 @@ version:
 
 # cppcheck should run clean
 cppcheck:
-	cppcheck --inline-suppr --template gcc --enable=all --suppress=unusedFunction --force *.[ch]
+	cppcheck --quiet --inline-suppr --template gcc --enable=all --suppress=unusedFunction --force *.[ch]
 
 # Verify the build
 distcheck: all
