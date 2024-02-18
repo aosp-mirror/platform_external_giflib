@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 {
     int	i, j, NumFiles, ExtCode, Row, Col, Width, Height, ErrorCode,
 	DarkestColor = 0, ColorIntens = 10000;
-    bool Error, HelpFlag = false;
+    bool Error, HelpFlag = false, GifNoisyPrint = false;
     GifRecordType RecordType;
     GifByteType *Extension;
     char **FileName = NULL;

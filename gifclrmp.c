@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 {
     int	NumFiles, ExtCode, CodeSize, ImageNum = 0, 
 	ImageN, HasGIFOutput, ErrorCode;
-    bool Error, ImageNFlag = false, HelpFlag = false;
+    bool Error, ImageNFlag = false, HelpFlag = false, GifNoisyPrint = false;
     GifRecordType RecordType;
     GifByteType *Extension, *CodeBlock;
     char **FileName = NULL, *ColorFileName, *TranslateFileName;

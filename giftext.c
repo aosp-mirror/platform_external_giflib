@@ -48,7 +48,7 @@ int main(int argc, char **argv)
     int i, j, ExtCode, ErrorCode, CodeSize, NumFiles, Len, ImageNum = 1;
     bool Error,
 	ColorMapFlag = false, EncodedFlag = false, LZCodesFlag = false,
-	PixelFlag = false, HelpFlag = false, RawFlag = false; 
+      PixelFlag = false, HelpFlag = false, RawFlag = false, GifNoisyPrint; 
     char *GifFileName, **FileName = NULL;
     GifPixelType *Line;
     GifRecordType RecordType;

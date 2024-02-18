@@ -30,7 +30,6 @@ void GAPrintHowTo(char *CtrlStr);
 /******************************************************************************
  From qprintf.c
 ******************************************************************************/
-extern bool GifNoisyPrint;
 extern void GifQprintf(char *Format, ...);
 extern void PrintGifError(int ErrorCode);
 

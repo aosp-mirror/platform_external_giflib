@@ -45,7 +45,7 @@ static int
 int main(int argc, char **argv)
 {
     int	i, j, l, c, LevelStep, LogNumLevels, ErrorCode, Count = 0; 
-    bool Error, LevelsFlag = false, SizeFlag = false, HelpFlag = false;
+    bool Error, LevelsFlag = false, SizeFlag = false, HelpFlag = false, GifNoisyPrint = false;
     GifRowType Line;
     ColorMapObject *ColorMap;
     GifFileType *GifFile;

@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 	ErrorCode, NumLevels, ColorMapSize = 1, 
 	ForeGroundIndex = DEFAULT_FG_INDEX;
     bool Error, ClrMapSizeFlag = false, ForeGroundFlag = false,
-	TextLineFlag = false, HelpFlag = false, ColorFlag = false;
+      TextLineFlag = false, HelpFlag = false, ColorFlag = false, GifNoisyPrint = false;
     char *TextLines[MAX_NUM_TEXT_LINES];
     GifRowType RasterBuffer[GIF_FONT_HEIGHT];
     ColorMapObject *ColorMap;

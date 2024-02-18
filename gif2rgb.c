@@ -356,7 +356,6 @@ static void GIF2RGB(int NumFiles, char *FileName,
     static const int InterlacedJumps[] = { 8, 8, 4, 2 };    /* be read - offsets and jumps... */
     int ImageNum = 0;
     ColorMapObject *ColorMap;
-    int Error;
 
     if (NumFiles == 1) {
 	int Error;
@@ -491,9 +490,12 @@ static void GIF2RGB(int NumFiles, char *FileName,
 
     (void)free(ScreenBuffer);
 
-    if (DGifCloseFile(GifFile, &Error) == GIF_ERROR) {
-	PrintGifError(Error);
-	exit(EXIT_FAILURE);
+    {
+	int Error;
+	if (DGifCloseFile(GifFile, &Error) == GIF_ERROR) {
+	    PrintGifError(Error);
+	    exit(EXIT_FAILURE);
+	}
     }
 
 }
@@ -503,7 +505,7 @@ static void GIF2RGB(int NumFiles, char *FileName,
 ******************************************************************************/
 int main(int argc, char **argv)
 {
-    bool Error, OutFileFlag = false, ColorFlag = false, SizeFlag = false;
+  bool Error, OutFileFlag = false, ColorFlag = false, SizeFlag = false, GifNoisyPrint = false;
     int NumFiles, Width = 0, Height = 0, ExpNumOfColors = 8;
     char *OutFileName,
 	**FileName = NULL;

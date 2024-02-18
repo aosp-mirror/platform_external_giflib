@@ -33,7 +33,7 @@ static char
 static char KeyLetters[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:<=>?@[\\]^_`{|}~";
 #define PRINTABLES	(sizeof(KeyLetters) - 1)
 
-static void Icon2Gif(char *FileName, FILE *txtin, int fdout);
+static void Icon2Gif(char *FileName, FILE *txtin, bool, int fdout);
 static void Gif2Icon(char *FileName,
 		     int fdin, int fdout,
 		     char NameTable[]);
@@ -45,7 +45,7 @@ static int EscapeString(char *cp, char *tp);
 int main(int argc, char **argv)
 {
     int	NumFiles;
-    bool Error,	DisasmFlag = false, HelpFlag = false, TextLineFlag = false;
+    bool Error,	DisasmFlag = false, HelpFlag = false, TextLineFlag = false, GifNoisyPrint=false;
     char **FileNames = NULL;
     char *TextLines[1];
 
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
 	if (DisasmFlag)
 	    Gif2Icon("Stdin", 0, 1, TextLineFlag ? TextLines[0] : KeyLetters);
 	else
-	    Icon2Gif("Stdin", stdin, 1);
+	  Icon2Gif("Stdin", stdin, GifNoisyPrint, 1);
     }
     else 
     {
@@ -103,7 +103,7 @@ int main(int argc, char **argv)
 	    }
 	    else
 	    {
-		Icon2Gif(FileNames[i], fp, 1);
+		Icon2Gif(FileNames[i], fp, GifNoisyPrint, 1);
 	    }
 
 	    (void) fclose(fp);
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
 ******************************************************************************/
 #define PARSE_ERROR(str)  (void) fprintf(stderr,"%s:%d: %s\n",FileName,LineNum,str);
 
-static void Icon2Gif(char *FileName, FILE *txtin, int fdout)
+static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint, int fdout)
 {
     unsigned int	ColorMapSize = 0;
     GifColorType GlobalColorMap[256], LocalColorMap[256],

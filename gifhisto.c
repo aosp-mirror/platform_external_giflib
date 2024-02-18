@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 {
     int	i, j, ErrorCode, NumFiles, ExtCode, CodeSize, NumColors = 2, ImageNum = 0;
     bool Error, TextFlag = false, SizeFlag = false,
-	ImageNFlag = false, BackGroundFlag = false, HelpFlag = false;
+      ImageNFlag = false, BackGroundFlag = false, HelpFlag = false, GifNoisyPrint;
     long Histogram[256];
     GifRecordType RecordType;
     GifByteType *Extension, *CodeBlock;

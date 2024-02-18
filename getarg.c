@@ -130,7 +130,7 @@ static char *GAErrorToken;  /* On error, ErrorToken is set to point to it. */
 static int GATestAllSatis(char *CtrlStrCopy, char *CtrlStr, char **argv_end,
                           char ***argv, void *Parameters[MAX_PARAM],
                           int *ParamCount);
-static bool GAUpdateParameters(void *Parameters[], int *ParamCount,
+static int GAUpdateParameters(void *Parameters[], int *ParamCount,
                               char *Option, char *CtrlStrCopy, char *CtrlStr,
                               char **argv_end, char ***argv);
 static int GAGetParmeters(void *Parameters[], int *ParamCount,
@@ -245,7 +245,7 @@ GATestAllSatis(char *CtrlStrCopy,
 /***************************************************************************
  Routine to update the parameters according to the given Option:
  **************************************************************************/
-static bool
+static int
 GAUpdateParameters(void *Parameters[],
                    int *ParamCount,
                    char *Option,

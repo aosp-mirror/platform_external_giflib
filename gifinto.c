@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 {
     int FD;
     int	NumFiles;
-    bool Error, MinSizeFlag = false, HelpFlag = false;
+    bool Error, MinSizeFlag = false, HelpFlag = false, GifNoisyPrint = false;
     char **FileName = NULL, FoutTmpName[STRLEN+1], FullPath[STRLEN+1], *p;
     FILE *Fin, *Fout;
 

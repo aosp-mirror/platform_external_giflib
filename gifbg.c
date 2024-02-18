@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     int	i, l, LevelWidth, LogNumLevels, ErrorCode, Count = 0;
     bool Error, FlipDir, DoAllMaximum = false,
 	DirectionFlag = false, LevelsFlag = false, ColorFlag = false,
-	MinFlag = false, MaxFlag = false, SizeFlag = false, HelpFlag = false;
+      MinFlag = false, MaxFlag = false, SizeFlag = false, HelpFlag = false, GifNoisyPrint;
     GifPixelType Color;
     char *DirectionStr = DEFAULT_DIR;
     GifRowType Line;
