@@ -62,9 +62,11 @@ bool getbool(char *from)
 	if (strcmp(sp->name, from) == 0)
 	    return sp->val;
 
-    (void)fprintf(stderr, 
-		  "giftool: %s is not a valid boolean argument.\n",
-		  sp->name);
+    if (sp == NULL) {
+	(void)fprintf(stderr, 
+		      "giftool: %s is not a valid boolean argument.\n",
+		      sp->name);
+	}
     exit(EXIT_FAILURE);
 }
 
