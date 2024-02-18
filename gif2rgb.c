@@ -245,7 +245,7 @@ static void RGB2GIF(bool OneFileFlag, int NumFiles, char *FileName,
 ******************************************************************************/
 static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 			   ColorMapObject *ColorMap,
-			   GifRowType *ScreenBuffer,
+			   const GifRowType *ScreenBuffer,
 			   int ScreenWidth, int ScreenHeight)
 {
     int i, j;

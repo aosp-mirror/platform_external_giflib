@@ -127,8 +127,8 @@ SPDX-License-Identifier: MIT
 #define ISCTRLCHAR(x) (((x) == '%') || ((x) == '!'))
 
 static char *GAErrorToken;  /* On error, ErrorToken is set to point to it. */
-static int GATestAllSatis(char *CtrlStrCopy, char *CtrlStr, char **argv_end,
-                          char ***argv, void *Parameters[MAX_PARAM],
+static int GATestAllSatis(char *CtrlStrCopy, char *CtrlStr, const char **argv_end,
+                          const char ***argv, void *Parameters[MAX_PARAM],
                           int *ParamCount);
 static int GAUpdateParameters(void *Parameters[], int *ParamCount,
                               char *Option, char *CtrlStrCopy, char *CtrlStr,
@@ -191,7 +191,7 @@ GAGetArgs(int argc,
             return Error;
     }
     /* Check for results and update trail of command line: */
-    return GATestAllSatis(CtrlStrCopy, CtrlStr, (char **)argv_end, (char ***)&argv, Parameters,
+    return GATestAllSatis(CtrlStrCopy, CtrlStr, argv_end, (const char ***)&argv, Parameters,
                           &ParamCount) != ARG_OK;
 }
 
@@ -205,8 +205,8 @@ GAGetArgs(int argc,
 static int
 GATestAllSatis(char *CtrlStrCopy,
                char *CtrlStr,
-               char **argv_end,
-               char ***argv,
+               const char **argv_end,
+               const char ***argv,
                void *Parameters[MAX_PARAM],
                int *ParamCount) {
 
@@ -228,7 +228,7 @@ GATestAllSatis(char *CtrlStrCopy,
     if (!ISCTRLCHAR(CtrlStr[i + 2])) {
         GASetParamCount(CtrlStr, i, ParamCount); /* Point in correct param. */
         *(int *)Parameters[(*ParamCount)++] = argv_end - *argv;
-	*(char ***)Parameters[(*ParamCount)++] = *argv;
+	*(char ***)Parameters[(*ParamCount)++] = *(char ***)argv;
     }
 
     i = 0;
