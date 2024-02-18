@@ -157,6 +157,7 @@ uninstall-lib:
 		rm -f libgif.a $(LIBGIFSO) $(LIBGIFSOMAJOR) $(LIBGIFSOVER)
 uninstall-man:
 	cd "$(DESTDIR)$(MANDIR)/man1" && rm -f $(shell cd doc >/dev/null && echo *.1)
+	cd "$(DESTDIR)$(MANDIR)/man7" && rm -f $(shell cd doc >/dev/null && echo *.7)
 
 # Make distribution tarball
 #
@@ -176,7 +177,7 @@ EXTRAS =     README \
 	     doc/gifstandard \
 
 DSOURCES = Makefile *.[ch]
-DOCS = doc/*.xml doc/*.1 doc/*.html doc/index.html.in doc/00README doc/Makefile
+DOCS = doc/*.xml doc/*.1 doc/*.7 doc/*.html doc/index.html.in doc/00README doc/Makefile
 ALL =  $(DSOURCES) $(DOCS) tests pic $(EXTRAS)
 giflib-$(VERSION).tar.gz: $(ALL)
 	$(TAR) --transform='s:^:giflib-$(VERSION)/:' -czf giflib-$(VERSION).tar.gz $(ALL)
