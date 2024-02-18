@@ -1,5 +1,49 @@
 			GIFLIB NEWS
 
+Repository head
+===============
+
+* Fixes for CVE-2023-48161, CVE-2022-28506, 
+
+* Addess SF issue #139: Typo in "LZW image data" page ("110_2 = 4_10")
+
+* Address SF issue #140: Typo in "LZW image data" page ("LWZ")
+
+* Address SF issue #141: Typo in "Bits and bytes" page ("filed")
+
+* Note as already fixed SF issue #143: cannot compile under mingw
+
+* Address SF issue #144: giflib-5.2.1 cannot be build on windows and other platforms using c89
+
+* Address SF issue #145: Remove manual pages installation for binaries that are not installed too
+
+* Address SF issue #147 [PATCH] Fixes to doc/whatsinagif/ content
+
+* Address SF issue #148: heap Out of Bound Read in gif2rgb.c:298 DumpScreen2RGB
+
+* Declared no-info on SF issue #150: There is a denial of service vulnerability in GIFLIB 5.2.1
+
+* Declared Won't-fix on SF issue 149: Out of source builds no longer possible
+
+* Address SF issue #151: A heap-buffer-overflow in gif2rgb.c:294:45
+
+* Address SF issue #152: Fix some typos on the html documentation and man pages
+
+* Address SF issue #153: Fix segmentation faults due to non correct checking for args
+
+* Address SF issue #154: Recover the giffilter manual page
+
+* Address SF issue #155: Add gifsponge docs
+
+* Address SF issue #157: An OutofMemory-Exception or Memory Leak in gif2rgb
+
+* Address SF issue #158: There is a null pointer problem in gif2rgb
+
+* Address SF issue #159 A heap-buffer-overflow in GIFLIB5.2.1 DumpScreen2RGB() in gif2rgb.c:298:45
+
+* Address SF issue #166: a read zero page leads segment fault in getarg.c and memory leaks in gif2rgb.c and gifmalloc.c
+
+* Address SF issue #167: Heap-Buffer Overflow during Image Saving in DumpScreen2RGB Function at Line 321 of gif2rgb.c
 
 Version 5.2.1
 ==============
