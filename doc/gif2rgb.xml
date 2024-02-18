@@ -88,6 +88,12 @@ specified, convert RGB input to a GIF.</para>
 from stdin.</para>
 
 </refsect1>
+<refsect1><title>Bugs</title>
+
+<para>Feeding this utility a GIF with an invalid colormap index will
+pruduce invalid output and may core-dump the tool. Don't do that.</para>
+
+</refsect1>
 <refsect1><title>Author</title>
 
 <para>Gershon Elber.</para>
