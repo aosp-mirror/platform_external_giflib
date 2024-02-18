@@ -3,9 +3,17 @@
 Repository head
 ===============
 
+This is a point release intended to clear up a couple of CVEs and
+apply point fixes that have been accumulating since 5.2.1 There are a
+few unresolved (but minor) memory leaks related to design issues in
+the API that still need to be resolved.
+
+Code Fixes
+----------
+
 * Fixes for CVE-2023-48161, CVE-2022-28506, 
 
-* Address SF issue #138 Documentation for obsolete utilities still insta
+* Address SF issue #138 Documentation for obsolete utilities still installed
 
 * Address SF issue #139: Typo in "LZW image data" page ("110_2 = 4_10")
 
