@@ -90,8 +90,9 @@ from stdin.</para>
 </refsect1>
 <refsect1><title>Bugs</title>
 
-<para>Feeding this utility a GIF with an invalid colormap index will
-pruduce invalid output and may core-dump the tool. Don't do that.</para>
+<para>Feeding this utility a GIF with an invalid colormap, or other
+kinds of malformations, index will produce invalid output and may
+core-dump the tool. Don't do that.</para>
 
 </refsect1>
 <refsect1><title>Author</title>
