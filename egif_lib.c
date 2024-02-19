@@ -787,7 +787,6 @@ EGifCloseFile(GifFileType *GifFile, int *ErrorCode)
 	free(GifFile);
         return GIF_ERROR;
     } else {
-	//cppcheck-suppress nullPointerRedundantCheck
 	File = Private->File;
 
 	Buf = TERMINATOR_INTRODUCER;

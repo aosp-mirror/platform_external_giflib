@@ -325,6 +325,7 @@ FreeLastSavedImage(GifFileType *GifFile)
 SavedImage *
 GifMakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
 {
+    //cppcheck-suppress ctunullpointer
     if (GifFile->SavedImages == NULL)
         GifFile->SavedImages = (SavedImage *)malloc(sizeof(SavedImage));
     else {

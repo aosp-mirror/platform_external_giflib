@@ -58,6 +58,7 @@ bool getbool(char *from)
 	{NULL,  false},
     }, *sp;
 
+    // cppcheck-suppress nullPointerRedundantCheck
     for (sp = boolnames; sp->name; sp++)
 	if (strcmp(sp->name, from) == 0)
 	    return sp->val;
@@ -65,6 +66,7 @@ bool getbool(char *from)
     if (sp == NULL) {
 	(void)fprintf(stderr, 
 		      "giftool: %s is not a valid boolean argument.\n",
+		      // cppcheck-suppress nullPointerRedundantCheck
 		      sp->name);
 	}
     exit(EXIT_FAILURE);

@@ -275,6 +275,7 @@ SubdivColorMap(NewColorMapType * NewColorSubdiv,
          */
         MaxColor = QuantizedColor->RGB[SortRGBAxis]; /* Max. of first half */
 	/* coverity[var_deref_op] */
+	// cppcheck-suppress nullPointerRedundantCheck
         MinColor = QuantizedColor->Pnext->RGB[SortRGBAxis]; /* of second */
         MaxColor <<= (8 - BITS_PER_PRIM_COLOR);
         MinColor <<= (8 - BITS_PER_PRIM_COLOR);

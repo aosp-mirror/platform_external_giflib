@@ -289,7 +289,6 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint, int fdout)
 	/* ugly magic number is because scanf has no */
 	else if (sscanf(buf, "include %63s", InclusionFile) == 1)
 	{
-	    int		ErrorCode;
 	    bool	DoTranslation;
 	    GifPixelType	Translation[256];
 
@@ -304,6 +303,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint, int fdout)
 	    if (DGifSlurp(Inclusion) == GIF_ERROR)
 	    {
 		PARSE_ERROR("Inclusion read failed.");
+		// cppcheck-suppress knownConditionTrueFalse
 		if (Inclusion != NULL) {
 		    PrintGifError(Inclusion->Error);
 		    DGifCloseFile(Inclusion, NULL);
@@ -327,6 +327,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint, int fdout)
 		    PARSE_ERROR("Inclusion failed --- global map conflict.");
 		    //cppcheck-suppress nullPointerRedundantCheck
 		    PrintGifError(GifFileOut->Error);
+		    //cppcheck-suppress knownConditionTrueFalse
 		    if (Inclusion != NULL) DGifCloseFile(Inclusion, NULL);
 		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut, NULL);
 		    exit(EXIT_FAILURE);
@@ -336,18 +337,16 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint, int fdout)
 		GifFileOut->SColorMap = UnionMap;
 	    }
 
-	    //cppcheck-suppress nullPointerRedundantCheck
 	    for (CopyFrom = Inclusion->SavedImages;
-		 //cppcheck-suppress nullPointerRedundantCheck
 		 CopyFrom < Inclusion->SavedImages + Inclusion->ImageCount;
 		 CopyFrom++)
 	    {
-		SavedImage	*NewImage;
 		if ((NewImage = GifMakeSavedImage(GifFileOut, CopyFrom)) == NULL)
 		{
 		    PARSE_ERROR("Inclusion failed --- out of memory.");
 		    //cppcheck-suppress nullPointerRedundantCheck
 		    PrintGifError(GifFileOut->Error);
+		    //cppcheck-suppress knownConditionTrueFalse
 		    if (Inclusion != NULL) DGifCloseFile(Inclusion, NULL);
 		    if (GifFileOut != NULL) EGifCloseFile(GifFileOut, NULL);
 		    exit(EXIT_FAILURE);
@@ -559,7 +558,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint, int fdout)
 			&NewImage->ImageDesc.Height) == 2)
 	{
 	    int i, j;
-	    static GifPixelType *Raster, *cp;
+	    static GifPixelType *Raster;
 	    int c;
 	    bool hex = (strstr(buf, "hex") != NULL);
 
@@ -575,7 +574,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint, int fdout)
 		       NewImage->ImageDesc.Left, NewImage->ImageDesc.Top,
 		       NewImage->ImageDesc.Width, NewImage->ImageDesc.Height);
 
-	    cp = Raster;
+	    GifByteType *tp = Raster;
 	    for (i = 0; i < NewImage->ImageDesc.Height; i++) {
 
 		char	*dp;
@@ -612,10 +611,10 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint, int fdout)
 			    exit(EXIT_FAILURE);
 			}
 			lo = (dp - hexdigits);
-			*cp++ = (hi << 4) | lo;
+			*tp++ = (hi << 4) | lo;
 		    }
 		    else if ((dp = strchr(KeyTable, c)))
-			*cp++ = (dp - KeyTable);
+			*tp++ = (dp - KeyTable);
 		    else {
 			PARSE_ERROR("Invalid ASCII pixel key.");
 			exit(EXIT_FAILURE);
