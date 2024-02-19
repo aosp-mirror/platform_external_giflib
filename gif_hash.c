@@ -37,8 +37,8 @@ static int KeyItem(uint32_t Item);
 GifHashTableType *_InitHashTable(void) {
 	GifHashTableType *HashTable;
 
-	if ((HashTable =
-		     (GifHashTableType *)malloc(sizeof(GifHashTableType))) == NULL) {
+	if ((HashTable = (GifHashTableType *)malloc(
+	         sizeof(GifHashTableType))) == NULL) {
 		return NULL;
 	}
 

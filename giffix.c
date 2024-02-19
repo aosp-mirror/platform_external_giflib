@@ -44,8 +44,7 @@ int main(int argc, char **argv) {
 	    (NumFiles > 1 && !HelpFlag)) {
 		if (Error) {
 			GAPrintErrMsg(Error);
-		}
-		else if (NumFiles > 1) {
+		} else if (NumFiles > 1) {
 			GIF_MESSAGE("Error in command line parsing - one GIF "
 			            "file please.");
 		}
@@ -108,7 +107,7 @@ int main(int argc, char **argv) {
 			}
 
 			Row = GifFileIn->Image
-			      .Top;     /* Image Position relative to Screen. */
+			          .Top; /* Image Position relative to Screen. */
 			Col = GifFileIn->Image.Left;
 			Width = GifFileIn->Image.Width;
 			Height = GifFileIn->Image.Height;
@@ -121,8 +120,8 @@ int main(int argc, char **argv) {
 
 			/* Put the image descriptor to out file: */
 			if (EGifPutImageDesc(
-				    GifFileOut, Col, Row, Width, Height, false,
-				    GifFileIn->Image.ColorMap) == GIF_ERROR) {
+			        GifFileOut, Col, Row, Width, Height, false,
+			        GifFileIn->Image.ColorMap) == GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
 			}
 
@@ -156,7 +155,7 @@ int main(int argc, char **argv) {
 
 			if (i < Height) {
 				fprintf(stderr, "\nFollowing error occurred "
-				        "(and ignored):");
+				                "(and ignored):");
 				PrintGifError(GifFileIn->Error);
 
 				/* Fill in with the darkest color in color map.
@@ -185,20 +184,20 @@ int main(int argc, char **argv) {
 			}
 			if (Extension != NULL) {
 				if (EGifPutExtensionBlock(
-					    GifFileOut, Extension[0],
-					    Extension + 1) == GIF_ERROR) {
+				        GifFileOut, Extension[0],
+				        Extension + 1) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
 				}
 			}
 			while (Extension != NULL) {
 				if (DGifGetExtensionNext(
-					    GifFileIn, &Extension) == GIF_ERROR) {
+				        GifFileIn, &Extension) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
 				}
 				if (Extension != NULL) {
 					if (EGifPutExtensionBlock(
-						    GifFileOut, Extension[0],
-						    Extension + 1) == GIF_ERROR) {
+					        GifFileOut, Extension[0],
+					        Extension + 1) == GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
 					}

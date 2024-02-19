@@ -94,11 +94,11 @@ int main(int argc, char **argv) {
 			l = LevelStep * j;
 			c = i * NumLevels + j;
 			ColorMap->Colors[c].Red =
-				(i == 0 || i == 1 || i == 4 || i == 6) * l;
+			    (i == 0 || i == 1 || i == 4 || i == 6) * l;
 			ColorMap->Colors[c].Green =
-				(i == 0 || i == 2 || i == 4 || i == 5) * l;
+			    (i == 0 || i == 2 || i == 4 || i == 5) * l;
 			ColorMap->Colors[c].Blue =
-				(i == 0 || i == 3 || i == 5 || i == 6) * l;
+			    (i == 0 || i == 3 || i == 5 || i == 6) * l;
 		}
 	}
 

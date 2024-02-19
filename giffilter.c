@@ -91,11 +91,11 @@ int main(int argc, char **argv) {
 			}
 			/* Put image descriptor to out file: */
 			if (EGifPutImageDesc(
-				    GifFileOut, GifFileIn->Image.Left,
-				    GifFileIn->Image.Top, GifFileIn->Image.Width,
-				    GifFileIn->Image.Height,
-				    GifFileIn->Image.Interlace,
-				    GifFileIn->Image.ColorMap) == GIF_ERROR) {
+			        GifFileOut, GifFileIn->Image.Left,
+			        GifFileIn->Image.Top, GifFileIn->Image.Width,
+			        GifFileIn->Image.Height,
+			        GifFileIn->Image.Interlace,
+			        GifFileIn->Image.ColorMap) == GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
 			}
 
@@ -104,16 +104,16 @@ int main(int argc, char **argv) {
 			/* care what we have there, and this is much faster.
 			 */
 			if (DGifGetCode(GifFileIn, &CodeSize, &CodeBlock) ==
-			    GIF_ERROR ||
+			        GIF_ERROR ||
 			    EGifPutCode(GifFileOut, CodeSize, CodeBlock) ==
-			    GIF_ERROR) {
+			        GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
 			}
 			while (CodeBlock != NULL) {
 				if (DGifGetCodeNext(GifFileIn, &CodeBlock) ==
-				    GIF_ERROR ||
+				        GIF_ERROR ||
 				    EGifPutCodeNext(GifFileOut, CodeBlock) ==
-				    GIF_ERROR) {
+				        GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
 				}
 			}
@@ -121,7 +121,7 @@ int main(int argc, char **argv) {
 		case EXTENSION_RECORD_TYPE:
 			/* pass through extension records */
 			if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) ==
-			    GIF_ERROR ||
+			        GIF_ERROR ||
 			    Extension == NULL) {
 				QuitGifError(GifFileIn, GifFileOut);
 			}
@@ -135,13 +135,13 @@ int main(int argc, char **argv) {
 			}
 			while (Extension != NULL) {
 				if (DGifGetExtensionNext(
-					    GifFileIn, &Extension) == GIF_ERROR) {
+				        GifFileIn, &Extension) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
 				}
 				if (Extension != NULL) {
 					if (EGifPutExtensionBlock(
-						    GifFileOut, Extension[0],
-						    Extension + 1) == GIF_ERROR) {
+					        GifFileOut, Extension[0],
+					        Extension + 1) == GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
 					}

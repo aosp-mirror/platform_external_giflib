@@ -55,7 +55,7 @@ ColorMapObject *GifMakeMapObject(int ColorCount, const GifColorType *ColorMap) {
 	}
 
 	Object->Colors =
-		(GifColorType *)calloc(ColorCount, sizeof(GifColorType));
+	    (GifColorType *)calloc(ColorCount, sizeof(GifColorType));
 	if (Object->Colors == (GifColorType *)NULL) {
 		free(Object);
 		return ((ColorMapObject *)NULL);
@@ -122,7 +122,7 @@ ColorMapObject *GifUnionColorMap(const ColorMapObject *ColorIn1,
 
 	/* Allocate table which will hold the result for sure. */
 	ColorUnion = GifMakeMapObject(
-		MAX(ColorIn1->ColorCount, ColorIn2->ColorCount) * 2, NULL);
+	    MAX(ColorIn1->ColorCount, ColorIn2->ColorCount) * 2, NULL);
 
 	if (ColorUnion == NULL) {
 		return (NULL);
@@ -161,8 +161,7 @@ ColorMapObject *GifUnionColorMap(const ColorMapObject *ColorIn1,
 
 		if (j < ColorIn1->ColorCount) {
 			ColorTransIn2[i] = j; /* color exists in Color1 */
-		}
-		else {
+		} else {
 			/* Color is new - copy it to a new slot: */
 			ColorUnion->Colors[CrntSlot] = ColorIn2->Colors[i];
 			ColorTransIn2[i] = CrntSlot++;
@@ -192,7 +191,7 @@ ColorMapObject *GifUnionColorMap(const ColorMapObject *ColorIn1,
 		/* perhaps we can shrink the map? */
 		if (RoundUpTo < ColorUnion->ColorCount) {
 			GifColorType *new_map = (GifColorType *)reallocarray(
-				Map, RoundUpTo, sizeof(GifColorType));
+			    Map, RoundUpTo, sizeof(GifColorType));
 			if (new_map == NULL) {
 				GifFreeMapObject(ColorUnion);
 				return ((ColorMapObject *)NULL);
@@ -213,7 +212,7 @@ ColorMapObject *GifUnionColorMap(const ColorMapObject *ColorIn1,
 void GifApplyTranslation(SavedImage *Image, const GifPixelType Translation[]) {
 	register int i;
 	register int RasterSize =
-		Image->ImageDesc.Height * Image->ImageDesc.Width;
+	    Image->ImageDesc.Height * Image->ImageDesc.Width;
 
 	for (i = 0; i < RasterSize; i++) {
 		Image->RasterBits[i] = Translation[Image->RasterBits[i]];
@@ -230,12 +229,11 @@ int GifAddExtensionBlock(int *ExtensionBlockCount,
 
 	if (*ExtensionBlocks == NULL) {
 		*ExtensionBlocks =
-			(ExtensionBlock *)malloc(sizeof(ExtensionBlock));
-	}
-	else {
+		    (ExtensionBlock *)malloc(sizeof(ExtensionBlock));
+	} else {
 		ExtensionBlock *ep_new = (ExtensionBlock *)reallocarray(
-			*ExtensionBlocks, (*ExtensionBlockCount + 1),
-			sizeof(ExtensionBlock));
+		    *ExtensionBlocks, (*ExtensionBlockCount + 1),
+		    sizeof(ExtensionBlock));
 		if (ep_new == NULL) {
 			return (GIF_ERROR);
 		}
@@ -328,11 +326,10 @@ SavedImage *GifMakeSavedImage(GifFileType *GifFile,
 	// cppcheck-suppress ctunullpointer
 	if (GifFile->SavedImages == NULL) {
 		GifFile->SavedImages = (SavedImage *)malloc(sizeof(SavedImage));
-	}
-	else {
+	} else {
 		SavedImage *newSavedImages = (SavedImage *)reallocarray(
-			GifFile->SavedImages, (GifFile->ImageCount + 1),
-			sizeof(SavedImage));
+		    GifFile->SavedImages, (GifFile->ImageCount + 1),
+		    sizeof(SavedImage));
 		if (newSavedImages == NULL) {
 			return ((SavedImage *)NULL);
 		}
@@ -340,8 +337,7 @@ SavedImage *GifMakeSavedImage(GifFileType *GifFile,
 	}
 	if (GifFile->SavedImages == NULL) {
 		return ((SavedImage *)NULL);
-	}
-	else {
+	} else {
 		SavedImage *sp = &GifFile->SavedImages[GifFile->ImageCount++];
 
 		if (CopyFrom != NULL) {
@@ -356,8 +352,8 @@ SavedImage *GifMakeSavedImage(GifFileType *GifFile,
 			/* first, the local color map */
 			if (CopyFrom->ImageDesc.ColorMap != NULL) {
 				sp->ImageDesc.ColorMap = GifMakeMapObject(
-					CopyFrom->ImageDesc.ColorMap->ColorCount,
-					CopyFrom->ImageDesc.ColorMap->Colors);
+				    CopyFrom->ImageDesc.ColorMap->ColorCount,
+				    CopyFrom->ImageDesc.ColorMap->Colors);
 				if (sp->ImageDesc.ColorMap == NULL) {
 					FreeLastSavedImage(GifFile);
 					return (SavedImage *)(NULL);
@@ -366,25 +362,25 @@ SavedImage *GifMakeSavedImage(GifFileType *GifFile,
 
 			/* next, the raster */
 			sp->RasterBits = (unsigned char *)reallocarray(
-				NULL,
-				(CopyFrom->ImageDesc.Height *
-				 CopyFrom->ImageDesc.Width),
-				sizeof(GifPixelType));
+			    NULL,
+			    (CopyFrom->ImageDesc.Height *
+			     CopyFrom->ImageDesc.Width),
+			    sizeof(GifPixelType));
 			if (sp->RasterBits == NULL) {
 				FreeLastSavedImage(GifFile);
 				return (SavedImage *)(NULL);
 			}
 			memcpy(sp->RasterBits, CopyFrom->RasterBits,
 			       sizeof(GifPixelType) *
-			       CopyFrom->ImageDesc.Height *
-			       CopyFrom->ImageDesc.Width);
+			           CopyFrom->ImageDesc.Height *
+			           CopyFrom->ImageDesc.Width);
 
 			/* finally, the extension blocks */
 			if (CopyFrom->ExtensionBlocks != NULL) {
 				sp->ExtensionBlocks =
-					(ExtensionBlock *)reallocarray(
-						NULL, CopyFrom->ExtensionBlockCount,
-						sizeof(ExtensionBlock));
+				    (ExtensionBlock *)reallocarray(
+				        NULL, CopyFrom->ExtensionBlockCount,
+				        sizeof(ExtensionBlock));
 				if (sp->ExtensionBlocks == NULL) {
 					FreeLastSavedImage(GifFile);
 					return (SavedImage *)(NULL);
@@ -392,7 +388,7 @@ SavedImage *GifMakeSavedImage(GifFileType *GifFile,
 				memcpy(sp->ExtensionBlocks,
 				       CopyFrom->ExtensionBlocks,
 				       sizeof(ExtensionBlock) *
-				       CopyFrom->ExtensionBlockCount);
+				           CopyFrom->ExtensionBlockCount);
 			}
 		} else {
 			memset((char *)sp, '\0', sizeof(SavedImage));

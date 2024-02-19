@@ -52,12 +52,11 @@ int main(int argc, char **argv) {
 	                       &TranslateFlag, &TranslateFileName, &LoadFlag,
 	                       &ColorFileName, &GammaFlag, &Gamma, &ImageNFlag,
 	                       &ImageN, &HelpFlag, &NumFiles, &FileName)) !=
-	    false ||
+	        false ||
 	    (NumFiles > 1 && !HelpFlag)) {
 		if (Error) {
 			GAPrintErrMsg(Error);
-		}
-		else if (NumFiles > 1) {
+		} else if (NumFiles > 1) {
 			GIF_MESSAGE("Error in command line parsing - one GIF "
 			            "file please.");
 		}
@@ -112,7 +111,7 @@ int main(int argc, char **argv) {
 			/* We are loading new color map from specified file: */
 			if ((ColorFile = fopen(ColorFileName, "rt")) == NULL) {
 				GIF_EXIT(
-					"Failed to open specified color map file.");
+				    "Failed to open specified color map file.");
 			}
 		}
 	}
@@ -164,7 +163,7 @@ int main(int argc, char **argv) {
 				/* We are suppose to modify this image color
 				 * map, do it: */
 				GifFileIn->SColorMap =
-					ModifyColorMap(GifFileIn->SColorMap);
+				    ModifyColorMap(GifFileIn->SColorMap);
 				if (!HasGIFOutput) {
 					/* We can quit here, as we have the
 					 * color map: */
@@ -175,12 +174,13 @@ int main(int argc, char **argv) {
 			}
 			if (HasGIFOutput) {
 				if (EGifPutImageDesc(
-					    GifFileOut, GifFileIn->Image.Left,
-					    GifFileIn->Image.Top,
-					    GifFileIn->Image.Width,
-					    GifFileIn->Image.Height,
-					    GifFileIn->Image.Interlace,
-					    GifFileIn->Image.ColorMap) == GIF_ERROR) {
+				        GifFileOut, GifFileIn->Image.Left,
+				        GifFileIn->Image.Top,
+				        GifFileIn->Image.Width,
+				        GifFileIn->Image.Height,
+				        GifFileIn->Image.Interlace,
+				        GifFileIn->Image.ColorMap) ==
+				    GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
 				}
 			}
@@ -199,7 +199,8 @@ int main(int argc, char **argv) {
 				}
 				if (HasGIFOutput) {
 					if (EGifPutCode(GifFileOut, CodeSize,
-					                CodeBlock) == GIF_ERROR) {
+					                CodeBlock) ==
+					    GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
 					}
@@ -213,11 +214,12 @@ int main(int argc, char **argv) {
 					}
 					if (HasGIFOutput) {
 						if (EGifPutCodeNext(
-							    GifFileOut,
-							    CodeBlock) == GIF_ERROR) {
+						        GifFileOut,
+						        CodeBlock) ==
+						    GIF_ERROR) {
 							QuitGifError(
-								GifFileIn,
-								GifFileOut);
+							    GifFileIn,
+							    GifFileOut);
 						}
 					}
 				}
@@ -227,12 +229,12 @@ int main(int argc, char **argv) {
 				register GifPixelType *cp;
 
 				GifPixelType *Line = (GifPixelType *)malloc(
-					GifFileIn->Image.Width *
-					sizeof(GifPixelType));
+				    GifFileIn->Image.Width *
+				    sizeof(GifPixelType));
 				for (i = 0; i < GifFileIn->Image.Height; i++) {
 					if (DGifGetLine(
-						    GifFileIn, Line,
-						    GifFileIn->Image.Width) ==
+					        GifFileIn, Line,
+					        GifFileIn->Image.Width) ==
 					    GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
@@ -246,8 +248,8 @@ int main(int argc, char **argv) {
 					}
 
 					if (EGifPutLine(
-						    GifFileOut, Line,
-						    GifFileIn->Image.Width) ==
+					        GifFileOut, Line,
+					        GifFileIn->Image.Width) ==
 					    GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
@@ -276,13 +278,13 @@ int main(int argc, char **argv) {
 			}
 			while (Extension != NULL) {
 				if (DGifGetExtensionNext(
-					    GifFileIn, &Extension) == GIF_ERROR) {
+				        GifFileIn, &Extension) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
 				}
 				if (Extension != NULL) {
 					if (EGifPutExtensionBlock(
-						    GifFileOut, Extension[0],
-						    Extension + 1) == GIF_ERROR) {
+					        GifFileOut, Extension[0],
+					        Extension + 1) == GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
 					}
@@ -348,14 +350,14 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap) {
 		double Gamma1 = 1.0 / Gamma;
 		for (i = 0; i < ColorMap->ColorCount; i++) {
 			ColorMap->Colors[i].Red =
-				((int)(255 * pow(ColorMap->Colors[i].Red / 255.0,
-				                 Gamma1)));
+			    ((int)(255 * pow(ColorMap->Colors[i].Red / 255.0,
+			                     Gamma1)));
 			ColorMap->Colors[i].Green =
-				((int)(255 * pow(ColorMap->Colors[i].Green / 255.0,
-				                 Gamma1)));
+			    ((int)(255 * pow(ColorMap->Colors[i].Green / 255.0,
+			                     Gamma1)));
 			ColorMap->Colors[i].Blue =
-				((int)(255 * pow(ColorMap->Colors[i].Blue / 255.0,
-				                 Gamma1)));
+			    ((int)(255 * pow(ColorMap->Colors[i].Blue / 255.0,
+			                     Gamma1)));
 		}
 		return (ColorMap);
 	} else if (TranslateFlag) {

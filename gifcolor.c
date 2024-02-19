@@ -59,10 +59,10 @@ int main(int argc, char **argv) {
 
 	/* Allocate the raster buffer for GIF_FONT_HEIGHT scan lines. */
 	for (i = 0; i < GIF_FONT_HEIGHT; i++) {
-		if ((RasterBuffer[i] = (GifRowType)malloc(sizeof(GifPixelType) *
-		                                          IMAGEWIDTH)) == NULL) {
+		if ((RasterBuffer[i] = (GifRowType)malloc(
+		         sizeof(GifPixelType) * IMAGEWIDTH)) == NULL) {
 			GIF_EXIT(
-				"Failed to allocate memory required, aborted.");
+			    "Failed to allocate memory required, aborted.");
 		}
 	}
 
@@ -91,8 +91,8 @@ int main(int argc, char **argv) {
 	}
 
 	if (EGifPutScreenDesc(
-		    GifFile, IMAGEWIDTH, ColorMapSize * GIF_FONT_HEIGHT,
-		    GifBitSize(ColorMapSize), BackGround, ColorMap) == GIF_ERROR) {
+	        GifFile, IMAGEWIDTH, ColorMapSize * GIF_FONT_HEIGHT,
+	        GifBitSize(ColorMapSize), BackGround, ColorMap) == GIF_ERROR) {
 		QuitGifError(GifFile);
 	}
 
@@ -109,9 +109,9 @@ int main(int argc, char **argv) {
 
 	for (i = l = 0; i < ColorMap->ColorCount; i++) {
 		(void)snprintf(
-			Line, sizeof(Line), "Color %-3d: [%-3d, %-3d, %-3d] ", i,
-			ColorMap->Colors[i].Red, ColorMap->Colors[i].Green,
-			ColorMap->Colors[i].Blue);
+		    Line, sizeof(Line), "Color %-3d: [%-3d, %-3d, %-3d] ", i,
+		    ColorMap->Colors[i].Red, ColorMap->Colors[i].Green,
+		    ColorMap->Colors[i].Blue);
 		GenRasterTextLine(RasterBuffer, Line, IMAGEWIDTH, i);
 		for (j = 0; j < GIF_FONT_HEIGHT; j++) {
 			if (EGifPutLine(GifFile, RasterBuffer[j], IMAGEWIDTH) ==

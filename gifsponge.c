@@ -58,8 +58,8 @@ int main(int argc, char **argv) {
 	GifFileOut->SBackGroundColor = GifFileIn->SBackGroundColor;
 	if (GifFileIn->SColorMap) {
 		GifFileOut->SColorMap =
-			GifMakeMapObject(GifFileIn->SColorMap->ColorCount,
-			                 GifFileIn->SColorMap->Colors);
+		    GifMakeMapObject(GifFileIn->SColorMap->ColorCount,
+		                     GifFileIn->SColorMap->Colors);
 	} else {
 		GifFileOut->SColorMap = NULL;
 	}

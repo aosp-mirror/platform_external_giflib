@@ -40,8 +40,8 @@ static void PrintLZCodes(GifFileType *GifFile);
 int main(int argc, char **argv) {
 	int i, j, ExtCode, ErrorCode, CodeSize, NumFiles, Len, ImageNum = 1;
 	bool Error, ColorMapFlag = false, EncodedFlag = false,
-	     LZCodesFlag = false, PixelFlag = false, HelpFlag = false,
-	     RawFlag = false, GifNoisyPrint;
+	            LZCodesFlag = false, PixelFlag = false, HelpFlag = false,
+	            RawFlag = false, GifNoisyPrint;
 	char *GifFileName, **FileName = NULL;
 	GifPixelType *Line;
 	GifRecordType RecordType;
@@ -49,14 +49,13 @@ int main(int argc, char **argv) {
 	GifFileType *GifFile;
 
 	if ((Error =
-		     GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint, &ColorMapFlag,
-		               &EncodedFlag, &LZCodesFlag, &PixelFlag, &RawFlag,
-		               &HelpFlag, &NumFiles, &FileName)) != false ||
+	         GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint, &ColorMapFlag,
+	                   &EncodedFlag, &LZCodesFlag, &PixelFlag, &RawFlag,
+	                   &HelpFlag, &NumFiles, &FileName)) != false ||
 	    (NumFiles > 1 && !HelpFlag)) {
 		if (Error) {
 			GAPrintErrMsg(Error);
-		}
-		else if (NumFiles > 1) {
+		} else if (NumFiles > 1) {
 			GIF_MESSAGE("Error in command line parsing - one GIF "
 			            "file please.");
 		}
@@ -103,8 +102,7 @@ int main(int argc, char **argv) {
 		       GifFile->SBackGroundColor, GifFile->AspectByte);
 		if (GifFile->SColorMap) {
 			printf("\tHas Global Color Map.\n\n");
-		}
-		else{
+		} else {
 			printf("\tNo Global Color Map.\n\n");
 		}
 		if (ColorMapFlag && GifFile->SColorMap) {
@@ -117,11 +115,11 @@ int main(int argc, char **argv) {
 					printf("%3d: %02xh %02xh %02xh   ",
 					       i + j,
 					       GifFile->SColorMap->Colors[i + j]
-					       .Red,
+					           .Red,
 					       GifFile->SColorMap->Colors[i + j]
-					       .Green,
+					           .Green,
 					       GifFile->SColorMap->Colors[i + j]
-					       .Blue);
+					           .Blue);
 				}
 				printf("\n");
 			}
@@ -141,26 +139,24 @@ int main(int argc, char **argv) {
 			}
 			if (!RawFlag) {
 				printf(
-					"\nImage #%d:\n\n\tImage Size - Left = %d, "
-					"Top = %d, Width = %d, Height = %d.\n",
-					ImageNum++, GifFile->Image.Left,
-					GifFile->Image.Top, GifFile->Image.Width,
-					GifFile->Image.Height);
+				    "\nImage #%d:\n\n\tImage Size - Left = %d, "
+				    "Top = %d, Width = %d, Height = %d.\n",
+				    ImageNum++, GifFile->Image.Left,
+				    GifFile->Image.Top, GifFile->Image.Width,
+				    GifFile->Image.Height);
 				printf("\tImage is %s", GifFile->Image.Interlace
 				                            ? "Interlaced"
 				                            : "Non Interlaced");
 				if (GifFile->Image.ColorMap != NULL) {
 					printf(", BitsPerPixel = %d.\n",
 					       GifFile->Image.ColorMap
-					       ->BitsPerPixel);
-				}
-				else{
+					           ->BitsPerPixel);
+				} else {
 					printf(".\n");
 				}
 				if (GifFile->Image.ColorMap) {
 					printf("\tImage Has Color Map.\n");
-				}
-				else{
+				} else {
 					printf("\tNo Image Color Map.\n");
 				}
 				if (ColorMapFlag && GifFile->Image.ColorMap) {
@@ -169,26 +165,26 @@ int main(int argc, char **argv) {
 					           ? "on"
 					           : "off");
 					Len = 1 << GifFile->Image.ColorMap
-					        ->BitsPerPixel;
+					               ->BitsPerPixel;
 					for (i = 0; i < Len; i += 4) {
 						for (j = 0; j < 4 && j < Len;
 						     j++) {
 							printf(
-								"%3d: %02xh %02xh "
-								"%02xh   ",
-								i + j,
-								GifFile->Image
-								.ColorMap
-								->Colors[i + j]
-								.Red,
-								GifFile->Image
-								.ColorMap
-								->Colors[i + j]
-								.Green,
-								GifFile->Image
-								.ColorMap
-								->Colors[i + j]
-								.Blue);
+							    "%3d: %02xh %02xh "
+							    "%02xh   ",
+							    i + j,
+							    GifFile->Image
+							        .ColorMap
+							        ->Colors[i + j]
+							        .Red,
+							    GifFile->Image
+							        .ColorMap
+							        ->Colors[i + j]
+							        .Green,
+							    GifFile->Image
+							        .ColorMap
+							        ->Colors[i + j]
+							        .Blue);
 						}
 						printf("\n");
 					}
@@ -219,8 +215,8 @@ int main(int argc, char **argv) {
 				PrintLZCodes(GifFile);
 			} else if (PixelFlag) {
 				Line = (GifPixelType *)malloc(
-					GifFile->Image.Width *
-					sizeof(GifPixelType));
+				    GifFile->Image.Width *
+				    sizeof(GifPixelType));
 				for (i = 0; i < GifFile->Image.Height; i++) {
 					if (DGifGetLine(GifFile, Line,
 					                GifFile->Image.Width) ==
@@ -229,15 +225,15 @@ int main(int argc, char **argv) {
 						exit(EXIT_FAILURE);
 					}
 					PrintPixelBlock(
-						Line, GifFile->Image.Width, i == 0);
+					    Line, GifFile->Image.Width, i == 0);
 				}
 				PrintPixelBlock(NULL, GifFile->Image.Width,
 				                false);
 				free((char *)Line);
 			} else if (RawFlag) {
 				Line = (GifPixelType *)malloc(
-					GifFile->Image.Width *
-					sizeof(GifPixelType));
+				    GifFile->Image.Width *
+				    sizeof(GifPixelType));
 				for (i = 0; i < GifFile->Image.Height; i++) {
 					if (DGifGetLine(GifFile, Line,
 					                GifFile->Image.Width) ==
@@ -289,7 +285,7 @@ int main(int argc, char **argv) {
 					break;
 				default:
 					printf(
-						"Extension record of unknown type");
+					    "Extension record of unknown type");
 					break;
 				}
 				printf(" (Ext Code = %d [%c]):\n", ExtCode,
@@ -302,13 +298,13 @@ int main(int argc, char **argv) {
 						printf("Invalid extension "
 						       "block\n");
 						GifFile->Error =
-							D_GIF_ERR_IMAGE_DEFECT;
+						    D_GIF_ERR_IMAGE_DEFECT;
 						PrintGifError(GifFile->Error);
 						exit(EXIT_FAILURE);
 					}
 					if (DGifExtensionToGCB(
-						    Extension[0], Extension + 1,
-						    &gcb) == GIF_ERROR) {
+					        Extension[0], Extension + 1,
+					        &gcb) == GIF_ERROR) {
 						PrintGifError(GifFile->Error);
 						exit(EXIT_FAILURE);
 					}
@@ -377,12 +373,11 @@ static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock,
 			}
 			if (GifFile->Image.ColorMap) {
 				NumBytes =
-					((((long)GifFile->Image.Width) *
-					  GifFile->Image.Height) *
-					 GifFile->Image.ColorMap->BitsPerPixel) /
-					8;
-			}
-			else if (GifFile->SColorMap != NULL) {
+				    ((((long)GifFile->Image.Width) *
+				      GifFile->Image.Height) *
+				     GifFile->Image.ColorMap->BitsPerPixel) /
+				    8;
+			} else if (GifFile->SColorMap != NULL) {
 				NumBytes = ((((long)GifFile->Image.Width) *
 				             GifFile->Image.Height) *
 				            GifFile->SColorMap->BitsPerPixel) /
@@ -433,7 +428,7 @@ static void PrintExtBlock(GifByteType *Extension, bool Reset) {
 				printf("\n%05lx: %-49s  %-17s\n", ExtCount,
 				       HexForm, AsciiForm);
 				return;
-			} else{
+			} else {
 				printf("\n");
 			}
 		}
@@ -479,7 +474,7 @@ static void PrintPixelBlock(GifByteType *PixelBlock, int Len, bool Reset) {
 				AsciiForm[CrntPlace] = 0;
 				printf("\n%05lx: %-49s  %-17s\n", ExtCount,
 				       HexForm, AsciiForm);
-			} else{
+			} else {
 				printf("\n");
 			}
 		}

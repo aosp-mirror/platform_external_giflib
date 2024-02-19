@@ -179,14 +179,14 @@ void GifDrawBox(SavedImage *Image, const int x, const int y, const int w,
 
 	for (j = 0; j < w; j++) {
 		Image->RasterBits[base + j] =
-			Image->RasterBits[base + (d * Image->ImageDesc.Width) + j] =
-				color;
+		    Image->RasterBits[base + (d * Image->ImageDesc.Width) + j] =
+		        color;
 	}
 
 	for (j = 0; j < d; j++) {
 		Image->RasterBits[base + j * Image->ImageDesc.Width] =
-			Image->RasterBits[base + j * Image->ImageDesc.Width + w] =
-				color;
+		    Image->RasterBits[base + j * Image->ImageDesc.Width + w] =
+		        color;
 	}
 }
 
@@ -219,7 +219,7 @@ void GifDrawBoxedText8x8(SavedImage *Image, const int x, const int y,
 			++j;
 		}
 	}
-	LineCount++;       /* count last line */
+	LineCount++;         /* count last line */
 	if (j > TextWidth) { /* last line might be longer than any previous */
 		TextWidth = j;
 	}
@@ -231,9 +231,9 @@ void GifDrawBoxedText8x8(SavedImage *Image, const int x, const int y,
 		int i = 0;
 		/* fill the box */
 		GifDrawRectangle(
-			Image, x + 1, y + 1,
-			border + TextWidth * GIF_FONT_WIDTH + border - 1,
-			border + LineCount * GIF_FONT_HEIGHT + border - 1, bg);
+		    Image, x + 1, y + 1,
+		    border + TextWidth * GIF_FONT_WIDTH + border - 1,
+		    border + LineCount * GIF_FONT_HEIGHT + border - 1, bg);
 		(void)strcpy(dup, (char *)legend);
 		char *lasts;
 		cp = strtok_r(dup, "\r\n", &lasts);
@@ -245,8 +245,8 @@ void GifDrawBoxedText8x8(SavedImage *Image, const int x, const int y,
 			}
 
 			GifDrawText8x8(
-				Image, x + border + (leadspace * GIF_FONT_WIDTH),
-				y + border + (GIF_FONT_HEIGHT * i++), cp, fg);
+			    Image, x + border + (leadspace * GIF_FONT_WIDTH),
+			    y + border + (GIF_FONT_HEIGHT * i++), cp, fg);
 			cp = strtok_r(NULL, "\r\n", &lasts);
 		} while (cp);
 		(void)free((void *)dup);

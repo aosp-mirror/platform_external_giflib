@@ -47,20 +47,20 @@ static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 int main(int argc, char **argv) {
 	int i, j, l, ImageWidth, ImageHeight, NumOfLines, LogNumLevels,
 	    ErrorCode, NumLevels, ColorMapSize = 1,
-	    ForeGroundIndex = DEFAULT_FG_INDEX;
+	                          ForeGroundIndex = DEFAULT_FG_INDEX;
 	bool Error, ClrMapSizeFlag = false, ForeGroundFlag = false,
-	     TextLineFlag = false, HelpFlag = false, ColorFlag = false,
-	     GifNoisyPrint = false;
+	            TextLineFlag = false, HelpFlag = false, ColorFlag = false,
+	            GifNoisyPrint = false;
 	char *TextLines[MAX_NUM_TEXT_LINES];
 	GifRowType RasterBuffer[GIF_FONT_HEIGHT];
 	ColorMapObject *ColorMap;
 	GifFileType *GifFile;
 
 	if ((Error =
-		     GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint, &ClrMapSizeFlag,
-		               &ColorMapSize, &ForeGroundFlag, &ForeGroundIndex,
-		               &ColorFlag, &RedColor, &GreenColor, &BlueColor,
-		               &TextLineFlag, &TextLines[0], &HelpFlag)) != false) {
+	         GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint, &ClrMapSizeFlag,
+	                   &ColorMapSize, &ForeGroundFlag, &ForeGroundIndex,
+	                   &ColorFlag, &RedColor, &GreenColor, &BlueColor,
+	                   &TextLineFlag, &TextLines[0], &HelpFlag)) != false) {
 		GAPrintErrMsg(Error);
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_FAILURE);
@@ -74,12 +74,12 @@ int main(int argc, char **argv) {
 
 	if (ForeGroundIndex > 255 || ForeGroundIndex < 1) {
 		GIF_EXIT(
-			"Foregound (-f) should be in the range 1..255, aborted.");
+		    "Foregound (-f) should be in the range 1..255, aborted.");
 	}
 
 	if (ColorMapSize > 8 || ColorMapSize < 1) {
 		GIF_EXIT(
-			"ColorMapSize (-s) should be in the range 1..8, aborted.");
+		    "ColorMapSize (-s) should be in the range 1..8, aborted.");
 	}
 
 	if (TextLineFlag) {
@@ -90,7 +90,8 @@ int main(int argc, char **argv) {
 		char Line[LINE_LEN];
 		NumOfLines = l = 0;
 		while (fgets(Line, LINE_LEN - 1, stdin)) {
-			for (i = strlen(Line); i > 0 && Line[i - 1] <= ' '; i--) {
+			for (i = strlen(Line); i > 0 && Line[i - 1] <= ' ';
+			     i--) {
 				;
 			}
 			Line[i] = 0;
@@ -100,7 +101,7 @@ int main(int argc, char **argv) {
 			TextLines[NumOfLines++] = strdup(Line);
 			if (NumOfLines == MAX_NUM_TEXT_LINES) {
 				GIF_EXIT(
-					"Input file has too many lines, aborted.");
+				    "Input file has too many lines, aborted.");
 			}
 		}
 		if (NumOfLines == 0) {
@@ -113,10 +114,10 @@ int main(int argc, char **argv) {
 	/* Allocate the raster buffer for GIF_FONT_HEIGHT scan lines (one text
 	 * line). */
 	for (i = 0; i < GIF_FONT_HEIGHT; i++) {
-		if ((RasterBuffer[i] = (GifRowType)malloc(sizeof(GifPixelType) *
-		                                          ImageWidth)) == NULL) {
+		if ((RasterBuffer[i] = (GifRowType)malloc(
+		         sizeof(GifPixelType) * ImageWidth)) == NULL) {
 			GIF_EXIT(
-				"Failed to allocate memory required, aborted.");
+			    "Failed to allocate memory required, aborted.");
 		}
 	}
 
@@ -143,7 +144,7 @@ int main(int argc, char **argv) {
 
 	for (i = 0; i < NumLevels; i++) {
 		ColorMap->Colors[i].Red = ColorMap->Colors[i].Green =
-			ColorMap->Colors[i].Blue = 0;
+		    ColorMap->Colors[i].Blue = 0;
 	}
 	ColorMap->Colors[ForeGroundIndex].Red = RedColor;
 	ColorMap->Colors[ForeGroundIndex].Green = GreenColor;
@@ -206,7 +207,7 @@ static void GenRasterTextLine(GifRowType *RasterBuffer, char *TextLine,
 			     k++, Mask >>= 1) {
 				if (Byte & Mask) {
 					RasterBuffer[j][CharPosX + k] =
-						ForeGroundIndex;
+					    ForeGroundIndex;
 				}
 			}
 		}

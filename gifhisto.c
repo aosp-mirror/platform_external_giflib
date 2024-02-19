@@ -61,8 +61,7 @@ int main(int argc, char **argv) {
 	    (NumFiles > 1 && !HelpFlag)) {
 		if (Error) {
 			GAPrintErrMsg(Error);
-		}
-		else if (NumFiles > 1) {
+		} else if (NumFiles > 1) {
 			GIF_MESSAGE("Error in command line parsing - one GIF "
 			            "file please.");
 		}
@@ -92,7 +91,6 @@ int main(int argc, char **argv) {
 
 	for (i = 0; i < 256; i++) {
 		Histogram[i] = 0; /* Reset counters. */
-
 	}
 	/* Scan the content of the GIF file and load the image(s) in: */
 	do {
@@ -108,12 +106,10 @@ int main(int argc, char **argv) {
 
 			if (GifFileIn->Image.ColorMap) {
 				NumColors =
-					GifFileIn->Image.ColorMap->ColorCount;
-			}
-			else if (GifFileIn->SColorMap) {
+				    GifFileIn->Image.ColorMap->ColorCount;
+			} else if (GifFileIn->SColorMap) {
 				NumColors = GifFileIn->SColorMap->ColorCount;
-			}
-			else{
+			} else {
 				GIF_EXIT("Neither Screen nor Image color map "
 				         "exists.");
 			}
@@ -128,19 +124,19 @@ int main(int argc, char **argv) {
 				/* This is the image we should make histogram
 				 * for:       */
 				Line =
-					(GifRowType)malloc(GifFileIn->Image.Width *
-					                   sizeof(GifPixelType));
+				    (GifRowType)malloc(GifFileIn->Image.Width *
+				                       sizeof(GifPixelType));
 				GifQprintf(
-					"\n%s: Image %d at (%d, %d) [%dx%d]:     ",
-					PROGRAM_NAME, ImageNum,
-					GifFileIn->Image.Left, GifFileIn->Image.Top,
-					GifFileIn->Image.Width,
-					GifFileIn->Image.Height);
+				    "\n%s: Image %d at (%d, %d) [%dx%d]:     ",
+				    PROGRAM_NAME, ImageNum,
+				    GifFileIn->Image.Left, GifFileIn->Image.Top,
+				    GifFileIn->Image.Width,
+				    GifFileIn->Image.Height);
 
 				for (i = 0; i < GifFileIn->Image.Height; i++) {
 					if (DGifGetLine(
-						    GifFileIn, Line,
-						    GifFileIn->Image.Width) ==
+					        GifFileIn, Line,
+					        GifFileIn->Image.Width) ==
 					    GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
@@ -182,7 +178,7 @@ int main(int argc, char **argv) {
 
 			while (Extension != NULL) {
 				if (DGifGetExtensionNext(
-					    GifFileIn, &Extension) == GIF_ERROR) {
+				        GifFileIn, &Extension) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
 				}
 			}
@@ -244,7 +240,6 @@ int main(int argc, char **argv) {
 		Scaler /= ImageWidth;
 		if (Scaler == 0) {
 			Scaler = 1; /* In case maximum is less than width. */
-
 		}
 		/* Dump out the image itself: */
 		for (Count = ImageHeight, i = 0, Color = 1; i < NumColors;

@@ -75,8 +75,7 @@ int main(int argc, char **argv) {
 	    (NumFiles > 1 && !HelpFlag)) {
 		if (Error) {
 			GAPrintErrMsg(Error);
-		}
-		else if (NumFiles != 1) {
+		} else if (NumFiles != 1) {
 			GIF_MESSAGE("Error in command line parsing - one GIF "
 			            "file please.");
 		}
@@ -117,13 +116,10 @@ int main(int argc, char **argv) {
 	if ((p = strrchr(FullPath, '/')) != NULL ||
 	    (p = strrchr(FullPath, '\\')) != NULL) {
 		p[1] = 0;
-	}
-	else if ((p = strrchr(FullPath, ':')) != NULL) {
+	} else if ((p = strrchr(FullPath, ':')) != NULL) {
 		p[1] = 0;
-	}
-	else{
+	} else {
 		FullPath[0] = 0; /* No directory or disk specified. */
-
 	}
 	if (strlen(FullPath) > STRLEN - 1) {
 		GIF_EXIT("Filename too long.");
@@ -138,8 +134,7 @@ int main(int argc, char **argv) {
 	char *tmpFN = _mktemp(FoutTmpName);
 	if (tmpFN) {
 		FD = open(tmpFN, O_CREAT | O_EXCL | O_WRONLY);
-	}
-	else{
+	} else {
 		FD = -1;
 	}
 #else
@@ -180,14 +175,14 @@ int main(int argc, char **argv) {
 			if (rename(FoutTmpName, DefaultName) == 0) {
 				char s[STRLEN];
 				snprintf(
-					s, STRLEN,
-					"Failed to rename out file - left as %s.",
-					DefaultName);
+				    s, STRLEN,
+				    "Failed to rename out file - left as %s.",
+				    DefaultName);
 				GIF_MESSAGE(s);
 			} else {
 				unlink(FoutTmpName);
 				GIF_MESSAGE(
-					"Failed to rename out file - deleted.");
+				    "Failed to rename out file - deleted.");
 			}
 		}
 	} else {
