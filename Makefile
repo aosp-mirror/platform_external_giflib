@@ -124,6 +124,9 @@ clean:
 check: all
 	$(MAKE) -C tests
 
+reflow:
+	@clang-format --style="{IndentWidth: 8, UseTab: ForIndentation}" -i $$(find . -name "*.[ch]")
+
 # Installation/uninstallation
 
 ifeq ($(UNAME), Darwin)

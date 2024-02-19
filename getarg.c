@@ -106,18 +106,18 @@ SPDX-License-Identifier: MIT
 
 **************************************************************************/
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
 #include <stdarg.h>
- 
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "getarg.h"
 
-#define MAX_PARAM           100    /* maximum number of parameters allowed. */
-#define CTRL_STR_MAX_LEN    1024
+#define MAX_PARAM 100 /* maximum number of parameters allowed. */
+#define CTRL_STR_MAX_LEN 1024
 
-#define SPACE_CHAR '|'  /* The character not to print using HowTo. */
+#define SPACE_CHAR '|' /* The character not to print using HowTo. */
 
 #define ARG_OK false
 
@@ -126,261 +126,259 @@ SPDX-License-Identifier: MIT
 /* The two characters '%' and '!' are used in the control string: */
 #define ISCTRLCHAR(x) (((x) == '%') || ((x) == '!'))
 
-static char *GAErrorToken;  /* On error, ErrorToken is set to point to it. */
-static int GATestAllSatis(char *CtrlStrCopy, char *CtrlStr, const char **argv_end,
-                          const char ***argv, void *Parameters[MAX_PARAM],
-                          int *ParamCount);
-static int GAUpdateParameters(void *Parameters[], int *ParamCount,
-                              char *Option, char *CtrlStrCopy, char *CtrlStr,
-                              char **argv_end, char ***argv);
+static char *GAErrorToken; /* On error, ErrorToken is set to point to it. */
+static int GATestAllSatis(char *CtrlStrCopy, char *CtrlStr,
+                          const char **argv_end, const char ***argv,
+                          void *Parameters[MAX_PARAM], int *ParamCount);
+static int GAUpdateParameters(void *Parameters[], int *ParamCount, char *Option,
+                              char *CtrlStrCopy, char *CtrlStr, char **argv_end,
+                              char ***argv);
 static int GAGetParmeters(void *Parameters[], int *ParamCount,
                           char *CtrlStrCopy, char *Option, char **argv_end,
                           char ***argv);
 static int GAGetMultiParmeters(void *Parameters[], int *ParamCount,
-                               char *CtrlStrCopy, char **argv_end, char ***argv);
-static void GASetParamCount(const char *CtrlStr, const int Max, int *ParamCount);
+                               char *CtrlStrCopy, char **argv_end,
+                               char ***argv);
+static void GASetParamCount(const char *CtrlStr, const int Max,
+                            int *ParamCount);
 static bool GAOptionExists(const char **argv_end, const char **argv);
 
 /***************************************************************************
  Allocate or die
 ***************************************************************************/
-static void *
-xmalloc(unsigned size) {
+static void *xmalloc(unsigned size) {
 
-    void *p;
+	void *p;
 
-    if ((p = malloc(size)) != NULL)
-        return p;
+	if ((p = malloc(size)) != NULL)
+		return p;
 
-    fprintf(stderr, "Not enough memory, exit.\n");
-    exit(2);
+	fprintf(stderr, "Not enough memory, exit.\n");
+	exit(2);
 
-    return NULL;    /* Makes warning silent. */
+	return NULL; /* Makes warning silent. */
 }
 /***************************************************************************
- Routine to access the command line argument and interpret them:       
- Return ARG_OK (0) is case of successful parsing, error code else...       
+ Routine to access the command line argument and interpret them:
+ Return ARG_OK (0) is case of successful parsing, error code else...
 ***************************************************************************/
-bool
-GAGetArgs(int argc,
-        char **argv,
-        char *CtrlStr, ...) {
+bool GAGetArgs(int argc, char **argv, char *CtrlStr, ...) {
 
-    int i, ParamCount = 0;
-    void *Parameters[MAX_PARAM];     /* Save here parameter addresses. */
-    char CtrlStrCopy[CTRL_STR_MAX_LEN];
-    const char **argv_end = (const char **)argv + argc;
-    va_list ap;
+	int i, ParamCount = 0;
+	void *Parameters[MAX_PARAM]; /* Save here parameter addresses. */
+	char CtrlStrCopy[CTRL_STR_MAX_LEN];
+	const char **argv_end = (const char **)argv + argc;
+	va_list ap;
 
-    strncpy(CtrlStrCopy, CtrlStr, sizeof(CtrlStrCopy)-1);
-    GASetParamCount(CtrlStr, strlen(CtrlStr), &ParamCount);
-    va_start(ap, CtrlStr);
-    for (i = 1; i <= ParamCount; i++)
-        Parameters[i - 1] = va_arg(ap, void *);
-    va_end(ap);
+	strncpy(CtrlStrCopy, CtrlStr, sizeof(CtrlStrCopy) - 1);
+	GASetParamCount(CtrlStr, strlen(CtrlStr), &ParamCount);
+	va_start(ap, CtrlStr);
+	for (i = 1; i <= ParamCount; i++)
+		Parameters[i - 1] = va_arg(ap, void *);
+	va_end(ap);
 
-    argv++;    /* Skip the program name (first in argv/c list). */
-    while (argv < (char **)argv_end) {
-	bool Error = false;
-        if (!GAOptionExists(argv_end, (const char **)argv))
-            break;    /* The loop. */
-        char *Option = *argv++;
-        if ((Error = GAUpdateParameters(Parameters, &ParamCount, Option,
-                                        CtrlStrCopy, CtrlStr, (char **)argv_end,
-                                        &argv)) != false)
-            return Error;
-    }
-    /* Check for results and update trail of command line: */
-    return GATestAllSatis(CtrlStrCopy, CtrlStr, argv_end, (const char ***)&argv, Parameters,
-                          &ParamCount) != ARG_OK;
+	argv++; /* Skip the program name (first in argv/c list). */
+	while (argv < (char **)argv_end) {
+		bool Error = false;
+		if (!GAOptionExists(argv_end, (const char **)argv))
+			break; /* The loop. */
+		char *Option = *argv++;
+		if ((Error = GAUpdateParameters(
+		         Parameters, &ParamCount, Option, CtrlStrCopy, CtrlStr,
+		         (char **)argv_end, &argv)) != false)
+			return Error;
+	}
+	/* Check for results and update trail of command line: */
+	return GATestAllSatis(CtrlStrCopy, CtrlStr, argv_end,
+	                      (const char ***)&argv, Parameters,
+	                      &ParamCount) != ARG_OK;
 }
 
 /***************************************************************************
- Routine to search for unsatisfied flags - simply scan the list for !- 
+ Routine to search for unsatisfied flags - simply scan the list for !-
  sequence. Before this scan, this routine updates the rest of the command
- line into the last two parameters if it is requested by the CtrlStr 
- (last item in CtrlStr is NOT an option). 
- Return ARG_OK if all satisfied, CMD_ERR_AllSatis error else. 
+ line into the last two parameters if it is requested by the CtrlStr
+ (last item in CtrlStr is NOT an option).
+ Return ARG_OK if all satisfied, CMD_ERR_AllSatis error else.
 ***************************************************************************/
-static int
-GATestAllSatis(char *CtrlStrCopy,
-               char *CtrlStr,
-               const char **argv_end,
-               const char ***argv,
-               void *Parameters[MAX_PARAM],
-               int *ParamCount) {
+static int GATestAllSatis(char *CtrlStrCopy, char *CtrlStr,
+                          const char **argv_end, const char ***argv,
+                          void *Parameters[MAX_PARAM], int *ParamCount) {
 
-    int i;
-    static char *LocalToken = NULL;
+	int i;
+	static char *LocalToken = NULL;
 
-    /* If LocalToken is not initialized - do it now. Note that this string
-     * should be writable as well so we can not assign it directly.
-     */
-    if (LocalToken == NULL) {
-        LocalToken = (char *)malloc(3);
-        strcpy(LocalToken, "-?");
-    }
+	/* If LocalToken is not initialized - do it now. Note that this string
+	 * should be writable as well so we can not assign it directly.
+	 */
+	if (LocalToken == NULL) {
+		LocalToken = (char *)malloc(3);
+		strcpy(LocalToken, "-?");
+	}
 
-    /* Check if last item is an option. If not then copy rest of command
-     * line into it as 1. NumOfprm, 2. pointer to block of pointers.
-     */
-    for (i = strlen(CtrlStr) - 1; i > 0 && !ISSPACE(CtrlStr[i]); i--) ;
-    if (!ISCTRLCHAR(CtrlStr[i + 2])) {
-        GASetParamCount(CtrlStr, i, ParamCount); /* Point in correct param. */
-        *(int *)Parameters[(*ParamCount)++] = argv_end - *argv;
-	*(char ***)Parameters[(*ParamCount)++] = *(char ***)argv;
-    }
+	/* Check if last item is an option. If not then copy rest of command
+	 * line into it as 1. NumOfprm, 2. pointer to block of pointers.
+	 */
+	for (i = strlen(CtrlStr) - 1; i > 0 && !ISSPACE(CtrlStr[i]); i--)
+		;
+	if (!ISCTRLCHAR(CtrlStr[i + 2])) {
+		GASetParamCount(CtrlStr, i,
+		                ParamCount); /* Point in correct param. */
+		*(int *)Parameters[(*ParamCount)++] = argv_end - *argv;
+		*(char ***)Parameters[(*ParamCount)++] = *(char ***)argv;
+	}
 
-    i = 0;
-    while (++i < (int)strlen(CtrlStrCopy))
-        if ((CtrlStrCopy[i] == '-') && (CtrlStrCopy[i - 1] == '!')) {
-            GAErrorToken = LocalToken;
-            LocalToken[1] = CtrlStrCopy[i - 2];    /* Set the correct flag. */
-            return CMD_ERR_AllSatis;
-        }
+	i = 0;
+	while (++i < (int)strlen(CtrlStrCopy))
+		if ((CtrlStrCopy[i] == '-') && (CtrlStrCopy[i - 1] == '!')) {
+			GAErrorToken = LocalToken;
+			LocalToken[1] =
+			    CtrlStrCopy[i - 2]; /* Set the correct flag. */
+			return CMD_ERR_AllSatis;
+		}
 
-    return ARG_OK;
+	return ARG_OK;
 }
 
 /***************************************************************************
  Routine to update the parameters according to the given Option:
  **************************************************************************/
-static int
-GAUpdateParameters(void *Parameters[],
-                   int *ParamCount,
-                   char *Option,
-                   char *CtrlStrCopy,
-                   char *CtrlStr,
-                   char **argv_end,
-                   char ***argv) {
+static int GAUpdateParameters(void *Parameters[], int *ParamCount, char *Option,
+                              char *CtrlStrCopy, char *CtrlStr, char **argv_end,
+                              char ***argv) {
 
-    int i;
-    bool BooleanTrue = Option[2] != '-';
+	int i;
+	bool BooleanTrue = Option[2] != '-';
 
-    if (Option[0] != '-') {
-        GAErrorToken = Option;
-        return CMD_ERR_NotAnOpt;
-    }
-    i = 0;    /* Scan the CtrlStrCopy for that option: */
-    while (i + 2 < (int)strlen(CtrlStrCopy)) {
-        if ((CtrlStrCopy[i] == Option[1]) && (ISCTRLCHAR(CtrlStrCopy[i + 1]))
-            && (CtrlStrCopy[i + 2] == '-')) {
-            /* We found that option! */
-            break;
-        }
-        i++;
-    }
-    if (i + 2 >= (int)strlen(CtrlStrCopy)) {
-        GAErrorToken = Option;
-        return CMD_ERR_NoSuchOpt;
-    }
+	if (Option[0] != '-') {
+		GAErrorToken = Option;
+		return CMD_ERR_NotAnOpt;
+	}
+	i = 0; /* Scan the CtrlStrCopy for that option: */
+	while (i + 2 < (int)strlen(CtrlStrCopy)) {
+		if ((CtrlStrCopy[i] == Option[1]) &&
+		    (ISCTRLCHAR(CtrlStrCopy[i + 1])) &&
+		    (CtrlStrCopy[i + 2] == '-')) {
+			/* We found that option! */
+			break;
+		}
+		i++;
+	}
+	if (i + 2 >= (int)strlen(CtrlStrCopy)) {
+		GAErrorToken = Option;
+		return CMD_ERR_NoSuchOpt;
+	}
 
-    /* If we are here, then we found that option in CtrlStr - Strip it off: */
-    CtrlStrCopy[i] = CtrlStrCopy[i + 1] = CtrlStrCopy[i + 2] = (char)' ';
-    GASetParamCount(CtrlStr, i, ParamCount); /* Set it to point in
-                                                correct prm. */
-    i += 3;
-    /* Set boolean flag for that option. */
-    *(bool *)Parameters[(*ParamCount)++] = BooleanTrue;
-    if (ISSPACE(CtrlStrCopy[i]))
-        return ARG_OK;    /* Only a boolean flag is needed. */
+	/* If we are here, then we found that option in CtrlStr - Strip it off:
+	 */
+	CtrlStrCopy[i] = CtrlStrCopy[i + 1] = CtrlStrCopy[i + 2] = (char)' ';
+	GASetParamCount(CtrlStr, i, ParamCount); /* Set it to point in
+	                                            correct prm. */
+	i += 3;
+	/* Set boolean flag for that option. */
+	*(bool *)Parameters[(*ParamCount)++] = BooleanTrue;
+	if (ISSPACE(CtrlStrCopy[i]))
+		return ARG_OK; /* Only a boolean flag is needed. */
 
-    /* Skip the text between the boolean option and data follows: */
-    while (!ISCTRLCHAR(CtrlStrCopy[i]))
-        i++;
-    /* Get the parameters and return the appropriete return code: */
-    return GAGetParmeters(Parameters, ParamCount, &CtrlStrCopy[i],
-                          Option, argv_end, argv);
+	/* Skip the text between the boolean option and data follows: */
+	while (!ISCTRLCHAR(CtrlStrCopy[i]))
+		i++;
+	/* Get the parameters and return the appropriete return code: */
+	return GAGetParmeters(Parameters, ParamCount, &CtrlStrCopy[i], Option,
+	                      argv_end, argv);
 }
 
 /***************************************************************************
  Routine to get parameters according to the CtrlStr given from argv/argc
 ***************************************************************************/
-static int
-GAGetParmeters(void *Parameters[],
-               int *ParamCount,
-               char *CtrlStrCopy,
-               char *Option,
-               char **argv_end,
-               char ***argv) {
+static int GAGetParmeters(void *Parameters[], int *ParamCount,
+                          char *CtrlStrCopy, char *Option, char **argv_end,
+                          char ***argv) {
 
-    int i = 0, ScanRes;
+	int i = 0, ScanRes;
 
-    while (!(ISSPACE(CtrlStrCopy[i]))) {
+	while (!(ISSPACE(CtrlStrCopy[i]))) {
 
-        if ((*argv) == argv_end) {
-            GAErrorToken = Option;
-            return CMD_ERR_NumRead;
-        }
+		if ((*argv) == argv_end) {
+			GAErrorToken = Option;
+			return CMD_ERR_NumRead;
+		}
 
-        switch (CtrlStrCopy[i + 1]) {
-          case 'd':    /* Get signed integers. */
-              ScanRes = sscanf(*((*argv)++), "%d",
-                               (int *)Parameters[(*ParamCount)++]);
-              break;
-          case 'u':    /* Get unsigned integers. */
-              ScanRes = sscanf(*((*argv)++), "%u",
-                               (unsigned *)Parameters[(*ParamCount)++]);
-              break;
-          case 'x':    /* Get hex integers. */
-              ScanRes = sscanf(*((*argv)++), "%x",
-                               (unsigned int *)Parameters[(*ParamCount)++]);
-              break;
-          case 'o':    /* Get octal integers. */
-              ScanRes = sscanf(*((*argv)++), "%o",
-                               (unsigned int *)Parameters[(*ParamCount)++]);
-              break;
-          case 'D':    /* Get signed long integers. */
-              ScanRes = sscanf(*((*argv)++), "%ld",
-                               (long *)Parameters[(*ParamCount)++]);
-              break;
-          case 'U':    /* Get unsigned long integers. */
-              ScanRes = sscanf(*((*argv)++), "%lu",
-                               (unsigned long *)Parameters[(*ParamCount)++]);
-              break;
-          case 'X':    /* Get hex long integers. */
-              ScanRes = sscanf(*((*argv)++), "%lx",
-                               (unsigned long *)Parameters[(*ParamCount)++]);
-              break;
-          case 'O':    /* Get octal long integers. */
-              ScanRes = sscanf(*((*argv)++), "%lo",
-                               (unsigned long *)Parameters[(*ParamCount)++]);
-              break;
-          case 'f':    /* Get float number. */
-              ScanRes = sscanf(*((*argv)++), "%f",
-                               (float *)Parameters[(*ParamCount)++]);
-	      break;
-          case 'F':    /* Get double float number. */
-              ScanRes = sscanf(*((*argv)++), "%lf",
-                               (double *)Parameters[(*ParamCount)++]);
-              break;
-          case 's':    /* It as a string. */
-              ScanRes = 1;    /* Allways O.K. */
-	      *(char **)Parameters[(*ParamCount)++] = *((*argv)++);
-              break;
-          case '*':    /* Get few parameters into one: */
-              ScanRes = GAGetMultiParmeters(Parameters, ParamCount,
-                                            &CtrlStrCopy[i], argv_end, argv);
-              if ((ScanRes == 0) && (CtrlStrCopy[i] == '!')) {
-                  GAErrorToken = Option;
-                  return CMD_ERR_WildEmpty;
-              }
-              break;
-          default:
-              ScanRes = 0;    /* Make optimizer warning silent. */
-        }
-        /* If reading fails and this number is a must (!) then error: */
-        if ((ScanRes == 0) && (CtrlStrCopy[i] == '!')) {
-            GAErrorToken = Option;
-            return CMD_ERR_NumRead;
-        }
-        if (CtrlStrCopy[i + 1] != '*') {
-            i += 2;    /* Skip to next parameter (if any). */
-        } else
-            i += 3;    /* Skip the '*' also! */
-    }
+		switch (CtrlStrCopy[i + 1]) {
+		case 'd': /* Get signed integers. */
+			ScanRes = sscanf(*((*argv)++), "%d",
+			                 (int *)Parameters[(*ParamCount)++]);
+			break;
+		case 'u': /* Get unsigned integers. */
+			ScanRes =
+			    sscanf(*((*argv)++), "%u",
+			           (unsigned *)Parameters[(*ParamCount)++]);
+			break;
+		case 'x': /* Get hex integers. */
+			ScanRes =
+			    sscanf(*((*argv)++), "%x",
+			           (unsigned int *)Parameters[(*ParamCount)++]);
+			break;
+		case 'o': /* Get octal integers. */
+			ScanRes =
+			    sscanf(*((*argv)++), "%o",
+			           (unsigned int *)Parameters[(*ParamCount)++]);
+			break;
+		case 'D': /* Get signed long integers. */
+			ScanRes = sscanf(*((*argv)++), "%ld",
+			                 (long *)Parameters[(*ParamCount)++]);
+			break;
+		case 'U': /* Get unsigned long integers. */
+			ScanRes = sscanf(
+			    *((*argv)++), "%lu",
+			    (unsigned long *)Parameters[(*ParamCount)++]);
+			break;
+		case 'X': /* Get hex long integers. */
+			ScanRes = sscanf(
+			    *((*argv)++), "%lx",
+			    (unsigned long *)Parameters[(*ParamCount)++]);
+			break;
+		case 'O': /* Get octal long integers. */
+			ScanRes = sscanf(
+			    *((*argv)++), "%lo",
+			    (unsigned long *)Parameters[(*ParamCount)++]);
+			break;
+		case 'f': /* Get float number. */
+			ScanRes = sscanf(*((*argv)++), "%f",
+			                 (float *)Parameters[(*ParamCount)++]);
+			break;
+		case 'F': /* Get double float number. */
+			ScanRes = sscanf(*((*argv)++), "%lf",
+			                 (double *)Parameters[(*ParamCount)++]);
+			break;
+		case 's':            /* It as a string. */
+			ScanRes = 1; /* Allways O.K. */
+			*(char **)Parameters[(*ParamCount)++] = *((*argv)++);
+			break;
+		case '*': /* Get few parameters into one: */
+			ScanRes = GAGetMultiParmeters(Parameters, ParamCount,
+			                              &CtrlStrCopy[i], argv_end,
+			                              argv);
+			if ((ScanRes == 0) && (CtrlStrCopy[i] == '!')) {
+				GAErrorToken = Option;
+				return CMD_ERR_WildEmpty;
+			}
+			break;
+		default:
+			ScanRes = 0; /* Make optimizer warning silent. */
+		}
+		/* If reading fails and this number is a must (!) then error: */
+		if ((ScanRes == 0) && (CtrlStrCopy[i] == '!')) {
+			GAErrorToken = Option;
+			return CMD_ERR_NumRead;
+		}
+		if (CtrlStrCopy[i + 1] != '*') {
+			i += 2; /* Skip to next parameter (if any). */
+		} else
+			i += 3; /* Skip the '*' also! */
+	}
 
-    return ARG_OK;
+	return ARG_OK;
 }
 
 /***************************************************************************
@@ -391,110 +389,112 @@ GAGetParmeters(void *Parameters[],
  This routine assumes that all pointers (on any kind of scalar) has the
  same size (and the union below is totally ovelapped bteween dif. arrays)
 ***************************************************************************/
-static int
-GAGetMultiParmeters(void *Parameters[],
-                    int *ParamCount,
-                    char *CtrlStrCopy,
-                    char **argv_end,
-                    char ***argv) {
+static int GAGetMultiParmeters(void *Parameters[], int *ParamCount,
+                               char *CtrlStrCopy, char **argv_end,
+                               char ***argv) {
 
-    int i = 0, ScanRes, NumOfPrm = 0;
-    void **Pmain, **Ptemp;
-    union TmpArray {    /* Save here the temporary data before copying it to */
-        void *VoidArray[MAX_PARAM];    /* the returned pointer block. */
-        int *IntArray[MAX_PARAM];
-        long *LngArray[MAX_PARAM];
-        float *FltArray[MAX_PARAM];
-        double *DblArray[MAX_PARAM];
-        char *ChrArray[MAX_PARAM];
-    } TmpArray;
+	int i = 0, ScanRes, NumOfPrm = 0;
+	void **Pmain, **Ptemp;
+	union TmpArray { /* Save here the temporary data before copying it to */
+		void *VoidArray[MAX_PARAM]; /* the returned pointer block. */
+		int *IntArray[MAX_PARAM];
+		long *LngArray[MAX_PARAM];
+		float *FltArray[MAX_PARAM];
+		double *DblArray[MAX_PARAM];
+		char *ChrArray[MAX_PARAM];
+	} TmpArray;
 
-    do {
-        switch (CtrlStrCopy[2]) { /* CtrlStr == '!*?' or '%*?' where ? is. */
-          case 'd':    /* Format to read the parameters: */
-              TmpArray.IntArray[NumOfPrm] = xmalloc(sizeof(int));
-              ScanRes = sscanf(*((*argv)++), "%d",
-                               (int *)TmpArray.IntArray[NumOfPrm++]);
-              break;
-          case 'u':
-              TmpArray.IntArray[NumOfPrm] = xmalloc(sizeof(int));
-              ScanRes = sscanf(*((*argv)++), "%u",
-                               (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
-              break;
-          case 'o':
-              TmpArray.IntArray[NumOfPrm] = xmalloc(sizeof(int));
-              ScanRes = sscanf(*((*argv)++), "%o",
-                               (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
-              break;
-          case 'x':
-              TmpArray.IntArray[NumOfPrm] = xmalloc(sizeof(int));
-              ScanRes = sscanf(*((*argv)++), "%x",
-                               (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
-              break;
-          case 'D':
-              TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
-              ScanRes = sscanf(*((*argv)++), "%ld",
-                               (long *)TmpArray.IntArray[NumOfPrm++]);
-              break;
-          case 'U':
-              TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
-              ScanRes = sscanf(*((*argv)++), "%lu",
-                               (unsigned long *)TmpArray.
-                               IntArray[NumOfPrm++]);
-              break;
-          case 'O':
-              TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
-              ScanRes = sscanf(*((*argv)++), "%lo",
-                               (unsigned long *)TmpArray.
-                               IntArray[NumOfPrm++]);
-              break;
-          case 'X':
-              TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
-              ScanRes = sscanf(*((*argv)++), "%lx",
-                               (unsigned long *)TmpArray.
-                               IntArray[NumOfPrm++]);
-              break;
-          case 'f':
-              TmpArray.FltArray[NumOfPrm] = xmalloc(sizeof(float));
-              ScanRes = sscanf(*((*argv)++), "%f",
-			       // cppcheck-suppress invalidPointerCast
-                               (float *)TmpArray.LngArray[NumOfPrm++]);
-              break;
-          case 'F':
-              TmpArray.DblArray[NumOfPrm] = xmalloc(sizeof(double));
-              ScanRes = sscanf(*((*argv)++), "%lf",
-			       // cppcheck-suppress invalidPointerCast
-                               (double *)TmpArray.LngArray[NumOfPrm++]);
-              break;
-          case 's':
-              while ((*argv < argv_end) && ((**argv)[0] != '-')) {
-                  TmpArray.ChrArray[NumOfPrm++] = *((*argv)++);
-              }
-              ScanRes = 0;    /* Force quit from do - loop. */
-              NumOfPrm++;    /* Updated again immediately after loop! */
-              (*argv)++;    /* "" */
-              break;
-          default:
-              ScanRes = 0;    /* Make optimizer warning silent. */
-        }
-    }
-    while (ScanRes == 1);    /* Exactly one parameter was read. */
-    (*argv)--;
-    NumOfPrm--;
+	do {
+		switch (CtrlStrCopy[2]) { /* CtrlStr == '!*?' or '%*?' where ?
+			                     is. */
+		case 'd':                 /* Format to read the parameters: */
+			TmpArray.IntArray[NumOfPrm] = xmalloc(sizeof(int));
+			ScanRes = sscanf(*((*argv)++), "%d",
+			                 (int *)TmpArray.IntArray[NumOfPrm++]);
+			break;
+		case 'u':
+			TmpArray.IntArray[NumOfPrm] = xmalloc(sizeof(int));
+			ScanRes = sscanf(
+			    *((*argv)++), "%u",
+			    (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
+			break;
+		case 'o':
+			TmpArray.IntArray[NumOfPrm] = xmalloc(sizeof(int));
+			ScanRes = sscanf(
+			    *((*argv)++), "%o",
+			    (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
+			break;
+		case 'x':
+			TmpArray.IntArray[NumOfPrm] = xmalloc(sizeof(int));
+			ScanRes = sscanf(
+			    *((*argv)++), "%x",
+			    (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
+			break;
+		case 'D':
+			TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
+			ScanRes = sscanf(*((*argv)++), "%ld",
+			                 (long *)TmpArray.IntArray[NumOfPrm++]);
+			break;
+		case 'U':
+			TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
+			ScanRes = sscanf(
+			    *((*argv)++), "%lu",
+			    (unsigned long *)TmpArray.IntArray[NumOfPrm++]);
+			break;
+		case 'O':
+			TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
+			ScanRes = sscanf(
+			    *((*argv)++), "%lo",
+			    (unsigned long *)TmpArray.IntArray[NumOfPrm++]);
+			break;
+		case 'X':
+			TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
+			ScanRes = sscanf(
+			    *((*argv)++), "%lx",
+			    (unsigned long *)TmpArray.IntArray[NumOfPrm++]);
+			break;
+		case 'f':
+			TmpArray.FltArray[NumOfPrm] = xmalloc(sizeof(float));
+			ScanRes =
+			    sscanf(*((*argv)++), "%f",
+			           // cppcheck-suppress invalidPointerCast
+			           (float *)TmpArray.LngArray[NumOfPrm++]);
+			break;
+		case 'F':
+			TmpArray.DblArray[NumOfPrm] = xmalloc(sizeof(double));
+			ScanRes =
+			    sscanf(*((*argv)++), "%lf",
+			           // cppcheck-suppress invalidPointerCast
+			           (double *)TmpArray.LngArray[NumOfPrm++]);
+			break;
+		case 's':
+			while ((*argv < argv_end) && ((**argv)[0] != '-')) {
+				TmpArray.ChrArray[NumOfPrm++] = *((*argv)++);
+			}
+			ScanRes = 0; /* Force quit from do - loop. */
+			NumOfPrm++;  /* Updated again immediately after loop! */
+			(*argv)++;   /* "" */
+			break;
+		default:
+			ScanRes = 0; /* Make optimizer warning silent. */
+		}
+	} while (ScanRes == 1); /* Exactly one parameter was read. */
+	(*argv)--;
+	NumOfPrm--;
 
-    /* Now allocate the block with the exact size, and set it: */
-    Ptemp = Pmain = xmalloc((unsigned)(NumOfPrm + 1) * sizeof(void *));
-    /* And here we use the assumption that all pointers are the same: */
-    for (i = 0; i < NumOfPrm; i++)
-        *Ptemp++ = TmpArray.VoidArray[i];
-    *Ptemp = NULL;    /* Close the block with NULL pointer. */
+	/* Now allocate the block with the exact size, and set it: */
+	Ptemp = Pmain = xmalloc((unsigned)(NumOfPrm + 1) * sizeof(void *));
+	/* And here we use the assumption that all pointers are the same: */
+	for (i = 0; i < NumOfPrm; i++)
+		*Ptemp++ = TmpArray.VoidArray[i];
+	*Ptemp = NULL; /* Close the block with NULL pointer. */
 
-    /* That it save the number of parameters read as first parameter to
-     * return and the pointer to the block as second, and return: */
-    *(int *)Parameters[(*ParamCount)++] = NumOfPrm;
-    *(void ***)Parameters[(*ParamCount)++] = Pmain;
-    /* free(Pmain); -- can not free here as caller needs to access memory */
-    return NumOfPrm;
+	/* That it save the number of parameters read as first parameter to
+	 * return and the pointer to the block as second, and return: */
+	*(int *)Parameters[(*ParamCount)++] = NumOfPrm;
+	*(void ***)Parameters[(*ParamCount)++] = Pmain;
+	/* free(Pmain); -- can not free here as caller needs to access memory */
+	return NumOfPrm;
 }
 
 /***************************************************************************
@@ -506,140 +506,141 @@ GAGetMultiParmeters(void *Parameters[],
  and one for pointer to block pointers.
  Note ALL variables are passed by address and so of fixed size (address).
 ***************************************************************************/
-static void
-GASetParamCount(char const *CtrlStr,
-                const int Max,
-                int *ParamCount) {
-    int i;
+static void GASetParamCount(char const *CtrlStr, const int Max,
+                            int *ParamCount) {
+	int i;
 
-    *ParamCount = 0;
-    for (i = 0; i < Max; i++)
-        if (ISCTRLCHAR(CtrlStr[i])) {
-            if (CtrlStr[i + 1] == '*')
-                *ParamCount += 2;
-            else
-                (*ParamCount)++;
-        }
+	*ParamCount = 0;
+	for (i = 0; i < Max; i++)
+		if (ISCTRLCHAR(CtrlStr[i])) {
+			if (CtrlStr[i + 1] == '*')
+				*ParamCount += 2;
+			else
+				(*ParamCount)++;
+		}
 }
 
 /***************************************************************************
  Routine to check if more option (i.e. first char == '-') exists in the
  given list argc, argv:
 ***************************************************************************/
-static bool
-GAOptionExists(const char **argv_end,
-               const char **argv) {
+static bool GAOptionExists(const char **argv_end, const char **argv) {
 
-    while (argv < argv_end)
-        if ((*argv++)[0] == '-')
-            return true;
-    return false;
+	while (argv < argv_end)
+		if ((*argv++)[0] == '-')
+			return true;
+	return false;
 }
 
 /***************************************************************************
  Routine to print some error messages, for this module:
 ***************************************************************************/
-void
-GAPrintErrMsg(int Error) {
+void GAPrintErrMsg(int Error) {
 
-    fprintf(stderr, "Error in command line parsing - ");
-    switch (Error) {
-      case 0:;
-          fprintf(stderr, "Undefined error");
-          break;
-      case CMD_ERR_NotAnOpt:
-          fprintf(stderr, "None option Found");
-          break;
-      case CMD_ERR_NoSuchOpt:
-          fprintf(stderr, "Undefined option Found");
-          break;
-      case CMD_ERR_WildEmpty:
-          fprintf(stderr, "Empty input for '!*?' seq.");
-          break;
-      case CMD_ERR_NumRead:
-          fprintf(stderr, "Failed on reading number");
-          break;
-      case CMD_ERR_AllSatis:
-          fprintf(stderr, "Fail to satisfy");
-          break;
-    }
-    fprintf(stderr, " - '%s'.\n", GAErrorToken);
+	fprintf(stderr, "Error in command line parsing - ");
+	switch (Error) {
+	case 0:;
+		fprintf(stderr, "Undefined error");
+		break;
+	case CMD_ERR_NotAnOpt:
+		fprintf(stderr, "None option Found");
+		break;
+	case CMD_ERR_NoSuchOpt:
+		fprintf(stderr, "Undefined option Found");
+		break;
+	case CMD_ERR_WildEmpty:
+		fprintf(stderr, "Empty input for '!*?' seq.");
+		break;
+	case CMD_ERR_NumRead:
+		fprintf(stderr, "Failed on reading number");
+		break;
+	case CMD_ERR_AllSatis:
+		fprintf(stderr, "Fail to satisfy");
+		break;
+	}
+	fprintf(stderr, " - '%s'.\n", GAErrorToken);
 }
 
 /***************************************************************************
  Routine to print correct format of command line allowed:
 ***************************************************************************/
-void
-GAPrintHowTo(char *CtrlStr) {
+void GAPrintHowTo(char *CtrlStr) {
 
-    int i = 0;
-    bool SpaceFlag;
+	int i = 0;
+	bool SpaceFlag;
 
-    fprintf(stderr, "Usage: ");
-    /* Print program name - first word in ctrl. str. (optional): */
-    while (!(ISSPACE(CtrlStr[i])) && (!ISCTRLCHAR(CtrlStr[i + 1])))
-        fprintf(stderr, "%c", CtrlStr[i++]);
+	fprintf(stderr, "Usage: ");
+	/* Print program name - first word in ctrl. str. (optional): */
+	while (!(ISSPACE(CtrlStr[i])) && (!ISCTRLCHAR(CtrlStr[i + 1])))
+		fprintf(stderr, "%c", CtrlStr[i++]);
 
-    while (i < (int)strlen(CtrlStr)) {
-	// cppcheck-suppress arrayIndexThenCheck
-        while ((ISSPACE(CtrlStr[i])) && (i < (int)strlen(CtrlStr)))
-            i++;
-        switch (CtrlStr[i + 1]) {
-          case '%':
-              fprintf(stderr, " [-%c", CtrlStr[i++]);
-              i += 2;    /* Skip the '%-' or '!- after the char! */
-              SpaceFlag = true;
-              while (!ISCTRLCHAR(CtrlStr[i]) && (i < (int)strlen(CtrlStr)) &&
-                     (!ISSPACE(CtrlStr[i])))
-                  if (SpaceFlag) {
-                      if (CtrlStr[i++] == SPACE_CHAR)
-                          fprintf(stderr, " ");
-                      else
-                          fprintf(stderr, " %c", CtrlStr[i - 1]);
-                      SpaceFlag = false;
-                  } else if (CtrlStr[i++] == SPACE_CHAR)
-                      fprintf(stderr, " ");
-                  else
-                      fprintf(stderr, "%c", CtrlStr[i - 1]);
-              while (!ISSPACE(CtrlStr[i]) && (i < (int)strlen(CtrlStr))) {
-                  if (CtrlStr[i] == '*')
-                      fprintf(stderr, "...");
-                  i++;    /* Skip the rest of it. */
-              }
-              fprintf(stderr, "]");
-              break;
-          case '!':
-              fprintf(stderr, " -%c", CtrlStr[i++]);
-              i += 2;    /* Skip the '%-' or '!- after the char! */
-              SpaceFlag = true;
-              while (!ISCTRLCHAR(CtrlStr[i]) && (i < (int)strlen(CtrlStr)) &&
-                     (!ISSPACE(CtrlStr[i])))
-                  if (SpaceFlag) {
-                      if (CtrlStr[i++] == SPACE_CHAR)
-                          fprintf(stderr, " ");
-                      else
-                          fprintf(stderr, " %c", CtrlStr[i - 1]);
-                      SpaceFlag = false;
-                  } else if (CtrlStr[i++] == SPACE_CHAR)
-                      fprintf(stderr, " ");
-                  else
-                      fprintf(stderr, "%c", CtrlStr[i - 1]);
-              while (!ISSPACE(CtrlStr[i]) && (i < (int)strlen(CtrlStr))) {
-                  if (CtrlStr[i] == '*')
-                      fprintf(stderr, "...");
-                  i++;    /* Skip the rest of it. */
-              }
-              break;
-          default:    /* Not checked, but must be last one! */
-              fprintf(stderr, " ");
-              while (!ISSPACE(CtrlStr[i]) && (i < (int)strlen(CtrlStr)) &&
-                     !ISCTRLCHAR(CtrlStr[i]))
-                  fprintf(stderr, "%c", CtrlStr[i++]);
-              fprintf(stderr, "\n");
-              return;
-        }
-    }
-    fprintf(stderr, "\n");
+	while (i < (int)strlen(CtrlStr)) {
+		// cppcheck-suppress arrayIndexThenCheck
+		while ((ISSPACE(CtrlStr[i])) && (i < (int)strlen(CtrlStr)))
+			i++;
+		switch (CtrlStr[i + 1]) {
+		case '%':
+			fprintf(stderr, " [-%c", CtrlStr[i++]);
+			i += 2; /* Skip the '%-' or '!- after the char! */
+			SpaceFlag = true;
+			while (!ISCTRLCHAR(CtrlStr[i]) &&
+			       (i < (int)strlen(CtrlStr)) &&
+			       (!ISSPACE(CtrlStr[i])))
+				if (SpaceFlag) {
+					if (CtrlStr[i++] == SPACE_CHAR)
+						fprintf(stderr, " ");
+					else
+						fprintf(stderr, " %c",
+						        CtrlStr[i - 1]);
+					SpaceFlag = false;
+				} else if (CtrlStr[i++] == SPACE_CHAR)
+					fprintf(stderr, " ");
+				else
+					fprintf(stderr, "%c", CtrlStr[i - 1]);
+			while (!ISSPACE(CtrlStr[i]) &&
+			       (i < (int)strlen(CtrlStr))) {
+				if (CtrlStr[i] == '*')
+					fprintf(stderr, "...");
+				i++; /* Skip the rest of it. */
+			}
+			fprintf(stderr, "]");
+			break;
+		case '!':
+			fprintf(stderr, " -%c", CtrlStr[i++]);
+			i += 2; /* Skip the '%-' or '!- after the char! */
+			SpaceFlag = true;
+			while (!ISCTRLCHAR(CtrlStr[i]) &&
+			       (i < (int)strlen(CtrlStr)) &&
+			       (!ISSPACE(CtrlStr[i])))
+				if (SpaceFlag) {
+					if (CtrlStr[i++] == SPACE_CHAR)
+						fprintf(stderr, " ");
+					else
+						fprintf(stderr, " %c",
+						        CtrlStr[i - 1]);
+					SpaceFlag = false;
+				} else if (CtrlStr[i++] == SPACE_CHAR)
+					fprintf(stderr, " ");
+				else
+					fprintf(stderr, "%c", CtrlStr[i - 1]);
+			while (!ISSPACE(CtrlStr[i]) &&
+			       (i < (int)strlen(CtrlStr))) {
+				if (CtrlStr[i] == '*')
+					fprintf(stderr, "...");
+				i++; /* Skip the rest of it. */
+			}
+			break;
+		default: /* Not checked, but must be last one! */
+			fprintf(stderr, " ");
+			while (!ISSPACE(CtrlStr[i]) &&
+			       (i < (int)strlen(CtrlStr)) &&
+			       !ISCTRLCHAR(CtrlStr[i]))
+				fprintf(stderr, "%c", CtrlStr[i++]);
+			fprintf(stderr, "\n");
+			return;
+		}
+	}
+	fprintf(stderr, "\n");
 }
 
 /* end */
