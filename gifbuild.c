@@ -301,19 +301,17 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 			                      (ColorMapObject *)NULL))) {
 				ColorMapObject *UnionMap;
 
-				// cppcheck-suppress nullPointerRedundantCheck
 				UnionMap = GifUnionColorMap(
+				    // cppcheck-suppress nullPointerRedundantCheck
 				    GifFileOut->SColorMap, Inclusion->SColorMap,
 				    Translation);
 
 				if (UnionMap == NULL) {
 					PARSE_ERROR("Inclusion failed --- "
 					            "global map conflict.");
-					// cppcheck-suppress
-					// nullPointerRedundantCheck
+					// cppcheck-suppress nullPointerRedundantCheck
 					PrintGifError(GifFileOut->Error);
-					// cppcheck-suppress
-					// knownConditionTrueFalse
+					// cppcheck-suppress knownConditionTrueFalse
 					if (Inclusion != NULL)
 						DGifCloseFile(Inclusion, NULL);
 					if (GifFileOut != NULL)
@@ -333,11 +331,9 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 				         GifFileOut, CopyFrom)) == NULL) {
 					PARSE_ERROR("Inclusion failed --- out "
 					            "of memory.");
-					// cppcheck-suppress
-					// nullPointerRedundantCheck
+					// cppcheck-suppress nullPointerRedundantCheck
 					PrintGifError(GifFileOut->Error);
-					// cppcheck-suppress
-					// knownConditionTrueFalse
+					// cppcheck-suppress knownConditionTrueFalse
 					if (Inclusion != NULL)
 						DGifCloseFile(Inclusion, NULL);
 					if (GifFileOut != NULL)
