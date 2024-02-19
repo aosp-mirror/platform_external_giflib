@@ -4,9 +4,11 @@ Repository head
 ===============
 
 This is a point release intended to clear up a couple of CVEs and
-apply point fixes that have been accumulating since 5.2.1 There are a
-few unresolved (but minor) memory leaks related to design issues in
-the API that still need to be resolved.
+apply point fixes that have been accumulating since 5.2.1
+
+There are a few unresolved (but minor) memory leaks related to design
+issues in the API that still need to be resolved. Expect those fixes
+in the next release.
 
 Code Fixes
 ----------
