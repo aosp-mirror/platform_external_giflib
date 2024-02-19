@@ -58,14 +58,15 @@ int main(int argc, char **argv) {
 	GifFileOut->SBackGroundColor = GifFileIn->SBackGroundColor;
 	if (GifFileIn->SColorMap) {
 		GifFileOut->SColorMap =
-		    GifMakeMapObject(GifFileIn->SColorMap->ColorCount,
-		                     GifFileIn->SColorMap->Colors);
+			GifMakeMapObject(GifFileIn->SColorMap->ColorCount,
+			                 GifFileIn->SColorMap->Colors);
 	} else {
 		GifFileOut->SColorMap = NULL;
 	}
 
-	for (i = 0; i < GifFileIn->ImageCount; i++)
+	for (i = 0; i < GifFileIn->ImageCount; i++) {
 		(void)GifMakeSavedImage(GifFileOut, &GifFileIn->SavedImages[i]);
+	}
 
 	/*
 	 * Note: don't do DGifCloseFile early, as this will
@@ -75,11 +76,13 @@ int main(int argc, char **argv) {
 	 * data; it's *your* responsibility to keep your changes consistent.
 	 * Caveat hacker!
 	 */
-	if (EGifSpew(GifFileOut) == GIF_ERROR)
+	if (EGifSpew(GifFileOut) == GIF_ERROR) {
 		PrintGifError(GifFileOut->Error);
+	}
 
-	if (DGifCloseFile(GifFileIn, &ErrorCode) == GIF_ERROR)
+	if (DGifCloseFile(GifFileIn, &ErrorCode) == GIF_ERROR) {
 		PrintGifError(ErrorCode);
+	}
 
 	return 0;
 }

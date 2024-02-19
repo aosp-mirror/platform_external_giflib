@@ -4,7 +4,7 @@ getarg.h - Support routines for the giflib utilities
 
 SPDX-License-Identifier: MIT
 
-**************************************************************************/
+ **************************************************************************/
 
 #ifndef _GETARG_H
 #define _GETARG_H
@@ -15,7 +15,7 @@ SPDX-License-Identifier: MIT
 #define VERSION_COOKIE " Version %d.%d, "
 
 /***************************************************************************
- Error numbers as returned by GAGetArg routine:
+   Error numbers as returned by GAGetArg routine:
 ***************************************************************************/
 #define CMD_ERR_NotAnOpt 1  /* None Option found. */
 #define CMD_ERR_NoSuchOpt 2 /* Undefined Option Found. */

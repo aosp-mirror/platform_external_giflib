@@ -59,11 +59,13 @@ int main(int argc, char **argv) {
 	                       &ImageNFlag, &ImageN, &BackGroundFlag, &HelpFlag,
 	                       &NumFiles, &FileName)) != false ||
 	    (NumFiles > 1 && !HelpFlag)) {
-		if (Error)
+		if (Error) {
 			GAPrintErrMsg(Error);
-		else if (NumFiles > 1)
+		}
+		else if (NumFiles > 1) {
 			GIF_MESSAGE("Error in command line parsing - one GIF "
 			            "file please.");
+		}
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_FAILURE);
 	}
@@ -88,56 +90,65 @@ int main(int argc, char **argv) {
 		}
 	}
 
-	for (i = 0; i < 256; i++)
+	for (i = 0; i < 256; i++) {
 		Histogram[i] = 0; /* Reset counters. */
 
+	}
 	/* Scan the content of the GIF file and load the image(s) in: */
 	do {
-		if (DGifGetRecordType(GifFileIn, &RecordType) == GIF_ERROR)
+		if (DGifGetRecordType(GifFileIn, &RecordType) == GIF_ERROR) {
 			QuitGifError(GifFileIn, GifFileOut);
+		}
 
 		switch (RecordType) {
 		case IMAGE_DESC_RECORD_TYPE:
-			if (DGifGetImageDesc(GifFileIn) == GIF_ERROR)
+			if (DGifGetImageDesc(GifFileIn) == GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
+			}
 
-			if (GifFileIn->Image.ColorMap)
+			if (GifFileIn->Image.ColorMap) {
 				NumColors =
-				    GifFileIn->Image.ColorMap->ColorCount;
-			else if (GifFileIn->SColorMap)
+					GifFileIn->Image.ColorMap->ColorCount;
+			}
+			else if (GifFileIn->SColorMap) {
 				NumColors = GifFileIn->SColorMap->ColorCount;
-			else
+			}
+			else{
 				GIF_EXIT("Neither Screen nor Image color map "
 				         "exists.");
+			}
 
 			if ((ImageHeight / NumColors) * NumColors !=
-			    ImageHeight)
+			    ImageHeight) {
 				GIF_EXIT("Image height specified not dividable "
 				         "by #colors.");
+			}
 
 			if (++ImageNum == ImageN) {
 				/* This is the image we should make histogram
 				 * for:       */
 				Line =
-				    (GifRowType)malloc(GifFileIn->Image.Width *
-				                       sizeof(GifPixelType));
+					(GifRowType)malloc(GifFileIn->Image.Width *
+					                   sizeof(GifPixelType));
 				GifQprintf(
-				    "\n%s: Image %d at (%d, %d) [%dx%d]:     ",
-				    PROGRAM_NAME, ImageNum,
-				    GifFileIn->Image.Left, GifFileIn->Image.Top,
-				    GifFileIn->Image.Width,
-				    GifFileIn->Image.Height);
+					"\n%s: Image %d at (%d, %d) [%dx%d]:     ",
+					PROGRAM_NAME, ImageNum,
+					GifFileIn->Image.Left, GifFileIn->Image.Top,
+					GifFileIn->Image.Width,
+					GifFileIn->Image.Height);
 
 				for (i = 0; i < GifFileIn->Image.Height; i++) {
 					if (DGifGetLine(
-					        GifFileIn, Line,
-					        GifFileIn->Image.Width) ==
-					    GIF_ERROR)
+						    GifFileIn, Line,
+						    GifFileIn->Image.Width) ==
+					    GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
+					}
 					for (j = 0; j < GifFileIn->Image.Width;
-					     j++)
+					     j++) {
 						Histogram[Line[j]]++;
+					}
 					GifQprintf("\b\b\b\b%-4d", i);
 				}
 
@@ -149,26 +160,31 @@ int main(int argc, char **argv) {
 				/* really care what is there, and this is much
 				 * faster.   */
 				if (DGifGetCode(GifFileIn, &CodeSize,
-				                &CodeBlock) == GIF_ERROR)
+				                &CodeBlock) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
-				while (CodeBlock != NULL)
+				}
+				while (CodeBlock != NULL) {
 					if (DGifGetCodeNext(GifFileIn,
 					                    &CodeBlock) ==
-					    GIF_ERROR)
+					    GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
+					}
+				}
 			}
 			break;
 		case EXTENSION_RECORD_TYPE:
 			/* Skip any extension blocks in file: */
 			if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) ==
-			    GIF_ERROR)
+			    GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
+			}
 
 			while (Extension != NULL) {
 				if (DGifGetExtensionNext(
-				        GifFileIn, &Extension) == GIF_ERROR)
+					    GifFileIn, &Extension) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
+				}
 			}
 			break;
 		case TERMINATE_RECORD_TYPE:
@@ -179,8 +195,9 @@ int main(int argc, char **argv) {
 	} while (RecordType != TERMINATE_RECORD_TYPE);
 
 	/* We requested suppression of the background count: */
-	if (BackGroundFlag)
+	if (BackGroundFlag) {
 		Histogram[GifFileIn->SBackGroundColor] = 0;
+	}
 
 	if (DGifCloseFile(GifFileIn, &ErrorCode) == GIF_ERROR) {
 		PrintGifError(ErrorCode);
@@ -189,8 +206,9 @@ int main(int argc, char **argv) {
 
 	/* We may required to dump out the histogram as text file: */
 	if (TextFlag) {
-		for (i = 0; i < NumColors; i++)
+		for (i = 0; i < NumColors; i++) {
 			printf("%12ld  %3d\n", Histogram[i], i);
+		}
 	} else {
 		int Color, Count;
 		long Scaler;
@@ -204,46 +222,56 @@ int main(int argc, char **argv) {
 		if (EGifPutScreenDesc(GifFileOut, ImageWidth, ImageHeight,
 		                      HISTO_BITS_PER_PIXEL, 0,
 		                      GifMakeMapObject(4, HistoColorMap)) ==
-		    GIF_ERROR)
+		    GIF_ERROR) {
 			QuitGifError(GifFileIn, GifFileOut);
+		}
 
 		/* Dump out image descriptor to fit histogram dimensions: */
 		if (EGifPutImageDesc(GifFileOut, 0, 0, ImageWidth, ImageHeight,
-		                     false, NULL) == GIF_ERROR)
+		                     false, NULL) == GIF_ERROR) {
 			QuitGifError(GifFileIn, GifFileOut);
+		}
 
 		/* Prepare scan line for histogram file, and find scaler to
 		 * scale    */
 		/* histogram to be between 0 and ImageWidth: */
 		Line = (GifRowType)malloc(ImageWidth * sizeof(GifPixelType));
-		for (Scaler = 0, i = 0; i < NumColors; i++)
-			if (Histogram[i] > Scaler)
+		for (Scaler = 0, i = 0; i < NumColors; i++) {
+			if (Histogram[i] > Scaler) {
 				Scaler = Histogram[i];
+			}
+		}
 		Scaler /= ImageWidth;
-		if (Scaler == 0)
+		if (Scaler == 0) {
 			Scaler = 1; /* In case maximum is less than width. */
 
+		}
 		/* Dump out the image itself: */
 		for (Count = ImageHeight, i = 0, Color = 1; i < NumColors;
 		     i++) {
 			int Size;
-			if ((Size = Histogram[i] / Scaler) > ImageWidth)
+			if ((Size = Histogram[i] / Scaler) > ImageWidth) {
 				Size = ImageWidth;
-			for (j = 0; j < Size; j++)
+			}
+			for (j = 0; j < Size; j++) {
 				Line[j] = Color;
-			for (j = Size; j < ImageWidth; j++)
+			}
+			for (j = Size; j < ImageWidth; j++) {
 				Line[j] = GifFileOut->SBackGroundColor;
+			}
 
 			/* Move to next color: */
-			if (++Color >= (1 << HISTO_BITS_PER_PIXEL))
+			if (++Color >= (1 << HISTO_BITS_PER_PIXEL)) {
 				Color = 1;
+			}
 
 			/* Dump this histogram entry as many times as required:
 			 */
 			for (j = 0; j < ImageHeight / NumColors; j++) {
 				if (EGifPutLine(GifFileOut, Line, ImageWidth) ==
-				    GIF_ERROR)
+				    GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
+				}
 				GifQprintf("\b\b\b\b%-4d", Count--);
 			}
 		}

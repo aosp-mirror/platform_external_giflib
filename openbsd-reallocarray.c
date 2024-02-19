@@ -66,7 +66,8 @@ void *openbsd_reallocarray(void *optr, size_t nmemb, size_t size) {
 	 * fuzzing on one platform may not detect zero-size allocation
 	 * problems on other platforms.
 	 */
-	if (size == 0 || nmemb == 0)
+	if (size == 0 || nmemb == 0) {
 		return NULL;
+	}
 	return realloc(optr, size * nmemb);
 }

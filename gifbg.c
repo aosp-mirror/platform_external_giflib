@@ -90,24 +90,28 @@ int main(int argc, char **argv) {
 
 	/* Make sure intensities are in the right range: */
 	if (MinimumIntensity < 0 || MinimumIntensity > 100 ||
-	    MaximumIntensity < 0 || MaximumIntensity > 100)
+	    MaximumIntensity < 0 || MaximumIntensity > 100) {
 		GIF_EXIT("Intensities (-m or -M options) are not in [0..100] "
 		         "range (percent).");
+	}
 
 	/* Convert DirectionStr to our local representation: */
 	Direction = DIR_NONE;
 	FlipDir = false;
 	/* Make sure it's upper case. */
-	for (i = 0; i < (int)strlen(DirectionStr); i++)
-		if (islower(DirectionStr[i]))
+	for (i = 0; i < (int)strlen(DirectionStr); i++) {
+		if (islower(DirectionStr[i])) {
 			DirectionStr[i] = toupper(DirectionStr[i]);
+		}
+	}
 
 	switch (DirectionStr[0]) {
 	case 'T': /* Top or North */
 	case 'N':
-		if (strlen(DirectionStr) < 2)
+		if (strlen(DirectionStr) < 2) {
 			Direction = DIR_TOP;
-		else
+		}
+		else{
 			switch (DirectionStr[1]) {
 			case 'R':
 			case 'E':
@@ -119,6 +123,7 @@ int main(int argc, char **argv) {
 				FlipDir = true;
 				break;
 			}
+		}
 		break;
 	case 'R': /* Right or East */
 	case 'E':
@@ -129,7 +134,7 @@ int main(int argc, char **argv) {
 		if (strlen(DirectionStr) < 2) {
 			Direction = DIR_BOT;
 			FlipDir = true;
-		} else
+		} else{
 			switch (DirectionStr[1]) {
 			case 'R':
 			case 'E':
@@ -141,6 +146,7 @@ int main(int argc, char **argv) {
 				FlipDir = true;
 				break;
 			}
+		}
 		break;
 	case 'L': /* Left or West */
 	case 'W':
@@ -148,8 +154,9 @@ int main(int argc, char **argv) {
 		FlipDir = true;
 		break;
 	}
-	if (Direction == DIR_NONE)
+	if (Direction == DIR_NONE) {
 		GIF_EXIT("Direction requested (-d option) is weird!");
+	}
 
 	/* We are going to handle only TOP, TOP_RIGHT, RIGHT, BOT_RIGHT  so flip
 	 */
@@ -182,15 +189,19 @@ int main(int argc, char **argv) {
 	}
 
 	/* Make sure colors are in the right range: */
-	if (RedColor > 255 || GreenColor > 255 || BlueColor > 255)
+	if (RedColor > 255 || GreenColor > 255 || BlueColor > 255) {
 		GIF_EXIT("Colors are not in the ragne [0..255].");
+	}
 
 	/* Make sure number of levels is power of 2 (up to 8 bits per pixel). */
-	for (i = 1; i < 8; i++)
-		if (NumLevels == (1 << i))
+	for (i = 1; i < 8; i++) {
+		if (NumLevels == (1 << i)) {
 			break;
-	if (i == 8)
+		}
+	}
+	if (i == 8) {
 		GIF_EXIT("#Lvls (-l option) is not power of 2.");
+	}
 	LogNumLevels = i;
 
 	/* Open stdout for the output file: */
@@ -201,28 +212,31 @@ int main(int argc, char **argv) {
 
 	/* Dump out screen description with given size and generated color map:
 	 */
-	if ((ColorMap = GifMakeMapObject(NumLevels, NULL)) == NULL)
+	if ((ColorMap = GifMakeMapObject(NumLevels, NULL)) == NULL) {
 		GIF_EXIT("Failed to allocate memory required, aborted.");
+	}
 
 	for (i = 1; i <= NumLevels; i++) {
 		/* Ratio will be in the range of 0..100 for required intensity:
 		 */
 		unsigned int Ratio =
-		    (MaximumIntensity * (i * (256 / NumLevels)) +
-		     MinimumIntensity * ((NumLevels - i) * (256 / NumLevels))) /
-		    256;
+			(MaximumIntensity * (i * (256 / NumLevels)) +
+			 MinimumIntensity * ((NumLevels - i) * (256 / NumLevels))) /
+			256;
 		ColorMap->Colors[i - 1].Red = (RedColor * Ratio) / 100;
 		ColorMap->Colors[i - 1].Green = (GreenColor * Ratio) / 100;
 		ColorMap->Colors[i - 1].Blue = (BlueColor * Ratio) / 100;
 	}
 	if (EGifPutScreenDesc(GifFile, ImageWidth, ImageHeight, LogNumLevels, 0,
-	                      ColorMap) == GIF_ERROR)
+	                      ColorMap) == GIF_ERROR) {
 		QuitGifError(GifFile);
+	}
 
 	/* Dump out the image descriptor: */
 	if (EGifPutImageDesc(GifFile, 0, 0, ImageWidth, ImageHeight, false,
-	                     NULL) == GIF_ERROR)
+	                     NULL) == GIF_ERROR) {
 		QuitGifError(GifFile);
+	}
 
 	GifQprintf("\n%s: Image 1 at (%d, %d) [%dx%d]:     ", PROGRAM_NAME,
 	           GifFile->Image.Left, GifFile->Image.Top,
@@ -232,8 +246,9 @@ int main(int argc, char **argv) {
 	 */
 	/* shift along it, while we dump the scan lines: */
 	if ((Line = (GifRowType)malloc(sizeof(GifPixelType) * ImageWidth *
-	                               2)) == NULL)
+	                               2)) == NULL) {
 		GIF_EXIT("Failed to allocate memory required, aborted.");
+	}
 
 	if (Direction == DIR_TOP) {
 		int LevelHeight;
@@ -244,16 +259,19 @@ int main(int argc, char **argv) {
 				int j;
 				/* Time to update the line to next color level:
 				 */
-				if (Color != 0)
+				if (Color != 0) {
 					Color--;
-				for (j = 0; j < ImageWidth; j++)
+				}
+				for (j = 0; j < ImageWidth; j++) {
 					Line[j] =
-					    (FlipDir ? NumLevels - Color - 1
-					             : Color);
+						(FlipDir ? NumLevels - Color - 1
+						     : Color);
+				}
 				l += LevelHeight;
 			}
-			if (EGifPutLine(GifFile, Line, ImageWidth) == GIF_ERROR)
+			if (EGifPutLine(GifFile, Line, ImageWidth) == GIF_ERROR) {
 				QuitGifError(GifFile);
+			}
 			GifQprintf("\b\b\b\b%-4d", Count++);
 		}
 	} else if (Direction == DIR_RIGHT) {
@@ -266,25 +284,28 @@ int main(int argc, char **argv) {
 		LevelWidth = ImageWidth / NumLevels;
 		if (DoAllMaximum) {
 			/* Special case - do all in maximum color: */
-			for (i = 0; i < ImageWidth; i++)
+			for (i = 0; i < ImageWidth; i++) {
 				Line[i] = 1;
+			}
 		} else {
 			for (Color = i = 0, l = LevelWidth; i < ImageWidth;
 			     i++, l--) {
 				if (l == 0) {
 					l = LevelWidth;
-					if (Color < NumLevels - 1)
+					if (Color < NumLevels - 1) {
 						Color++;
+					}
 				}
 				Line[i] =
-				    (FlipDir ? NumLevels - Color - 1 : Color);
+					(FlipDir ? NumLevels - Color - 1 : Color);
 			}
 		}
 
 		for (i = 0; i < ImageHeight; i++) {
 			/* coverity[uninit_use_in_call] */
-			if (EGifPutLine(GifFile, Line, ImageWidth) == GIF_ERROR)
+			if (EGifPutLine(GifFile, Line, ImageWidth) == GIF_ERROR) {
 				QuitGifError(GifFile);
+			}
 			GifQprintf("\b\b\b\b%-4d", Count++);
 		}
 	} else {
@@ -300,8 +321,9 @@ int main(int argc, char **argv) {
 		     i++, l--) {
 			if (l == 0) {
 				l = LevelWidth;
-				if (Color < NumLevels - 1)
+				if (Color < NumLevels - 1) {
 					Color++;
+				}
 			}
 			Line[i] = (FlipDir ? NumLevels - Color - 1 : Color);
 		}
@@ -325,18 +347,21 @@ int main(int argc, char **argv) {
 		/* Time to dump information out: */
 		for (i = 0; i < ImageHeight; i++) {
 			if (EGifPutLine(GifFile, &Line[StartX], ImageWidth) ==
-			    GIF_ERROR)
+			    GIF_ERROR) {
 				QuitGifError(GifFile);
+			}
 			GifQprintf("\b\b\b\b%-4d", Count++);
 			if ((Accumulator += ImageWidth) > ImageHeight) {
 				while (Accumulator > ImageHeight) {
 					Accumulator -= ImageHeight;
 					StartX += StepX;
 				}
-				if (Direction < 0)
+				if (Direction < 0) {
 					Direction = 0;
-				if (Direction > ImageWidth)
+				}
+				if (Direction > ImageWidth) {
 					Direction = ImageWidth;
+				}
 			}
 		}
 	}

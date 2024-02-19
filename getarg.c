@@ -150,8 +150,9 @@ static void *xmalloc(unsigned size) {
 
 	void *p;
 
-	if ((p = malloc(size)) != NULL)
+	if ((p = malloc(size)) != NULL) {
 		return p;
+	}
 
 	fprintf(stderr, "Not enough memory, exit.\n");
 	exit(2);
@@ -173,20 +174,23 @@ bool GAGetArgs(int argc, char **argv, char *CtrlStr, ...) {
 	strncpy(CtrlStrCopy, CtrlStr, sizeof(CtrlStrCopy) - 1);
 	GASetParamCount(CtrlStr, strlen(CtrlStr), &ParamCount);
 	va_start(ap, CtrlStr);
-	for (i = 1; i <= ParamCount; i++)
+	for (i = 1; i <= ParamCount; i++) {
 		Parameters[i - 1] = va_arg(ap, void *);
+	}
 	va_end(ap);
 
 	argv++; /* Skip the program name (first in argv/c list). */
 	while (argv < (char **)argv_end) {
 		bool Error = false;
-		if (!GAOptionExists(argv_end, (const char **)argv))
+		if (!GAOptionExists(argv_end, (const char **)argv)) {
 			break; /* The loop. */
+		}
 		char *Option = *argv++;
 		if ((Error = GAUpdateParameters(
-		         Parameters, &ParamCount, Option, CtrlStrCopy, CtrlStr,
-		         (char **)argv_end, &argv)) != false)
+			     Parameters, &ParamCount, Option, CtrlStrCopy, CtrlStr,
+			     (char **)argv_end, &argv)) != false) {
 			return Error;
+		}
 	}
 	/* Check for results and update trail of command line: */
 	return GATestAllSatis(CtrlStrCopy, CtrlStr, argv_end,
@@ -219,8 +223,9 @@ static int GATestAllSatis(char *CtrlStrCopy, char *CtrlStr,
 	/* Check if last item is an option. If not then copy rest of command
 	 * line into it as 1. NumOfprm, 2. pointer to block of pointers.
 	 */
-	for (i = strlen(CtrlStr) - 1; i > 0 && !ISSPACE(CtrlStr[i]); i--)
+	for (i = strlen(CtrlStr) - 1; i > 0 && !ISSPACE(CtrlStr[i]); i--) {
 		;
+	}
 	if (!ISCTRLCHAR(CtrlStr[i + 2])) {
 		GASetParamCount(CtrlStr, i,
 		                ParamCount); /* Point in correct param. */
@@ -229,13 +234,14 @@ static int GATestAllSatis(char *CtrlStrCopy, char *CtrlStr,
 	}
 
 	i = 0;
-	while (++i < (int)strlen(CtrlStrCopy))
+	while (++i < (int)strlen(CtrlStrCopy)) {
 		if ((CtrlStrCopy[i] == '-') && (CtrlStrCopy[i - 1] == '!')) {
 			GAErrorToken = LocalToken;
 			LocalToken[1] =
-			    CtrlStrCopy[i - 2]; /* Set the correct flag. */
+				CtrlStrCopy[i - 2]; /* Set the correct flag. */
 			return CMD_ERR_AllSatis;
 		}
+	}
 
 	return ARG_OK;
 }
@@ -277,12 +283,14 @@ static int GAUpdateParameters(void *Parameters[], int *ParamCount, char *Option,
 	i += 3;
 	/* Set boolean flag for that option. */
 	*(bool *)Parameters[(*ParamCount)++] = BooleanTrue;
-	if (ISSPACE(CtrlStrCopy[i]))
+	if (ISSPACE(CtrlStrCopy[i])) {
 		return ARG_OK; /* Only a boolean flag is needed. */
 
+	}
 	/* Skip the text between the boolean option and data follows: */
-	while (!ISCTRLCHAR(CtrlStrCopy[i]))
+	while (!ISCTRLCHAR(CtrlStrCopy[i])) {
 		i++;
+	}
 	/* Get the parameters and return the appropriete return code: */
 	return GAGetParmeters(Parameters, ParamCount, &CtrlStrCopy[i], Option,
 	                      argv_end, argv);
@@ -311,18 +319,18 @@ static int GAGetParmeters(void *Parameters[], int *ParamCount,
 			break;
 		case 'u': /* Get unsigned integers. */
 			ScanRes =
-			    sscanf(*((*argv)++), "%u",
-			           (unsigned *)Parameters[(*ParamCount)++]);
+				sscanf(*((*argv)++), "%u",
+				       (unsigned *)Parameters[(*ParamCount)++]);
 			break;
 		case 'x': /* Get hex integers. */
 			ScanRes =
-			    sscanf(*((*argv)++), "%x",
-			           (unsigned int *)Parameters[(*ParamCount)++]);
+				sscanf(*((*argv)++), "%x",
+				       (unsigned int *)Parameters[(*ParamCount)++]);
 			break;
 		case 'o': /* Get octal integers. */
 			ScanRes =
-			    sscanf(*((*argv)++), "%o",
-			           (unsigned int *)Parameters[(*ParamCount)++]);
+				sscanf(*((*argv)++), "%o",
+				       (unsigned int *)Parameters[(*ParamCount)++]);
 			break;
 		case 'D': /* Get signed long integers. */
 			ScanRes = sscanf(*((*argv)++), "%ld",
@@ -330,18 +338,18 @@ static int GAGetParmeters(void *Parameters[], int *ParamCount,
 			break;
 		case 'U': /* Get unsigned long integers. */
 			ScanRes = sscanf(
-			    *((*argv)++), "%lu",
-			    (unsigned long *)Parameters[(*ParamCount)++]);
+				*((*argv)++), "%lu",
+				(unsigned long *)Parameters[(*ParamCount)++]);
 			break;
 		case 'X': /* Get hex long integers. */
 			ScanRes = sscanf(
-			    *((*argv)++), "%lx",
-			    (unsigned long *)Parameters[(*ParamCount)++]);
+				*((*argv)++), "%lx",
+				(unsigned long *)Parameters[(*ParamCount)++]);
 			break;
 		case 'O': /* Get octal long integers. */
 			ScanRes = sscanf(
-			    *((*argv)++), "%lo",
-			    (unsigned long *)Parameters[(*ParamCount)++]);
+				*((*argv)++), "%lo",
+				(unsigned long *)Parameters[(*ParamCount)++]);
 			break;
 		case 'f': /* Get float number. */
 			ScanRes = sscanf(*((*argv)++), "%f",
@@ -374,8 +382,9 @@ static int GAGetParmeters(void *Parameters[], int *ParamCount,
 		}
 		if (CtrlStrCopy[i + 1] != '*') {
 			i += 2; /* Skip to next parameter (if any). */
-		} else
+		} else{
 			i += 3; /* Skip the '*' also! */
+		}
 	}
 
 	return ARG_OK;
@@ -415,20 +424,20 @@ static int GAGetMultiParmeters(void *Parameters[], int *ParamCount,
 		case 'u':
 			TmpArray.IntArray[NumOfPrm] = xmalloc(sizeof(int));
 			ScanRes = sscanf(
-			    *((*argv)++), "%u",
-			    (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
+				*((*argv)++), "%u",
+				(unsigned int *)TmpArray.IntArray[NumOfPrm++]);
 			break;
 		case 'o':
 			TmpArray.IntArray[NumOfPrm] = xmalloc(sizeof(int));
 			ScanRes = sscanf(
-			    *((*argv)++), "%o",
-			    (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
+				*((*argv)++), "%o",
+				(unsigned int *)TmpArray.IntArray[NumOfPrm++]);
 			break;
 		case 'x':
 			TmpArray.IntArray[NumOfPrm] = xmalloc(sizeof(int));
 			ScanRes = sscanf(
-			    *((*argv)++), "%x",
-			    (unsigned int *)TmpArray.IntArray[NumOfPrm++]);
+				*((*argv)++), "%x",
+				(unsigned int *)TmpArray.IntArray[NumOfPrm++]);
 			break;
 		case 'D':
 			TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
@@ -438,34 +447,34 @@ static int GAGetMultiParmeters(void *Parameters[], int *ParamCount,
 		case 'U':
 			TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
 			ScanRes = sscanf(
-			    *((*argv)++), "%lu",
-			    (unsigned long *)TmpArray.IntArray[NumOfPrm++]);
+				*((*argv)++), "%lu",
+				(unsigned long *)TmpArray.IntArray[NumOfPrm++]);
 			break;
 		case 'O':
 			TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
 			ScanRes = sscanf(
-			    *((*argv)++), "%lo",
-			    (unsigned long *)TmpArray.IntArray[NumOfPrm++]);
+				*((*argv)++), "%lo",
+				(unsigned long *)TmpArray.IntArray[NumOfPrm++]);
 			break;
 		case 'X':
 			TmpArray.LngArray[NumOfPrm] = xmalloc(sizeof(long));
 			ScanRes = sscanf(
-			    *((*argv)++), "%lx",
-			    (unsigned long *)TmpArray.IntArray[NumOfPrm++]);
+				*((*argv)++), "%lx",
+				(unsigned long *)TmpArray.IntArray[NumOfPrm++]);
 			break;
 		case 'f':
 			TmpArray.FltArray[NumOfPrm] = xmalloc(sizeof(float));
 			ScanRes =
-			    sscanf(*((*argv)++), "%f",
-			           // cppcheck-suppress invalidPointerCast
-			           (float *)TmpArray.LngArray[NumOfPrm++]);
+				sscanf(*((*argv)++), "%f",
+				       // cppcheck-suppress invalidPointerCast
+				       (float *)TmpArray.LngArray[NumOfPrm++]);
 			break;
 		case 'F':
 			TmpArray.DblArray[NumOfPrm] = xmalloc(sizeof(double));
 			ScanRes =
-			    sscanf(*((*argv)++), "%lf",
-			           // cppcheck-suppress invalidPointerCast
-			           (double *)TmpArray.LngArray[NumOfPrm++]);
+				sscanf(*((*argv)++), "%lf",
+				       // cppcheck-suppress invalidPointerCast
+				       (double *)TmpArray.LngArray[NumOfPrm++]);
 			break;
 		case 's':
 			while ((*argv < argv_end) && ((**argv)[0] != '-')) {
@@ -485,8 +494,9 @@ static int GAGetMultiParmeters(void *Parameters[], int *ParamCount,
 	/* Now allocate the block with the exact size, and set it: */
 	Ptemp = Pmain = xmalloc((unsigned)(NumOfPrm + 1) * sizeof(void *));
 	/* And here we use the assumption that all pointers are the same: */
-	for (i = 0; i < NumOfPrm; i++)
+	for (i = 0; i < NumOfPrm; i++) {
 		*Ptemp++ = TmpArray.VoidArray[i];
+	}
 	*Ptemp = NULL; /* Close the block with NULL pointer. */
 
 	/* That it save the number of parameters read as first parameter to
@@ -511,13 +521,16 @@ static void GASetParamCount(char const *CtrlStr, const int Max,
 	int i;
 
 	*ParamCount = 0;
-	for (i = 0; i < Max; i++)
+	for (i = 0; i < Max; i++) {
 		if (ISCTRLCHAR(CtrlStr[i])) {
-			if (CtrlStr[i + 1] == '*')
+			if (CtrlStr[i + 1] == '*') {
 				*ParamCount += 2;
-			else
+			}
+			else{
 				(*ParamCount)++;
+			}
 		}
+	}
 }
 
 /***************************************************************************
@@ -526,9 +539,11 @@ static void GASetParamCount(char const *CtrlStr, const int Max,
 ***************************************************************************/
 static bool GAOptionExists(const char **argv_end, const char **argv) {
 
-	while (argv < argv_end)
-		if ((*argv++)[0] == '-')
+	while (argv < argv_end) {
+		if ((*argv++)[0] == '-') {
 			return true;
+		}
+	}
 	return false;
 }
 
@@ -571,13 +586,15 @@ void GAPrintHowTo(char *CtrlStr) {
 
 	fprintf(stderr, "Usage: ");
 	/* Print program name - first word in ctrl. str. (optional): */
-	while (!(ISSPACE(CtrlStr[i])) && (!ISCTRLCHAR(CtrlStr[i + 1])))
+	while (!(ISSPACE(CtrlStr[i])) && (!ISCTRLCHAR(CtrlStr[i + 1]))) {
 		fprintf(stderr, "%c", CtrlStr[i++]);
+	}
 
 	while (i < (int)strlen(CtrlStr)) {
 		// cppcheck-suppress arrayIndexThenCheck
-		while ((ISSPACE(CtrlStr[i])) && (i < (int)strlen(CtrlStr)))
+		while ((ISSPACE(CtrlStr[i])) && (i < (int)strlen(CtrlStr))) {
 			i++;
+		}
 		switch (CtrlStr[i + 1]) {
 		case '%':
 			fprintf(stderr, " [-%c", CtrlStr[i++]);
@@ -585,22 +602,28 @@ void GAPrintHowTo(char *CtrlStr) {
 			SpaceFlag = true;
 			while (!ISCTRLCHAR(CtrlStr[i]) &&
 			       (i < (int)strlen(CtrlStr)) &&
-			       (!ISSPACE(CtrlStr[i])))
+			       (!ISSPACE(CtrlStr[i]))) {
 				if (SpaceFlag) {
-					if (CtrlStr[i++] == SPACE_CHAR)
+					if (CtrlStr[i++] == SPACE_CHAR) {
 						fprintf(stderr, " ");
-					else
+					}
+					else{
 						fprintf(stderr, " %c",
 						        CtrlStr[i - 1]);
+					}
 					SpaceFlag = false;
-				} else if (CtrlStr[i++] == SPACE_CHAR)
+				} else if (CtrlStr[i++] == SPACE_CHAR) {
 					fprintf(stderr, " ");
-				else
+				}
+				else{
 					fprintf(stderr, "%c", CtrlStr[i - 1]);
+				}
+			}
 			while (!ISSPACE(CtrlStr[i]) &&
 			       (i < (int)strlen(CtrlStr))) {
-				if (CtrlStr[i] == '*')
+				if (CtrlStr[i] == '*') {
 					fprintf(stderr, "...");
+				}
 				i++; /* Skip the rest of it. */
 			}
 			fprintf(stderr, "]");
@@ -611,22 +634,28 @@ void GAPrintHowTo(char *CtrlStr) {
 			SpaceFlag = true;
 			while (!ISCTRLCHAR(CtrlStr[i]) &&
 			       (i < (int)strlen(CtrlStr)) &&
-			       (!ISSPACE(CtrlStr[i])))
+			       (!ISSPACE(CtrlStr[i]))) {
 				if (SpaceFlag) {
-					if (CtrlStr[i++] == SPACE_CHAR)
+					if (CtrlStr[i++] == SPACE_CHAR) {
 						fprintf(stderr, " ");
-					else
+					}
+					else{
 						fprintf(stderr, " %c",
 						        CtrlStr[i - 1]);
+					}
 					SpaceFlag = false;
-				} else if (CtrlStr[i++] == SPACE_CHAR)
+				} else if (CtrlStr[i++] == SPACE_CHAR) {
 					fprintf(stderr, " ");
-				else
+				}
+				else{
 					fprintf(stderr, "%c", CtrlStr[i - 1]);
+				}
+			}
 			while (!ISSPACE(CtrlStr[i]) &&
 			       (i < (int)strlen(CtrlStr))) {
-				if (CtrlStr[i] == '*')
+				if (CtrlStr[i] == '*') {
 					fprintf(stderr, "...");
+				}
 				i++; /* Skip the rest of it. */
 			}
 			break;
@@ -634,8 +663,9 @@ void GAPrintHowTo(char *CtrlStr) {
 			fprintf(stderr, " ");
 			while (!ISSPACE(CtrlStr[i]) &&
 			       (i < (int)strlen(CtrlStr)) &&
-			       !ISCTRLCHAR(CtrlStr[i]))
+			       !ISCTRLCHAR(CtrlStr[i])) {
 				fprintf(stderr, "%c", CtrlStr[i++]);
+			}
 			fprintf(stderr, "\n");
 			return;
 		}

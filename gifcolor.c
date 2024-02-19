@@ -60,9 +60,10 @@ int main(int argc, char **argv) {
 	/* Allocate the raster buffer for GIF_FONT_HEIGHT scan lines. */
 	for (i = 0; i < GIF_FONT_HEIGHT; i++) {
 		if ((RasterBuffer[i] = (GifRowType)malloc(sizeof(GifPixelType) *
-		                                          IMAGEWIDTH)) == NULL)
+		                                          IMAGEWIDTH)) == NULL) {
 			GIF_EXIT(
-			    "Failed to allocate memory required, aborted.");
+				"Failed to allocate memory required, aborted.");
+		}
 	}
 
 	/* Open stdout for the output file: */
@@ -85,19 +86,22 @@ int main(int argc, char **argv) {
 	}
 
 	if ((ColorMap = GifMakeMapObject(1 << GifBitSize(ColorMapSize),
-	                                 ScratchMap)) == NULL)
+	                                 ScratchMap)) == NULL) {
 		GIF_EXIT("Failed to allocate memory required, aborted.");
+	}
 
 	if (EGifPutScreenDesc(
-	        GifFile, IMAGEWIDTH, ColorMapSize * GIF_FONT_HEIGHT,
-	        GifBitSize(ColorMapSize), BackGround, ColorMap) == GIF_ERROR)
+		    GifFile, IMAGEWIDTH, ColorMapSize * GIF_FONT_HEIGHT,
+		    GifBitSize(ColorMapSize), BackGround, ColorMap) == GIF_ERROR) {
 		QuitGifError(GifFile);
+	}
 
 	/* Dump out the image descriptor: */
 	if (EGifPutImageDesc(GifFile, 0, 0, IMAGEWIDTH,
 	                     ColorMapSize * GIF_FONT_HEIGHT, false,
-	                     NULL) == GIF_ERROR)
+	                     NULL) == GIF_ERROR) {
 		QuitGifError(GifFile);
+	}
 
 	GifQprintf("\n%s: Image 1 at (%d, %d) [%dx%d]:     ", PROGRAM_NAME,
 	           GifFile->Image.Left, GifFile->Image.Top,
@@ -105,14 +109,15 @@ int main(int argc, char **argv) {
 
 	for (i = l = 0; i < ColorMap->ColorCount; i++) {
 		(void)snprintf(
-		    Line, sizeof(Line), "Color %-3d: [%-3d, %-3d, %-3d] ", i,
-		    ColorMap->Colors[i].Red, ColorMap->Colors[i].Green,
-		    ColorMap->Colors[i].Blue);
+			Line, sizeof(Line), "Color %-3d: [%-3d, %-3d, %-3d] ", i,
+			ColorMap->Colors[i].Red, ColorMap->Colors[i].Green,
+			ColorMap->Colors[i].Blue);
 		GenRasterTextLine(RasterBuffer, Line, IMAGEWIDTH, i);
 		for (j = 0; j < GIF_FONT_HEIGHT; j++) {
 			if (EGifPutLine(GifFile, RasterBuffer[j], IMAGEWIDTH) ==
-			    GIF_ERROR)
+			    GIF_ERROR) {
 				QuitGifError(GifFile);
+			}
 			GifQprintf("\b\b\b\b%-4d", l++);
 		}
 	}

@@ -63,21 +63,25 @@ GifFileType *EGifOpenFileName(const char *FileName, const bool TestExistence,
 	int FileHandle;
 	GifFileType *GifFile;
 
-	if (TestExistence)
+	if (TestExistence) {
 		FileHandle = open(FileName, O_WRONLY | O_CREAT | O_EXCL,
 		                  S_IREAD | S_IWRITE);
-	else
+	}
+	else{
 		FileHandle = open(FileName, O_WRONLY | O_CREAT | O_TRUNC,
 		                  S_IREAD | S_IWRITE);
+	}
 
 	if (FileHandle == -1) {
-		if (Error != NULL)
+		if (Error != NULL) {
 			*Error = E_GIF_ERR_OPEN_FAILED;
+		}
 		return NULL;
 	}
 	GifFile = EGifOpenFileHandle(FileHandle, Error);
-	if (GifFile == (GifFileType *)NULL)
+	if (GifFile == (GifFileType *)NULL) {
 		(void)close(FileHandle);
+	}
 	return GifFile;
 }
 
@@ -103,16 +107,18 @@ GifFileType *EGifOpenFileHandle(const int FileHandle, int *Error) {
 	Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
 	if (Private == NULL) {
 		free(GifFile);
-		if (Error != NULL)
+		if (Error != NULL) {
 			*Error = E_GIF_ERR_NOT_ENOUGH_MEM;
+		}
 		return NULL;
 	}
 	/*@i1@*/ memset(Private, '\0', sizeof(GifFilePrivateType));
 	if ((Private->HashTable = _InitHashTable()) == NULL) {
 		free(GifFile);
 		free(Private);
-		if (Error != NULL)
+		if (Error != NULL) {
 			*Error = E_GIF_ERR_NOT_ENOUGH_MEM;
+		}
 		return NULL;
 	}
 
@@ -146,8 +152,9 @@ GifFileType *EGifOpen(void *userData, OutputFunc writeFunc, int *Error) {
 
 	GifFile = (GifFileType *)malloc(sizeof(GifFileType));
 	if (GifFile == NULL) {
-		if (Error != NULL)
+		if (Error != NULL) {
 			*Error = E_GIF_ERR_NOT_ENOUGH_MEM;
+		}
 		return NULL;
 	}
 
@@ -156,8 +163,9 @@ GifFileType *EGifOpen(void *userData, OutputFunc writeFunc, int *Error) {
 	Private = (GifFilePrivateType *)malloc(sizeof(GifFilePrivateType));
 	if (Private == NULL) {
 		free(GifFile);
-		if (Error != NULL)
+		if (Error != NULL) {
 			*Error = E_GIF_ERR_NOT_ENOUGH_MEM;
+		}
 		return NULL;
 	}
 
@@ -167,8 +175,9 @@ GifFileType *EGifOpen(void *userData, OutputFunc writeFunc, int *Error) {
 	if (Private->HashTable == NULL) {
 		free(GifFile);
 		free(Private);
-		if (Error != NULL)
+		if (Error != NULL) {
 			*Error = E_GIF_ERR_NOT_ENOUGH_MEM;
+		}
 		return NULL;
 	}
 
@@ -204,13 +213,14 @@ const char *EGifGetGifVersion(GifFileType *GifFile) {
 		for (j = 0; j < GifFile->SavedImages[i].ExtensionBlockCount;
 		     j++) {
 			int function =
-			    GifFile->SavedImages[i].ExtensionBlocks[j].Function;
+				GifFile->SavedImages[i].ExtensionBlocks[j].Function;
 
 			if (function == COMMENT_EXT_FUNC_CODE ||
 			    function == GRAPHICS_EXT_FUNC_CODE ||
 			    function == PLAINTEXT_EXT_FUNC_CODE ||
-			    function == APPLICATION_EXT_FUNC_CODE)
+			    function == APPLICATION_EXT_FUNC_CODE) {
 				Private->gif89 = true;
+			}
 		}
 	}
 	for (i = 0; i < GifFile->ExtensionBlockCount; i++) {
@@ -219,14 +229,17 @@ const char *EGifGetGifVersion(GifFileType *GifFile) {
 		if (function == COMMENT_EXT_FUNC_CODE ||
 		    function == GRAPHICS_EXT_FUNC_CODE ||
 		    function == PLAINTEXT_EXT_FUNC_CODE ||
-		    function == APPLICATION_EXT_FUNC_CODE)
+		    function == APPLICATION_EXT_FUNC_CODE) {
 			Private->gif89 = true;
+		}
 	}
 
-	if (Private->gif89)
+	if (Private->gif89) {
 		return GIF89_STAMP;
-	else
+	}
+	else{
 		return GIF87_STAMP;
+	}
 }
 
 /******************************************************************************
@@ -248,10 +261,12 @@ void EGifSetGifVersion(GifFileType *GifFile, const bool gif89) {
 static int InternalWrite(GifFileType *GifFileOut, const unsigned char *buf,
                          size_t len) {
 	GifFilePrivateType *Private = (GifFilePrivateType *)GifFileOut->Private;
-	if (Private->Write)
+	if (Private->Write) {
 		return Private->Write(GifFileOut, buf, len);
-	else
+	}
+	else{
 		return fwrite(buf, 1, len, Private->File);
+	}
 }
 
 /******************************************************************************
@@ -292,13 +307,14 @@ int EGifPutScreenDesc(GifFileType *GifFile, const int Width, const int Height,
 	GifFile->SBackGroundColor = BackGround;
 	if (ColorMap) {
 		GifFile->SColorMap =
-		    GifMakeMapObject(ColorMap->ColorCount, ColorMap->Colors);
+			GifMakeMapObject(ColorMap->ColorCount, ColorMap->Colors);
 		if (GifFile->SColorMap == NULL) {
 			GifFile->Error = E_GIF_ERR_NOT_ENOUGH_MEM;
 			return GIF_ERROR;
 		}
-	} else
+	} else{
 		GifFile->SColorMap = NULL;
+	}
 
 	/*
 	 * Put the logical screen descriptor into the file:
@@ -313,15 +329,16 @@ int EGifPutScreenDesc(GifFileType *GifFile, const int Width, const int Height,
 	 * decide how to display the files.
 	 */
 	Buf[0] =
-	    (ColorMap ? 0x80 : 0x00) | /* Yes/no global colormap */
-	    ((ColorRes - 1) << 4) | /* Bits allocated to each primary color */
-	    (ColorMap ? ColorMap->BitsPerPixel - 1
-	              : 0x07); /* Actual size of the
+		(ColorMap ? 0x80 : 0x00) | /* Yes/no global colormap */
+		((ColorRes - 1) << 4) | /* Bits allocated to each primary color */
+		(ColorMap ? ColorMap->BitsPerPixel - 1
+		      : 0x07); /* Actual size of the
 	                          color table. */
-	if (ColorMap != NULL && ColorMap->SortFlag)
+	if (ColorMap != NULL && ColorMap->SortFlag) {
 		Buf[0] |= 0x08;
+	}
 	Buf[1] =
-	    BackGround; /* Index into the ColorTable for background color */
+		BackGround; /* Index into the ColorTable for background color */
 	Buf[2] = GifFile->AspectByte; /* Pixel Aspect Ratio */
 	InternalWrite(GifFile, Buf, 3);
 
@@ -380,7 +397,7 @@ int EGifPutImageDesc(GifFileType *GifFile, const int Left, const int Top,
 				GifFile->Image.ColorMap = NULL;
 			}
 			GifFile->Image.ColorMap = GifMakeMapObject(
-			    ColorMap->ColorCount, ColorMap->Colors);
+				ColorMap->ColorCount, ColorMap->Colors);
 			if (GifFile->Image.ColorMap == NULL) {
 				GifFile->Error = E_GIF_ERR_NOT_ENOUGH_MEM;
 				return GIF_ERROR;
@@ -444,8 +461,9 @@ int EGifPutLine(GifFileType *GifFile, GifPixelType *Line, int LineLen) {
 		return GIF_ERROR;
 	}
 
-	if (!LineLen)
+	if (!LineLen) {
 		LineLen = GifFile->Image.Width;
+	}
 	if (Private->PixelCount < (unsigned)LineLen) {
 		GifFile->Error = E_GIF_ERR_DATA_TOO_BIG;
 		return GIF_ERROR;
@@ -456,8 +474,9 @@ int EGifPutLine(GifFileType *GifFile, GifPixelType *Line, int LineLen) {
 	 * wrong code (because of overflow when we combine them) in this case:
 	 */
 	Mask = CodeMask[Private->BitsPerPixel];
-	for (i = 0; i < LineLen; i++)
+	for (i = 0; i < LineLen; i++) {
 		Line[i] &= Mask;
+	}
 
 	return EGifCompressLine(GifFile, Line, LineLen);
 }
@@ -611,8 +630,9 @@ int EGifPutExtension(GifFileType *GifFile, const int ExtCode, const int ExtLen,
 		return GIF_ERROR;
 	}
 
-	if (ExtCode == 0)
+	if (ExtCode == 0) {
 		InternalWrite(GifFile, (GifByteType *)&ExtLen, 1);
+	}
 	else {
 		Buf[0] = EXTENSION_INTRODUCER;
 		Buf[1] = ExtCode; /* Extension Label */
@@ -634,7 +654,7 @@ size_t EGifGCBToExtension(const GraphicsControlBlock *GCB,
                           GifByteType *GifExtension) {
 	GifExtension[0] = 0;
 	GifExtension[0] |=
-	    (GCB->TransparentColor == NO_TRANSPARENT_COLOR) ? 0x00 : 0x01;
+		(GCB->TransparentColor == NO_TRANSPARENT_COLOR) ? 0x00 : 0x01;
 	GifExtension[0] |= GCB->UserInputFlag ? 0x02 : 0x00;
 	GifExtension[0] |= ((GCB->DisposalMode & 0x07) << 2);
 	GifExtension[1] = LOBYTE(GCB->DelayTime);
@@ -653,13 +673,14 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
 	size_t Len;
 	GifByteType buf[sizeof(GraphicsControlBlock)]; /* a bit dodgy... */
 
-	if (ImageIndex < 0 || ImageIndex > GifFile->ImageCount - 1)
+	if (ImageIndex < 0 || ImageIndex > GifFile->ImageCount - 1) {
 		return GIF_ERROR;
+	}
 
 	for (i = 0; i < GifFile->SavedImages[ImageIndex].ExtensionBlockCount;
 	     i++) {
 		ExtensionBlock *ep =
-		    &GifFile->SavedImages[ImageIndex].ExtensionBlocks[i];
+			&GifFile->SavedImages[ImageIndex].ExtensionBlocks[i];
 		if (ep->Function == GRAPHICS_EXT_FUNC_CODE) {
 			EGifGCBToExtension(GCB, ep->Bytes);
 			return GIF_OK;
@@ -668,10 +689,11 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
 
 	Len = EGifGCBToExtension(GCB, (GifByteType *)buf);
 	if (GifAddExtensionBlock(
-	        &GifFile->SavedImages[ImageIndex].ExtensionBlockCount,
-	        &GifFile->SavedImages[ImageIndex].ExtensionBlocks,
-	        GRAPHICS_EXT_FUNC_CODE, Len, (unsigned char *)buf) == GIF_ERROR)
+		    &GifFile->SavedImages[ImageIndex].ExtensionBlockCount,
+		    &GifFile->SavedImages[ImageIndex].ExtensionBlocks,
+		    GRAPHICS_EXT_FUNC_CODE, Len, (unsigned char *)buf) == GIF_ERROR) {
 		return (GIF_ERROR);
+	}
 
 	return (GIF_OK);
 }
@@ -727,7 +749,7 @@ int EGifPutCodeNext(GifFileType *GifFile, const GifByteType *CodeBlock) {
 			return GIF_ERROR;
 		}
 		Private->PixelCount =
-		    0; /* And local info. indicate image read. */
+			0; /* And local info. indicate image read. */
 	}
 
 	return GIF_OK;
@@ -741,16 +763,18 @@ int EGifCloseFile(GifFileType *GifFile, int *ErrorCode) {
 	GifFilePrivateType *Private;
 	FILE *File;
 
-	if (GifFile == NULL)
+	if (GifFile == NULL) {
 		return GIF_ERROR;
+	}
 
 	Private = (GifFilePrivateType *)GifFile->Private;
 	if (Private == NULL) {
 		return GIF_ERROR;
 	} else if (!IS_WRITEABLE(Private)) {
 		/* This file was NOT open for writing: */
-		if (ErrorCode != NULL)
+		if (ErrorCode != NULL) {
 			*ErrorCode = E_GIF_ERR_NOT_WRITEABLE;
+		}
 		free(GifFile);
 		return GIF_ERROR;
 	} else {
@@ -796,10 +820,12 @@ static int EGifPutWord(int Word, GifFileType *GifFile) {
 
 	c[0] = LOBYTE(Word);
 	c[1] = HIBYTE(Word);
-	if (InternalWrite(GifFile, c, 2) == 2)
+	if (InternalWrite(GifFile, c, 2) == 2) {
 		return GIF_OK;
-	else
+	}
+	else{
 		return GIF_ERROR;
+	}
 }
 
 /******************************************************************************
@@ -811,10 +837,12 @@ static int EGifSetupCompress(GifFileType *GifFile) {
 	GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
 	/* Test and see what color map to use, and from it # bits per pixel: */
-	if (GifFile->Image.ColorMap)
+	if (GifFile->Image.ColorMap) {
 		BitsPerPixel = GifFile->Image.ColorMap->BitsPerPixel;
-	else if (GifFile->SColorMap)
+	}
+	else if (GifFile->SColorMap) {
 		BitsPerPixel = GifFile->SColorMap->BitsPerPixel;
+	}
 	else {
 		GifFile->Error = E_GIF_ERR_NO_COLOR_MAP;
 		return GIF_ERROR;
@@ -859,15 +887,17 @@ static int EGifCompressLine(GifFileType *GifFile, const GifPixelType *Line,
 
 	HashTable = Private->HashTable;
 
-	if (Private->CrntCode == FIRST_CODE) /* Its first time! */
+	if (Private->CrntCode == FIRST_CODE) { /* Its first time! */
 		CrntCode = Line[i++];
-	else
+	}
+	else{
 		CrntCode =
-		    Private->CrntCode; /* Get last code in compression. */
+			Private->CrntCode; /* Get last code in compression. */
 
+	}
 	while (i < LineLen) { /* Decode LineLen items. */
 		GifPixelType Pixel =
-		    Line[i++]; /* Get next pixel from stream. */
+			Line[i++]; /* Get next pixel from stream. */
 		/* Form a new unique key to search hash table for the code
 		 * combines CrntCode as Prefix string with Pixel as postfix
 		 * char.
@@ -903,7 +933,7 @@ static int EGifCompressLine(GifFileType *GifFile, const GifPixelType *Line,
 				}
 				Private->RunningCode = Private->EOFCode + 1;
 				Private->RunningBits =
-				    Private->BitsPerPixel + 1;
+					Private->BitsPerPixel + 1;
 				Private->MaxCode1 = 1 << Private->RunningBits;
 				_ClearHashTable(HashTable);
 			} else {
@@ -953,15 +983,17 @@ static int EGifCompressOutput(GifFileType *GifFile, const int Code) {
 			/* Get Rid of what is left in DWord, and flush it. */
 			if (EGifBufferedOutput(GifFile, Private->Buf,
 			                       Private->CrntShiftDWord &
-			                           0xff) == GIF_ERROR)
+			                       0xff) == GIF_ERROR) {
 				retval = GIF_ERROR;
+			}
 			Private->CrntShiftDWord >>= 8;
 			Private->CrntShiftState -= 8;
 		}
 		Private->CrntShiftState = 0; /* For next time. */
 		if (EGifBufferedOutput(GifFile, Private->Buf, FLUSH_OUTPUT) ==
-		    GIF_ERROR)
+		    GIF_ERROR) {
 			retval = GIF_ERROR;
+		}
 	} else {
 		Private->CrntShiftDWord |= ((long)Code)
 		                           << Private->CrntShiftState;
@@ -970,8 +1002,9 @@ static int EGifCompressOutput(GifFileType *GifFile, const int Code) {
 			/* Dump out full bytes: */
 			if (EGifBufferedOutput(GifFile, Private->Buf,
 			                       Private->CrntShiftDWord &
-			                           0xff) == GIF_ERROR)
+			                       0xff) == GIF_ERROR) {
 				retval = GIF_ERROR;
+			}
 			Private->CrntShiftDWord >>= 8;
 			Private->CrntShiftState -= 8;
 		}
@@ -996,7 +1029,7 @@ static int EGifBufferedOutput(GifFileType *GifFile, GifByteType *Buf, int c) {
 	if (c == FLUSH_OUTPUT) {
 		/* Flush everything out. */
 		if (Buf[0] != 0 && InternalWrite(GifFile, Buf, Buf[0] + 1) !=
-		                       (unsigned)(Buf[0] + 1)) {
+		    (unsigned)(Buf[0] + 1)) {
 			GifFile->Error = E_GIF_ERR_WRITE_FAILED;
 			return GIF_ERROR;
 		}
@@ -1036,18 +1069,23 @@ static int EGifWriteExtensions(GifFileType *GifFileOut,
 
 		for (j = 0; j < ExtensionBlockCount; j++) {
 			ExtensionBlock *ep = &ExtensionBlocks[j];
-			if (ep->Function != CONTINUE_EXT_FUNC_CODE)
+			if (ep->Function != CONTINUE_EXT_FUNC_CODE) {
 				if (EGifPutExtensionLeader(
-				        GifFileOut, ep->Function) == GIF_ERROR)
+					    GifFileOut, ep->Function) == GIF_ERROR) {
 					return (GIF_ERROR);
+				}
+			}
 			if (EGifPutExtensionBlock(GifFileOut, ep->ByteCount,
-			                          ep->Bytes) == GIF_ERROR)
+			                          ep->Bytes) == GIF_ERROR) {
 				return (GIF_ERROR);
+			}
 			if (j == ExtensionBlockCount - 1 ||
-			    (ep + 1)->Function != CONTINUE_EXT_FUNC_CODE)
+			    (ep + 1)->Function != CONTINUE_EXT_FUNC_CODE) {
 				if (EGifPutExtensionTrailer(GifFileOut) ==
-				    GIF_ERROR)
+				    GIF_ERROR) {
 					return (GIF_ERROR);
+				}
+			}
 		}
 	}
 
@@ -1070,18 +1108,21 @@ int EGifSpew(GifFileType *GifFileOut) {
 		int SavedWidth = sp->ImageDesc.Width;
 
 		/* this allows us to delete images by nuking their rasters */
-		if (sp->RasterBits == NULL)
+		if (sp->RasterBits == NULL) {
 			continue;
+		}
 
 		if (EGifWriteExtensions(GifFileOut, sp->ExtensionBlocks,
-		                        sp->ExtensionBlockCount) == GIF_ERROR)
+		                        sp->ExtensionBlockCount) == GIF_ERROR) {
 			return (GIF_ERROR);
+		}
 
 		if (EGifPutImageDesc(GifFileOut, sp->ImageDesc.Left,
 		                     sp->ImageDesc.Top, SavedWidth, SavedHeight,
 		                     sp->ImageDesc.Interlace,
-		                     sp->ImageDesc.ColorMap) == GIF_ERROR)
+		                     sp->ImageDesc.ColorMap) == GIF_ERROR) {
 			return (GIF_ERROR);
+		}
 
 		if (sp->ImageDesc.Interlace) {
 			/*
@@ -1092,31 +1133,36 @@ int EGifSpew(GifFileType *GifFileOut) {
 			static const int InterlacedJumps[] = {8, 8, 4, 2};
 			int k;
 			/* Need to perform 4 passes on the images: */
-			for (k = 0; k < 4; k++)
+			for (k = 0; k < 4; k++) {
 				for (j = InterlacedOffset[k]; j < SavedHeight;
 				     j += InterlacedJumps[k]) {
 					if (EGifPutLine(
-					        GifFileOut,
-					        sp->RasterBits + j * SavedWidth,
-					        SavedWidth) == GIF_ERROR)
+						    GifFileOut,
+						    sp->RasterBits + j * SavedWidth,
+						    SavedWidth) == GIF_ERROR) {
 						return (GIF_ERROR);
+					}
 				}
+			}
 		} else {
 			for (j = 0; j < SavedHeight; j++) {
 				if (EGifPutLine(GifFileOut,
 				                sp->RasterBits + j * SavedWidth,
-				                SavedWidth) == GIF_ERROR)
+				                SavedWidth) == GIF_ERROR) {
 					return (GIF_ERROR);
+				}
 			}
 		}
 	}
 
 	if (EGifWriteExtensions(GifFileOut, GifFileOut->ExtensionBlocks,
-	                        GifFileOut->ExtensionBlockCount) == GIF_ERROR)
+	                        GifFileOut->ExtensionBlockCount) == GIF_ERROR) {
 		return (GIF_ERROR);
+	}
 
-	if (EGifCloseFile(GifFileOut, NULL) == GIF_ERROR)
+	if (EGifCloseFile(GifFileOut, NULL) == GIF_ERROR) {
 		return (GIF_ERROR);
+	}
 
 	return (GIF_OK);
 }

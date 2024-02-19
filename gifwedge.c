@@ -56,11 +56,14 @@ int main(int argc, char **argv) {
 	}
 
 	/* Make sure the number of levels is power of 2 (up to 32 levels.). */
-	for (i = 1; i < 6; i++)
-		if (NumLevels == (1 << i))
+	for (i = 1; i < 6; i++) {
+		if (NumLevels == (1 << i)) {
 			break;
-	if (i == 6)
+		}
+	}
+	if (i == 6) {
 		GIF_EXIT("#Lvls (-l option) is not power of 2 up to 32.");
+	}
 	LogNumLevels = i + 3; /* Multiple by 8 (see below). */
 	LevelStep = 256 / NumLevels;
 
@@ -82,20 +85,22 @@ int main(int argc, char **argv) {
 	/* The color map has 7 NumLevels colors for White, Red, Green and then
 	 */
 	/* The secondary colors Yellow Cyan and magenta. */
-	if ((ColorMap = GifMakeMapObject(8 * NumLevels, NULL)) == NULL)
+	if ((ColorMap = GifMakeMapObject(8 * NumLevels, NULL)) == NULL) {
 		GIF_EXIT("Failed to allocate memory required, aborted.");
+	}
 
-	for (i = 0; i < 8; i++) /* Set color map. */
+	for (i = 0; i < 8; i++) { /* Set color map. */
 		for (j = 0; j < NumLevels; j++) {
 			l = LevelStep * j;
 			c = i * NumLevels + j;
 			ColorMap->Colors[c].Red =
-			    (i == 0 || i == 1 || i == 4 || i == 6) * l;
+				(i == 0 || i == 1 || i == 4 || i == 6) * l;
 			ColorMap->Colors[c].Green =
-			    (i == 0 || i == 2 || i == 4 || i == 5) * l;
+				(i == 0 || i == 2 || i == 4 || i == 5) * l;
 			ColorMap->Colors[c].Blue =
-			    (i == 0 || i == 3 || i == 5 || i == 6) * l;
+				(i == 0 || i == 3 || i == 5 || i == 6) * l;
 		}
+	}
 
 	if (EGifPutScreenDesc(GifFile, ImageWidth, ImageHeight, LogNumLevels, 0,
 	                      ColorMap) == GIF_ERROR) {
@@ -116,14 +121,17 @@ int main(int argc, char **argv) {
 
 	/* Allocate one scan line to be used for all image. */
 	if ((Line = (GifRowType)malloc(sizeof(GifPixelType) * ImageWidth)) ==
-	    NULL)
+	    NULL) {
 		GIF_EXIT("Failed to allocate memory required, aborted.");
+	}
 
 	/* Dump the pixels: */
 	for (c = 0; c < 7; c++) {
-		for (i = 0, l = 0; i < NumLevels; i++)
-			for (j = 0; j < ImageWidth / NumLevels; j++)
+		for (i = 0, l = 0; i < NumLevels; i++) {
+			for (j = 0; j < ImageWidth / NumLevels; j++) {
 				Line[l++] = i + NumLevels * c;
+			}
+		}
 		for (i = 0; i < ImageHeight / 7; i++) {
 			if (EGifPutLine(GifFile, Line, ImageWidth) ==
 			    GIF_ERROR) {

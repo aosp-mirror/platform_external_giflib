@@ -38,8 +38,9 @@ GifHashTableType *_InitHashTable(void) {
 	GifHashTableType *HashTable;
 
 	if ((HashTable =
-	         (GifHashTableType *)malloc(sizeof(GifHashTableType))) == NULL)
+		     (GifHashTableType *)malloc(sizeof(GifHashTableType))) == NULL) {
 		return NULL;
+	}
 
 	_ClearHashTable(HashTable);
 
@@ -93,8 +94,9 @@ int _ExistsHashTable(GifHashTableType *HashTable, uint32_t Key) {
 #ifdef DEBUG_HIT_RATE
 		NumberOfMisses++;
 #endif /* DEBUG_HIT_RATE */
-		if (Key == HTKey)
+		if (Key == HTKey) {
 			return HT_GET_CODE(HTable[HKey]);
+		}
 		HKey = (HKey + 1) & HT_KEY_MASK;
 	}
 

@@ -113,9 +113,9 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
                      int fdout) {
 	unsigned int ColorMapSize = 0;
 	GifColorType GlobalColorMap[256], LocalColorMap[256],
-	    *ColorMap = GlobalColorMap;
+	             *ColorMap = GlobalColorMap;
 	char GlobalColorKeys[PRINTABLES], LocalColorKeys[PRINTABLES],
-	    *KeyTable = GlobalColorKeys;
+	     *KeyTable = GlobalColorKeys;
 	bool SortFlag = false;
 	unsigned int ExtCode, intval;
 	int red, green, blue, n;
@@ -141,18 +141,21 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 		/*
 		 * Skip lines consisting only of whitespace and comments
 		 */
-		for (cp = buf; isspace((int)(*cp)); cp++)
+		for (cp = buf; isspace((int)(*cp)); cp++) {
 			continue;
-		if (*cp == '#' || *cp == '\0')
+		}
+		if (*cp == '#' || *cp == '\0') {
 			continue;
+		}
 
 		/*
 		 * If there's a trailing comment, nuke it and all preceding
 		 * whitespace. But preserve the EOL.
 		 */
 		if ((cp = strchr(buf, '#')) && (cp == strrchr(cp, '#'))) {
-			while (isspace((int)(*--cp)))
+			while (isspace((int)(*--cp))) {
 				continue;
+			}
 			*++cp = '\n';
 			*++cp = '\0';
 		}
@@ -161,12 +164,14 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 		 * Explicit header declarations
 		 */
 
-		if (sscanf(buf, "screen width %d\n", &GifFileOut->SWidth) == 1)
+		if (sscanf(buf, "screen width %d\n", &GifFileOut->SWidth) == 1) {
 			continue;
+		}
 
 		else if (sscanf(buf, "screen height %d\n",
-		                &GifFileOut->SHeight) == 1)
+		                &GifFileOut->SHeight) == 1) {
 			continue;
+		}
 
 		else if (sscanf(buf, "screen colors %d\n", &n) == 1) {
 			int ResBits = GifBitSize(n);
@@ -181,8 +186,9 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 		}
 
 		else if (sscanf(buf, "screen background %d\n",
-		                &GifFileOut->SBackGroundColor) == 1)
+		                &GifFileOut->SBackGroundColor) == 1) {
 			continue;
+		}
 
 		else if (sscanf(buf, "pixel aspect byte %u\n", &intval) == 1) {
 			GifFileOut->AspectByte = (GifByteType)(intval & 0xff);
@@ -243,11 +249,13 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 			ColorMapSize++;
 		}
 
-		else if (strcmp(buf, "	sort flag on\n") == 0)
+		else if (strcmp(buf, "	sort flag on\n") == 0) {
 			SortFlag = true;
+		}
 
-		else if (strcmp(buf, "	sort flag off\n") == 0)
+		else if (strcmp(buf, "	sort flag off\n") == 0) {
 			SortFlag = false;
+		}
 
 		else if (strcmp(buf, "end\n") == 0) {
 			ColorMapObject *NewMap;
@@ -262,10 +270,12 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 
 			NewMap->SortFlag = SortFlag;
 
-			if (NewImage)
+			if (NewImage) {
 				NewImage->ImageDesc.ColorMap = NewMap;
-			else
+			}
+			else{
 				GifFileOut->SColorMap = NewMap;
+			}
 		}
 
 		/* GIF inclusion */
@@ -278,7 +288,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 			SavedImage *CopyFrom;
 
 			if ((Inclusion = DGifOpenFileName(
-			         InclusionFile, &ErrorCode)) == NULL) {
+				     InclusionFile, &ErrorCode)) == NULL) {
 				PrintGifError(ErrorCode);
 				exit(EXIT_FAILURE);
 			}
@@ -302,9 +312,9 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 				ColorMapObject *UnionMap;
 
 				UnionMap = GifUnionColorMap(
-				    // cppcheck-suppress nullPointerRedundantCheck
-				    GifFileOut->SColorMap, Inclusion->SColorMap,
-				    Translation);
+					// cppcheck-suppress nullPointerRedundantCheck
+					GifFileOut->SColorMap, Inclusion->SColorMap,
+					Translation);
 
 				if (UnionMap == NULL) {
 					PARSE_ERROR("Inclusion failed --- "
@@ -312,10 +322,12 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 					// cppcheck-suppress nullPointerRedundantCheck
 					PrintGifError(GifFileOut->Error);
 					// cppcheck-suppress knownConditionTrueFalse
-					if (Inclusion != NULL)
+					if (Inclusion != NULL) {
 						DGifCloseFile(Inclusion, NULL);
-					if (GifFileOut != NULL)
+					}
+					if (GifFileOut != NULL) {
 						EGifCloseFile(GifFileOut, NULL);
+					}
 					exit(EXIT_FAILURE);
 				}
 
@@ -328,20 +340,23 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 			     Inclusion->SavedImages + Inclusion->ImageCount;
 			     CopyFrom++) {
 				if ((NewImage = GifMakeSavedImage(
-				         GifFileOut, CopyFrom)) == NULL) {
+					     GifFileOut, CopyFrom)) == NULL) {
 					PARSE_ERROR("Inclusion failed --- out "
 					            "of memory.");
 					// cppcheck-suppress nullPointerRedundantCheck
 					PrintGifError(GifFileOut->Error);
 					// cppcheck-suppress knownConditionTrueFalse
-					if (Inclusion != NULL)
+					if (Inclusion != NULL) {
 						DGifCloseFile(Inclusion, NULL);
-					if (GifFileOut != NULL)
+					}
+					if (GifFileOut != NULL) {
 						EGifCloseFile(GifFileOut, NULL);
+					}
 					exit(EXIT_FAILURE);
-				} else if (DoTranslation)
+				} else if (DoTranslation) {
 					GifApplyTranslation(NewImage,
 					                    Translation);
+				}
 
 				GifQprintf("%s: Image %d at (%d, %d) [%dx%d]: "
 				           "from %s\n",
@@ -361,69 +376,76 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 		 */
 		else if (strcmp(buf, "comment\n") == 0) {
 			int bc = 0;
-			while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
-				if (strcmp(buf, "end\n") == 0)
+			while (fgets(buf, sizeof(buf), txtin) != (char *)NULL) {
+				if (strcmp(buf, "end\n") == 0) {
 					break;
+				}
 				else {
 					int Len;
 
 					buf[strlen(buf) - 1] = '\0';
 					Len = EscapeString(buf, buf);
 					if (GifAddExtensionBlock(
-					        &LeadingExtensionBlockCount,
-					        &LeadingExtensionBlocks,
-					        bc++ == CONTINUE_EXT_FUNC_CODE
-					            ? COMMENT_EXT_FUNC_CODE
-					            : 0,
-					        Len, (unsigned char *)buf) ==
+						    &LeadingExtensionBlockCount,
+						    &LeadingExtensionBlocks,
+						    bc++ == CONTINUE_EXT_FUNC_CODE
+						    ? COMMENT_EXT_FUNC_CODE
+						    : 0,
+						    Len, (unsigned char *)buf) ==
 					    GIF_ERROR) {
 						PARSE_ERROR(
-						    "out of memory while "
-						    "adding comment block.");
+							"out of memory while "
+							"adding comment block.");
 						exit(EXIT_FAILURE);
 					}
 				}
+			}
 		} else if (strcmp(buf, "plaintext\n") == 0) {
 			int bc = 0;
-			while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
-				if (strcmp(buf, "end\n") == 0)
+			while (fgets(buf, sizeof(buf), txtin) != (char *)NULL) {
+				if (strcmp(buf, "end\n") == 0) {
 					break;
+				}
 				else {
 					int Len;
 
 					buf[strlen(buf) - 1] = '\0';
 					Len = EscapeString(buf, buf);
 					if (GifAddExtensionBlock(
-					        &LeadingExtensionBlockCount,
-					        &LeadingExtensionBlocks,
-					        bc++ == CONTINUE_EXT_FUNC_CODE
-					            ? PLAINTEXT_EXT_FUNC_CODE
-					            : 0,
-					        Len, (unsigned char *)buf) ==
+						    &LeadingExtensionBlockCount,
+						    &LeadingExtensionBlocks,
+						    bc++ == CONTINUE_EXT_FUNC_CODE
+						    ? PLAINTEXT_EXT_FUNC_CODE
+						    : 0,
+						    Len, (unsigned char *)buf) ==
 					    GIF_ERROR) {
 						PARSE_ERROR(
-						    "out of memory while "
-						    "adding plaintext block.");
+							"out of memory while "
+							"adding plaintext block.");
 						exit(EXIT_FAILURE);
 					}
 				}
+			}
 		} else if (strcmp(buf, "graphics control\n") == 0) {
 			GraphicsControlBlock gcb;
 			size_t Len;
 
 			memset(&gcb, '\0', sizeof(gcb));
 			gcb.TransparentColor = NO_TRANSPARENT_COLOR;
-			while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
-				if (strcmp(buf, "end\n") == 0)
+			while (fgets(buf, sizeof(buf), txtin) != (char *)NULL) {
+				if (strcmp(buf, "end\n") == 0) {
 					break;
+				}
 				else {
 					char *tp = buf;
 
-					while (isspace(*tp))
+					while (isspace(*tp)) {
 						tp++;
+					}
 					if (sscanf(tp, "disposal mode %d\n",
-					           &gcb.DisposalMode))
+					           &gcb.DisposalMode)) {
 						continue;
+					}
 					if (strcmp(tp,
 					           "user input flag on\n") ==
 					    0) {
@@ -437,21 +459,24 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 						continue;
 					}
 					if (sscanf(tp, "delay %d\n",
-					           &gcb.DelayTime))
+					           &gcb.DelayTime)) {
 						continue;
+					}
 					if (sscanf(tp, "transparent index %d\n",
-					           &gcb.TransparentColor))
+					           &gcb.TransparentColor)) {
 						continue;
+					}
 					(void)fputs(tp, stderr);
 					PARSE_ERROR("unrecognized directive in "
 					            "GCB block.");
 					exit(EXIT_FAILURE);
 				}
+			}
 			Len = EGifGCBToExtension(&gcb, (GifByteType *)buf);
 			if (GifAddExtensionBlock(
-			        &LeadingExtensionBlockCount,
-			        &LeadingExtensionBlocks, GRAPHICS_EXT_FUNC_CODE,
-			        Len, (unsigned char *)buf) == GIF_ERROR) {
+				    &LeadingExtensionBlockCount,
+				    &LeadingExtensionBlocks, GRAPHICS_EXT_FUNC_CODE,
+				    Len, (unsigned char *)buf) == GIF_ERROR) {
 				PARSE_ERROR("out of memory while adding GCB.");
 				exit(EXIT_FAILURE);
 			}
@@ -460,12 +485,12 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 			unsigned char params[3] = {1, 0, 0};
 			/* Create a Netscape 2.0 loop block */
 			if (GifAddExtensionBlock(
-			        &LeadingExtensionBlockCount,
-			        &LeadingExtensionBlocks,
-			        APPLICATION_EXT_FUNC_CODE, 11,
-			        (unsigned char *)"NETSCAPE2.0") == GIF_ERROR) {
+				    &LeadingExtensionBlockCount,
+				    &LeadingExtensionBlocks,
+				    APPLICATION_EXT_FUNC_CODE, 11,
+				    (unsigned char *)"NETSCAPE2.0") == GIF_ERROR) {
 				PARSE_ERROR(
-				    "out of memory while adding loop block.");
+					"out of memory while adding loop block.");
 				exit(EXIT_FAILURE);
 			}
 			params[1] = (intval & 0xff);
@@ -481,28 +506,30 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 
 		} else if (sscanf(buf, "extension %x", &ExtCode)) {
 			int bc = 0;
-			while (fgets(buf, sizeof(buf), txtin) != (char *)NULL)
-				if (strcmp(buf, "end\n") == 0)
+			while (fgets(buf, sizeof(buf), txtin) != (char *)NULL) {
+				if (strcmp(buf, "end\n") == 0) {
 					break;
+				}
 				else {
 					int Len;
 
 					buf[strlen(buf) - 1] = '\0';
 					Len = EscapeString(buf, buf);
 					if (GifAddExtensionBlock(
-					        &LeadingExtensionBlockCount,
-					        &LeadingExtensionBlocks,
-					        bc++ == CONTINUE_EXT_FUNC_CODE
-					            ? ExtCode
-					            : 0,
-					        Len, (unsigned char *)buf) ==
+						    &LeadingExtensionBlockCount,
+						    &LeadingExtensionBlocks,
+						    bc++ == CONTINUE_EXT_FUNC_CODE
+						    ? ExtCode
+						    : 0,
+						    Len, (unsigned char *)buf) ==
 					    GIF_ERROR) {
 						PARSE_ERROR(
-						    "out of memory while "
-						    "adding extension block.");
+							"out of memory while "
+							"adding extension block.");
 						exit(EXIT_FAILURE);
 					}
 				}
+			}
 		}
 
 		/*
@@ -523,7 +550,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 
 			/* connect leading extension blocks */
 			NewImage->ExtensionBlockCount =
-			    LeadingExtensionBlockCount;
+				LeadingExtensionBlockCount;
 			NewImage->ExtensionBlocks = LeadingExtensionBlocks;
 			LeadingExtensionBlockCount = 0;
 			LeadingExtensionBlocks = NULL;
@@ -543,12 +570,14 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 		 * Accept image attributes
 		 */
 		else if (sscanf(buf, "image top %d\n",
-		                &NewImage->ImageDesc.Top) == 1)
+		                &NewImage->ImageDesc.Top) == 1) {
 			continue;
+		}
 
 		else if (sscanf(buf, "image left %d\n",
-		                &NewImage->ImageDesc.Left) == 1)
+		                &NewImage->ImageDesc.Left) == 1) {
 			continue;
+		}
 
 		else if (strcmp(buf, "image interlaced\n") == 0) {
 			NewImage->ImageDesc.Interlace = true;
@@ -565,9 +594,9 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 
 			/* coverity[overflow_sink] */
 			if ((Raster = (GifPixelType *)malloc(
-			         sizeof(GifPixelType) *
-			         NewImage->ImageDesc.Width *
-			         NewImage->ImageDesc.Height)) == NULL) {
+				     sizeof(GifPixelType) *
+				     NewImage->ImageDesc.Width *
+				     NewImage->ImageDesc.Height)) == NULL) {
 				PARSE_ERROR("Failed to allocate raster block, "
 				            "aborted.");
 				exit(EXIT_FAILURE);
@@ -585,7 +614,7 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 
 				char *dp;
 
-				for (j = 0; j < NewImage->ImageDesc.Width; j++)
+				for (j = 0; j < NewImage->ImageDesc.Width; j++) {
 					if ((c = fgetc(txtin)) == EOF) {
 						PARSE_ERROR("input file ended "
 						            "prematurely.");
@@ -593,51 +622,56 @@ static void Icon2Gif(char *FileName, FILE *txtin, bool GifNoisyPrint,
 					} else if (c == '\n') {
 						--j;
 						++LineNum;
-					} else if (isspace(c))
+					} else if (isspace(c)) {
 						--j;
+					}
 					else if (hex) {
 						const static char *hexdigits =
-						    "0123456789ABCDEF";
+							"0123456789ABCDEF";
 						unsigned char hi, lo;
 						dp = strchr(hexdigits,
 						            toupper(c));
 						if (dp == NULL) {
 							PARSE_ERROR(
-							    "Invalid hex high "
-							    "byte.");
+								"Invalid hex high "
+								"byte.");
 							exit(EXIT_FAILURE);
 						}
 						hi = (dp - hexdigits);
 						if ((c = fgetc(txtin)) == EOF) {
 							PARSE_ERROR(
-							    "input file ended "
-							    "prematurely.");
+								"input file ended "
+								"prematurely.");
 							exit(EXIT_FAILURE);
 						}
 						dp = strchr(hexdigits,
 						            toupper(c));
 						if (dp == NULL) {
 							PARSE_ERROR(
-							    "Invalid hex low "
-							    "byte.");
+								"Invalid hex low "
+								"byte.");
 							exit(EXIT_FAILURE);
 						}
 						lo = (dp - hexdigits);
 						*tp++ = (hi << 4) | lo;
-					} else if ((dp = strchr(KeyTable, c)))
+					} else if ((dp = strchr(KeyTable, c))) {
 						*tp++ = (dp - KeyTable);
+					}
 					else {
 						PARSE_ERROR(
-						    "Invalid ASCII pixel key.");
+							"Invalid ASCII pixel key.");
 						exit(EXIT_FAILURE);
 					}
+				}
 
-				if (GifNoisyPrint)
+				if (GifNoisyPrint) {
 					fprintf(stderr, "\b\b\b\b%-4d", i);
+				}
 			}
 
-			if (GifNoisyPrint)
+			if (GifNoisyPrint) {
 				putc('\n', stderr);
+			}
 
 			NewImage->RasterBits = (unsigned char *)Raster;
 		} else {
@@ -662,8 +696,9 @@ static void VisibleDumpBuffer(GifByteType *buf, int len)
 	GifByteType *cp;
 
 	for (cp = buf; cp < buf + len; cp++) {
-		if (isprint((int)(*cp)) || *cp == ' ')
+		if (isprint((int)(*cp)) || *cp == ' ') {
 			putchar(*cp);
+		}
 		else if (*cp == '\n') {
 			putchar('\\');
 			putchar('n');
@@ -677,8 +712,9 @@ static void VisibleDumpBuffer(GifByteType *buf, int len)
 			putchar('\\');
 			putchar('^');
 			putchar('@' + *cp);
-		} else
+		} else{
 			printf("\\0x%02x", *cp);
+		}
 	}
 }
 
@@ -779,9 +815,9 @@ static void Gif2Icon(char *FileName, int fdin, int fdout, char NameTable[]) {
 	       GifFile->SHeight);
 
 	printf(
-	    "screen colors %d\nscreen background %d\npixel aspect byte %u\n\n",
-	    1 << GifFile->SColorResolution, GifFile->SBackGroundColor,
-	    (unsigned)GifFile->AspectByte);
+		"screen colors %d\nscreen background %d\npixel aspect byte %u\n\n",
+		1 << GifFile->SColorResolution, GifFile->SBackGroundColor,
+		        (unsigned)GifFile->AspectByte);
 
 	if (GifFile->SColorMap) {
 		printf("screen map\n");
@@ -789,18 +825,21 @@ static void Gif2Icon(char *FileName, int fdin, int fdout, char NameTable[]) {
 		printf("\tsort flag %s\n",
 		       GifFile->SColorMap->SortFlag ? "on" : "off");
 
-		for (i = 0; i < GifFile->SColorMap->ColorCount; i++)
-			if (GifFile->SColorMap->ColorCount < PRINTABLES)
+		for (i = 0; i < GifFile->SColorMap->ColorCount; i++) {
+			if (GifFile->SColorMap->ColorCount < PRINTABLES) {
 				printf("\trgb %03d %03d %03d is %c\n",
 				       GifFile->SColorMap->Colors[i].Red,
 				       GifFile->SColorMap->Colors[i].Green,
 				       GifFile->SColorMap->Colors[i].Blue,
 				       NameTable[i]);
-			else
+			}
+			else{
 				printf("\trgb %03d %03d %03d\n",
 				       GifFile->SColorMap->Colors[i].Red,
 				       GifFile->SColorMap->Colors[i].Green,
 				       GifFile->SColorMap->Colors[i].Blue);
+			}
+		}
 		printf("end\n\n");
 	}
 
@@ -812,8 +851,9 @@ static void Gif2Icon(char *FileName, int fdin, int fdout, char NameTable[]) {
 
 		printf("image # %d\nimage left %d\nimage top %d\n", im + 1,
 		       image->ImageDesc.Left, image->ImageDesc.Top);
-		if (image->ImageDesc.Interlace)
+		if (image->ImageDesc.Interlace) {
 			printf("image interlaced\n");
+		}
 
 		if (image->ImageDesc.ColorMap) {
 			printf("image map\n");
@@ -822,55 +862,65 @@ static void Gif2Icon(char *FileName, int fdin, int fdout, char NameTable[]) {
 			       image->ImageDesc.ColorMap->SortFlag ? "on"
 			                                           : "off");
 
-			if (image->ImageDesc.ColorMap->ColorCount < PRINTABLES)
+			if (image->ImageDesc.ColorMap->ColorCount < PRINTABLES) {
 				for (i = 0;
 				     i < image->ImageDesc.ColorMap->ColorCount;
-				     i++)
+				     i++) {
 					printf(
-					    "\trgb %03d %03d %03d is %c\n",
-					    image->ImageDesc.ColorMap->Colors[i]
-					        .Red,
-					    image->ImageDesc.ColorMap->Colors[i]
-					        .Green,
-					    image->ImageDesc.ColorMap->Colors[i]
-					        .Blue,
-					    NameTable[i]);
-			else
+						"\trgb %03d %03d %03d is %c\n",
+						image->ImageDesc.ColorMap->Colors[i]
+						.Red,
+						image->ImageDesc.ColorMap->Colors[i]
+						.Green,
+						image->ImageDesc.ColorMap->Colors[i]
+						.Blue,
+						NameTable[i]);
+				}
+			}
+			else{
 				for (i = 0;
 				     i < image->ImageDesc.ColorMap->ColorCount;
-				     i++)
+				     i++) {
 					printf(
-					    "\trgb %03d %03d %03d\n",
-					    image->ImageDesc.ColorMap->Colors[i]
-					        .Red,
-					    image->ImageDesc.ColorMap->Colors[i]
-					        .Green,
-					    image->ImageDesc.ColorMap->Colors[i]
-					        .Blue);
+						"\trgb %03d %03d %03d\n",
+						image->ImageDesc.ColorMap->Colors[i]
+						.Red,
+						image->ImageDesc.ColorMap->Colors[i]
+						.Green,
+						image->ImageDesc.ColorMap->Colors[i]
+						.Blue);
+				}
+			}
 			printf("end\n\n");
 		}
 
 		/* one of these conditions has to be true */
-		if (image->ImageDesc.ColorMap)
+		if (image->ImageDesc.ColorMap) {
 			ColorCount = image->ImageDesc.ColorMap->ColorCount;
-		else if (GifFile->SColorMap)
+		}
+		else if (GifFile->SColorMap) {
 			ColorCount = GifFile->SColorMap->ColorCount;
+		}
 
-		if (ColorCount < PRINTABLES)
+		if (ColorCount < PRINTABLES) {
 			printf("image bits %d by %d\n", image->ImageDesc.Width,
 			       image->ImageDesc.Height);
-		else
+		}
+		else{
 			printf("image bits %d by %d hex\n",
 			       image->ImageDesc.Width, image->ImageDesc.Height);
+		}
 		for (i = 0; i < image->ImageDesc.Height; i++) {
 			for (j = 0; j < image->ImageDesc.Width; j++) {
 				GifByteType ch =
-				    image->RasterBits
-				        [i * image->ImageDesc.Width + j];
-				if (ColorCount < PRINTABLES && ch < PRINTABLES)
+					image->RasterBits
+					[i * image->ImageDesc.Width + j];
+				if (ColorCount < PRINTABLES && ch < PRINTABLES) {
 					putchar(NameTable[ch]);
-				else
+				}
+				else{
 					printf("%02x", ch);
+				}
 			}
 			putchar('\n');
 		}
@@ -888,8 +938,9 @@ static void Gif2Icon(char *FileName, int fdin, int fdout, char NameTable[]) {
 	printf("# truncate-lines:t\n");
 	printf("# End:\n");
 
-	if (fdin == -1)
+	if (fdin == -1) {
 		(void)printf("# End of %s dump\n", FileName);
+	}
 
 	/*
 	 * Sanity checks.
@@ -900,7 +951,7 @@ static void Gif2Icon(char *FileName, int fdin, int fdout, char NameTable[]) {
 	    (GifFile->SColorMap &&
 	     GifFile->SBackGroundColor >= GifFile->SColorMap->ColorCount)) {
 		fprintf(stderr, "gifbuild: background color invalid for screen "
-		                "colormap.\n");
+		        "colormap.\n");
 	}
 
 	if (DGifCloseFile(GifFile, &ErrorCode) == GIF_ERROR) {
@@ -922,21 +973,26 @@ static int EscapeString(char *cp, char *tp)
 
 			if (*++cp == 'x' || *cp == 'X') {
 				char *dp,
-				    *hex = "00112233445566778899aAbBcCdDeEfF";
+				     *hex = "00112233445566778899aAbBcCdDeEfF";
 				for (++cp;
 				     (dp = strchr(hex, *cp)) && (dcount++ < 2);
-				     cp++)
+				     cp++) {
 					cval = (cval * 16) + (dp - hex) / 2;
-			} else if (*cp == '0')
+				}
+			} else if (*cp == '0') {
 				while (strchr("01234567", *cp) !=
-				           (char *)NULL &&
-				       (dcount++ < 3))
+				       (char *)NULL &&
+				       (dcount++ < 3)) {
 					cval = (cval * 8) + (*cp++ - '0');
-			else
+				}
+			}
+			else{
 				while ((strchr("0123456789", *cp) !=
 				        (char *)NULL) &&
-				       (dcount++ < 3))
+				       (dcount++ < 3)) {
 					cval = (cval * 10) + (*cp++ - '0');
+				}
+			}
 		} else if (*cp == '\\') /* C-style character escapes */
 		{
 			switch (*++cp) {
@@ -963,8 +1019,9 @@ static int EscapeString(char *cp, char *tp)
 		{
 			cval = (*++cp & 0x1f);
 			cp++;
-		} else
+		} else{
 			cval = *cp++;
+		}
 		*tp++ = cval;
 	}
 

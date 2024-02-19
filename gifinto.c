@@ -73,11 +73,13 @@ int main(int argc, char **argv) {
 	                       &MinSizeFlag, &MinFileSize, &HelpFlag, &NumFiles,
 	                       &FileName)) != false ||
 	    (NumFiles > 1 && !HelpFlag)) {
-		if (Error)
+		if (Error) {
 			GAPrintErrMsg(Error);
-		else if (NumFiles != 1)
+		}
+		else if (NumFiles != 1) {
 			GIF_MESSAGE("Error in command line parsing - one GIF "
 			            "file please.");
+		}
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_FAILURE);
 	}
@@ -104,33 +106,42 @@ int main(int argc, char **argv) {
 	/* in the very same directory. This code is isecure because it creates
 	 */
 	/* predictable names, but it's not worth the effort and risk to fix. */
-	if (*FileName == NULL)
+	if (*FileName == NULL) {
 		GIF_EXIT("No valid Filename given.");
-	if (strlen(*FileName) > STRLEN - 1)
+	}
+	if (strlen(*FileName) > STRLEN - 1) {
 		GIF_EXIT("Filename too long.");
+	}
 	memset(FullPath, '\0', sizeof(FullPath));
 	strncpy(FullPath, *FileName, STRLEN);
 	if ((p = strrchr(FullPath, '/')) != NULL ||
-	    (p = strrchr(FullPath, '\\')) != NULL)
+	    (p = strrchr(FullPath, '\\')) != NULL) {
 		p[1] = 0;
-	else if ((p = strrchr(FullPath, ':')) != NULL)
+	}
+	else if ((p = strrchr(FullPath, ':')) != NULL) {
 		p[1] = 0;
-	else
+	}
+	else{
 		FullPath[0] = 0; /* No directory or disk specified. */
 
-	if (strlen(FullPath) > STRLEN - 1)
+	}
+	if (strlen(FullPath) > STRLEN - 1) {
 		GIF_EXIT("Filename too long.");
+	}
 	strncpy(FoutTmpName, FullPath, STRLEN); /* First setup the Path */
 	/* then add a name for the tempfile */
-	if ((strlen(FoutTmpName) + strlen(DEFAULT_TMP_NAME)) > STRLEN - 1)
+	if ((strlen(FoutTmpName) + strlen(DEFAULT_TMP_NAME)) > STRLEN - 1) {
 		GIF_EXIT("Filename too long.");
+	}
 	strcat(FoutTmpName, DEFAULT_TMP_NAME);
 #ifdef _WIN32
 	char *tmpFN = _mktemp(FoutTmpName);
-	if (tmpFN)
+	if (tmpFN) {
 		FD = open(tmpFN, O_CREAT | O_EXCL | O_WRONLY);
-	else
+	}
+	else{
 		FD = -1;
+	}
 #else
 	FD = mkstemp(FoutTmpName); /* returns filedescriptor */
 #endif
@@ -145,10 +156,12 @@ int main(int argc, char **argv) {
 	while (1) {
 		int c = getc(Fin);
 
-		if (feof(Fin))
+		if (feof(Fin)) {
 			break;
-		if (putc(c, Fout) == EOF)
+		}
+		if (putc(c, Fout) == EOF) {
 			GIF_EXIT("Failed to write output.");
+		}
 	}
 
 	fclose(Fin);
@@ -159,21 +172,22 @@ int main(int argc, char **argv) {
 			char DefaultName[STRLEN + 1];
 			memset(DefaultName, '\0', sizeof(DefaultName));
 			if ((strlen(FullPath) + strlen(DEFAULT_OUT_NAME)) >
-			    STRLEN - 1)
+			    STRLEN - 1) {
 				GIF_EXIT("Filename too long.");
+			}
 			strncpy(DefaultName, FullPath, STRLEN);
 			strcat(DefaultName, DEFAULT_OUT_NAME);
 			if (rename(FoutTmpName, DefaultName) == 0) {
 				char s[STRLEN];
 				snprintf(
-				    s, STRLEN,
-				    "Failed to rename out file - left as %s.",
-				    DefaultName);
+					s, STRLEN,
+					"Failed to rename out file - left as %s.",
+					DefaultName);
 				GIF_MESSAGE(s);
 			} else {
 				unlink(FoutTmpName);
 				GIF_MESSAGE(
-				    "Failed to rename out file - deleted.");
+					"Failed to rename out file - deleted.");
 			}
 		}
 	} else {

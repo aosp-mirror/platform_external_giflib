@@ -42,11 +42,13 @@ int main(int argc, char **argv) {
 	if ((Error = GAGetArgs(argc, argv, CtrlStr, &GifNoisyPrint, &HelpFlag,
 	                       &NumFiles, &FileName)) != false ||
 	    (NumFiles > 1 && !HelpFlag)) {
-		if (Error)
+		if (Error) {
 			GAPrintErrMsg(Error);
-		else if (NumFiles > 1)
+		}
+		else if (NumFiles > 1) {
 			GIF_MESSAGE("Error in command line parsing - one GIF "
 			            "file please.");
+		}
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_FAILURE);
 	}
@@ -82,40 +84,47 @@ int main(int argc, char **argv) {
 	if (EGifPutScreenDesc(GifFileOut, GifFileIn->SWidth, GifFileIn->SHeight,
 	                      GifFileIn->SColorResolution,
 	                      GifFileIn->SBackGroundColor,
-	                      GifFileIn->SColorMap) == GIF_ERROR)
+	                      GifFileIn->SColorMap) == GIF_ERROR) {
 		QuitGifError(GifFileIn, GifFileOut);
+	}
 
-	if ((LineBuffer = (GifRowType)malloc(GifFileIn->SWidth)) == NULL)
+	if ((LineBuffer = (GifRowType)malloc(GifFileIn->SWidth)) == NULL) {
 		GIF_EXIT("Failed to allocate memory required, aborted.");
+	}
 
 	/* Scan the content of the GIF file and load the image(s) in: */
 	do {
-		if (DGifGetRecordType(GifFileIn, &RecordType) == GIF_ERROR)
+		if (DGifGetRecordType(GifFileIn, &RecordType) == GIF_ERROR) {
 			QuitGifError(GifFileIn, GifFileOut);
+		}
 
 		switch (RecordType) {
 		case IMAGE_DESC_RECORD_TYPE:
-			if (DGifGetImageDesc(GifFileIn) == GIF_ERROR)
+			if (DGifGetImageDesc(GifFileIn) == GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
-			if (GifFileIn->Image.Interlace)
+			}
+			if (GifFileIn->Image.Interlace) {
 				GIF_EXIT("Cannot fix interlaced images.");
+			}
 
 			Row = GifFileIn->Image
-			          .Top; /* Image Position relative to Screen. */
+			      .Top;     /* Image Position relative to Screen. */
 			Col = GifFileIn->Image.Left;
 			Width = GifFileIn->Image.Width;
 			Height = GifFileIn->Image.Height;
 			GifQprintf("\n%s: Image %d at (%d, %d) [%dx%d]:     ",
 			           PROGRAM_NAME, ++ImageNum, Col, Row, Width,
 			           Height);
-			if (Width > GifFileIn->SWidth)
+			if (Width > GifFileIn->SWidth) {
 				GIF_EXIT("Image is wider than total");
+			}
 
 			/* Put the image descriptor to out file: */
 			if (EGifPutImageDesc(
-			        GifFileOut, Col, Row, Width, Height, false,
-			        GifFileIn->Image.ColorMap) == GIF_ERROR)
+				    GifFileOut, Col, Row, Width, Height, false,
+				    GifFileIn->Image.ColorMap) == GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
+			}
 
 			/* Find the darkest color in color map to use as a
 			 * filler. */
@@ -136,55 +145,68 @@ int main(int argc, char **argv) {
 			for (i = 0; i < Height; i++) {
 				GifQprintf("\b\b\b\b%-4d", i);
 				if (DGifGetLine(GifFileIn, LineBuffer, Width) ==
-				    GIF_ERROR)
+				    GIF_ERROR) {
 					break;
+				}
 				if (EGifPutLine(GifFileOut, LineBuffer,
-				                Width) == GIF_ERROR)
+				                Width) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
+				}
 			}
 
 			if (i < Height) {
 				fprintf(stderr, "\nFollowing error occurred "
-				                "(and ignored):");
+				        "(and ignored):");
 				PrintGifError(GifFileIn->Error);
 
 				/* Fill in with the darkest color in color map.
 				 */
-				for (j = 0; j < Width; j++)
+				for (j = 0; j < Width; j++) {
 					LineBuffer[j] = DarkestColor;
-				for (; i < Height; i++)
+				}
+				for (; i < Height; i++) {
 					if (EGifPutLine(GifFileOut, LineBuffer,
-					                Width) == GIF_ERROR)
+					                Width) == GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
+					}
+				}
 			}
 			break;
 		case EXTENSION_RECORD_TYPE:
 			/* pass through extension records */
 			if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) ==
-			    GIF_ERROR)
+			    GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
+			}
 			if (EGifPutExtensionLeader(GifFileOut, ExtCode) ==
-			    GIF_ERROR)
+			    GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
-			if (Extension != NULL)
+			}
+			if (Extension != NULL) {
 				if (EGifPutExtensionBlock(
-				        GifFileOut, Extension[0],
-				        Extension + 1) == GIF_ERROR)
+					    GifFileOut, Extension[0],
+					    Extension + 1) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
+				}
+			}
 			while (Extension != NULL) {
 				if (DGifGetExtensionNext(
-				        GifFileIn, &Extension) == GIF_ERROR)
+					    GifFileIn, &Extension) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
-				if (Extension != NULL)
+				}
+				if (Extension != NULL) {
 					if (EGifPutExtensionBlock(
-					        GifFileOut, Extension[0],
-					        Extension + 1) == GIF_ERROR)
+						    GifFileOut, Extension[0],
+						    Extension + 1) == GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
+					}
+				}
 			}
-			if (EGifPutExtensionTrailer(GifFileOut) == GIF_ERROR)
+			if (EGifPutExtensionTrailer(GifFileOut) == GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
+			}
 			break;
 		case TERMINATE_RECORD_TYPE:
 			break;

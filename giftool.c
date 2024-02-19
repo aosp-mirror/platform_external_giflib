@@ -24,7 +24,7 @@ SPDX-License-Identifier: MIT
 enum boolmode { numeric, onoff, tf, yesno };
 
 char *putbool(bool flag, enum boolmode mode) {
-	if (flag)
+	if (flag) {
 		switch (mode) {
 		case numeric:
 			return "1";
@@ -39,7 +39,8 @@ char *putbool(bool flag, enum boolmode mode) {
 			return "yes";
 			break;
 		}
-	else
+	}
+	else{
 		switch (mode) {
 		case numeric:
 			return "0";
@@ -54,6 +55,7 @@ char *putbool(bool flag, enum boolmode mode) {
 			return "no";
 			break;
 		}
+	}
 
 	return "FAIL"; /* should never happen */
 }
@@ -63,17 +65,19 @@ bool getbool(char *from) {
 		char *name;
 		bool val;
 	} boolnames[] =
-	    {
-	        {"yes", true}, {"on", true},  {"1", true},
-	        {"t", true},   {"no", false}, {"off", false},
-	        {"0", false},  {"f", false},  {NULL, false},
-	    },
+	{
+		{"yes", true}, {"on", true},  {"1", true},
+		{"t", true},   {"no", false}, {"off", false},
+		{"0", false},  {"f", false},  {NULL, false},
+	},
 	  *sp;
 
 	// cppcheck-suppress nullPointerRedundantCheck
-	for (sp = boolnames; sp->name; sp++)
-		if (strcmp(sp->name, from) == 0)
+	for (sp = boolnames; sp->name; sp++) {
+		if (strcmp(sp->name, from) == 0) {
 			return sp->val;
+		}
+	}
 
 	if (sp == NULL) {
 		(void)fprintf(stderr,
@@ -169,10 +173,12 @@ int main(int argc, char **argv) {
 				if (span > 0) {
 					selected[nselected++] = atoi(cp) - 1;
 					cp += span;
-					if (*cp == '\0')
+					if (*cp == '\0') {
 						break;
-					else if (*cp == ',')
+					}
+					else if (*cp == ',') {
 						continue;
+					}
 				}
 
 				(void)fprintf(stderr,
@@ -183,21 +189,23 @@ int main(int argc, char **argv) {
 
 		case 'p':
 		case 's':
-			if (status == 'p')
+			if (status == 'p') {
 				top->mode = position;
-			else
+			}
+			else{
 				top->mode = screensize;
+			}
 			cp = strchr(optarg, ',');
 			if (cp == NULL) {
 				(void)fprintf(stderr, "giftool: missing comma "
-				                      "in coordinate pair.\n");
+				              "in coordinate pair.\n");
 				exit(EXIT_FAILURE);
 			}
 			top->p.x = atoi(optarg);
 			top->p.y = atoi(cp + 1);
 			if (top->p.x < 0 || top->p.y < 0) {
 				(void)fprintf(
-				    stderr, "giftool: negative coordinate.\n");
+					stderr, "giftool: negative coordinate.\n");
 				exit(EXIT_FAILURE);
 			}
 			break;
@@ -238,20 +246,24 @@ int main(int argc, char **argv) {
 
 	/* if the selection is defaulted, compute it; otherwise bounds-check it
 	 */
-	if (!have_selection)
-		for (i = nselected = 0; i < GifFileIn->ImageCount; i++)
+	if (!have_selection) {
+		for (i = nselected = 0; i < GifFileIn->ImageCount; i++) {
 			selected[nselected++] = i;
-	else
-		for (i = 0; i < nselected; i++)
+		}
+	}
+	else{
+		for (i = 0; i < nselected; i++) {
 			if (selected[i] >= GifFileIn->ImageCount ||
 			    selected[i] < 0) {
 				(void)fprintf(stderr, "giftool: selection "
-				                      "index out of bounds.\n");
+				              "index out of bounds.\n");
 				exit(EXIT_FAILURE);
 			}
+		}
+	}
 
 	/* perform the operations we've gathered */
-	for (op = operations; op < top; op++)
+	for (op = operations; op < top; op++) {
 		switch (op->mode) {
 		case background:
 			GifFileIn->SBackGroundColor = op->color;
@@ -272,7 +284,7 @@ int main(int argc, char **argv) {
 		case info:
 			for (i = 0; i < nselected; i++) {
 				SavedImage *ip =
-				    &GifFileIn->SavedImages[selected[i]];
+					&GifFileIn->SavedImages[selected[i]];
 				GraphicsControlBlock gcb;
 				for (cp = op->format; *cp; cp++) {
 					if (*cp == '\\') {
@@ -425,7 +437,7 @@ int main(int argc, char **argv) {
 					} else if (*cp == '%') {
 						enum boolmode boolfmt;
 						SavedImage *sp =
-						    &GifFileIn->SavedImages[i];
+							&GifFileIn->SavedImages[i];
 
 						if (cp[1] == 't') {
 							boolfmt = tf;
@@ -439,8 +451,9 @@ int main(int argc, char **argv) {
 						} else if (cp[1] == '1') {
 							boolfmt = numeric;
 							++cp;
-						} else
+						} else{
 							boolfmt = numeric;
+						}
 
 						switch (*++cp) {
 						case '%':
@@ -448,119 +461,121 @@ int main(int argc, char **argv) {
 							break;
 						case 'a':
 							(void)printf(
-							    "%d",
-							    GifFileIn
-							        ->AspectByte);
+								"%d",
+								GifFileIn
+								->AspectByte);
 							break;
 						case 'b':
 							(void)printf(
-							    "%d",
-							    GifFileIn
-							        ->SBackGroundColor);
+								"%d",
+								GifFileIn
+								->SBackGroundColor);
 							break;
 						case 'd':
 							DGifSavedExtensionToGCB(
-							    GifFileIn,
-							    selected[i], &gcb);
+								GifFileIn,
+								selected[i], &gcb);
 							(void)printf(
-							    "%d",
-							    gcb.DelayTime);
+								"%d",
+								gcb.DelayTime);
 							break;
 						case 'h':
 							(void)printf(
-							    "%d", ip->ImageDesc
-							              .Height);
+								"%d", ip->ImageDesc
+								.Height);
 							break;
 						case 'n':
 							(void)printf(
-							    "%d",
-							    selected[i] + 1);
+								"%d",
+								selected[i] + 1);
 							break;
 						case 'p':
 							(void)printf(
-							    "%d,%d",
-							    ip->ImageDesc.Left,
-							    ip->ImageDesc.Top);
+								"%d,%d",
+								ip->ImageDesc.Left,
+								ip->ImageDesc.Top);
 							break;
 						case 's':
 							(void)printf(
-							    "%d,%d",
-							    GifFileIn->SWidth,
-							    GifFileIn->SHeight);
+								"%d,%d",
+								GifFileIn->SWidth,
+								GifFileIn->SHeight);
 							break;
 						case 'w':
 							(void)printf(
-							    "%d", ip->ImageDesc
-							              .Width);
+								"%d", ip->ImageDesc
+								.Width);
 							break;
 						case 't':
 							DGifSavedExtensionToGCB(
-							    GifFileIn,
-							    selected[i], &gcb);
+								GifFileIn,
+								selected[i], &gcb);
 							(void)printf(
-							    "%d",
-							    gcb.TransparentColor);
+								"%d",
+								gcb.TransparentColor);
 							break;
 						case 'u':
 							DGifSavedExtensionToGCB(
-							    GifFileIn,
-							    selected[i], &gcb);
+								GifFileIn,
+								selected[i], &gcb);
 							(void)printf(
-							    "%s",
-							    putbool(
-							        gcb.UserInputFlag,
-							        boolfmt));
+								"%s",
+								putbool(
+									gcb.UserInputFlag,
+									boolfmt));
 							break;
 						case 'v':
 							fputs(EGifGetGifVersion(
-							          GifFileIn),
+								      GifFileIn),
 							      stdout);
 							break;
 						case 'x':
 							DGifSavedExtensionToGCB(
-							    GifFileIn,
-							    selected[i], &gcb);
+								GifFileIn,
+								selected[i], &gcb);
 							(void)printf(
-							    "%d",
-							    gcb.DisposalMode);
+								"%d",
+								gcb.DisposalMode);
 							break;
 						case 'z':
 							(void)printf(
-							    "%s",
-							    putbool(
-							        sp->ImageDesc
-							                .ColorMap &&
-							            sp->ImageDesc
-							                .ColorMap
-							                ->SortFlag,
-							        boolfmt));
+								"%s",
+								putbool(
+									sp->ImageDesc
+									.ColorMap &&
+									sp->ImageDesc
+									.ColorMap
+									->SortFlag,
+									boolfmt));
 							break;
 						default:
 							(void)fprintf(
-							    stderr,
-							    "giftool: bad "
-							    "format %%%c\n",
-							    *cp);
+								stderr,
+								"giftool: bad "
+								"format %%%c\n",
+								*cp);
 						}
-					} else
+					} else{
 						(void)putchar(*cp);
+					}
 				}
 			}
 			exit(EXIT_SUCCESS);
 			break;
 
 		case interlace:
-			for (i = 0; i < nselected; i++)
+			for (i = 0; i < nselected; i++) {
 				GifFileIn->SavedImages[selected[i]]
-				    .ImageDesc.Interlace = op->flag;
+				.ImageDesc.Interlace = op->flag;
+			}
 			break;
 
 		case position:
 			for (i = 0; i < nselected; i++) {
 				GifFileIn->SavedImages[selected[i]]
-				    .ImageDesc.Left = op->p.x;
+				.ImageDesc.Left = op->p.x;
 				GifFileIn->SavedImages[selected[i]]
-				    .ImageDesc.Top = op->p.y;
+				.ImageDesc.Top = op->p.y;
 			}
 			break;
 
@@ -610,24 +625,29 @@ int main(int argc, char **argv) {
 			              "giftool: unknown operation mode\n");
 			exit(EXIT_FAILURE);
 		}
+	}
 
 	/* write out the results */
 	GifFileOut->SWidth = GifFileIn->SWidth;
 	GifFileOut->SHeight = GifFileIn->SHeight;
 	GifFileOut->SColorResolution = GifFileIn->SColorResolution;
 	GifFileOut->SBackGroundColor = GifFileIn->SBackGroundColor;
-	if (GifFileIn->SColorMap != NULL)
+	if (GifFileIn->SColorMap != NULL) {
 		GifFileOut->SColorMap =
-		    GifMakeMapObject(GifFileIn->SColorMap->ColorCount,
-		                     GifFileIn->SColorMap->Colors);
+			GifMakeMapObject(GifFileIn->SColorMap->ColorCount,
+			                 GifFileIn->SColorMap->Colors);
+	}
 
-	for (i = 0; i < GifFileIn->ImageCount; i++)
+	for (i = 0; i < GifFileIn->ImageCount; i++) {
 		(void)GifMakeSavedImage(GifFileOut, &GifFileIn->SavedImages[i]);
+	}
 
-	if (EGifSpew(GifFileOut) == GIF_ERROR)
+	if (EGifSpew(GifFileOut) == GIF_ERROR) {
 		PrintGifError(GifFileOut->Error);
-	else if (DGifCloseFile(GifFileIn, &ErrorCode) == GIF_ERROR)
+	}
+	else if (DGifCloseFile(GifFileIn, &ErrorCode) == GIF_ERROR) {
 		PrintGifError(ErrorCode);
+	}
 
 	return 0;
 }

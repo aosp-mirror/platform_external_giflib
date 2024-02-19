@@ -52,13 +52,15 @@ int main(int argc, char **argv) {
 	                       &TranslateFlag, &TranslateFileName, &LoadFlag,
 	                       &ColorFileName, &GammaFlag, &Gamma, &ImageNFlag,
 	                       &ImageN, &HelpFlag, &NumFiles, &FileName)) !=
-	        false ||
+	    false ||
 	    (NumFiles > 1 && !HelpFlag)) {
-		if (Error)
+		if (Error) {
 			GAPrintErrMsg(Error);
-		else if (NumFiles > 1)
+		}
+		else if (NumFiles > 1) {
 			GIF_MESSAGE("Error in command line parsing - one GIF "
 			            "file please.");
+		}
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_FAILURE);
 	}
@@ -69,13 +71,15 @@ int main(int argc, char **argv) {
 		exit(EXIT_SUCCESS);
 	}
 
-	if (SaveFlag + LoadFlag + GammaFlag + TranslateFlag > 1)
+	if (SaveFlag + LoadFlag + GammaFlag + TranslateFlag > 1) {
 		GIF_EXIT("Can not handle more than one of -s -l, -t, or -g at "
 		         "the same time.");
+	}
 
 	/* Default action is to dump colormaps */
-	if (!SaveFlag && !LoadFlag && !GammaFlag && !TranslateFlag)
+	if (!SaveFlag && !LoadFlag && !GammaFlag && !TranslateFlag) {
 		SaveFlag = true;
+	}
 
 	if (NumFiles == 1) {
 		if ((GifFileIn = DGifOpenFileName(*FileName, &ErrorCode)) ==
@@ -98,16 +102,18 @@ int main(int argc, char **argv) {
 		if (TranslateFlag) {
 			/* We are loading new color map from specified file: */
 			if ((TranslateFile = fopen(TranslateFileName, "rt")) ==
-			    NULL)
+			    NULL) {
 				GIF_EXIT("Failed to open specified color "
 				         "translation file.");
+			}
 		}
 
 		if (LoadFlag) {
 			/* We are loading new color map from specified file: */
-			if ((ColorFile = fopen(ColorFileName, "rt")) == NULL)
+			if ((ColorFile = fopen(ColorFileName, "rt")) == NULL) {
 				GIF_EXIT(
-				    "Failed to open specified color map file.");
+					"Failed to open specified color map file.");
+			}
 		}
 	}
 
@@ -121,8 +127,9 @@ int main(int argc, char **argv) {
 
 	if (!ImageNFlag) {
 		/* We are supposed to modify the screen color map, so do it: */
-		if (!GifFileIn->SColorMap)
+		if (!GifFileIn->SColorMap) {
 			GIF_EXIT("No colormap to modify");
+		}
 		GifFileIn->SColorMap = ModifyColorMap(GifFileIn->SColorMap);
 		if (!HasGIFOutput) {
 			/* We can quit here, as we have the color map: */
@@ -132,28 +139,32 @@ int main(int argc, char **argv) {
 		}
 	}
 	/* And dump out its new possible repositioned screen information: */
-	if (HasGIFOutput)
+	if (HasGIFOutput) {
 		if (EGifPutScreenDesc(GifFileOut, GifFileIn->SWidth,
 		                      GifFileIn->SHeight,
 		                      GifFileIn->SColorResolution,
 		                      GifFileIn->SBackGroundColor,
-		                      GifFileIn->SColorMap) == GIF_ERROR)
+		                      GifFileIn->SColorMap) == GIF_ERROR) {
 			QuitGifError(GifFileIn, GifFileOut);
+		}
+	}
 
 	/* Scan the content of the GIF file and load the image(s) in: */
 	do {
-		if (DGifGetRecordType(GifFileIn, &RecordType) == GIF_ERROR)
+		if (DGifGetRecordType(GifFileIn, &RecordType) == GIF_ERROR) {
 			QuitGifError(GifFileIn, GifFileOut);
+		}
 
 		switch (RecordType) {
 		case IMAGE_DESC_RECORD_TYPE:
-			if (DGifGetImageDesc(GifFileIn) == GIF_ERROR)
+			if (DGifGetImageDesc(GifFileIn) == GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
+			}
 			if ((++ImageNum == ImageN) && ImageNFlag) {
 				/* We are suppose to modify this image color
 				 * map, do it: */
 				GifFileIn->SColorMap =
-				    ModifyColorMap(GifFileIn->SColorMap);
+					ModifyColorMap(GifFileIn->SColorMap);
 				if (!HasGIFOutput) {
 					/* We can quit here, as we have the
 					 * color map: */
@@ -162,15 +173,17 @@ int main(int argc, char **argv) {
 					exit(EXIT_SUCCESS);
 				}
 			}
-			if (HasGIFOutput)
+			if (HasGIFOutput) {
 				if (EGifPutImageDesc(
-				        GifFileOut, GifFileIn->Image.Left,
-				        GifFileIn->Image.Top,
-				        GifFileIn->Image.Width,
-				        GifFileIn->Image.Height,
-				        GifFileIn->Image.Interlace,
-				        GifFileIn->Image.ColorMap) == GIF_ERROR)
+					    GifFileOut, GifFileIn->Image.Left,
+					    GifFileIn->Image.Top,
+					    GifFileIn->Image.Width,
+					    GifFileIn->Image.Height,
+					    GifFileIn->Image.Interlace,
+					    GifFileIn->Image.ColorMap) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
+				}
+			}
 
 			if (!TranslateFlag ||
 			    (ImageNFlag && (ImageN != ImageNum))) {
@@ -181,26 +194,32 @@ int main(int argc, char **argv) {
 				/* faster.
 				 */
 				if (DGifGetCode(GifFileIn, &CodeSize,
-				                &CodeBlock) == GIF_ERROR)
+				                &CodeBlock) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
-				if (HasGIFOutput)
+				}
+				if (HasGIFOutput) {
 					if (EGifPutCode(GifFileOut, CodeSize,
-					                CodeBlock) == GIF_ERROR)
+					                CodeBlock) == GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
+					}
+				}
 				while (CodeBlock != NULL) {
 					if (DGifGetCodeNext(GifFileIn,
 					                    &CodeBlock) ==
-					    GIF_ERROR)
+					    GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
-					if (HasGIFOutput)
+					}
+					if (HasGIFOutput) {
 						if (EGifPutCodeNext(
-						        GifFileOut,
-						        CodeBlock) == GIF_ERROR)
+							    GifFileOut,
+							    CodeBlock) == GIF_ERROR) {
 							QuitGifError(
-							    GifFileIn,
-							    GifFileOut);
+								GifFileIn,
+								GifFileOut);
+						}
+					}
 				}
 			} else /* we need to mung pixels intices */
 			{
@@ -208,12 +227,12 @@ int main(int argc, char **argv) {
 				register GifPixelType *cp;
 
 				GifPixelType *Line = (GifPixelType *)malloc(
-				    GifFileIn->Image.Width *
-				    sizeof(GifPixelType));
+					GifFileIn->Image.Width *
+					sizeof(GifPixelType));
 				for (i = 0; i < GifFileIn->Image.Height; i++) {
 					if (DGifGetLine(
-					        GifFileIn, Line,
-					        GifFileIn->Image.Width) ==
+						    GifFileIn, Line,
+						    GifFileIn->Image.Width) ==
 					    GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
@@ -222,12 +241,13 @@ int main(int argc, char **argv) {
 					/* translation step goes here */
 					for (cp = Line;
 					     cp < Line + GifFileIn->Image.Width;
-					     cp++)
+					     cp++) {
 						*cp = Translation[*cp];
+					}
 
 					if (EGifPutLine(
-					        GifFileOut, Line,
-					        GifFileIn->Image.Width) ==
+						    GifFileOut, Line,
+						    GifFileIn->Image.Width) ==
 					    GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
@@ -240,29 +260,37 @@ int main(int argc, char **argv) {
 			assert(GifFileOut != NULL); /* might pacify Coverity */
 			/* pass through extension records */
 			if (DGifGetExtension(GifFileIn, &ExtCode, &Extension) ==
-			    GIF_ERROR)
+			    GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
-			if (Extension == NULL)
+			}
+			if (Extension == NULL) {
 				break;
+			}
 			if (EGifPutExtensionLeader(GifFileOut, ExtCode) ==
-			    GIF_ERROR)
+			    GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
+			}
 			if (EGifPutExtensionBlock(GifFileOut, Extension[0],
-			                          Extension + 1) == GIF_ERROR)
+			                          Extension + 1) == GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
+			}
 			while (Extension != NULL) {
 				if (DGifGetExtensionNext(
-				        GifFileIn, &Extension) == GIF_ERROR)
+					    GifFileIn, &Extension) == GIF_ERROR) {
 					QuitGifError(GifFileIn, GifFileOut);
-				if (Extension != NULL)
+				}
+				if (Extension != NULL) {
 					if (EGifPutExtensionBlock(
-					        GifFileOut, Extension[0],
-					        Extension + 1) == GIF_ERROR)
+						    GifFileOut, Extension[0],
+						    Extension + 1) == GIF_ERROR) {
 						QuitGifError(GifFileIn,
 						             GifFileOut);
+					}
+				}
 			}
-			if (EGifPutExtensionTrailer(GifFileOut) == GIF_ERROR)
+			if (EGifPutExtensionTrailer(GifFileOut) == GIF_ERROR) {
 				QuitGifError(GifFileIn, GifFileOut);
+			}
 			break;
 		case TERMINATE_RECORD_TYPE:
 			break;
@@ -275,11 +303,12 @@ int main(int argc, char **argv) {
 		PrintGifError(ErrorCode);
 		exit(EXIT_FAILURE);
 	}
-	if (HasGIFOutput)
+	if (HasGIFOutput) {
 		if (EGifCloseFile(GifFileOut, &ErrorCode) == GIF_ERROR) {
 			PrintGifError(ErrorCode);
 			exit(EXIT_FAILURE);
 		}
+	}
 
 	return 0;
 }
@@ -292,18 +321,20 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap) {
 
 	if (SaveFlag) {
 		/* Save this color map to ColorFile: */
-		for (i = 0; i < ColorMap->ColorCount; i++)
+		for (i = 0; i < ColorMap->ColorCount; i++) {
 			fprintf(ColorFile, "%3d %3d %3d %3d\n", i,
 			        ColorMap->Colors[i].Red,
 			        ColorMap->Colors[i].Green,
 			        ColorMap->Colors[i].Blue);
+		}
 		return (ColorMap);
 	} else if (LoadFlag) {
 		/* Read the color map in ColorFile into this color map: */
 		for (i = 0; i < ColorMap->ColorCount; i++) {
-			if (feof(ColorFile))
+			if (feof(ColorFile)) {
 				GIF_EXIT("Color file to load color map from, "
 				         "too small.");
+			}
 			if (fscanf(ColorFile, "%3d %3d %3d %3d\n", &Dummy, &Red,
 			           &Green, &Blue) == 4) {
 				ColorMap->Colors[i].Red = Red;
@@ -317,14 +348,14 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap) {
 		double Gamma1 = 1.0 / Gamma;
 		for (i = 0; i < ColorMap->ColorCount; i++) {
 			ColorMap->Colors[i].Red =
-			    ((int)(255 * pow(ColorMap->Colors[i].Red / 255.0,
-			                     Gamma1)));
+				((int)(255 * pow(ColorMap->Colors[i].Red / 255.0,
+				                 Gamma1)));
 			ColorMap->Colors[i].Green =
-			    ((int)(255 * pow(ColorMap->Colors[i].Green / 255.0,
-			                     Gamma1)));
+				((int)(255 * pow(ColorMap->Colors[i].Green / 255.0,
+				                 Gamma1)));
 			ColorMap->Colors[i].Blue =
-			    ((int)(255 * pow(ColorMap->Colors[i].Blue / 255.0,
-			                     Gamma1)));
+				((int)(255 * pow(ColorMap->Colors[i].Blue / 255.0,
+				                 Gamma1)));
 		}
 		return (ColorMap);
 	} else if (TranslateFlag) {
@@ -334,20 +365,23 @@ static ColorMapObject *ModifyColorMap(ColorMapObject *ColorMap) {
 		/* Read the translation table in TranslateFile: */
 		for (i = 0; i < ColorMap->ColorCount; i++) {
 			int tmp;
-			if (feof(TranslateFile))
+			if (feof(TranslateFile)) {
 				GIF_EXIT("Color file to load color map from, "
 				         "too small.");
+			}
 			if (fscanf(TranslateFile, "%3d %3d\n", &Dummy, &tmp) ==
 			    2) {
 				Translation[i] = tmp & 0xff;
-				if (Translation[i] > Max)
+				if (Translation[i] > Max) {
 					Max = Translation[i];
+				}
 			}
 		}
 
 		if ((NewMap = GifMakeMapObject(1 << GifBitSize(Max + 1),
-		                               NULL)) == NULL)
+		                               NULL)) == NULL) {
 			GIF_EXIT("Out of memory while allocating color map!");
+		}
 
 		/* Apply the translation; we'll do it to the pixels, too */
 		for (i = 0; i < ColorMap->ColorCount; i++) {

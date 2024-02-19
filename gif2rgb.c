@@ -66,9 +66,10 @@ static void LoadRGB(char *FileName, int OneFileFlag, GifByteType **RedBuffer,
 
 	if ((*RedBuffer = (GifByteType *)malloc((unsigned int)Size)) == NULL ||
 	    (*GreenBuffer = (GifByteType *)malloc((unsigned int)Size)) ==
-	        NULL ||
-	    (*BlueBuffer = (GifByteType *)malloc((unsigned int)Size)) == NULL)
+	    NULL ||
+	    (*BlueBuffer = (GifByteType *)malloc((unsigned int)Size)) == NULL) {
 		GIF_EXIT("Failed to allocate memory required, aborted.");
+	}
 
 	RedP = *RedBuffer;
 	GreenP = *GreenBuffer;
@@ -76,8 +77,9 @@ static void LoadRGB(char *FileName, int OneFileFlag, GifByteType **RedBuffer,
 
 	if (FileName != NULL) {
 		if (OneFileFlag) {
-			if ((rgbfp[0] = fopen(FileName, "rb")) == NULL)
+			if ((rgbfp[0] = fopen(FileName, "rb")) == NULL) {
 				GIF_EXIT("Can't open input file name.");
+			}
 		} else {
 			static const char *Postfixes[] = {".R", ".G", ".B"};
 			char OneFileName[80];
@@ -87,11 +89,12 @@ static void LoadRGB(char *FileName, int OneFileFlag, GifByteType **RedBuffer,
 				        sizeof(OneFileName) - 1);
 				strncat(OneFileName, Postfixes[i],
 				        sizeof(OneFileName) - 1 -
-				            strlen(OneFileName));
+				        strlen(OneFileName));
 
 				if ((rgbfp[i] = fopen(OneFileName, "rb")) ==
-				    NULL)
+				    NULL) {
 					GIF_EXIT("Can't open input file name.");
+				}
 			}
 		}
 	} else {
@@ -109,16 +112,18 @@ static void LoadRGB(char *FileName, int OneFileFlag, GifByteType **RedBuffer,
 	if (OneFileFlag) {
 		GifByteType *Buffer, *BufferP;
 
-		if ((Buffer = (GifByteType *)malloc(Width * 3)) == NULL)
+		if ((Buffer = (GifByteType *)malloc(Width * 3)) == NULL) {
 			GIF_EXIT(
-			    "Failed to allocate memory required, aborted.");
+				"Failed to allocate memory required, aborted.");
+		}
 
 		for (i = 0; i < Height; i++) {
 			int j;
 			GifQprintf("\b\b\b\b%-4d", i);
-			if (fread(Buffer, Width * 3, 1, rgbfp[0]) != 1)
+			if (fread(Buffer, Width * 3, 1, rgbfp[0]) != 1) {
 				GIF_EXIT(
-				    "Input file(s) terminated prematurly.");
+					"Input file(s) terminated prematurly.");
+			}
 			for (j = 0, BufferP = Buffer; j < Width; j++) {
 				*RedP++ = *BufferP++;
 				*GreenP++ = *BufferP++;
@@ -133,9 +138,10 @@ static void LoadRGB(char *FileName, int OneFileFlag, GifByteType **RedBuffer,
 			GifQprintf("\b\b\b\b%-4d", i);
 			if (fread(RedP, Width, 1, rgbfp[0]) != 1 ||
 			    fread(GreenP, Width, 1, rgbfp[1]) != 1 ||
-			    fread(BlueP, Width, 1, rgbfp[2]) != 1)
+			    fread(BlueP, Width, 1, rgbfp[2]) != 1) {
 				GIF_EXIT(
-				    "Input file(s) terminated prematurly.");
+					"Input file(s) terminated prematurly.");
+			}
 			RedP += Width;
 			GreenP += Width;
 			BlueP += Width;
@@ -165,7 +171,7 @@ static void SaveGif(GifByteType *OutputBuffer, int Width, int Height,
 	if (EGifPutScreenDesc(GifFile, Width, Height, ExpColorMapSize, 0,
 	                      OutputColorMap) == GIF_ERROR ||
 	    EGifPutImageDesc(GifFile, 0, 0, Width, Height, false, NULL) ==
-	        GIF_ERROR) {
+	    GIF_ERROR) {
 		PrintGifError(Error);
 		exit(EXIT_FAILURE);
 	}
@@ -175,8 +181,9 @@ static void SaveGif(GifByteType *OutputBuffer, int Width, int Height,
 	           GifFile->Image.Width, GifFile->Image.Height);
 
 	for (i = 0; i < Height; i++) {
-		if (EGifPutLine(GifFile, Ptr, Width) == GIF_ERROR)
+		if (EGifPutLine(GifFile, Ptr, Width) == GIF_ERROR) {
 			exit(EXIT_FAILURE);
+		}
 		GifQprintf("\b\b\b\b%-4d", Height - i - 1);
 
 		Ptr += Width;
@@ -211,13 +218,15 @@ static void RGB2GIF(bool OneFileFlag, int NumFiles, char *FileName,
 
 	if ((OutputColorMap = GifMakeMapObject(ColorMapSize, NULL)) == NULL ||
 	    (OutputBuffer = (GifByteType *)malloc(Width * Height *
-	                                          sizeof(GifByteType))) == NULL)
+	                                          sizeof(GifByteType))) == NULL) {
 		GIF_EXIT("Failed to allocate memory required, aborted.");
+	}
 
 	if (GifQuantizeBuffer(Width, Height, &ColorMapSize, RedBuffer,
 	                      GreenBuffer, BlueBuffer, OutputBuffer,
-	                      OutputColorMap->Colors) == GIF_ERROR)
+	                      OutputColorMap->Colors) == GIF_ERROR) {
 		exit(EXIT_FAILURE);
+	}
 	free((char *)RedBuffer);
 	free((char *)GreenBuffer);
 	free((char *)BlueBuffer);
@@ -239,8 +248,9 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 
 	if (FileName != NULL) {
 		if (OneFileFlag) {
-			if ((rgbfp[0] = fopen(FileName, "wb")) == NULL)
+			if ((rgbfp[0] = fopen(FileName, "wb")) == NULL) {
 				GIF_EXIT("Can't open input file name.");
+			}
 		} else {
 			static char *Postfixes[] = {".R", ".G", ".B"};
 			char OneFileName[80];
@@ -250,7 +260,7 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 				        sizeof(OneFileName) - 1);
 				strncat(OneFileName, Postfixes[i],
 				        sizeof(OneFileName) - 1 -
-				            strlen(OneFileName));
+				        strlen(OneFileName));
 
 				if ((rgbfp[i] = fopen(OneFileName, "wb")) ==
 				    NULL) {
@@ -276,9 +286,10 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 	if (OneFileFlag) {
 		unsigned char *Buffer, *BufferP;
 
-		if ((Buffer = (unsigned char *)malloc(ScreenWidth * 3)) == NULL)
+		if ((Buffer = (unsigned char *)malloc(ScreenWidth * 3)) == NULL) {
 			GIF_EXIT(
-			    "Failed to allocate memory required, aborted.");
+				"Failed to allocate memory required, aborted.");
+		}
 		for (i = 0; i < ScreenHeight; i++) {
 			GifRow = ScreenBuffer[i];
 			GifQprintf("\b\b\b\b%-4d", ScreenHeight - i);
@@ -286,15 +297,16 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 				/* Check if color is within color palete */
 				if (GifRow[j] >= ColorMap->ColorCount) {
 					GIF_EXIT(GifErrorString(
-					    D_GIF_ERR_IMAGE_DEFECT));
+							 D_GIF_ERR_IMAGE_DEFECT));
 				}
 				ColorMapEntry = &ColorMap->Colors[GifRow[j]];
 				*BufferP++ = ColorMapEntry->Red;
 				*BufferP++ = ColorMapEntry->Green;
 				*BufferP++ = ColorMapEntry->Blue;
 			}
-			if (fwrite(Buffer, ScreenWidth * 3, 1, rgbfp[0]) != 1)
+			if (fwrite(Buffer, ScreenWidth * 3, 1, rgbfp[0]) != 1) {
 				GIF_EXIT("Write to file(s) failed.");
+			}
 		}
 
 		free((char *)Buffer);
@@ -303,12 +315,13 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 		unsigned char *Buffers[3];
 
 		if ((Buffers[0] = (unsigned char *)malloc(ScreenWidth)) ==
-		        NULL ||
+		    NULL ||
 		    (Buffers[1] = (unsigned char *)malloc(ScreenWidth)) ==
-		        NULL ||
-		    (Buffers[2] = (unsigned char *)malloc(ScreenWidth)) == NULL)
+		    NULL ||
+		    (Buffers[2] = (unsigned char *)malloc(ScreenWidth)) == NULL) {
 			GIF_EXIT(
-			    "Failed to allocate memory required, aborted.");
+				"Failed to allocate memory required, aborted.");
+		}
 
 		for (i = 0; i < ScreenHeight; i++) {
 			GifRow = ScreenBuffer[i];
@@ -321,8 +334,9 @@ static void DumpScreen2RGB(char *FileName, int OneFileFlag,
 			}
 			if (fwrite(Buffers[0], ScreenWidth, 1, rgbfp[0]) != 1 ||
 			    fwrite(Buffers[1], ScreenWidth, 1, rgbfp[1]) != 1 ||
-			    fwrite(Buffers[2], ScreenWidth, 1, rgbfp[2]) != 1)
+			    fwrite(Buffers[2], ScreenWidth, 1, rgbfp[2]) != 1) {
 				GIF_EXIT("Write to file(s) failed.");
+			}
 		}
 
 		free((char *)Buffers[0]);
@@ -342,9 +356,11 @@ static void GIF2RGB(int NumFiles, char *FileName, bool OneFileFlag,
 	GifRowType *ScreenBuffer;
 	GifFileType *GifFile;
 	static const int InterlacedOffset[] = {
-	    0, 4, 2, 1}; /* The way Interlaced image should. */
+		0, 4, 2, 1
+	};               /* The way Interlaced image should. */
 	static const int InterlacedJumps[] = {
-	    8, 8, 4, 2}; /* be read - offsets and jumps... */
+		8, 8, 4, 2
+	};               /* be read - offsets and jumps... */
 	int ImageNum = 0;
 	ColorMapObject *ColorMap;
 
@@ -374,23 +390,27 @@ static void GIF2RGB(int NumFiles, char *FileName, bool OneFileFlag,
 	 * GIF file parameters.
 	 */
 	if ((ScreenBuffer = (GifRowType *)malloc(GifFile->SHeight *
-	                                         sizeof(GifRowType))) == NULL)
+	                                         sizeof(GifRowType))) == NULL) {
 		GIF_EXIT("Failed to allocate memory required, aborted.");
+	}
 
 	Size =
-	    GifFile->SWidth * sizeof(GifPixelType); /* Size in bytes one row.*/
+		GifFile->SWidth * sizeof(GifPixelType); /* Size in bytes one row.*/
 	if ((ScreenBuffer[0] = (GifRowType)malloc(Size)) ==
-	    NULL) /* First row. */
+	    NULL) { /* First row. */
 		GIF_EXIT("Failed to allocate memory required, aborted.");
+	}
 
-	for (i = 0; i < GifFile->SWidth; i++) /* Set its color to BackGround. */
+	for (i = 0; i < GifFile->SWidth; i++) { /* Set its color to BackGround. */
 		ScreenBuffer[0][i] = GifFile->SBackGroundColor;
+	}
 	for (i = 1; i < GifFile->SHeight; i++) {
 		/* Allocate the other rows, and set their color to background
 		 * too: */
-		if ((ScreenBuffer[i] = (GifRowType)malloc(Size)) == NULL)
+		if ((ScreenBuffer[i] = (GifRowType)malloc(Size)) == NULL) {
 			GIF_EXIT(
-			    "Failed to allocate memory required, aborted.");
+				"Failed to allocate memory required, aborted.");
+		}
 
 		memcpy(ScreenBuffer[i], ScreenBuffer[0], Size);
 	}
@@ -408,7 +428,7 @@ static void GIF2RGB(int NumFiles, char *FileName, bool OneFileFlag,
 				exit(EXIT_FAILURE);
 			}
 			Row = GifFile->Image
-			          .Top; /* Image Position relative to Screen. */
+			      .Top;     /* Image Position relative to Screen. */
 			Col = GifFile->Image.Left;
 			Width = GifFile->Image.Width;
 			Height = GifFile->Image.Height;
@@ -416,9 +436,9 @@ static void GIF2RGB(int NumFiles, char *FileName, bool OneFileFlag,
 			           PROGRAM_NAME, ++ImageNum, Col, Row, Width,
 			           Height);
 			if (GifFile->Image.Left + GifFile->Image.Width >
-			        GifFile->SWidth ||
+			    GifFile->SWidth ||
 			    GifFile->Image.Top + GifFile->Image.Height >
-			        GifFile->SHeight) {
+			    GifFile->SHeight) {
 				fprintf(stderr,
 				        "Image %d is not confined to screen "
 				        "dimension, aborted.\n",
@@ -427,28 +447,29 @@ static void GIF2RGB(int NumFiles, char *FileName, bool OneFileFlag,
 			}
 			if (GifFile->Image.Interlace) {
 				/* Need to perform 4 passes on the images: */
-				for (Count = i = 0; i < 4; i++)
+				for (Count = i = 0; i < 4; i++) {
 					for (j = Row + InterlacedOffset[i];
 					     j < Row + Height;
 					     j += InterlacedJumps[i]) {
 						GifQprintf("\b\b\b\b%-4d",
 						           Count++);
 						if (DGifGetLine(
-						        GifFile,
-						        &ScreenBuffer[j][Col],
-						        Width) == GIF_ERROR) {
+							    GifFile,
+							    &ScreenBuffer[j][Col],
+							    Width) == GIF_ERROR) {
 							PrintGifError(
-							    GifFile->Error);
+								GifFile->Error);
 							exit(EXIT_FAILURE);
 						}
 					}
+				}
 			} else {
 				for (i = 0; i < Height; i++) {
 					GifQprintf("\b\b\b\b%-4d", i);
 					if (DGifGetLine(
-					        GifFile,
-					        &ScreenBuffer[Row++][Col],
-					        Width) == GIF_ERROR) {
+						    GifFile,
+						    &ScreenBuffer[Row++][Col],
+						    Width) == GIF_ERROR) {
 						PrintGifError(GifFile->Error);
 						exit(EXIT_FAILURE);
 					}
@@ -521,11 +542,13 @@ int main(int argc, char **argv) {
 	                       &OneFileFlag, &OutFileFlag, &OutFileName,
 	                       &HelpFlag, &NumFiles, &FileName)) != false ||
 	    (NumFiles > 1 && !HelpFlag)) {
-		if (Error)
+		if (Error) {
 			GAPrintErrMsg(Error);
-		else if (NumFiles > 1)
+		}
+		else if (NumFiles > 1) {
 			GIF_MESSAGE("Error in command line parsing - one input "
 			            "file please.");
+		}
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_FAILURE);
 	}
@@ -535,19 +558,21 @@ int main(int argc, char **argv) {
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_SUCCESS);
 	}
-	if (!OutFileFlag)
+	if (!OutFileFlag) {
 		OutFileName = NULL;
+	}
 
 	if (SizeFlag) {
 		if ((Width <= 0 || Height <= 0) || (Height > INT_MAX / Width)) {
 			GIF_MESSAGE(
-			    "Image size would be overflow, zero or negative");
+				"Image size would be overflow, zero or negative");
 			exit(EXIT_FAILURE);
 		}
 		RGB2GIF(OneFileFlag, NumFiles, *FileName, ExpNumOfColors, Width,
 		        Height);
-	} else
+	} else {
 		GIF2RGB(NumFiles, *FileName, OneFileFlag, OutFileName);
+	}
 
 	return 0;
 }
