@@ -1,7 +1,7 @@
 			GIFLIB NEWS
 
-Repository head
-===============
+Versiuo 5.2.2
+=============
 
 This is a point release intended to clear up a couple of CVEs and
 apply point fixes that have been accumulating since 5.2.1
@@ -13,7 +13,7 @@ in the next release.
 Code Fixes
 ----------
 
-* Fixes for CVE-2023-48161, CVE-2022-28506, 
+* Fixes for CVE-2023-48161, CVE-2022-28506, CVE-2021-40633.
 
 * Address SF issue #138 Documentation for obsolete utilities still installed
 
