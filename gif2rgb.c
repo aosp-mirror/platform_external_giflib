@@ -517,6 +517,9 @@ static void GIF2RGB(int NumFiles, char *FileName, bool OneFileFlag,
 	DumpScreen2RGB(OutFileName, OneFileFlag, ColorMap, ScreenBuffer,
 	               GifFile->SWidth, GifFile->SHeight);
 
+	for (i = 0; i < GifFile->SHeight; i++) {
+        	(void)free(ScreenBuffer[i]);
+	}
 	(void)free(ScreenBuffer);
 
 	{
