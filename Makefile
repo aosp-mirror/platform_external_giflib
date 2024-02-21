@@ -5,7 +5,7 @@
 # add -DHAVE_REALLOCARRAY to CFLAGS to use that, saving a bit
 # of code space in the shared library.
 
-#
+CC ?= gcc
 OFLAGS = -O0 -g
 OFLAGS  = -O2
 CFLAGS  = -std=gnu99 -fPIC -Wall -Wno-format-truncation $(OFLAGS)
@@ -14,7 +14,7 @@ SHELL = /bin/sh
 TAR = tar
 INSTALL = install
 
-PREFIX = /usr/local
+PREFIX ?= /usr/local
 BINDIR = $(PREFIX)/bin
 INCDIR = $(PREFIX)/include
 LIBDIR = $(PREFIX)/lib
