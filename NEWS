@@ -1,5 +1,13 @@
 			GIFLIB NEWS
 
+Repository head
+===============
+
+Code Fixes
+----------
+
+* Fix for CVE-2021-40633.
+
 Versiuo 5.2.2
 =============
 
@@ -13,7 +21,7 @@ in the next release.
 Code Fixes
 ----------
 
-* Fixes for CVE-2023-48161, CVE-2022-28506, CVE-2021-40633.
+* Fixes for CVE-2023-48161, CVE-2022-28506
 
 * Address SF issue #138 Documentation for obsolete utilities still installed
 
