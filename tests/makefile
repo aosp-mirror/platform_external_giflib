@@ -137,10 +137,15 @@ gifsponge-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if echo "gifsponge: Testing copy of $${test}" >&2; \
-	    $(UTILS)/gifsponge <$${test} | $(UTILS)/gif2rgb > $@.$${stem}.regress 2>&1; \
-	    then cmp $${stem}.rgb  $@.$${stem}.regress; \
-	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
+	    if ! $(UTILS)/gifsponge <$${test} | $(UTILS)/gif2rgb >$@.$${stem}.regress 2>&1; \
+	    then \
+		echo "not ok - gifsponge: crashed on $${test}"; \
+	    elif cmp $${stem}.rgb $@.$${stem}.regress; \
+	    then \
+		echo "ok - gifsponge: sink of $${test}"; \
+	    else \
+		echo "not ok - gifsponge: sink of $${test}"; \
+	    fi \
 	done
 	@rm -f  $@.*.regress
 
@@ -148,10 +153,15 @@ giftext-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if echo "giftext: Checking text dump of $${test}" >&2; \
-	    $(UTILS)/giftext <$${test} > $@.$${stem}.regress 2>&1; \
-	    then diff -u $${stem}.dmp  $@.$${stem}.regress; \
-	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
+	    if ! $(UTILS)/giftext <$${test} >$@.$${stem}.regress 2>&1; \
+	    then \
+		echo "not ok - giftext: crashed on $${test}"; \
+	    elif cmp $${stem}.dmp $@.$${stem}.regress; \
+	    then \
+		echo "ok - giftext: text dump of $${test}"; \
+	    else \
+		echo "not ok - giftext: text dump of $${test}"; \
+	    fi \
 	done
 	@rm -f  $@.*.regress
 giftext-rebuild:
@@ -162,16 +172,12 @@ giftext-rebuild:
 	done
 
 giftool-regress:
-	@echo "giftool: Checking that expensive copy via giftool is faithful."
-	@$(UTILS)/giftool <$(PICS)/gifgrid.gif | $(UTILS)/gif2rgb | cmp - gifgrid.rgb
-	@echo "giftool: Checking that it de-interlaces correctly."
-	@$(UTILS)/giftool -i on <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | cmp - treescap.rgb
-	@echo "giftool: Checking that it interlaces correctly."
-	@$(UTILS)/giftool -i off <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | cmp - treescap-interlaced.rgb
+	@$(UTILS)/giftool <$(PICS)/gifgrid.gif | $(UTILS)/gif2rgb | ./cmpdiffer "giftool: expensive copy via giftool" gifgrid.rgb
+	@$(UTILS)/giftool -i on <$(PICS)/treescap-interlaced.gif | $(UTILS)/gif2rgb | ./cmpdiffer "giftool: deinterlace" treescap.rgb
+	@$(UTILS)/giftool -i off <$(PICS)/treescap.gif | $(UTILS)/gif2rgb | ./cmpdiffer "giftool: interlace" treescap-interlaced.rgb
 
 gifwedge-rebuild:
 	@echo "Remaking the gifwedge test."
 	@$(UTILS)/gifwedge >wedge.gif
 gifwedge-regress:
-	@echo "gifwedge: Checking wedge generation."
-	@$(UTILS)/gifwedge | cmp - wedge.gif
+	@$(UTILS)/gifwedge | ./cmpdiffer "gifwedge: wedge generation." wedge.gif
