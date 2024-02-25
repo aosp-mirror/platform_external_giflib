@@ -53,12 +53,13 @@ render-rebuild:
 		$(UTILS)/gif2rgb -1 -o $${stem}.rgb $${test}; \
 	done
 
-gif2rgb-rebuild:
-	@echo "Rebuilding gif2rgb checkfile."
-	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d >gifgrid.ico
+# FIXME: fails due to sort flag issue
 gif2rgb-regress:
 	@echo "gif2rgb: Checking idempotency"
 	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d | diff -u gifgrid.ico -
+gif2rgb-rebuild:
+	@echo "Rebuilding gif2rgb checkfile."
+	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d >gifgrid.ico
 
 gifbuild-regress:
 	@echo "gifbuild: basic sanity check"
