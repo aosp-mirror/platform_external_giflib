@@ -4,7 +4,13 @@
 .SUFFIXES: .gif .rgb
 
 # This is what to do by default
-test: render-regress \
+test:
+	@$(MAKE) --quiet tap | ./tapview
+
+tap:
+	@$(MAKE) --quiet tapstream | tee taplog$$$$; echo "1..$$(cat  taplog$$$$ | wc -l)"; rm taplog$$$$
+
+tapstream: render-regress \
 	gifbuild-regress \
 	gifclrmp-regress \
 	gifecho-regress \
@@ -15,7 +21,6 @@ test: render-regress \
 	giftext-regress \
 	giftool-regress \
 	gifwedge-regress
-	@echo "No output is good news"
 
 rebuild: render-rebuild \
 		gif2rgb-rebuild \
