@@ -57,3 +57,6 @@ website: allhtml
 	cp -r $(XMLALL:.xml=.html) gifstandard whatsinagif giflib-logo.gif staging
 	cp index.html.in staging/index.html
 	asciidoc - <../history.adoc >staging/history.html
+
+clean:
+	@rm -fr *.[17] d$(XMLALL:.xml=.html) staging

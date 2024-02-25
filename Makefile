@@ -123,7 +123,7 @@ clean:
 	rm -f $(UTILS) $(TARGET) libgetarg.a libgif.a $(LIBGIFSO) libutil.a $(LIBUTILSO) *.o
 	rm -f $(LIBGIFSOVER)
 	rm -f $(LIBGIFSOMAJOR)
-	rm -fr doc/*.[17] *.html doc/staging
+	$(MAKE) --quiet -C doc clean
 
 check: all
 	$(MAKE) -C tests
