@@ -37,12 +37,12 @@ render-regress:
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 	    if ! $(UTILS)/gif2rgb -1 -o $@.$${stem}.regress $${test} 2>&1; \
 	    then \
-		echo "not ok - gif2rgb crashed on $${test}"; \
+		echo "not ok - gif2rgb: crashed on $${test}"; \
 	    elif cmp $${stem}.rgb $@.$${stem}.regress; \
 	    then \
-		echo "ok - gif2rgb test of $${test} succeeded"; \
+		echo "ok - gif2rgb: test of $${test} succeeded"; \
 	    else \
-		echo "not ok - gif2rgb test of $${test} succeeded"; \
+		echo "not ok - gif2rgb: test of $${test} succeeded"; \
 	    fi \
 	done
 	@rm -f $@.*.regress
@@ -55,32 +55,31 @@ render-rebuild:
 
 # FIXME: fails due to sort flag issue
 gif2rgb-regress:
-	@echo "gif2rgb: Checking idempotency"
-	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d | diff -u gifgrid.ico -
+	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d | ./tapdiffer "checking gif2rgb idempotency" gifgrid.ico
 gif2rgb-rebuild:
 	@echo "Rebuilding gif2rgb checkfile."
 	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d >gifgrid.ico
 
 gifbuild-regress:
-	@echo "gifbuild: basic sanity check"
-	@$(UTILS)/gifbuild -d <$(PICS)/treescap.gif | diff -u treescap.ico -
-	@echo "gifbuild: Checking idempotency on an icon file."
-	@$(UTILS)/gifbuild <$(PICS)/sample.ico | $(UTILS)/gifbuild -d > $@.sample-1.ico; $(UTILS)/gifbuild < $@.sample-1.ico | $(UTILS)/gifbuild -d > $@.sample-2.ico; diff -u $@.sample-1.ico $@.sample-2.ico; rm $@.sample-?.ico
-	@echo "gifbuild: Checking idempotency on an animation."
+	@$(UTILS)/gifbuild -d <$(PICS)/treescap.gif | ./tapdiffer "gifbuild: basic sanity check" treescap.ico
+	@$(UTILS)/gifbuild <$(PICS)/sample.ico | $(UTILS)/gifbuild -d > $@.sample-1.ico; $(UTILS)/gifbuild < $@.sample-1.ico | $(UTILS)/gifbuild -d > $@.sample-2.ico;
+	@./tapdiffer <$@.sample-1.ico "gifbuild: Checking idempotency on an icon file." $@.sample-2.ico; rm $@.sample-?.ico
 	@$(UTILS)/gifbuild -d <$(PICS)/fire.gif > $@.fire1.ico
 	@$(UTILS)/gifbuild < $@.fire1.ico > $@.fire2.gif
 	@$(UTILS)/gifbuild -d < $@.fire2.gif > $@.fire2.ico
-	@diff -u  $@.fire1.ico  $@.fire2.ico
+	@./tapdiffer <$@.fire1.ico "gifbuild: Checking idempotency on an animation." $@.fire2.ico
 	@rm -f $@.fire1.ico  $@.fire2.ico $@.fire2.gif
 
 gifclrmp-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if echo "gifclrmap: Checking colormap of $${test}" >&2; \
-	    $(UTILS)/gifclrmp <$${test} > $@.$${stem}.regress 2>&1; \
-	    then diff -u $${stem}.map $@.$${stem}.regress; \
-	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
+	    if ! $(UTILS)/gifclrmp <$${test} > $@.$${stem}.regress 2>&1; \
+	    then \
+		echo "not ok - gifclrmap: crashed on $${test}"; \
+	    else \
+		./tapdiffer <$@.$${stem}.regress "gifclrmap: Checking colormap of $${test}" $${stem}.map; \
+	    fi \
 	done
 	@rm -f $@.*.regress
 gifclrmp-rebuild:
@@ -94,26 +93,29 @@ gifecho-rebuild:
 	@echo "Rebuilding gifecho test."
 	@$(UTILS)/gifecho -t "foobar" | $(UTILS)/gifbuild -d >foobar.ico
 gifecho-regress:
-	@echo "gifecho: Testing gifecho behavior"
-	@$(UTILS)/gifecho -t "foobar" | $(UTILS)/gifbuild -d | diff -u foobar.ico -
+	@$(UTILS)/gifecho -t "foobar" | $(UTILS)/gifbuild -d | ./tapdiffer "gifecho: Testing gifecho behavior" foobar.ico
 
 giffilter-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if echo "giffiltr: Testing copy of $${test}" >&2; \
-	    $(UTILS)/giffilter <$${test} | $(UTILS)/gif2rgb > $@.$${stem}.regress 2>&1; \
-	    then cmp $${stem}.rgb $@.$${stem}.regress; \
-	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
+	    if ! $(UTILS)/giffilter <$${test} | $(UTILS)/gif2rgb > $@.$${stem}.regress 2>&1; \
+	    then \
+		echo "not ok - giffilter: crashed on $${test}"; \
+	    elif cmp $${stem}.rgb $@.$${stem}.regress; \
+	    then \
+		echo "ok - giffiltr: copy of $${test}"; \
+	    else \
+		echo "not ok - giffiltr: copy of $${test}"; \
+	    fi \
 	done
-	@rm -f  $@.*.regress
+	@rm -f $@.*.regress
 
 giffix-rebuild:
 	@echo "Rebuilding giffix test."
 	@head --bytes=-20 <$(PICS)/treescap.gif | $(UTILS)/giffix 2>/dev/null | $(UTILS)/gifbuild -d >giffixed.ico
 giffix-regress:
-	@echo "giffix: Testing giffix behavior"
-	@head --bytes=-20 <$(PICS)/treescap.gif | $(UTILS)/giffix 2>/dev/null | $(UTILS)/gifbuild -d | diff -u giffixed.ico -
+	@head --bytes=-20 <$(PICS)/treescap.gif | $(UTILS)/giffix 2>/dev/null | $(UTILS)/gifbuild -d | ./tapdiffer "giffix: Testing giffix behavior" giffixed.ico
 
 gifinto-regress:
 	@echo "gifinto: Checking behavior on short files."
