@@ -10,6 +10,7 @@ test: render-regress \
 	gifecho-regress \
 	giffilter-regress \
 	giffix-regress \
+	gifinto-regress \
 	gifsponge-regress \
 	giftext-regress \
 	giftool-regress \
@@ -21,6 +22,7 @@ rebuild: render-rebuild \
 		gifclrmp-rebuild \
 		gifecho-rebuild \
 		giffix-rebuild \
+		gifinto-rebuild \
 		giftext-rebuild \
 		gifwedge-rebuild
 
@@ -118,13 +120,17 @@ giffix-regress:
 	@head --bytes=-20 <$(PICS)/treescap.gif | $(UTILS)/giffix 2>/dev/null | $(UTILS)/gifbuild -d | ./tapdiffer "giffix: Testing giffix behavior" giffixed.ico
 
 gifinto-regress:
-	@echo "gifinto: Checking behavior on short files."
 	@rm -f $@.giflib.tmp
 	@$(UTILS)/gifinto <$(PICS)/porsche.gif $@.giflib.tmp
-	@if test ! -f $@.giflib.tmp; then echo "gifinto failed to create a file when it should have."; fi
+	@if test ! -f $@.giflib.tmp; then echo "not ok - gifinto failed to create a file when it should have."; fi
 	@rm -f $@.giflib.tmp
 	@echo "0123456789" | $(UTILS)/gifinto $@.giflib.tmp 2>/dev/null
-	@if test -f $@.giflib.tmp; then echo "gifinto created a file when it shouldn't have."; fi
+	@if test -f $@.giflib.tmp; \
+	then \
+		echo "not ok - gifinto created a file when it shouldn't have."; \
+	else \
+		echo "ok - gifinto correctly refrained from file creation."; \
+	fi
 	@rm -f $@.giflib.tmp
 
 gifsponge-regress:
