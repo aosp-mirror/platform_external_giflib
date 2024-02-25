@@ -35,10 +35,15 @@ render-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if echo "Testing RGB rendering of $${test}" >&2; \
-	    $(UTILS)/gif2rgb -1 -o $@.$${stem}.regress $${test} 2>&1; \
-	    then cmp $${stem}.rgb $@.$${stem}.regress; \
-	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
+	    if ! $(UTILS)/gif2rgb -1 -o $@.$${stem}.regress $${test} 2>&1; \
+	    then \
+		echo "not ok - gif2rgb crashed on $${test}"; \
+	    elif cmp $${stem}.rgb $@.$${stem}.regress; \
+	    then \
+		echo "ok - gif2rgb test of $${test} succeeded"; \
+	    else \
+		echo "not ok - gif2rgb test of $${test} succeeded"; \
+	    fi \
 	done
 	@rm -f $@.*.regress
 render-rebuild:
