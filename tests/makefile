@@ -42,17 +42,8 @@ render-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if ! $(UTILS)/gif2rgb -1 -o $@.$${stem}.regress $${test} 2>&1; \
-	    then \
-		echo "not ok - gif2rgb: crashed on $${test}"; \
-	    elif cmp $${stem}.rgb $@.$${stem}.regress; \
-	    then \
-		echo "ok - gif2rgb: test of $${test} succeeded"; \
-	    else \
-		echo "not ok - gif2rgb: test of $${test} succeeded"; \
-	    fi \
+	    $(UTILS)/gif2rgb -1 <$${test} | ./cmpdiffer "gif2rgb: test of $${test}" $${stem}.rgb; \
 	done
-	@rm -f $@.*.regress
 render-rebuild:
 	@for test in $(GIFS); do \
 		stem=`basename $${test} | sed -e "s/.gif$$//"`; \
