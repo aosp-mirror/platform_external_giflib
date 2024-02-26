@@ -8,7 +8,7 @@ test:
 	@$(MAKE) --quiet tap | ./tapview
 
 tap:
-	@$(MAKE) --quiet tapstream | tee taplog$$$$; echo "1..$$(cat  taplog$$$$ | wc -l)"; rm taplog$$$$
+	@$(MAKE) --quiet tapstream | tee taplog$$$$; echo "1..$$(grep ok  taplog$$$$ | wc -l)"; rm taplog$$$$
 
 tapstream: render-regress \
 	gifbuild-regress \
