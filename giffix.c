@@ -4,7 +4,7 @@ giffix - attempt to fix a truncated GIF
 
 *****************************************************************************/
 // SPDX-License-Identifier: MIT
-// SPDX=File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
+// SPDX-File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
 
 #include <ctype.h>
 #include <stdbool.h>
@@ -17,7 +17,7 @@ giffix - attempt to fix a truncated GIF
 
 #define PROGRAM_NAME "giffix"
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE ", " __DATE__ ",   " __TIME__ "\n";
+static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME " v%- h%- GifFile!*s";
 
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);

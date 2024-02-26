@@ -20,7 +20,7 @@ with our utilities mainly interesting as test tools.
 
 ***************************************************************************/
 // SPDX-License-Identifier: MIT
-// SPDX=File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
+// SPDX-File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
 
 #include <ctype.h>
 #include <fcntl.h>
@@ -39,7 +39,7 @@ with our utilities mainly interesting as test tools.
 
 #define PROGRAM_NAME "gif2rgb"
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE ", " __DATE__ ",   " __TIME__ "\n";
+static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME
     " v%- c%-#Colors!d s%-Width|Height!d!d 1%- o%-OutFileName!s h%- GifFile!*s";
 

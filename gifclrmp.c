@@ -4,7 +4,7 @@ gifclrmap - extract colormaps from GIF images
 
 *****************************************************************************/
 // SPDX-License-Identifier: MIT
-// SPDX=File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
+// SPDX-File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
 
 #include <assert.h>
 #include <ctype.h>
@@ -19,7 +19,7 @@ gifclrmap - extract colormaps from GIF images
 
 #define PROGRAM_NAME "gifclrmp"
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE ", " __DATE__ ",   " __TIME__ "\n";
+static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr =
     PROGRAM_NAME " v%- s%- t%-TranslationFile!s l%-ColorMapFile!s g%-Gamma!F "
                  "i%-Image#!d h%- GifFile!*s";

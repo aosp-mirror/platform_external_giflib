@@ -4,7 +4,7 @@ gifecho - generate a GIF from ASCII text
 
 *****************************************************************************/
 // SPDX-License-Identifier: MIT
-// SPDX=File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
+// SPDX-File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
 
 #include <ctype.h>
 #include <stdbool.h>
@@ -27,7 +27,7 @@ gifecho - generate a GIF from ASCII text
 #define DEFAULT_COLOR_GREEN 255
 #define DEFAULT_COLOR_BLUE 255
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE ", " __DATE__ ",   " __TIME__ "\n";
+static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME
     " v%- s%-ClrMapSize!d f%-FGClr!d c%-R|G|B!d!d!d t%-\"Text\"!s h%-";
 

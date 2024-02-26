@@ -4,7 +4,7 @@ gifinto - save GIF on stdin to file if size over set threshold
 
 *****************************************************************************/
 // SPDX-License-Identifier: MIT
-// SPDX=File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
+// SPDX-File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
 
 #include <ctype.h>
 #include <fcntl.h>
@@ -30,7 +30,7 @@ gifinto - save GIF on stdin to file if size over set threshold
 #define DEFAULT_OUT_NAME "GifInto.Gif"
 #define DEFAULT_TMP_NAME "TempInto.XXXXXX"
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE ", " __DATE__ ",   " __TIME__ "\n";
+static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME " v%- s%-MinFileSize!d h%- GifFile!*s";
 
 static int MinFileSize = DEFAULT_MIN_FILE_SIZE;
