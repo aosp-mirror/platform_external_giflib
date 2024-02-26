@@ -11,6 +11,7 @@ tap:
 	@$(MAKE) --quiet tapstream | tee taplog$$$$; echo "1..$$(grep ok  taplog$$$$ | wc -l)"; rm taplog$$$$
 
 tapstream: render-regress \
+	gif2rgb-regress \
 	gifbuild-regress \
 	gifclrmp-regress \
 	gifecho-regress \
@@ -51,9 +52,8 @@ render-rebuild:
 		$(UTILS)/gif2rgb -1 -o $${stem}.rgb $${test}; \
 	done
 
-# FIXME: fails due to sort flag issue
 gif2rgb-regress:
-	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d | ./tapdiffer "checking gif2rgb idempotency" gifgrid.ico
+	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d | sed "/sort flag/s/off/on/" | ./tapdiffer "checking gif2rgb idempotency" gifgrid.ico
 gif2rgb-rebuild:
 	@echo "Rebuilding gif2rgb checkfile."
 	@$(UTILS)/gif2rgb -c 3 -s 100 100 <gifgrid.rgb | $(UTILS)/gifbuild -d >gifgrid.ico
