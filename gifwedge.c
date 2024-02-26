@@ -22,7 +22,7 @@ gifwedge - create a GIF test pattern
 
 #define DEFAULT_NUM_LEVELS 16 /* Number of colors to gen the image. */
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
+static char *VerStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME " v%- l%-#Lvls!d s%-Width|Height!d!d h%-";
 
 static int NumLevels = DEFAULT_NUM_LEVELS, ImageWidth = DEFAULT_WIDTH,
@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 	}
 
 	if (HelpFlag) {
-		(void)fprintf(stderr, VersionStr, GIFLIB_MAJOR, GIFLIB_MINOR);
+		(void)fprintf(stderr, VerStr, GIFLIB_MAJOR, GIFLIB_MINOR);
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_SUCCESS);
 	}

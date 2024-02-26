@@ -23,7 +23,7 @@ giftext - dump GIF pixels and metadata as text
 
 #define MAKE_PRINTABLE(c) (isprint(c) ? (c) : ' ')
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
+static char *VerStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME " v%- c%- e%- z%- p%- r%- h%- GifFile!*s";
 
 static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock,
@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 	}
 
 	if (HelpFlag) {
-		(void)fprintf(stderr, VersionStr, GIFLIB_MAJOR, GIFLIB_MINOR);
+		(void)fprintf(stderr, VerStr, GIFLIB_MAJOR, GIFLIB_MINOR);
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_SUCCESS);
 	}

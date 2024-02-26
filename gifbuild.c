@@ -17,7 +17,7 @@ gifbuild - dump GIF data in a textual format, or undump it to a GIF
 
 #define PROGRAM_NAME "gifbuild"
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
+static char *VerStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr =
     PROGRAM_NAME " v%- d%- t%-Characters!s h%- GifFile(s)!*s";
 
@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 	}
 
 	if (HelpFlag) {
-		(void)fprintf(stderr, VersionStr, GIFLIB_MAJOR, GIFLIB_MINOR);
+		(void)fprintf(stderr, VerStr, GIFLIB_MAJOR, GIFLIB_MINOR);
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_SUCCESS);
 	}

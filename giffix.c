@@ -17,7 +17,7 @@ giffix - attempt to fix a truncated GIF
 
 #define PROGRAM_NAME "giffix"
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
+static char *VerStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME " v%- h%- GifFile!*s";
 
 static void QuitGifError(GifFileType *GifFileIn, GifFileType *GifFileOut);
@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
 	}
 
 	if (HelpFlag) {
-		(void)fprintf(stderr, VersionStr, GIFLIB_MAJOR, GIFLIB_MINOR);
+		(void)fprintf(stderr, VerStr, GIFLIB_MAJOR, GIFLIB_MINOR);
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_SUCCESS);
 	}

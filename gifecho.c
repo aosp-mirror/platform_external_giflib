@@ -27,7 +27,7 @@ gifecho - generate a GIF from ASCII text
 #define DEFAULT_COLOR_GREEN 255
 #define DEFAULT_COLOR_BLUE 255
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
+static char *VerStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME
     " v%- s%-ClrMapSize!d f%-FGClr!d c%-R|G|B!d!d!d t%-\"Text\"!s h%-";
 
@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
 	}
 
 	if (HelpFlag) {
-		(void)fprintf(stderr, VersionStr, GIFLIB_MAJOR, GIFLIB_MINOR);
+		(void)fprintf(stderr, VerStr, GIFLIB_MAJOR, GIFLIB_MINOR);
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_SUCCESS);
 	}

@@ -20,7 +20,7 @@ gifcolor - generate color test-pattern GIFs
 #define LINE_LEN 40
 #define IMAGEWIDTH LINE_LEN *GIF_FONT_WIDTH
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
+static char *VerStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME " v%- b%-Background!d h%-";
 
 static int BackGround = 0;
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 	}
 
 	if (HelpFlag) {
-		(void)fprintf(stderr, VersionStr, GIFLIB_MAJOR, GIFLIB_MINOR);
+		(void)fprintf(stderr, VerStr, GIFLIB_MAJOR, GIFLIB_MINOR);
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_SUCCESS);
 	}

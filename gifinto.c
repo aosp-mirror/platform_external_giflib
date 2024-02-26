@@ -30,7 +30,7 @@ gifinto - save GIF on stdin to file if size over set threshold
 #define DEFAULT_OUT_NAME "GifInto.Gif"
 #define DEFAULT_TMP_NAME "TempInto.XXXXXX"
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
+static char *VerStr = PROGRAM_NAME VERSION_COOKIE __DATE__ ", " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME " v%- s%-MinFileSize!d h%- GifFile!*s";
 
 static int MinFileSize = DEFAULT_MIN_FILE_SIZE;
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 	}
 
 	if (HelpFlag) {
-		(void)fprintf(stderr, VersionStr, GIFLIB_MAJOR, GIFLIB_MINOR);
+		(void)fprintf(stderr, VerStr, GIFLIB_MAJOR, GIFLIB_MINOR);
 		GAPrintHowTo(CtrlStr);
 		exit(EXIT_SUCCESS);
 	}
