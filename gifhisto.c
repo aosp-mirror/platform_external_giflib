@@ -2,9 +2,9 @@
 
 gifhisto - make a color histogram from image color frequencies
 
-SPDX-License-Identifier: MIT
-
 *****************************************************************************/
+// SPDX-License-Identifier: MIT
+// SPDX=File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
 
 #include <ctype.h>
 #include <stdbool.h>
@@ -21,9 +21,7 @@ SPDX-License-Identifier: MIT
 #define DEFAULT_HISTO_HEIGHT 256
 #define HISTO_BITS_PER_PIXEL 2 /* Size of bitmap for histogram GIF. */
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE
-    "	Gershon Elber,	" __DATE__ ",   " __TIME__ "\n"
-    "(C) Copyright 1989 Gershon Elber.\n";
+static char *VersionStr = PROGRAM_NAME VERSION_COOKIE ", " __DATE__ ",   " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME
     " v%- t%- s%-Width|Height!d!d n%-ImageNumber!d b%- h%- GifFile!*s";
 

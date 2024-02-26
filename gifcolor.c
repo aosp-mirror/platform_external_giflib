@@ -2,9 +2,9 @@
 
 gifcolor - generate color test-pattern GIFs
 
-SPDX-License-Identifier: MIT
-
 *****************************************************************************/
+// SPDX-License-Identifier: MIT
+// SPDX=File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
 
 #include <ctype.h>
 #include <stdbool.h>
@@ -20,9 +20,7 @@ SPDX-License-Identifier: MIT
 #define LINE_LEN 40
 #define IMAGEWIDTH LINE_LEN *GIF_FONT_WIDTH
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE
-    "	Gershon Elber,	" __DATE__ ",   " __TIME__ "\n"
-    "(C) Copyright 1989 Gershon Elber.\n";
+static char *VersionStr = PROGRAM_NAME VERSION_COOKIE ", " __DATE__ ",   " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME " v%- b%-Background!d h%-";
 
 static int BackGround = 0;

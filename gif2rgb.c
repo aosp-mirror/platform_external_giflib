@@ -2,8 +2,6 @@
 
 gif2rgb - convert GIF to 24-bit RGB pixel triples or vice-versa
 
-SPDX-License-Identifier: MIT
-
 *****************************************************************************/
 
 /***************************************************************************
@@ -21,6 +19,8 @@ Plenty of hackers do that; our job is to supply stable library capability
 with our utilities mainly interesting as test tools.
 
 ***************************************************************************/
+// SPDX-License-Identifier: MIT
+// SPDX=File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
 
 #include <ctype.h>
 #include <fcntl.h>
@@ -39,9 +39,7 @@ with our utilities mainly interesting as test tools.
 
 #define PROGRAM_NAME "gif2rgb"
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE
-    "	Gershon Elber,	" __DATE__ ",   " __TIME__ "\n"
-    "(C) Copyright 1989 Gershon Elber.\n";
+static char *VersionStr = PROGRAM_NAME VERSION_COOKIE ", " __DATE__ ",   " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME
     " v%- c%-#Colors!d s%-Width|Height!d!d 1%- o%-OutFileName!s h%- GifFile!*s";
 

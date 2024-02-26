@@ -2,9 +2,9 @@
 
 giftext - dump GIF pixels and metadata as text
 
-SPDX-License-Identifier: MIT
-
 *****************************************************************************/
+// SPDX-License-Identifier: MIT
+// SPDX=File-Copyright-Txt: (C) Copyright 1989 Gershon Elber
 
 #include <ctype.h>
 #include <fcntl.h>
@@ -23,9 +23,7 @@ SPDX-License-Identifier: MIT
 
 #define MAKE_PRINTABLE(c) (isprint(c) ? (c) : ' ')
 
-static char *VersionStr = PROGRAM_NAME VERSION_COOKIE
-    "	Gershon Elber,	" __DATE__ ",   " __TIME__ "\n"
-    "(C) Copyright 1989 Gershon Elber.\n";
+static char *VersionStr = PROGRAM_NAME VERSION_COOKIE ", " __DATE__ ",   " __TIME__ "\n";
 static char *CtrlStr = PROGRAM_NAME " v%- c%- e%- z%- p%- r%- h%- GifFile!*s";
 
 static void PrintCodeBlock(GifFileType *GifFile, GifByteType *CodeBlock,
