@@ -106,17 +106,8 @@ giffilter-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if ! $(UTILS)/giffilter <$${test} | $(UTILS)/gif2rgb > $@.$${stem}.regress 2>&1; \
-	    then \
-		echo "not ok - giffilter: crashed on $${test}"; \
-	    elif cmp $${stem}.rgb $@.$${stem}.regress; \
-	    then \
-		echo "ok - giffiltr: copy of $${test}"; \
-	    else \
-		echo "not ok - giffiltr: copy of $${test}"; \
-	    fi \
+	    $(UTILS)/giffilter <$${test} | $(UTILS)/gif2rgb | ./cmpdiffer "giffiltr: copy of $${test}" "$${stem}.rgb"; \
 	done
-	@rm -f $@.*.regress
 
 giffix-rebuild:
 	@echo "Rebuilding giffix test."
@@ -142,33 +133,15 @@ gifsponge-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if ! $(UTILS)/gifsponge <$${test} | $(UTILS)/gif2rgb >$@.$${stem}.regress 2>&1; \
-	    then \
-		echo "not ok - gifsponge: crashed on $${test}"; \
-	    elif cmp $${stem}.rgb $@.$${stem}.regress; \
-	    then \
-		echo "ok - gifsponge: sink of $${test}"; \
-	    else \
-		echo "not ok - gifsponge: sink of $${test}"; \
-	    fi \
+	    $(UTILS)/gifsponge <$${test} | $(UTILS)/gif2rgb | ./cmpdiffer "gifsponge: sink of $${test}" $${stem}.rgb; \
 	done
-	@rm -f  $@.*.regress
 
 giftext-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
-	    if ! $(UTILS)/giftext <$${test} >$@.$${stem}.regress 2>&1; \
-	    then \
-		echo "not ok - giftext: crashed on $${test}"; \
-	    elif cmp $${stem}.dmp $@.$${stem}.regress; \
-	    then \
-		echo "ok - giftext: text dump of $${test}"; \
-	    else \
-		echo "not ok - giftext: text dump of $${test}"; \
-	    fi \
+	    $(UTILS)/giftext <$${test} | ./cmpdiffer "text dump of $${test}" $${stem}.dmp; \
 	done
-	@rm -f  $@.*.regress
 giftext-rebuild:
 	@for test in $(GIFS); do \
 		stem=`basename $${test} | sed -e "s/.gif$$//"`; \
