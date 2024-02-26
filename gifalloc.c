@@ -2,9 +2,9 @@
 
  GIF construction tools
 
-SPDX-License-Identifier: MIT
-
 ****************************************************************************/
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: Copyright (C) Eric S. Raymond <esr@thyrsus.com>
 
 #include <stdio.h>
 #include <stdlib.h>

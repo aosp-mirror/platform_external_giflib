@@ -102,9 +102,9 @@ Notes:
 1. This module assumes that all the pointers to all kind of data types
 have the same length and format, i.e. sizeof(int *) == sizeof(char *).
 
-SPDX-License-Identifier: MIT
-
 **************************************************************************/
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: Copyright (C) Eric S. Raymond <esr@thyrsus.com>
 
 #include <stdarg.h>
 #include <stdbool.h>

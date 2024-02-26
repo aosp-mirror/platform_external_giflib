@@ -2,9 +2,9 @@
 
 getarg.h - Support routines for the giflib utilities
 
-SPDX-License-Identifier: MIT
-
  **************************************************************************/
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: Copyright (C) Eric S. Raymond <esr@thyrsus.com>
 
 #ifndef _GETARG_H
 #define _GETARG_H

@@ -4,9 +4,9 @@
 
  A global variable GifNoisyPrint controls the printing of this routine
 
-SPDX-License-Identifier: MIT
-
 *****************************************************************************/
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: Copyright (C) Eric S. Raymond <esr@thyrsus.com>
 
 #include <stdarg.h>
 #include <stdbool.h>

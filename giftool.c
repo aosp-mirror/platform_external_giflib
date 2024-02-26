@@ -2,9 +2,9 @@
 
 giftool.c - GIF transformation tool.
 
-SPDX-License-Identifier: MIT
-
 ****************************************************************************/
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: Copyright (C) Eric S. Raymond <esr@thyrsus.com>
 
 #include <fcntl.h>
 #include <stdbool.h>
