@@ -34,9 +34,11 @@
 
 <para>A program to convert a series of editable text GIF icon specifications and
 named GIF files into a multi-image GIF, usable as a graphic resource file.
-It can also dump existing GIFs in this format.  When dumping a GIF,
-certain sanity checks are performed which may result in a warning
-emitted to standard error.</para>
+It can also dump existing GIFs in this format. Both directions are
+lossless and mutually inverse.</para>
+
+<para>When dumping a GIF, certain sanity checks are performed which
+may result in a warning emitted to standard error.</para>
 
 <para>If no GIF file is given, gifbuild will try to read a text input
 from stdin.</para>
