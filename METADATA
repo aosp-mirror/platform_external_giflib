@@ -1,3 +1,7 @@
+# This project was upgraded with external_updater.
+# Usage: tools/external_updater/updater.sh update external/giflib
+# For more info, check https://cs.android.com/android/platform/superproject/main/+/main:tools/external_updater/README.md
+
 name: "giflib"
 description: "A library and utilities for processing GIFs"
 third_party {
@@ -6,13 +10,13 @@ third_party {
     tag: "NVD-CPE2.3:cpe:/a:giflib_project:giflib:5.1.1"
   }
   last_upgrade_date {
-    year: 2017
-    month: 3
-    day: 13
+    year: 2024
+    month: 8
+    day: 26
   }
   identifier {
     type: "Git"
     value: "https://git.code.sf.net/p/giflib/code"
-    version: "5.1.4"
+    version: "5.2.2"
   }
 }

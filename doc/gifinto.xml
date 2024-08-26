@@ -28,7 +28,7 @@
 
 <refsect1><title>Description</title>
 
-<para>A program to save stdin into a file with given name, iff the
+<para>A program to save stdin into a file with given name, if the
 result file has size bigger than specified (see below).  This can be
 used to save a result under the same filename we started with in a
 chain of pipes.</para>

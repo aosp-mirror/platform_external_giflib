@@ -24,7 +24,7 @@ rebuild: render-rebuild \
 		giftext-rebuild \
 		gifwedge-rebuild
 
-UTILS = ../util
+UTILS = ..
 PICS = ../pic
 
 GIFS := $(shell ls ../pic/*.gif)
@@ -36,11 +36,11 @@ render-regress:
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 	    if echo "Testing RGB rendering of $${test}" >&2; \
-	    $(UTILS)/gif2rgb -1 -o /tmp/regress $${test} 2>&1; \
-	    then cmp $${stem}.rgb /tmp/regress; \
+	    $(UTILS)/gif2rgb -1 -o $@.$${stem}.regress $${test} 2>&1; \
+	    then cmp $${stem}.rgb $@.$${stem}.regress; \
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
-	@rm -f /tmp/regress
+	@rm -f $@.*.regress
 render-rebuild:
 	@for test in $(GIFS); do \
 		stem=`basename $${test} | sed -e "s/.gif$$//"`; \
@@ -59,23 +59,24 @@ gifbuild-regress:
 	@echo "gifbuild: basic sanity check"
 	@$(UTILS)/gifbuild -d <$(PICS)/treescap.gif | diff -u treescap.ico -
 	@echo "gifbuild: Checking idempotency on an icon file."
-	@$(UTILS)/gifbuild <$(PICS)/sample.ico | $(UTILS)/gifbuild -d >/tmp/sample-1.ico; $(UTILS)/gifbuild </tmp/sample-1.ico | $(UTILS)/gifbuild -d >/tmp/sample-2.ico; diff -u /tmp/sample-1.ico /tmp/sample-2.ico; rm /tmp/sample-*.ico
+	@$(UTILS)/gifbuild <$(PICS)/sample.ico | $(UTILS)/gifbuild -d > $@.sample-1.ico; $(UTILS)/gifbuild < $@.sample-1.ico | $(UTILS)/gifbuild -d > $@.sample-2.ico; diff -u $@.sample-1.ico $@.sample-2.ico; rm $@.sample-?.ico
 	@echo "gifbuild: Checking idempotency on an animation."
-	@$(UTILS)/gifbuild -d <$(PICS)/fire.gif >/tmp/fire1.ico
-	@$(UTILS)/gifbuild </tmp/fire1.ico >/tmp/fire2.gif
-	@$(UTILS)/gifbuild -d </tmp/fire2.gif >/tmp/fire2.ico
-	@diff -u /tmp/fire1.ico /tmp/fire2.ico
+	@$(UTILS)/gifbuild -d <$(PICS)/fire.gif > $@.fire1.ico
+	@$(UTILS)/gifbuild < $@.fire1.ico > $@.fire2.gif
+	@$(UTILS)/gifbuild -d < $@.fire2.gif > $@.fire2.ico
+	@diff -u  $@.fire1.ico  $@.fire2.ico
+	@rm -f $@.fire1.ico  $@.fire2.ico $@.fire2.gif
 
 gifclrmp-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 	    if echo "gifclrmap: Checking colormap of $${test}" >&2; \
-	    $(UTILS)/gifclrmp <$${test} >/tmp/regress 2>&1; \
-	    then diff -u $${stem}.map /tmp/regress; \
+	    $(UTILS)/gifclrmp <$${test} > $@.$${stem}.regress 2>&1; \
+	    then diff -u $${stem}.map $@.$${stem}.regress; \
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
-	@rm -f /tmp/regress
+	@rm -f $@.*.regress
 gifclrmp-rebuild:
 	@for test in $(GIFS); do \
 		stem=`basename $${test} | sed -e "s/.gif$$//"`; \
@@ -95,11 +96,11 @@ giffilter-regress:
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 	    if echo "giffiltr: Testing copy of $${test}" >&2; \
-	    $(UTILS)/giffilter <$${test} | $(UTILS)/gif2rgb >/tmp/regress 2>&1; \
-	    then cmp $${stem}.rgb /tmp/regress; \
+	    $(UTILS)/giffilter <$${test} | $(UTILS)/gif2rgb > $@.$${stem}.regress 2>&1; \
+	    then cmp $${stem}.rgb $@.$${stem}.regress; \
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
-	@rm -f /tmp/regress
+	@rm -f  $@.*.regress
 
 giffix-rebuild:
 	@echo "Rebuilding giffix test."
@@ -110,35 +111,35 @@ giffix-regress:
 
 gifinto-regress:
 	@echo "gifinto: Checking behavior on short files."
-	@rm -f /tmp/giflib.tmp
-	@$(UTILS)/gifinto <$(PICS)/porsche.gif /tmp/giflib.tmp
-	@if test ! -f /tmp/giflib.tmp; then echo "gifinto failed to create a file when it should have."; fi
-	@rm -f /tmp/giflib.tmp
-	@echo "0123456789" | $(UTILS)/gifinto /tmp/giflib.tmp 2>/dev/null
-	@if test -f /tmp/giflib.tmp; then echo "gifinto created a file when it shouldn't have."; fi
-	@rm -f /tmp/giflib.tmp
+	@rm -f $@.giflib.tmp
+	@$(UTILS)/gifinto <$(PICS)/porsche.gif $@.giflib.tmp
+	@if test ! -f $@.giflib.tmp; then echo "gifinto failed to create a file when it should have."; fi
+	@rm -f $@.giflib.tmp
+	@echo "0123456789" | $(UTILS)/gifinto $@.giflib.tmp 2>/dev/null
+	@if test -f $@.giflib.tmp; then echo "gifinto created a file when it shouldn't have."; fi
+	@rm -f $@.giflib.tmp
 
 gifsponge-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 	    if echo "gifsponge: Testing copy of $${test}" >&2; \
-	    $(UTILS)/gifsponge <$${test} | $(UTILS)/gif2rgb >/tmp/regress 2>&1; \
-	    then cmp $${stem}.rgb /tmp/regress; \
+	    $(UTILS)/gifsponge <$${test} | $(UTILS)/gif2rgb > $@.$${stem}.regress 2>&1; \
+	    then cmp $${stem}.rgb  $@.$${stem}.regress; \
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
-	@rm -f /tmp/regress
+	@rm -f  $@.*.regress
 
 giftext-regress:
 	@for test in $(GIFS); \
 	do \
 	    stem=`basename $${test} | sed -e "s/.gif$$//"`; \
 	    if echo "giftext: Checking text dump of $${test}" >&2; \
-	    $(UTILS)/giftext <$${test} >/tmp/regress 2>&1; \
-	    then diff -u $${stem}.dmp /tmp/regress; \
+	    $(UTILS)/giftext <$${test} > $@.$${stem}.regress 2>&1; \
+	    then diff -u $${stem}.dmp  $@.$${stem}.regress; \
 	    else echo "*** Nonzero return status on $${test}!"; exit 1; fi; \
 	done
-	@rm -f /tmp/regress
+	@rm -f  $@.*.regress
 giftext-rebuild:
 	@for test in $(GIFS); do \
 		stem=`basename $${test} | sed -e "s/.gif$$//"`; \

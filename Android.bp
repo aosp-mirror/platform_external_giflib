@@ -21,13 +21,13 @@ cc_library_static {
     sdk_version: "9",
 
     srcs: [
-        "lib/dgif_lib.c",
-        "lib/egif_lib.c",
-        "lib/gifalloc.c",
-        "lib/gif_err.c",
-        "lib/gif_hash.c",
-        "lib/openbsd-reallocarray.c",
-        "lib/quantize.c",
+        "dgif_lib.c",
+        "egif_lib.c",
+        "gifalloc.c",
+        "gif_err.c",
+        "gif_hash.c",
+        "openbsd-reallocarray.c",
+        "quantize.c",
     ],
 
     cflags: [
@@ -35,7 +35,6 @@ cc_library_static {
         "-Wno-format",
         "-Wno-sign-compare",
         "-Wno-unused-parameter",
-        "-DHAVE_CONFIG_H",
     ],
 
     export_include_dirs: ["."],
