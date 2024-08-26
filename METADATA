@@ -1,0 +1,18 @@
+name: "giflib"
+description: "A library and utilities for processing GIFs"
+third_party {
+  license_type: NOTICE
+  security {
+    tag: "NVD-CPE2.3:cpe:/a:giflib_project:giflib:5.1.1"
+  }
+  last_upgrade_date {
+    year: 2017
+    month: 3
+    day: 13
+  }
+  identifier {
+    type: "Git"
+    value: "https://git.code.sf.net/p/giflib/code"
+    version: "5.1.4"
+  }
+}

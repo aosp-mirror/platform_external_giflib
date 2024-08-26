@@ -1,0 +1,44 @@
+package {
+    default_applicable_licenses: ["external_giflib_license"],
+}
+
+// Added automatically by a large-scale-change
+// See: http://go/android-license-faq
+license {
+    name: "external_giflib_license",
+    visibility: [":__subpackages__"],
+    license_kinds: [
+        "SPDX-license-identifier-MIT",
+    ],
+    license_text: [
+        "NOTICE",
+    ],
+}
+
+cc_library_static {
+    name: "libgif",
+
+    sdk_version: "9",
+
+    srcs: [
+        "lib/dgif_lib.c",
+        "lib/egif_lib.c",
+        "lib/gifalloc.c",
+        "lib/gif_err.c",
+        "lib/gif_hash.c",
+        "lib/openbsd-reallocarray.c",
+        "lib/quantize.c",
+    ],
+
+    cflags: [
+        "-Werror",
+        "-Wno-format",
+        "-Wno-sign-compare",
+        "-Wno-unused-parameter",
+        "-DHAVE_CONFIG_H",
+    ],
+
+    export_include_dirs: ["."],
+
+    vendor_available: true,
+}
