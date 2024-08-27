@@ -35,7 +35,6 @@ cc_library_static {
         "-Wno-format",
         "-Wno-sign-compare",
         "-Wno-unused-parameter",
-        "-DHAVE_CONFIG_H",
     ],
 
     export_include_dirs: ["."],
