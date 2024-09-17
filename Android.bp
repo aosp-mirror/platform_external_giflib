@@ -38,6 +38,4 @@ cc_library_static {
     ],
 
     export_include_dirs: ["."],
-
-    vendor_available: true,
 }
