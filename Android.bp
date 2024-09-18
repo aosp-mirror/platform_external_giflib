@@ -38,4 +38,10 @@ cc_library_static {
     ],
 
     export_include_dirs: ["."],
+
+    visibility: [
+        "//frameworks/base/core/jni",
+        "//frameworks/base/libs/hwui",
+        "//packages/apps/Messaging/jni",
+    ],
 }
