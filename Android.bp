@@ -26,7 +26,6 @@ cc_library_static {
         "gifalloc.c",
         "gif_err.c",
         "gif_hash.c",
-        "openbsd-reallocarray.c",
         "quantize.c",
     ],
 
@@ -35,9 +34,14 @@ cc_library_static {
         "-Wno-format",
         "-Wno-sign-compare",
         "-Wno-unused-parameter",
+        "-DHAVE_REALLOCARRAY",
     ],
 
     export_include_dirs: ["."],
 
-    vendor_available: true,
+    visibility: [
+        "//frameworks/base/core/jni",
+        "//frameworks/base/libs/hwui",
+        "//packages/apps/Messaging/jni",
+    ],
 }
